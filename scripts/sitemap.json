@@ -1,0 +1,42 @@
+[
+  { "slug": "index", "title": "EN 301 549 Online", "shortTitle": "Home", "pdfPages": null, "group": "" },
+  { "slug": "about", "title": "About this standard", "shortTitle": "About this standard", "pdfPages": "9-11", "group": "Front matter" },
+
+  { "slug": "clause-1-scope", "title": "1 Scope", "shortTitle": "1 Scope", "pdfPages": "12", "group": "Clauses" },
+  { "slug": "clause-2-references", "title": "2 References", "shortTitle": "2 References", "pdfPages": "12-16", "group": "Clauses" },
+  { "slug": "clause-3-definitions", "title": "3 Definition of terms, symbols and abbreviations", "shortTitle": "3 Definitions", "pdfPages": "16-26", "group": "Clauses" },
+  { "slug": "clause-4-functional-performance", "title": "4 Functional performance", "shortTitle": "4 Functional performance", "pdfPages": "26-29", "group": "Clauses" },
+  { "slug": "clause-5-generic-requirements", "title": "5 Generic requirements", "shortTitle": "5 Generic requirements", "pdfPages": "29-38", "group": "Clauses" },
+  { "slug": "clause-6-real-time-communication", "title": "6 ICT supporting real-time bidirectional communication", "shortTitle": "6 Real-time communication", "pdfPages": "38-50", "group": "Clauses" },
+  { "slug": "clause-7-video-capabilities", "title": "7 ICT with video capabilities", "shortTitle": "7 Video capabilities", "pdfPages": "50-52", "group": "Clauses" },
+  { "slug": "clause-8-hardware", "title": "8 Hardware", "shortTitle": "8 Hardware", "pdfPages": "52-61", "group": "Clauses" },
+  { "slug": "clause-9-web", "title": "9 Web", "shortTitle": "9 Web", "pdfPages": "61-71", "group": "Clauses" },
+  { "slug": "clause-10-non-web-documents", "title": "10 Non-web documents", "shortTitle": "10 Non-web documents", "pdfPages": "71-86", "group": "Clauses" },
+  { "slug": "clause-11-non-web-software", "title": "11 Non-web software", "shortTitle": "11 Non-web software", "pdfPages": "86-106", "group": "Clauses" },
+  { "slug": "clause-12-information-products-services", "title": "12 Information about products and services", "shortTitle": "12 Information about products/services", "pdfPages": "106-108", "group": "Clauses" },
+  { "slug": "clause-13-relay-emergency", "title": "13 ICT providing relay or emergency service access", "shortTitle": "13 Relay/emergency access", "pdfPages": "108-111", "group": "Clauses" },
+  { "slug": "clause-14-conformance", "title": "14 Conformance", "shortTitle": "14 Conformance", "pdfPages": "111-113", "group": "Clauses" },
+
+  { "slug": "annex-a-conformance-evaluation", "title": "Annex A (informative): ICT conformance evaluation", "shortTitle": "Annex A: Conformance evaluation", "pdfPages": "113-128", "group": "Annexes" },
+  { "slug": "annex-b-functional-performance-relationship", "title": "Annex B (informative): Relationship between requirements and functional performance criteria", "shortTitle": "Annex B: Functional performance relationship", "pdfPages": "129-140", "group": "Annexes" },
+
+  { "slug": "annex-c-1-introduction", "title": "Annex C.1 (normative): Introduction", "shortTitle": "Annex C.1: Introduction", "pdfPages": "141", "group": "Annex C: Determination of conformance" },
+  { "slug": "annex-c-4-functional-performance", "title": "Annex C.4 (normative): Functional performance", "shortTitle": "Annex C.4: Functional performance", "pdfPages": "141-143", "group": "Annex C: Determination of conformance" },
+  { "slug": "annex-c-5-generic-requirements", "title": "Annex C.5 (normative): Generic requirements", "shortTitle": "Annex C.5: Generic requirements", "pdfPages": "143-152", "group": "Annex C: Determination of conformance" },
+  { "slug": "annex-c-6-real-time-communication", "title": "Annex C.6 (normative): ICT supporting real-time bidirectional communication", "shortTitle": "Annex C.6: Real-time communication", "pdfPages": "152-170", "group": "Annex C: Determination of conformance" },
+  { "slug": "annex-c-7-video-capabilities", "title": "Annex C.7 (normative): ICT with video capabilities", "shortTitle": "Annex C.7: Video capabilities", "pdfPages": "170-172", "group": "Annex C: Determination of conformance" },
+  { "slug": "annex-c-8-hardware", "title": "Annex C.8 (normative): Hardware", "shortTitle": "Annex C.8: Hardware", "pdfPages": "172-178", "group": "Annex C: Determination of conformance" },
+  { "slug": "annex-c-9-web", "title": "Annex C.9 (normative): Web", "shortTitle": "Annex C.9: Web", "pdfPages": "178-192", "group": "Annex C: Determination of conformance" },
+  { "slug": "annex-c-10-non-web-documents", "title": "Annex C.10 (normative): Non-web documents", "shortTitle": "Annex C.10: Non-web documents", "pdfPages": "192-203", "group": "Annex C: Determination of conformance" },
+  { "slug": "annex-c-11-software", "title": "Annex C.11 (normative): Software", "shortTitle": "Annex C.11: Software", "pdfPages": "203-222", "group": "Annex C: Determination of conformance" },
+  { "slug": "annex-c-12-information-products-services", "title": "Annex C.12 (normative): Information about products and services", "shortTitle": "Annex C.12: Information about products/services", "pdfPages": "222-223", "group": "Annex C: Determination of conformance" },
+  { "slug": "annex-c-13-relay-emergency", "title": "Annex C.13 (normative): ICT providing relay or emergency service access", "shortTitle": "Annex C.13: Relay/emergency access", "pdfPages": "223-227", "group": "Annex C: Determination of conformance" },
+  { "slug": "annex-c-14-conformance", "title": "Annex C.14 (normative): Conformance", "shortTitle": "Annex C.14: Conformance", "pdfPages": "227-228", "group": "Annex C: Determination of conformance" },
+
+  { "slug": "annex-d-cognitive-accessibility", "title": "Annex D (informative): Further resources for cognitive accessibility", "shortTitle": "Annex D: Cognitive accessibility resources", "pdfPages": "228-229", "group": "Annexes" },
+  { "slug": "annex-e-guidance", "title": "Annex E (informative): Guidance and additional resources for users of the present document", "shortTitle": "Annex E: Guidance and resources", "pdfPages": "229-233", "group": "Annexes" },
+  { "slug": "annex-za-directive-2016-2102", "title": "Annex ZA (informative): Relationship between the present document and the essential requirements of Directive (EU) 2016/2102", "shortTitle": "Annex ZA: Directive (EU) 2016/2102", "pdfPages": "233-260", "group": "Annexes" },
+  { "slug": "annex-zb-directive-2019-882", "title": "Annex ZB (informative): Relationship between the present document and the essential requirements of Directive (EU) 2019/882", "shortTitle": "Annex ZB: Directive (EU) 2019/882", "pdfPages": "260-278", "group": "Annexes" },
+  { "slug": "annex-zc-other-directives", "title": "Annex ZC (informative): Relationship between the present document and the essential requirements of other Directives", "shortTitle": "Annex ZC: Other Directives", "pdfPages": "278-279", "group": "Annexes" },
+  { "slug": "annex-f-change-history", "title": "Annex F (informative): Change history", "shortTitle": "Annex F: Change history", "pdfPages": "279-280", "group": "Annexes" }
+]
