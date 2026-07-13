@@ -1,6 +1,13 @@
 (function () {
   "use strict";
 
+  // Marks JS as available so CSS can gate JS-only behaviour (the collapsed-
+  // by-default mobile contents panel and its toggle button) behind it. Set
+  // as early as possible, and before anything else below runs. Without
+  // this class, .site-nav and its contents stay in their plain, always-
+  // visible no-JS state — see the CSS comment above ".js .site-nav".
+  document.documentElement.classList.add("js");
+
   // ---------- Shared: polite status announcements ----------
   // One live region per page (in the template). Clearing then re-setting
   // the text (via rAF) makes repeated identical announcements re-fire,

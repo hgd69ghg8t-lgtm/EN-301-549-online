@@ -266,7 +266,7 @@ a:hover { color: var(--colour-link-hover); }
   cursor: pointer;
 }
 @media (max-width: 61.99em) {
-  .toc-toggle { display: inline-flex; }
+  .js .toc-toggle { display: inline-flex; }
 }
 
 /* ---------- Layout shell ---------- */
@@ -633,18 +633,26 @@ main { min-width: 0; }
 /* ---------- Mobile contents disclosure ----------
    An in-flow expand/collapse panel, not a full-screen overlay: it never
    covers other content, so keyboard focus can never land somewhere that
-   isn't visible (the bug a modal-style overlay without a focus trap has). */
+   isn't visible (the bug a modal-style overlay without a focus trap has).
+   Collapsing the panel behind the "Contents" toggle is a JS enhancement,
+   not the baseline: without JavaScript there is no way to run the toggle
+   script, so the panel and toggle button default to the state a no-JS
+   visitor actually gets (panel open, toggle button not shown, since a
+   button with no attached behaviour would be a dead control). site.js
+   adds the "js" class to <html> the moment it runs, and only then do the
+   collapsed-by-default state and the toggle button itself apply. */
 @media (max-width: 61.99em) {
   .site-nav {
-    display: none;
     border: 1px solid var(--colour-border);
     margin-bottom: var(--space-4);
     max-height: 70vh;
     overflow-y: auto;
     background: var(--colour-background);
   }
-  .site-nav.is-open { display: block; }
-  .site-nav__close {
+  .js .site-nav { display: none; }
+  .js .site-nav.is-open { display: block; }
+  .site-nav__close { display: none; }
+  .js .site-nav__close {
     display: flex;
     align-items: center;
     justify-content: space-between;
