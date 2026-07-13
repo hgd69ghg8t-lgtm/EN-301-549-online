@@ -199,6 +199,34 @@ a:hover { color: var(--colour-link-hover); }
   font-weight: 400;
   color: #b1b4b6;
 }
+
+/* Header quick links to the site's own pages (About, Accessibility
+   statement). Shown from the sidebar breakpoint up; on narrow screens the
+   same pages stay one tap away in the Contents panel and the footer, so
+   the header stays compact next to the Contents toggle. */
+.site-header__nav {
+  display: none;
+  margin-left: auto;
+  gap: var(--space-4);
+  align-items: center;
+}
+.site-header__nav a {
+  color: #d3d3d3;
+  font-size: 0.9375rem;
+  text-decoration: none;
+  padding: 0.25rem 0;
+}
+.site-header__nav a:hover { color: #ffffff; text-decoration: underline; }
+.site-header__nav a[aria-current="page"] {
+  color: #ffffff;
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.3em;
+}
+@media (min-width: 62em) {
+  .site-header__nav { display: flex; }
+}
 .accent-bar { height: 4px; background: var(--colour-accent-bar); }
 
 /* ---------- Document header band ---------- */
@@ -700,6 +728,20 @@ main { min-width: 0; }
 .site-footer a { color: #d3d3d3; }
 .site-footer a:hover { color: #ffffff; }
 .site-footer p { max-width: var(--prose-measure); }
+
+/* Footer navigation: the same quick links as the header (plus Home),
+   present at every width — on narrow screens this is the always-visible
+   route to the About and Accessibility statement pages. */
+.site-footer__nav ul {
+  list-style: none;
+  margin: 0 0 var(--space-3);
+  padding: 0 0 var(--space-3);
+  border-bottom: 1px solid var(--colour-site-header-border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+}
+.site-footer__nav a[aria-current="page"] { color: #ffffff; font-weight: 700; }
 
 /* ---------- Utility ---------- */
 .visually-hidden {

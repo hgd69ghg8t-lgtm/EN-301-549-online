@@ -845,6 +845,34 @@ def build_site_title(asset_prefix):
             f'{DOC_LABEL} Online {subtitle}</a>')
 
 
+# The header and footer quick links: the site's own (non-standard) pages,
+# reachable from every page without opening the Contents tree — the same
+# convention as any ordinary website. Labels match the Contents sidebar
+# exactly so the same page is never called two different things.
+QUICK_LINKS = [
+    ("about", "About this HTML edition"),
+    ("accessibility-statement", "Accessibility statement"),
+]
+
+
+def _quick_link(slug, label, current_slug):
+    current = ' aria-current="page"' if slug == current_slug else ""
+    return f'<a href="{slug}.html"{current}>{html.escape(label)}</a>'
+
+
+def build_header_nav(current_slug):
+    links = "".join(_quick_link(slug, label, current_slug) for slug, label in QUICK_LINKS)
+    return f'<nav class="site-header__nav" aria-label="About this website">{links}</nav>'
+
+
+def build_footer_nav(current_slug):
+    items = "".join(
+        f"<li>{_quick_link(slug, label, current_slug)}</li>"
+        for slug, label in [("index", "Home")] + QUICK_LINKS
+    )
+    return f'<nav class="site-footer__nav" aria-label="Footer"><ul>{items}</ul></nav>'
+
+
 PAGE_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -860,6 +888,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <header class="site-header">
   <div class="site-header__inner">
     {site_title}
+    {header_nav}
     <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
   </div>
 </header>
@@ -885,6 +914,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 
 <footer class="site-footer">
   <div class="site-footer__inner">
+    {footer_nav}
     <p>Unofficial HTML edition of the {source_month_year} final draft. <a href="{asset_prefix}about.html">Read how this edition was produced</a>.</p>
   </div>
 </footer>
@@ -1270,6 +1300,8 @@ def render_page(index, page, metadata, summaries, errors):
         source_pdf=SOURCE_PDF_NAME,
         css_version=asset_version(CSS_PATH),
         js_version=asset_version(JS_PATH),
+        header_nav=build_header_nav(slug),
+        footer_nav=build_footer_nav(slug),
     )
     # Empty template placeholders (e.g. doc_header/pager on the homepage)
     # otherwise leave lines containing only the surrounding indentation.
