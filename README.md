@@ -63,9 +63,9 @@ docs-for-maintainers/  Manual (non-automatable) testing documentation.
 
 ## Which files are source of truth, and how to rebuild
 
-**Hand-edit:** everything under `content/`, `data/source-metadata.json`, `data/clause-summaries.json`, `data/content-ownership.json`, `scripts/sitemap.json`, `docs/assets/css/style.css`, `docs/assets/js/site.js`, `docs/assets/fonts/`, `README.md`, and everything under `docs-for-maintainers/`.
+**Hand-edit:** everything under `content/`, `data/source-metadata.json`, `data/clause-summaries.json`, `data/content-ownership.json`, `scripts/sitemap.json`, `docs/assets/css/style.css`, `docs/assets/js/site.js`, `docs/assets/fonts/`, `README.md`, and everything under `docs-for-maintainers/`. `data/etsi-content-hashes.json` is the one exception: it's committed, but it's only ever written by `scripts/update_etsi_hashes.py` (see "Reproduced ETSI wording integrity" below), never by hand.
 
-**Generated — never hand-edit:** every other file directly under `docs/` (`docs/*.html`). They are committed to the repository (GitHub Pages serves straight from `docs/` with no build step of its own), but they are output, not input. If you edit a generated `docs/*.html` file directly, the next `python3 scripts/build.py` run will silently overwrite your change.
+**Generated — never hand-edit:** every other file directly under `docs/` (`docs/*.html`). They are committed to the repository (GitHub Pages serves straight from `docs/` with no build step of its own), but they are output, not input. If you edit a generated `docs/*.html` file directly, the next `python3 scripts/build.py` run will silently overwrite your change — and separately, `git diff --exit-code -- docs/` after a rebuild (see below) will show your manual edit as a difference the moment anyone rebuilds, so it can't quietly become the "real" version of the page. `scripts/build.py` only ever writes to `docs/`; it never reads from it, so nothing that happens to already-committed `docs/*.html` can feed back into the next build.
 
 The build has no dependencies beyond the Python 3 standard library:
 
@@ -88,7 +88,21 @@ python3 scripts/build.py
 git diff --exit-code -- docs/
 ```
 
-If that `git diff` reports changes, `docs/` was out of date with `content/`/`scripts/sitemap.json`/`data/source-metadata.json` — rebuild and commit the difference. The build does not inject a live timestamp or any other run-to-run-varying value into generated pages, specifically so this comparison is meaningful: a clean rebuild from unchanged source always produces byte-identical output.
+If that `git diff` reports changes, `docs/` was out of date with `content/`/`scripts/sitemap.json`/`data/source-metadata.json` — rebuild and commit the difference. The build does not inject a live timestamp or any other run-to-run-varying value into generated pages, specifically so this comparison is meaningful: a clean rebuild from unchanged source always produces byte-identical output. [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs exactly this check on every push — it only ever fails the build if a difference is found, and never itself commits, amends, or overwrites `docs/` (no rebuild/commit loop).
+
+### Reproduced ETSI wording integrity
+
+`data/etsi-content-hashes.json` records a hash of the reproduced text in every clause/annex `content/*.html` file (every sitemap page except the website-authored `index`/`about`/`accessibility-statement`). The build recomputes and compares these hashes on every run, so an accidental (or unnoticed, e.g. from a bad merge) change to reproduced ETSI wording fails the build and names the exact file affected.
+
+The hash is computed over the file's text content only, with all markup stripped and whitespace collapsed first — so changing a heading's level, id, or class, reindenting a file, or any other purely structural edit never trips this check; only a change to the actual reproduced words does.
+
+The baseline is never updated automatically. If you have a genuine reason to change it — most likely, correcting an actual transcription error against the source PDF — run:
+
+```
+python3 scripts/update_etsi_hashes.py
+```
+
+and explain what you changed and why in your commit message. Do not run this just to make a validation failure go away without first checking why the wording changed.
 
 To extract new content from the source PDF, you'll also need [`pdftotext`](https://poppler.freedesktop.org/) (from the `poppler-utils` package — not installed by default on a clean machine):
 
@@ -136,7 +150,8 @@ brew install poppler            # macOS
 - a `data/clause-summaries.json` entry that references a page that doesn't exist, has a duplicate key, is empty, contains raw HTML, is too long, or contains placeholder text;
 - a `<dt>` glossary/abbreviation term rendered without a stable id, or two terms rendered with the same id;
 - an A-Z index rendered with no letter links, letters not in alphabetical order, or a letter link pointing at an id that doesn't exist on the page;
-- a `data/content-ownership.json` entry with an unrecognised page slug or field, or a `lastReviewDate`/`nextReviewDate`/`statusCheckDate` that's malformed or an obvious placeholder (a `null` value, meaning "not known yet", is always valid — see `docs-for-maintainers/content-ownership.md`).
+- a `data/content-ownership.json` entry with an unrecognised page slug or field, or a `lastReviewDate`/`nextReviewDate`/`statusCheckDate` that's malformed or an obvious placeholder (a `null` value, meaning "not known yet", is always valid — see `docs-for-maintainers/content-ownership.md`);
+- a clause/annex `content/*.html` file whose reproduced ETSI wording no longer matches its recorded integrity hash, or a missing/stale entry in `data/etsi-content-hashes.json` (see "Reproduced ETSI wording integrity" above).
 
 ## Accessibility
 

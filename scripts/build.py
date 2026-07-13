@@ -22,6 +22,7 @@ import html
 import sys
 import calendar
 import datetime
+import hashlib
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -437,6 +438,95 @@ def validate_sitemap_vs_content(errors):
                    f"content/{slug}.html exists but no entry in scripts/sitemap.json points to it, "
                    "so it would never be built or linked from navigation.",
                    f"Add a \"{slug}\" entry to scripts/sitemap.json, or delete the file if it's unused.")
+
+
+# ---------------------------------------------------------------------
+# ETSI wording integrity check (data/etsi-content-hashes.json)
+# ---------------------------------------------------------------------
+#
+# A stored-hash baseline for every clause/annex content/*.html file (every
+# sitemap slug except the website-authored NON_STANDARD_SLUGS pages), so an
+# accidental or unnoticed edit to reproduced ETSI wording is caught by the
+# build rather than discovered later. The baseline is refreshed only by
+# deliberately running scripts/update_etsi_hashes.py — never by build.py
+# itself — so the check can't be silently defeated by the same change that
+# trips it.
+
+ETSI_HASHES_PATH = ROOT / "data" / "etsi-content-hashes.json"
+
+
+def canonical_etsi_text(raw_html):
+    """Text-only canonicalisation for wording-integrity hashing: strips all
+    markup and collapses whitespace, so the hash reacts only to the actual
+    reproduced words — never to heading levels, ids, classes, attribute
+    order, or indentation. Nothing build.py does to content/*.html at
+    render time (permalink injection, glossary-term ids, etc.) can trip
+    this check, because those transformations never touch content/*.html
+    on disk in the first place; they operate on an in-memory copy while
+    rendering docs/*.html."""
+    return " ".join(strip_tags(raw_html).split())
+
+
+def etsi_content_hash(raw_html):
+    return hashlib.sha256(canonical_etsi_text(raw_html).encode("utf-8")).hexdigest()
+
+
+def protected_etsi_slugs():
+    """Every sitemap slug except the website-authored pages — i.e. every
+    clause and annex whose content/*.html is reproduced ETSI wording that
+    must never be rewritten, simplified, corrected or paraphrased."""
+    return sorted({p["slug"] for p in SITEMAP} - NON_STANDARD_SLUGS)
+
+
+def load_etsi_hashes():
+    if not ETSI_HASHES_PATH.exists():
+        return None
+    try:
+        data = json.loads(ETSI_HASHES_PATH.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return None
+    return data if isinstance(data, dict) else None
+
+
+def validate_etsi_content_integrity(errors):
+    rel = str(ETSI_HASHES_PATH.relative_to(ROOT))
+    baseline = load_etsi_hashes()
+    if baseline is None:
+        errors.add(rel, "etsi-hashes-missing",
+                   "data/etsi-content-hashes.json is missing or not valid JSON. Without it, an "
+                   "accidental edit to reproduced ETSI wording in content/*.html could go unnoticed.",
+                   "Run `python3 scripts/update_etsi_hashes.py` once to generate it from the "
+                   "current, known-good content, then commit the result.")
+        return
+
+    protected = protected_etsi_slugs()
+    for slug in protected:
+        fragment_path = CONTENT_DIR / f"{slug}.html"
+        if not fragment_path.exists():
+            continue  # already reported by validate_sitemap_vs_content
+        actual = etsi_content_hash(fragment_path.read_text(encoding="utf-8"))
+        expected = baseline.get(slug)
+        if expected is None:
+            errors.add(rel, "etsi-hash-missing-entry",
+                       f'"{slug}" has no recorded wording-integrity hash.',
+                       "Run `python3 scripts/update_etsi_hashes.py` to add it — but only after "
+                       f"confirming content/{slug}.html's wording is correct and unedited.")
+        elif expected != actual:
+            errors.add(f"content/{slug}.html", "etsi-wording-changed",
+                       f"The reproduced ETSI wording in content/{slug}.html no longer matches the "
+                       "recorded wording-integrity baseline — its text content has changed.",
+                       "If this is an intentional, verified fix (e.g. correcting a transcription "
+                       "error against the source PDF), run `python3 scripts/update_etsi_hashes.py` "
+                       "and explain the change in your commit message. If it wasn't intentional, "
+                       "revert the wording change.")
+
+    for slug in baseline:
+        if slug not in protected:
+            errors.add(rel, "etsi-hash-stale-entry",
+                       f'"{slug}" has a recorded hash but is not a protected clause/annex page '
+                       "(it may be website-authored, renamed, or no longer exist).",
+                       "Run `python3 scripts/update_etsi_hashes.py` to regenerate the file, or "
+                       "remove the stale entry by hand.")
 
 
 # ---------------------------------------------------------------------
@@ -1312,6 +1402,7 @@ def main():
     ownership = load_content_ownership()
     validate_content_ownership(ownership, errors)
     validate_sitemap_vs_content(errors)
+    validate_etsi_content_integrity(errors)
 
     if errors:
         errors.report_and_exit()
