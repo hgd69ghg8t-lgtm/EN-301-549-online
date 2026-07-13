@@ -69,39 +69,49 @@
     });
   }
 
-  // ---------- In-page contents: active section highlight ----------
-  var tocLinks = document.querySelectorAll(".page-toc a[href^='#']");
-  if (tocLinks.length && "IntersectionObserver" in window) {
-    var linkById = {};
+  // ---------- Contents sidebar: active subsection highlight ----------
+  // Scroll-spy: the active heading is the last one whose top has scrolled
+  // past a fixed line near the top of the viewport. Simpler and more
+  // reliable than IntersectionObserver threshold-crossing here, since
+  // headings can be far apart (long sections) and a narrow observer band
+  // can end up with nothing "visible" between them.
+  var tocLinks = document.querySelectorAll(".site-nav__subsections a[data-subsection]");
+  if (tocLinks.length) {
     var headings = [];
     tocLinks.forEach(function (link) {
       var id = link.getAttribute("href").slice(1);
       var heading = document.getElementById(id);
-      if (heading) {
-        headings.push(heading);
-        linkById[id] = link;
-      }
+      if (heading) headings.push({ link: link, el: heading });
     });
 
-    var visible = new Map();
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          visible.set(entry.target.id, entry.intersectionRatio);
-        } else {
-          visible.delete(entry.target.id);
-        }
-      });
-      if (visible.size > 0) {
-        var best = null;
-        visible.forEach(function (ratio, id) {
-          if (!best || ratio > visible.get(best)) best = id;
-        });
-        tocLinks.forEach(function (link) { link.removeAttribute("aria-current"); });
-        if (linkById[best]) linkById[best].setAttribute("aria-current", "location");
-      }
-    }, { rootMargin: "-10% 0px -70% 0px", threshold: [0, 0.5, 1] });
+    var ACTIVE_LINE = 120; // px from top of viewport
+    var ticking = false;
 
-    headings.forEach(function (h) { observer.observe(h); });
+    function updateActive() {
+      ticking = false;
+      var active = headings[0];
+      for (var i = 0; i < headings.length; i++) {
+        if (headings[i].el.getBoundingClientRect().top <= ACTIVE_LINE) {
+          active = headings[i];
+        } else {
+          break;
+        }
+      }
+      tocLinks.forEach(function (link) { link.removeAttribute("aria-current"); });
+      if (active) active.link.setAttribute("aria-current", "location");
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(updateActive);
+      }
+    }
+
+    if (headings.length) {
+      updateActive();
+      window.addEventListener("scroll", onScroll, { passive: true });
+      window.addEventListener("resize", onScroll);
+    }
   }
 })();

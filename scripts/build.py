@@ -4,8 +4,9 @@
 Each content/<slug>.html file is a body-only HTML fragment (headings,
 paragraphs, lists, tables, callouts) transcribed from the source PDF.
 This script wraps every fragment in the shared site template: skip link,
-header, breadcrumb, sidebar site navigation, in-page contents (built from
-the fragment's headings), prev/next pager, and footer.
+header, breadcrumb, a single left-hand contents sidebar (site-wide page
+list, with the current page's own subsections nested inline under it),
+prev/next pager, and footer.
 """
 import json
 import re
@@ -28,38 +29,41 @@ def strip_tags(s):
     return html.unescape(TAG_RE.sub('', s)).strip()
 
 
-def build_page_toc(fragment_html):
-    items = [(int(level), anchor_id, strip_tags(inner))
-             for level, anchor_id, inner in HEADING_RE.findall(fragment_html)]
-    if not items:
+def extract_headings(fragment_html):
+    return [(int(level), anchor_id, strip_tags(inner))
+            for level, anchor_id, inner in HEADING_RE.findall(fragment_html)]
+
+
+def build_subsection_tree(headings):
+    """Nested <ul> of a page's own h2/h3 headings, for inlining under that
+    page's entry in the left contents sidebar (mirrors the reference
+    mockup's Part -> section nesting, instead of a separate right column)."""
+    if not headings:
         return ""
-    html_parts = ['<nav class="page-toc" aria-labelledby="page-toc-heading">',
-                  '<h2 id="page-toc-heading">On this page</h2>', '<ol>']
+    html_parts = ['<ul class="site-nav__subsections">']
     open_sub = False
-    for i, (level, anchor_id, text) in enumerate(items):
+    for i, (level, anchor_id, text) in enumerate(headings):
+        nxt = headings[i + 1] if i + 1 < len(headings) else None
         if level == 2:
             if open_sub:
-                html_parts.append('</ol>')
+                html_parts.append('</ul>')
                 open_sub = False
-            html_parts.append(f'<li><a href="#{anchor_id}">{html.escape(text)}</a>')
-            # Determine if next item is a sub-item (h3); if not, close li now.
-            nxt = items[i + 1] if i + 1 < len(items) else None
+            html_parts.append(f'<li><a href="#{anchor_id}" data-subsection>{html.escape(text)}</a>')
             if not (nxt and nxt[0] == 3):
                 html_parts.append('</li>')
         else:
             if not open_sub:
-                html_parts.append('<ol>')
+                html_parts.append('<ul class="site-nav__subsections site-nav__subsections--nested">')
                 open_sub = True
-            html_parts.append(f'<li><a href="#{anchor_id}">{html.escape(text)}</a></li>')
-            nxt = items[i + 1] if i + 1 < len(items) else None
+            html_parts.append(f'<li><a href="#{anchor_id}" data-subsection>{html.escape(text)}</a></li>')
             if not (nxt and nxt[0] == 3):
-                html_parts.append('</ol></li>')
+                html_parts.append('</ul></li>')
                 open_sub = False
-    html_parts.append('</ol></nav>')
+    html_parts.append('</ul>')
     return "\n".join(html_parts)
 
 
-def build_site_nav(current_slug):
+def build_site_nav(current_slug, current_headings):
     groups = {}
     order = []
     for page in SITEMAP:
@@ -83,8 +87,12 @@ def build_site_nav(current_slug):
         open_attr = " open" if contains_current else ""
         parts.append(f'<details{open_attr}><summary>{html.escape(g)}</summary><ul>')
         for p in pages:
-            current = ' aria-current="page"' if p["slug"] == current_slug else ""
-            parts.append(f'<li><a href="{p["slug"]}.html"{current}>{html.escape(p["shortTitle"])}</a></li>')
+            is_current = p["slug"] == current_slug
+            current = ' aria-current="page"' if is_current else ""
+            parts.append(f'<li><a href="{p["slug"]}.html"{current}>{html.escape(p["shortTitle"])}</a>')
+            if is_current:
+                parts.append(build_subsection_tree(current_headings))
+            parts.append('</li>')
         parts.append('</ul></details>')
     parts.append('</nav>')
     return "\n".join(parts)
@@ -169,7 +177,7 @@ PAGE_TEMPLATE = """<!doctype html>
 
 {doc_header}
 
-<div class="page-shell{shell_modifier}">
+<div class="page-shell">
   {site_nav}
   <main id="main-content" tabindex="-1">
     <div class="content">
@@ -178,7 +186,6 @@ PAGE_TEMPLATE = """<!doctype html>
     {doc_footer}
     {pager}
   </main>
-  {page_toc}
 </div>
 
 <button type="button" class="back-to-top" aria-label="Back to top of page">&uarr; Back to top</button>
@@ -218,8 +225,7 @@ def render_page(index, page):
     else:
         fragment = f'<h1>{html.escape(page["title"])}</h1>\n<p><em>Not yet converted.</em></p>'
 
-    page_toc_html = build_page_toc(fragment)
-    shell_modifier = "" if page_toc_html else " page-shell--no-toc"
+    current_headings = extract_headings(fragment)
 
     html_out = PAGE_TEMPLATE.format(
         title=html.escape(page["title"]),
@@ -227,12 +233,10 @@ def render_page(index, page):
         description=html.escape(f'{page["title"]} — {DOC_LABEL} accessible HTML edition.'),
         asset_prefix="",
         doc_header="" if is_index else build_doc_header(page),
-        shell_modifier=shell_modifier,
-        site_nav=build_site_nav(slug),
+        site_nav=build_site_nav(slug, current_headings),
         content=fragment,
         doc_footer="" if is_index else build_doc_footer(page),
         pager="" if is_index else build_pager(index),
-        page_toc=page_toc_html,
         source_pdf=SOURCE_PDF_NAME,
     )
     out_path = DOCS_DIR / f"{slug}.html"
