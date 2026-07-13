@@ -364,7 +364,8 @@ def build_doc_header(page):
     breadcrumb.append('</ol></nav>')
 
     pdf_pages = page.get("pdfPages")
-    meta_line = f"{DOC_LABEL} (2026-06) &middot; source PDF p.{html.escape(pdf_pages)}" if pdf_pages else DOC_LABEL
+    meta_line = f"Source PDF p.{html.escape(pdf_pages)}" if pdf_pages else ""
+    meta_html = f'<p class="doc-header__meta">{meta_line}</p>' if meta_line else ""
 
     return f"""<div class="doc-header">
   <div class="doc-header__inner">
@@ -373,10 +374,9 @@ def build_doc_header(page):
       <div>
         <div class="doc-header__status-row">
           <span class="status-badge">Final draft</span>
-          <span class="doc-header__eyebrow">{DOC_LABEL}</span>
         </div>
         <h1>{html.escape(page["title"])}</h1>
-        <p class="doc-header__meta">{meta_line}</p>
+        {meta_html}
       </div>
     </div>
     <div class="doc-toolbar" role="group" aria-label="Document actions">
@@ -456,7 +456,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <p>This site republishes the text of <cite>{doc_label}: Accessibility requirements for ICT products and services</cite> as an HTML edition, designed and tested with the aim of meeting WCAG 2.2 Level AA &mdash; see the <a href="{asset_prefix}accessibility-statement.html">accessibility statement</a> for what has and hasn't been verified. It is not an official ETSI publication, and this version of the standard is a final draft under approval, not yet published.</p>
+    <p>This site republishes the standard's text as an HTML edition, designed and tested with the aim of meeting WCAG 2.2 Level AA &mdash; see the <a href="{asset_prefix}accessibility-statement.html">accessibility statement</a> for what has and hasn't been verified. It is not an official ETSI publication, and this version of the standard is a final draft under approval, not yet published.</p>
     <p>Source: <a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/">ETSI EN 301 549 deliverables</a>. Original PDF: <a href="{asset_prefix}source/{source_pdf}">{source_pdf}</a>.</p>
   </div>
 </footer>
@@ -472,8 +472,7 @@ def build_doc_footer(page):
                       if pdf_pages else html.escape(page["title"]))
     return f"""<div class="doc-footer">
   <div>
-    <p class="doc-footer__label">Reprinted from</p>
-    <p><cite>{DOC_LABEL}: Accessibility requirements for ICT products and services</cite></p>
+    <p class="doc-footer__label">Source</p>
     <p>{location_line}</p>
   </div>
   <div class="doc-footer__right">

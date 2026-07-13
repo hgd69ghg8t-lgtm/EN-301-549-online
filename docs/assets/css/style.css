@@ -224,7 +224,6 @@ a:hover { color: var(--colour-link-hover); }
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
-.doc-header__eyebrow { font-size: 0.8125rem; color: var(--colour-doc-header-muted); }
 .doc-header h1 {
   font-family: var(--font-heading);
   font-size: 1.6rem;
