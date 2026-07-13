@@ -115,13 +115,15 @@
     });
   }
 
-  // ---------- Heading permalinks ----------
-  // Each numbered heading has a small, always-visible "#" link whose
-  // href already works as a normal same-page anchor with no JS at all.
-  // This only adds a copy-to-clipboard enhancement on top — it does not
-  // prevent the default navigation, so keyboard/no-JS users still get a
-  // fully working direct link.
-  document.querySelectorAll(".heading-permalink[data-copy-link]").forEach(function (link) {
+  // ---------- Heading links ----------
+  // Each numbered heading's own text is a self-referencing link (one tab
+  // stop whose accessible name is the heading text itself), and its href
+  // already works as a normal same-page anchor with no JS at all — after
+  // activating it, the address bar holds the deep link. This only adds a
+  // copy-to-clipboard enhancement on top — it does not prevent the
+  // default navigation, so keyboard/no-JS users still get a fully
+  // working direct link.
+  document.querySelectorAll(".heading-link[data-copy-link]").forEach(function (link) {
     link.addEventListener("click", function () {
       var url = window.location.origin + window.location.pathname + link.getAttribute("href");
       copyText(url).then(function () {

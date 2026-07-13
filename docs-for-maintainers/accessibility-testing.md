@@ -10,7 +10,7 @@ Unplug the mouse. Test on at least one full clause page with numbered headings a
 
 - [ ] **Skip link** — load a page, press Tab once, confirm "Skip to main content" appears and activating it moves focus/reading position past the header and contents sidebar.
 - [ ] **Contents sidebar / mobile disclosure** — reach the contents toggle, contents links, and (at a narrow viewport) the close button, using only Tab, Shift+Tab, Enter, and Space; confirm the panel never visually covers other content and Escape also closes it.
-- [ ] **Heading permalinks** — reach a heading permalink control ("#" beside a numbered heading) by keyboard and activate it with Enter/Space.
+- [ ] **Heading links** — reach a numbered heading (its text is itself a link) by keyboard and activate it with Enter; confirm the address bar now holds the deep link and, with JavaScript on, the "Link to this heading copied" announcement fires.
 - [ ] **"On this page" list** — reach every link in the "On this page" box by keyboard and confirm each one moves focus/reading position to the correct heading.
 - [ ] **Clause summary box** — on a page with a `data/clause-summaries.json` entry, confirm the summary box itself doesn't trap focus or introduce a confusing tab stop (it has no interactive controls, so it should simply be skipped over in the normal reading/tab order).
 - [ ] **Glossary definitions and A-Z index** (`clause-3-definitions.html`) — reach the A-Z index and activate a letter link; confirm focus lands on the corresponding `<dt>` term (not just a visual scroll) and that a screen reader would announce the term/definition as the new context. Confirm the "Back to A-Z index" link is reachable and works the same way in reverse.
@@ -23,12 +23,12 @@ Unplug the mouse. Test on at least one full clause page with numbered headings a
 
 ## Zoom, reflow and text spacing
 
-- [ ] **Browser zoom at 200%** — confirm no content is lost, clipped, or overlapping; confirm the heading permalink control and A-Z index are still visible and operable.
+- [ ] **Browser zoom at 200%** — confirm no content is lost, clipped, or overlapping; confirm the heading links and A-Z index are still visible and operable.
 - [ ] **Browser zoom at 400%** — same checks as 200%, at 400%.
 - [ ] **Reflow at 320 CSS pixels** — confirm no horizontal scrolling is required for the page itself (individual wide tables are expected to scroll within their own region, and that region should have an announced accessible name).
 - [ ] **Text spacing override** — apply the [WCAG 1.4.12 text-spacing bookmarklet/extension values](https://www.w3.org/WAI/WCAG21/Understanding/text-spacing.html) and confirm no text is clipped or overlapping.
 - [ ] **Forced-colours mode** (Windows, where available) — confirm all controls and focus indicators remain visible and operable.
-- [ ] **Reduced motion** — enable "reduce motion" in the OS, confirm in-page anchor navigation (contents links, heading permalinks, on-this-page, A-Z index, back-to-top) jumps instantly instead of animating, and that nothing stops functioning.
+- [ ] **Reduced motion** — enable "reduce motion" in the OS, confirm in-page anchor navigation (contents links, heading links, on-this-page, A-Z index, back-to-top) jumps instantly instead of animating, and that nothing stops functioning.
 - [ ] **Print layout** — print preview a long page, confirm the contents sidebar/toolbar/back-to-top are hidden and the content itself is legible and complete.
 
 ## Screen-reader testing
@@ -51,13 +51,13 @@ For each combination, on the same set of pages as the keyboard checklist above, 
 - [ ] **Page title** — the announced document title is accurate and distinct per page.
 - [ ] **Landmarks** — the landmark list (e.g. NVDA/JAWS landmark navigation, VoiceOver Rotor → Landmarks) shows banner (header), navigation (contents), main, and contentinfo (footer) exactly once each; on `clause-3-definitions.html`, the two A-Z index `<nav>` landmarks are announced with distinct, meaningful names (not both just "navigation").
 - [ ] **Heading navigation** — the heading list (e.g. NVDA Elements List, VoiceOver Rotor → Headings) shows exactly one H1 and a sensible, non-skipping hierarchy; jumping heading-by-heading reaches every numbered clause heading.
-- [ ] **Link lists** — the link list (e.g. VoiceOver Rotor → Links) shows link text that's meaningful out of context — no bare "here"/"link" text, and heading permalinks are distinguishable from each other.
+- [ ] **Link lists** — the link list (e.g. VoiceOver Rotor → Links) shows link text that's meaningful out of context — no bare "here"/"link" text, and heading links are distinguishable from each other (each is named by its own heading text).
 - [ ] **Current navigation state** — in the contents sidebar, confirm the current page/section is announced as current (not just visually indicated) as you scroll.
 - [ ] **Alerts and notices** — confirm the draft-status notice/banner is discoverable when reading through the page from the top (it does not need to interrupt, but it must not be silently skipped).
 - [ ] **"On this page" list** — confirm it's announced as a distinct navigable list, and each entry's accessible name matches the heading it links to.
 - [ ] **Clause summary box** — confirm the "About this clause"/"About this annex" summary is read as ordinary content in a sensible place (before the reproduced ETSI text it summarises), not confused with the ETSI content itself.
 - [ ] **Glossary definitions** (`clause-3-definitions.html`) — confirm each term and its definition are associated in a way the screen reader conveys as a pair (term, then definition), and that following an A-Z index link both moves focus and is announced as landing on the target term.
-- [ ] **Heading permalinks** — confirm the accessible name announced for a permalink control includes the heading's own number and text (e.g. "Copy link to 9.1.1.1 Non-text content"), not just "#" or "link".
+- [ ] **Heading links** — confirm each numbered heading is announced both as a heading and as a link whose name is the heading's own number and text (e.g. "9.1.1.1 Non-text content"), not "#" or "link".
 - [ ] **Download link** — confirm the PDF download link's accessible name and any file-type/size information is announced sensibly (not just a bare filename).
 
 ## Test log

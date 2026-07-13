@@ -100,16 +100,6 @@ def human_date(iso):
     return iso
 
 
-def human_page_range(pdf_pages):
-    """'12' -> 'page 12'; '16-26' -> 'pages 16 to 26'."""
-    if not pdf_pages:
-        return ""
-    if "-" in pdf_pages:
-        start, end = pdf_pages.split("-", 1)
-        return f"pages {start} to {end}"
-    return f"page {pdf_pages}"
-
-
 CSS_PATH = DOCS_DIR / "assets" / "css" / "style.css"
 JS_PATH = DOCS_DIR / "assets" / "js" / "site.js"
 
@@ -550,7 +540,7 @@ def validate_etsi_content_integrity(errors):
 
 
 # ---------------------------------------------------------------------
-# Per-fragment heading validation + permalink injection
+# Per-fragment heading validation + heading-link injection
 # ---------------------------------------------------------------------
 
 def validate_fragment_headings(slug, raw, headings, errors):
@@ -635,22 +625,23 @@ def validate_fragment_headings(slug, raw, headings, errors):
                            "Choose a different id for this heading.")
 
 
-def inject_permalinks(raw, headings):
-    """Insert a small, always-visible permalink control just inside the
-    closing tag of every numbered heading. Uses the same byte offsets
+def inject_heading_links(raw, headings):
+    """Wrap every numbered heading's own text in a self-referencing link,
+    so the heading itself is the keyboard-focusable permalink — one tab
+    stop whose accessible name IS the heading text, rather than a separate
+    "#" control after it. Activating it navigates to the heading's anchor
+    (address bar now holds the deep link, with no JavaScript needed);
+    site.js adds copy-to-clipboard on top. Uses the same byte offsets
     heading_parser.py already computed, so this never touches heading
-    text or attributes — only adds a trailing inline anchor."""
+    text or attributes — only wraps the existing text in an anchor."""
     edits = []
     for h in headings:
         if not h.number:
             continue
         anchor_id = h.id or canonical_id(h.number)
-        label = html.escape(f"Copy link to {h.text}", quote=True)
-        markup = (
-            f' <a class="heading-permalink" href="#{anchor_id}" data-copy-link'
-            f' aria-label="{label}"><span aria-hidden="true">#</span></a>'
-        )
-        edits.append((h.end, h.end, markup))
+        open_tag = f'<a class="heading-link" href="#{anchor_id}" data-copy-link>'
+        edits.append((h.end, h.end, "</a>"))
+        edits.append((h.tag_end, h.tag_end, open_tag))
     edits.sort(key=lambda e: e[0], reverse=True)
     out = raw
     for start, end, replacement in edits:
@@ -903,7 +894,6 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
     <div class="content">
       {content}
     </div>
-    {doc_footer}
     {pager}
   </main>
 </div>
@@ -915,47 +905,13 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <footer class="site-footer">
   <div class="site-footer__inner">
     {footer_nav}
-    <p>Unofficial HTML edition of the {source_month_year} final draft. <a href="{asset_prefix}about.html">Read how this edition was produced</a>.</p>
+    <p>Unofficial HTML edition of the {source_month_year} final draft. Standard text &copy; ETSI 2026. <a href="{asset_prefix}about.html">Read how this edition was produced</a>.</p>
   </div>
 </footer>
 <script src="{asset_prefix}assets/js/site.js?v={js_version}"></script>
 </body>
 </html>
 """
-
-
-def source_label(page):
-    """'Clause 1' / 'Annex C.8' — derived from sitemap data, used in the
-    plain-language "Source in the official PDF" line. None for website-
-    authored pages that don't reproduce a specific part of the standard."""
-    if page["slug"] in NON_STANDARD_SLUGS:
-        return None
-    if page["group"] == "Clauses":
-        number = page["title"].split(" ", 1)[0]
-        return f"Clause {number}"
-    m = re.match(r"^(Annex\s+\S+)", page["title"])
-    return m.group(1) if m else None
-
-
-def build_doc_footer(page):
-    pdf_pages = page.get("pdfPages")
-    label = source_label(page)
-    if label and pdf_pages:
-        location_line = f"{html.escape(label)}, {human_page_range(pdf_pages)}"
-    elif pdf_pages:
-        location_line = f"{html.escape(page['title'])}, {human_page_range(pdf_pages)}"
-    else:
-        location_line = html.escape(page["title"])
-    return f"""<div class="doc-footer">
-  <div>
-    <p class="doc-footer__label">Source in the official PDF</p>
-    <p>{location_line}</p>
-  </div>
-  <div class="doc-footer__right">
-    <p><a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/">View this standard on the ETSI website</a></p>
-    <p>&copy; ETSI 2026</p>
-  </div>
-</div>"""
 
 
 def render_metadata_summary(metadata):
@@ -1269,15 +1225,15 @@ def render_page(index, page, metadata, summaries, errors):
 
     clause_summary = build_clause_summary(slug, summaries, errors)
     on_this_page = build_on_this_page(headings)
-    fragment_html = inject_permalinks(fragment, headings)
+    fragment_html = inject_heading_links(fragment, headings)
     if is_index:
         # The homepage's <h1> lives inside the fragment itself (it has no
         # template-level doc header), so anything website-authored that
         # comes "before the content" must be spliced in after that <h1>,
         # not prepended in front of it — otherwise an <h2> would appear
         # before the page's only <h1> in document order. The <h1> is never
-        # numbered, so it never gets a permalink inserted, meaning its
-        # close_end offset is identical before and after inject_permalinks.
+        # numbered, so it never gets wrapped in a heading link, meaning its
+        # close_end offset is identical before and after inject_heading_links.
         split_at = headings[0].close_end
         content_html = fragment_html[:split_at] + clause_summary + on_this_page + fragment_html[split_at:]
     else:
@@ -1295,7 +1251,6 @@ def render_page(index, page, metadata, summaries, errors):
         source_month_year=human_date(metadata["sourcePdfPublicationDate"]) if metadata else "",
         site_nav=build_site_nav(slug, headings),
         content=content_html,
-        doc_footer="" if is_index else build_doc_footer(page),
         pager="" if is_index else build_pager(index),
         source_pdf=SOURCE_PDF_NAME,
         css_version=asset_version(CSS_PATH),
@@ -1372,13 +1327,14 @@ def validate_rendered_page(slug, html_out, all_slugs, errors):
     # build emits a date itself (draft notice, footer, metadata summary,
     # clause-summary/on-this-page text), it goes through human_date().
 
-    for m in re.finditer(r'<a class="heading-permalink"[^>]*aria-label="([^"]*)"', html_out):
-        name = html.unescape(m.group(1)).strip()
-        if len(name) < len("Copy link to X"):
-            errors.add(label, "permalink-accessible-name",
-                       f'A heading permalink has an accessible name too short to be meaningful: "{name}".',
-                       'Every heading permalink\'s aria-label must include both the heading number and text, '
-                       'e.g. "Copy link to 9.1.1.1 Non-text content".')
+    for m in re.finditer(r'<a class="heading-link" href="#([^"]+)"[^>]*>(.*?)</a>', html_out, re.DOTALL):
+        frag_id, inner = m.group(1), m.group(2)
+        text = strip_tags(inner)
+        if len(text) < 2:
+            errors.add(label, "heading-link-empty",
+                       f'A heading link to "#{frag_id}" has no meaningful text — its accessible name '
+                       "is the heading text it wraps, so it must not be empty.",
+                       "Check inject_heading_links() wrapped the heading's actual text.")
 
     if slug == "accessibility-statement":
         if "github.com" not in html_out and "mailto:" not in html_out:
