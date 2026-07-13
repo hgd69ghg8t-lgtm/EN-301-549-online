@@ -193,6 +193,12 @@ Status: **not confirmed**. If and when permission, a licence, or another form of
 
 The build script, templates, CSS and JavaScript in this repository (everything *other than* the reproduced ETSI standard text and the ETSI copyright/disclaimer notices) do not currently carry an explicit licence file. `[Add a LICENSE file and name it here once a licence is chosen — the reproduced standard text itself is governed by ETSI's own copyright notice regardless of what licence is chosen for the surrounding site code, and the two must not be conflated.]`
 
+**The repository's software licence does not necessarily apply to reproduced ETSI text.** Whatever licence is eventually chosen and recorded above governs the build script, templates, CSS and JavaScript — it says nothing about whether the reproduced standard text may be copied, redistributed, or reused, which is governed entirely by ETSI's own copyright notice and the unresolved permission question above. Confirm permission and applicable terms before redistributing or promoting this edition.
+
+### Trademarks
+
+The source document's own front matter — reproduced verbatim on the [About page](content/about.html#trademarks) — states that it may include trademarks and tradenames asserted or registered by their owners, that ETSI claims no ownership of these except where indicated, and that reproducing the document does not convey any right to use or reproduce those trademarks. That notice, and the specific trademark names it lists (DECT, PLUGTESTS, UMTS, 3GPP, LTE, 5G, oneM2M, GSM, BLUETOOTH, and others named there), must not be edited, summarised, or removed. Nothing in this repository's own code/design licence extends any right to use those names or logos.
+
 ### Font licences
 
 The self-hosted webfonts under `docs/assets/fonts/` (Overpass and Source Sans 3, both distributed by Google Fonts) are released under the [SIL Open Font License 1.1](https://openfontlicense.org/), which permits embedding and redistribution, including in a project with different licensing terms for its other components. No separate action is required for these two fonts, but re-verify the licence of any font added later.
@@ -202,7 +208,7 @@ The self-hosted webfonts under `docs/assets/fonts/` (Overpass and Source Sans 3,
 Do not treat this site as ready for public release until every item below is either checked or explicitly waived by whoever is accountable for that decision.
 
 - [ ] **Reproduction rights confirmed** — see "The core open question" and "ETSI reproduction permission" above. *(Required — this is the one item on this list that is a precondition for every other item mattering.)*
-- [ ] A licence has been chosen and recorded for this site's own code/design (see above).
+- [ ] A licence has been chosen and recorded for this site's own code/design (see above), and it is clear anywhere that licence is stated (a `LICENSE` file, this README) that it does not extend to the reproduced ETSI text or to the trademarks named in it.
 - [ ] `npm test` and `npm run test:a11y` both pass on the commit being published.
 - [ ] `python3 scripts/build.py && git diff --exit-code -- docs/` is clean (committed `docs/` matches a fresh rebuild).
 - [x] The accessibility statement has a real reporting route (currently a GitHub issues link — replace with a dedicated contact address if/when one exists).
