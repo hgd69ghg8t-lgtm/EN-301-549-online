@@ -67,6 +67,10 @@
   --colour-panel-bg: #f3f2f1;
   --colour-note-bg: #e8f1fa;
   --colour-note-border: #005ea2;
+  --colour-draft-bg: #fdf3e4;
+  --colour-draft-border: #8a6205;
+  --colour-draft-text: #5c4103;
+  --colour-live-status-bg: #1a1a1a;
 
   --font-heading: 'Overpass', Arial, sans-serif;
   --font-body: 'Source Sans 3', Arial, sans-serif;
@@ -259,6 +263,7 @@ a:hover { color: var(--colour-link-hover); }
   text-decoration: none;
 }
 .doc-toolbar__btn:hover { background: var(--colour-toolbar-btn-hover-bg); }
+.doc-toolbar__btn-status { font-weight: 400; opacity: 0.85; }
 .toc-toggle {
   display: none;
   margin-left: auto;
@@ -286,17 +291,15 @@ a:hover { color: var(--colour-link-hover); }
   grid-template-columns: 1fr;
   gap: 0;
 }
-.page-shell > main { order: 1; }
-.page-shell > .site-nav { order: 2; }
+/* Deliberately no CSS `order` swap here: DOM order (site_nav, then main)
+   matches visual order and keyboard focus order at every breakpoint, so
+   opening the mobile contents panel never puts focus somewhere that
+   isn't where it visually appears. */
 @media (min-width: 62em) {
   .page-shell {
     grid-template-columns: 17.5rem minmax(0, var(--content-max-width));
     align-items: start;
     justify-content: start;
-  }
-  .page-shell > main,
-  .page-shell > .site-nav {
-    order: initial;
   }
   main { border-left: 1px solid var(--colour-border); padding: 0 var(--space-5); }
 }
@@ -362,6 +365,18 @@ a:hover { color: var(--colour-link-hover); }
   border-left-color: var(--colour-link);
 }
 
+/* ---------- Draft-status notice ---------- */
+.draft-notice {
+  background: var(--colour-draft-bg);
+  border: 1px solid var(--colour-draft-border);
+  color: var(--colour-draft-text);
+  padding: 0.65rem 1rem;
+  margin: 0 0 var(--space-4);
+  max-width: 66ch;
+  font-size: 0.9375rem;
+}
+.draft-notice a { color: var(--colour-draft-text); }
+
 /* ---------- Main content typography ---------- */
 main { min-width: 0; }
 .content h1 {
@@ -406,6 +421,29 @@ main { min-width: 0; }
   color: var(--colour-heading);
   margin: var(--space-3) 0 var(--space-2);
 }
+/* Permalink control beside every numbered heading. Always visible (never
+   hover-only), sized in rem so it scales at 200%/400% browser zoom, with
+   its own accessible name via aria-label on the parent link. */
+.heading-permalink {
+  display: inline-block;
+  margin-left: 0.4em;
+  font-family: var(--font-heading);
+  font-size: 0.85em;
+  font-weight: 700;
+  color: var(--colour-muted);
+  text-decoration: none;
+  vertical-align: middle;
+}
+.heading-permalink:hover,
+.heading-permalink:focus-visible { color: var(--colour-link); }
+
+.content-meta-list { margin: 0 0 var(--space-4); border: 1px solid var(--colour-border); }
+.content-meta-list > div { padding: 0.75rem var(--space-3); border-bottom: 1px solid var(--colour-border); }
+.content-meta-list > div:last-child { border-bottom: 0; }
+.content-meta-list dt { font-family: var(--font-heading); font-weight: 700; color: var(--colour-text); }
+.content-meta-list dd { margin: 0.15rem 0 0; }
+.content-meta-list dd code { font-size: 0.85em; word-break: break-all; }
+
 .content p { margin: 0 0 var(--space-3); max-width: 66ch; }
 .content > .content-meta { max-width: none; color: var(--colour-muted); }
 .content ul, .content ol { margin: 0 0 var(--space-3); padding-left: 1.4rem; max-width: 66ch; }
@@ -477,6 +515,7 @@ main { min-width: 0; }
   font-family: var(--font-heading);
   font-weight: 700;
   font-size: 0.875rem;
+  text-decoration: none;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0,0,0,0.25);
 }
@@ -508,15 +547,18 @@ main { min-width: 0; }
   padding: 0 !important;
 }
 
-/* ---------- Mobile ToC overlay ---------- */
+/* ---------- Mobile contents disclosure ----------
+   An in-flow expand/collapse panel, not a full-screen overlay: it never
+   covers other content, so keyboard focus can never land somewhere that
+   isn't visible (the bug a modal-style overlay without a focus trap has). */
 @media (max-width: 61.99em) {
   .site-nav {
     display: none;
-    position: fixed;
-    inset: 0;
-    z-index: 40;
-    background: #ffffff;
+    border: 1px solid var(--colour-border);
+    margin-bottom: var(--space-4);
+    max-height: 70vh;
     overflow-y: auto;
+    background: var(--colour-background);
   }
   .site-nav.is-open { display: block; }
   .site-nav__close {
@@ -539,9 +581,18 @@ main { min-width: 0; }
   .site-nav__close { display: none; }
 }
 
+/* ---------- Reduced motion ----------
+   Smooth-scrolling to in-page anchors (TOC subsections, heading
+   permalinks, back-to-top) only when the visitor hasn't asked for
+   reduced motion. Nothing about functionality changes either way —
+   this only controls whether the scroll animates or jumps instantly. */
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
+
 /* ---------- Print ---------- */
 @media print {
-  .site-header, .site-footer, .doc-toolbar, .toc-toggle, .site-nav, .page-pager, .skip-link, .back-to-top, .accent-bar { display: none; }
+  .site-header, .site-footer, .doc-toolbar, .toc-toggle, .site-nav, .page-pager, .skip-link, .back-to-top, .accent-bar, .heading-permalink { display: none; }
   .doc-header { background: none; color: #000; }
   .doc-header__meta, .breadcrumb a, .breadcrumb li { color: #000; }
   .page-shell { display: block; padding: 0; }

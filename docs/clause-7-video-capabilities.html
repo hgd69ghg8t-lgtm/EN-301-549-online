@@ -1,14 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>7 ICT with video capabilities | ETSI EN 301 549 V4.1.0 Online</title>
-<meta name="description" content="7 ICT with video capabilities — ETSI EN 301 549 V4.1.0 accessible HTML edition.">
+<meta name="description" content="7 ICT with video capabilities — ETSI EN 301 549 V4.1.0 accessible HTML edition (final draft, under approval).">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-<a class="skip-link" href="#main-content">Skip to main content</a>
+<a class="skip-link" id="top" href="#main-content">Skip to main content</a>
 
 <header class="site-header">
   <div class="site-header__inner">
@@ -34,11 +34,12 @@
         <p class="doc-header__meta">ETSI EN 301 549 V4.1.0 (2026-06) &middot; source PDF p.50-52</p>
       </div>
     </div>
-    <div class="doc-toolbar" role="toolbar" aria-label="Document actions">
+    <div class="doc-toolbar" role="group" aria-label="Document actions">
       <button type="button" class="doc-toolbar__btn" data-action="print">Print</button>
       <a class="doc-toolbar__btn" href="source/en_301549v040100va.pdf">Download PDF</a>
       <button type="button" class="doc-toolbar__btn" data-action="copy-link">
         <span class="doc-toolbar__btn-label">Copy link</span>
+        <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
       </button>
     </div>
   </div>
@@ -51,6 +52,8 @@
 <p><a href="index.html">Home</a></p>
 <details><summary>Front matter</summary><ul>
 <li><a href="about.html">About this standard</a>
+</li>
+<li><a href="accessibility-statement.html">Accessibility statement</a>
 </li>
 </ul></details>
 <details open><summary>Clauses</summary><ul>
@@ -68,21 +71,21 @@
 </li>
 <li><a href="clause-7-video-capabilities.html" aria-current="page">7 Video capabilities</a>
 <ul class="site-nav__subsections">
-<li><a href="#7-1-subtitle-processing-technology" data-subsection>7.1 Subtitle processing technology</a>
+<li><a href="#7-1" data-subsection>7.1 Subtitle processing technology</a>
 <ul class="site-nav__subsections site-nav__subsections--nested">
-<li><a href="#7-1-1-subtitle-playback" data-subsection>7.1.1 Subtitle playback</a></li>
-<li><a href="#7-1-2-subtitle-synchronization" data-subsection>7.1.2 Subtitle synchronization</a></li>
-<li><a href="#7-1-3-preservation-of-subtitles" data-subsection>7.1.3 Preservation of subtitles</a></li>
-<li><a href="#7-1-4-subtitle-characteristics" data-subsection>7.1.4 Subtitle characteristics</a></li>
-<li><a href="#7-1-5-spoken-subtitles" data-subsection>7.1.5 Spoken subtitles</a></li>
+<li><a href="#7-1-1" data-subsection>7.1.1 Subtitle playback</a></li>
+<li><a href="#7-1-2" data-subsection>7.1.2 Subtitle synchronization</a></li>
+<li><a href="#7-1-3" data-subsection>7.1.3 Preservation of subtitles</a></li>
+<li><a href="#7-1-4" data-subsection>7.1.4 Subtitle characteristics</a></li>
+<li><a href="#7-1-5" data-subsection>7.1.5 Spoken subtitles</a></li>
 </ul></li>
-<li><a href="#7-2-audio-description-technology" data-subsection>7.2 Audio description technology</a>
+<li><a href="#7-2" data-subsection>7.2 Audio description technology</a>
 <ul class="site-nav__subsections site-nav__subsections--nested">
-<li><a href="#7-2-1-audio-description-playback" data-subsection>7.2.1 Audio description playback</a></li>
-<li><a href="#7-2-2-audio-description-synchronization" data-subsection>7.2.2 Audio description synchronization</a></li>
-<li><a href="#7-2-3-preservation-of-audio-description" data-subsection>7.2.3 Preservation of audio description</a></li>
+<li><a href="#7-2-1" data-subsection>7.2.1 Audio description playback</a></li>
+<li><a href="#7-2-2" data-subsection>7.2.2 Audio description synchronization</a></li>
+<li><a href="#7-2-3" data-subsection>7.2.3 Preservation of audio description</a></li>
 </ul></li>
-<li><a href="#7-3-user-control-of-audiovisual-accessibility-features" data-subsection>7.3 User control of audiovisual accessibility features</a>
+<li><a href="#7-3" data-subsection>7.3 User control of audiovisual accessibility features</a>
 </li>
 </ul>
 </li>
@@ -147,57 +150,57 @@
 </ul></details>
 </nav>
   <main id="main-content" tabindex="-1">
+    <p class="draft-notice"><strong>Draft under approval.</strong> This content may change. The ETSI PDF remains the authoritative source. <a href="accessibility-statement.html">Accessibility statement</a>.</p>
     <div class="content">
-      <h1>7 ICT with video capabilities</h1>
 
-<h2 id="7-1-subtitle-processing-technology">7.1 Subtitle processing technology</h2>
+<h2 id="7-1">7.1 Subtitle processing technology <a class="heading-permalink" href="#7-1" data-copy-link aria-label="Copy link to 7.1 Subtitle processing technology"><span aria-hidden="true">#</span></a></h2>
 
-<h3 id="7-1-1-subtitle-playback">7.1.1 Subtitle playback</h3>
+<h3 id="7-1-1">7.1.1 Subtitle playback <a class="heading-permalink" href="#7-1-1" data-copy-link aria-label="Copy link to 7.1.1 Subtitle playback"><span aria-hidden="true">#</span></a></h3>
 <p>Where ICT displays video with synchronized audio, the ICT shall have a mode of operation to display the available subtitles. Where closed subtitles are provided as part of the content, the ICT shall allow the user to choose to display the subtitles.</p>
 
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Subtitles may contain information about timing, colour and positioning. This subtitle data is necessary for subtitle users. Timing is used for subtitle synchronization. Colour can be used to convey additional information such as speaker identification, emotion or tone, or that the text represents music lyrics vs. dialog. Position can be used to avoid obscuring important information.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> If an assistive technology (such as a braille display, or large caption display) is connected to an ICT using a standard connection, identification, and data communication protocol for that type of device, it is best practice for the ICT to provide an option to display subtitles on the braille device.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> Clause 7.1.1 refers to the ability of the player to display subtitles. Clauses 9.1.2.2, 10.1.2.2 and 11.1.2.2 refer to the provision of subtitles for the content (the video).</p></div>
 
-<h3 id="7-1-2-subtitle-synchronization">7.1.2 Subtitle synchronization</h3>
+<h3 id="7-1-2">7.1.2 Subtitle synchronization <a class="heading-permalink" href="#7-1-2" data-copy-link aria-label="Copy link to 7.1.2 Subtitle synchronization"><span aria-hidden="true">#</span></a></h3>
 <p>Where ICT displays video with synchronized audio, and displays subtitles, the ICT shall display subtitles within 100 ms of the timecode value attached to the subtitle.</p>
 
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> If subtitles without timecodes are to be displayed, the best practice is to display the subtitles as soon as they are received.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> It is good practice to display a subtitle within 20 ms of the respective timecode.</p></div>
 
-<h3 id="7-1-3-preservation-of-subtitles">7.1.3 Preservation of subtitles</h3>
+<h3 id="7-1-3">7.1.3 Preservation of subtitles <a class="heading-permalink" href="#7-1-3" data-copy-link aria-label="Copy link to 7.1.3 Preservation of subtitles"><span aria-hidden="true">#</span></a></h3>
 <p>Where ICT transmits, converts, or records video with synchronized audio, the ICT shall preserve subtitle data such that the subtitles can be displayed in a manner consistent with clause 7.1.1, including any data relating to presentational aspects such as screen position, text and background colours, text style and text fonts.</p>
 
 <div class="callout"><p><span class="callout__label">NOTE:</span> Additional presentational aspects of the text such as screen position, text colours, text style and text fonts may convey meaning, based on regional conventions. Altering these presentational aspects could change the meaning and should be avoided wherever possible.</p></div>
 
-<h3 id="7-1-4-subtitle-characteristics">7.1.4 Subtitle characteristics</h3>
+<h3 id="7-1-4">7.1.4 Subtitle characteristics <a class="heading-permalink" href="#7-1-4" data-copy-link aria-label="Copy link to 7.1.4 Subtitle characteristics"><span aria-hidden="true">#</span></a></h3>
 <p>Where ICT displays video with synchronized audio, and has control over the presentation of its subtitles, the ICT shall provide a way for the user to adapt the displayed characteristics of subtitles to their individual requirements, except where the subtitles are displayed as unmodifiable characters.</p>
 
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Defining the background and foreground colour of subtitles, font type, size, opacity of the background box of subtitles, and the contour or border of the fonts can contribute to meeting this requirement.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Subtitles that are bitmap images are examples of unmodifiable characters.</p></div>
 
-<h3 id="7-1-5-spoken-subtitles">7.1.5 Spoken subtitles</h3>
+<h3 id="7-1-5">7.1.5 Spoken subtitles <a class="heading-permalink" href="#7-1-5" data-copy-link aria-label="Copy link to 7.1.5 Spoken subtitles"><span aria-hidden="true">#</span></a></h3>
 <p>Where ICT displays video with synchronized audio, the ICT shall have a mode of operation to enable output of the available spoken subtitles.</p>
 
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Spoken subtitles are sometimes provided to accompany interlingual subtitles, so that users who are blind and partially sighted or cannot read can understand dialogue that is being spoken in a language different to their own. They are also sometimes provided to offer an understandable version of indistinct or otherwise unintelligible speech.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> This requirement does not mean that players generate spoken subtitles from available subtitles, but only that they play spoken subtitle audio if it is available.</p></div>
 
-<h2 id="7-2-audio-description-technology">7.2 Audio description technology</h2>
+<h2 id="7-2">7.2 Audio description technology <a class="heading-permalink" href="#7-2" data-copy-link aria-label="Copy link to 7.2 Audio description technology"><span aria-hidden="true">#</span></a></h2>
 
-<h3 id="7-2-1-audio-description-playback">7.2.1 Audio description playback</h3>
+<h3 id="7-2-1">7.2.1 Audio description playback <a class="heading-permalink" href="#7-2-1" data-copy-link aria-label="Copy link to 7.2.1 Audio description playback"><span aria-hidden="true">#</span></a></h3>
 <p>Where ICT displays video with synchronized audio, the ICT shall provide a mechanism to select and play available audio description to the default audio channel.</p>
 <p>Where video technologies do not have explicit and separate mechanisms for audio description, an ICT is deemed to satisfy this requirement if the ICT enables the user to select and play one of several audio tracks.</p>
 
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> In such cases, the video content can include the audio description as one of the available audio tracks.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Audio descriptions in digital media sometimes include information to allow descriptions that are longer than the gaps between dialogue. Support in digital media players for this &ldquo;extended audio description&rdquo; feature is useful, especially for digital media that is viewed personally.</p></div>
 
-<h3 id="7-2-2-audio-description-synchronization">7.2.2 Audio description synchronization</h3>
+<h3 id="7-2-2">7.2.2 Audio description synchronization <a class="heading-permalink" href="#7-2-2" data-copy-link aria-label="Copy link to 7.2.2 Audio description synchronization"><span aria-hidden="true">#</span></a></h3>
 <p>Where ICT displays video with synchronized audio, and has a mechanism to play audio description, the ICT shall preserve the synchronization between the audio/visual content and the corresponding audio description.</p>
 
-<h3 id="7-2-3-preservation-of-audio-description">7.2.3 Preservation of audio description</h3>
+<h3 id="7-2-3">7.2.3 Preservation of audio description <a class="heading-permalink" href="#7-2-3" data-copy-link aria-label="Copy link to 7.2.3 Preservation of audio description"><span aria-hidden="true">#</span></a></h3>
 <p>Where ICT transmits, converts, or records video with synchronized audio, the ICT shall preserve audio description data such that the audio description can be played in a manner consistent with clauses 7.2.1 and 7.2.2.</p>
 
-<h2 id="7-3-user-control-of-audiovisual-accessibility-features">7.3 User control of audiovisual accessibility features</h2>
+<h2 id="7-3">7.3 User control of audiovisual accessibility features <a class="heading-permalink" href="#7-3" data-copy-link aria-label="Copy link to 7.3 User control of audiovisual accessibility features"><span aria-hidden="true">#</span></a></h2>
 <p>Where ICT primarily displays video with synchronized audio, and has control over the activation of subtitles, audio description, and spoken subtitles, the ICT shall provide at least one mode of operation that allows the activation and deactivation of the user's choice of either subtitles, audio description, or spoken subtitles with a single user operation that is at the same level as the volume control and that meets the other accessibility requirements of the present document.</p>
 
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Media player software would meet the precondition of this requirement because its primary purpose is to play audiovisual materials, but a preview feature in a file utility that shows quick views of the contents of files as they are selected, (including playing a video file in a window or pane without controls) would not, because its primary function is file management, and the primary function of the preview function is to allow files to be identified by peeking into them, not to view audiovisual content.</p></div>
@@ -227,11 +230,13 @@
   </main>
 </div>
 
-<button type="button" class="back-to-top" aria-label="Back to top of page">&uarr; Back to top</button>
+<a class="back-to-top" href="#top">&uarr; Back to top</a>
+
+<div id="status-live" class="visually-hidden" role="status" aria-live="polite"></div>
 
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <p>This site republishes the text of <cite>ETSI EN 301 549 V4.1.0: Accessibility requirements for ICT products and services</cite> as an accessible, WCAG 2.2 AA HTML edition. It is not an official ETSI publication.</p>
+    <p>This site republishes the text of <cite>ETSI EN 301 549 V4.1.0: Accessibility requirements for ICT products and services</cite> as an HTML edition, designed and tested with the aim of meeting WCAG 2.2 Level AA &mdash; see the <a href="accessibility-statement.html">accessibility statement</a> for what has and hasn't been verified. It is not an official ETSI publication, and this version of the standard is a final draft under approval, not yet published.</p>
     <p>Source: <a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/">ETSI EN 301 549 deliverables</a>. Original PDF: <a href="source/en_301549v040100va.pdf">en_301549v040100va.pdf</a>.</p>
   </div>
 </footer>

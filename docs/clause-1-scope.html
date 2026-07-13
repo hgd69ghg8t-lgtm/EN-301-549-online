@@ -1,14 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>1 Scope | ETSI EN 301 549 V4.1.0 Online</title>
-<meta name="description" content="1 Scope — ETSI EN 301 549 V4.1.0 accessible HTML edition.">
+<meta name="description" content="1 Scope — ETSI EN 301 549 V4.1.0 accessible HTML edition (final draft, under approval).">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-<a class="skip-link" href="#main-content">Skip to main content</a>
+<a class="skip-link" id="top" href="#main-content">Skip to main content</a>
 
 <header class="site-header">
   <div class="site-header__inner">
@@ -34,11 +34,12 @@
         <p class="doc-header__meta">ETSI EN 301 549 V4.1.0 (2026-06) &middot; source PDF p.12</p>
       </div>
     </div>
-    <div class="doc-toolbar" role="toolbar" aria-label="Document actions">
+    <div class="doc-toolbar" role="group" aria-label="Document actions">
       <button type="button" class="doc-toolbar__btn" data-action="print">Print</button>
       <a class="doc-toolbar__btn" href="source/en_301549v040100va.pdf">Download PDF</a>
       <button type="button" class="doc-toolbar__btn" data-action="copy-link">
         <span class="doc-toolbar__btn-label">Copy link</span>
+        <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
       </button>
     </div>
   </div>
@@ -51,6 +52,8 @@
 <p><a href="index.html">Home</a></p>
 <details><summary>Front matter</summary><ul>
 <li><a href="about.html">About this standard</a>
+</li>
+<li><a href="accessibility-statement.html">Accessibility statement</a>
 </li>
 </ul></details>
 <details open><summary>Clauses</summary><ul>
@@ -130,8 +133,9 @@
 </ul></details>
 </nav>
   <main id="main-content" tabindex="-1">
+    <p class="draft-notice"><strong>Draft under approval.</strong> This content may change. The ETSI PDF remains the authoritative source. <a href="accessibility-statement.html">Accessibility statement</a>.</p>
     <div class="content">
-      <h1>1 Scope</h1>
+
 <p>The present document specifies the accessibility requirements applicable to ICT products and services, together with a description of the test procedures and evaluation methodology for each accessibility requirement.</p>
 <p>The present document is intended for use by designers, developers, evaluators, manufacturers, market surveillance entities, procurers, researchers, and anyone else interested in the accessibility of ICT products and services.</p>
 <p>The present document is not intended to apply to assistive technologies that are designed specifically for use by people with disabilities, except for requirement 11.5.2.4 that requires assistive technologies to use the documented platform accessibility services, although making assistive technologies usable and applicable for people with multiple disabilities is desirable. The requirements do apply to the launch of assistive technologies since that is a function of the platform, not the assistive technology.</p>
@@ -151,17 +155,19 @@
   </div>
 </div>
     <nav class="page-pager" aria-label="Page navigation">
-<a class="page-pager__link page-pager__link--prev" href="about.html"><span class="page-pager__direction">&larr; Previous</span><span class="page-pager__title">About this standard</span></a>
+<a class="page-pager__link page-pager__link--prev" href="accessibility-statement.html"><span class="page-pager__direction">&larr; Previous</span><span class="page-pager__title">Accessibility statement</span></a>
 <a class="page-pager__link page-pager__link--next" href="clause-2-references.html"><span class="page-pager__direction">Next &rarr;</span><span class="page-pager__title">2 References</span></a>
 </nav>
   </main>
 </div>
 
-<button type="button" class="back-to-top" aria-label="Back to top of page">&uarr; Back to top</button>
+<a class="back-to-top" href="#top">&uarr; Back to top</a>
+
+<div id="status-live" class="visually-hidden" role="status" aria-live="polite"></div>
 
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <p>This site republishes the text of <cite>ETSI EN 301 549 V4.1.0: Accessibility requirements for ICT products and services</cite> as an accessible, WCAG 2.2 AA HTML edition. It is not an official ETSI publication.</p>
+    <p>This site republishes the text of <cite>ETSI EN 301 549 V4.1.0: Accessibility requirements for ICT products and services</cite> as an HTML edition, designed and tested with the aim of meeting WCAG 2.2 Level AA &mdash; see the <a href="accessibility-statement.html">accessibility statement</a> for what has and hasn't been verified. It is not an official ETSI publication, and this version of the standard is a final draft under approval, not yet published.</p>
     <p>Source: <a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/">ETSI EN 301 549 deliverables</a>. Original PDF: <a href="source/en_301549v040100va.pdf">en_301549v040100va.pdf</a>.</p>
   </div>
 </footer>

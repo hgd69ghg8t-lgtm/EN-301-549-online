@@ -1,6 +1,7 @@
 [
   { "slug": "index", "title": "EN 301 549 Online", "shortTitle": "Home", "pdfPages": null, "group": "" },
   { "slug": "about", "title": "About this standard", "shortTitle": "About this standard", "pdfPages": "9-11", "group": "Front matter" },
+  { "slug": "accessibility-statement", "title": "Accessibility statement", "shortTitle": "Accessibility statement", "pdfPages": null, "group": "Front matter" },
 
   { "slug": "clause-1-scope", "title": "1 Scope", "shortTitle": "1 Scope", "pdfPages": "12", "group": "Clauses" },
   { "slug": "clause-2-references", "title": "2 References", "shortTitle": "2 References", "pdfPages": "12-16", "group": "Clauses" },
@@ -37,6 +38,6 @@
   { "slug": "annex-e-guidance", "title": "Annex E (informative): Guidance and additional resources for users of the present document", "shortTitle": "Annex E: Guidance and resources", "pdfPages": "229-233", "group": "Annexes" },
   { "slug": "annex-za-directive-2016-2102", "title": "Annex ZA (informative): Relationship between the present document and the essential requirements of Directive (EU) 2016/2102", "shortTitle": "Annex ZA: Directive (EU) 2016/2102", "pdfPages": "233-260", "group": "Annexes" },
   { "slug": "annex-zb-directive-2019-882", "title": "Annex ZB (informative): Relationship between the present document and the essential requirements of Directive (EU) 2019/882", "shortTitle": "Annex ZB: Directive (EU) 2019/882", "pdfPages": "260-278", "group": "Annexes" },
-  { "slug": "annex-zc-other-directives", "title": "Annex ZC (informative): Relationship between the present document and the essential requirements of other Directives", "shortTitle": "Annex ZC: Other Directives", "pdfPages": "278-279", "group": "Annexes" },
+  { "slug": "annex-zc-other-directives", "title": "Annex ZC (informative): Relationship between the present document and the essential requirements of other Directives according to Directive (EU) 2019/882, Section VI of Annex I", "shortTitle": "Annex ZC: Other Directives", "pdfPages": "278-279", "group": "Annexes" },
   { "slug": "annex-f-change-history", "title": "Annex F (informative): Change history", "shortTitle": "Annex F: Change history", "pdfPages": "279-280", "group": "Annexes" }
 ]

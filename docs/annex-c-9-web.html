@@ -1,14 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Annex C.9 (normative): Web | ETSI EN 301 549 V4.1.0 Online</title>
-<meta name="description" content="Annex C.9 (normative): Web — ETSI EN 301 549 V4.1.0 accessible HTML edition.">
+<meta name="description" content="Annex C.9 (normative): Web — ETSI EN 301 549 V4.1.0 accessible HTML edition (final draft, under approval).">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-<a class="skip-link" href="#main-content">Skip to main content</a>
+<a class="skip-link" id="top" href="#main-content">Skip to main content</a>
 
 <header class="site-header">
   <div class="site-header__inner">
@@ -34,11 +34,12 @@
         <p class="doc-header__meta">ETSI EN 301 549 V4.1.0 (2026-06) &middot; source PDF p.178-192</p>
       </div>
     </div>
-    <div class="doc-toolbar" role="toolbar" aria-label="Document actions">
+    <div class="doc-toolbar" role="group" aria-label="Document actions">
       <button type="button" class="doc-toolbar__btn" data-action="print">Print</button>
       <a class="doc-toolbar__btn" href="source/en_301549v040100va.pdf">Download PDF</a>
       <button type="button" class="doc-toolbar__btn" data-action="copy-link">
         <span class="doc-toolbar__btn-label">Copy link</span>
+        <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
       </button>
     </div>
   </div>
@@ -51,6 +52,8 @@
 <p><a href="index.html">Home</a></p>
 <details><summary>Front matter</summary><ul>
 <li><a href="about.html">About this standard</a>
+</li>
+<li><a href="accessibility-statement.html">Accessibility statement</a>
 </li>
 </ul></details>
 <details><summary>Clauses</summary><ul>
@@ -116,38 +119,38 @@
 </li>
 <li><a href="annex-c-9-web.html" aria-current="page">Annex C.9: Web</a>
 <ul class="site-nav__subsections">
-<li><a href="#c-9-0-general-informative" data-subsection>C.9.0 General (informative)</a>
+<li><a href="#c-9-0" data-subsection>C.9.0 General (informative)</a>
 </li>
-<li><a href="#c-9-1-perceivable" data-subsection>C.9.1 Perceivable</a>
+<li><a href="#c-9-1" data-subsection>C.9.1 Perceivable</a>
 <ul class="site-nav__subsections site-nav__subsections--nested">
-<li><a href="#c-9-1-1-text-alternatives" data-subsection>C.9.1.1 Text alternatives</a></li>
-<li><a href="#c-9-1-2-time-based-media" data-subsection>C.9.1.2 Time-based media</a></li>
-<li><a href="#c-9-1-3-adaptable" data-subsection>C.9.1.3 Adaptable</a></li>
-<li><a href="#c-9-1-4-distinguishable" data-subsection>C.9.1.4 Distinguishable</a></li>
+<li><a href="#c-9-1-1" data-subsection>C.9.1.1 Text alternatives</a></li>
+<li><a href="#c-9-1-2" data-subsection>C.9.1.2 Time-based media</a></li>
+<li><a href="#c-9-1-3" data-subsection>C.9.1.3 Adaptable</a></li>
+<li><a href="#c-9-1-4" data-subsection>C.9.1.4 Distinguishable</a></li>
 </ul></li>
-<li><a href="#c-9-2-operable" data-subsection>C.9.2 Operable</a>
+<li><a href="#c-9-2" data-subsection>C.9.2 Operable</a>
 <ul class="site-nav__subsections site-nav__subsections--nested">
-<li><a href="#c-9-2-1-keyboard-accessible" data-subsection>C.9.2.1 Keyboard accessible</a></li>
-<li><a href="#c-9-2-2-enough-time" data-subsection>C.9.2.2 Enough time</a></li>
-<li><a href="#c-9-2-3-seizures-and-physical-reactions" data-subsection>C.9.2.3 Seizures and physical reactions</a></li>
-<li><a href="#c-9-2-4-navigable" data-subsection>C.9.2.4 Navigable</a></li>
-<li><a href="#c-9-2-5-input-modalities" data-subsection>C.9.2.5 Input modalities</a></li>
+<li><a href="#c-9-2-1" data-subsection>C.9.2.1 Keyboard accessible</a></li>
+<li><a href="#c-9-2-2" data-subsection>C.9.2.2 Enough time</a></li>
+<li><a href="#c-9-2-3" data-subsection>C.9.2.3 Seizures and physical reactions</a></li>
+<li><a href="#c-9-2-4" data-subsection>C.9.2.4 Navigable</a></li>
+<li><a href="#c-9-2-5" data-subsection>C.9.2.5 Input modalities</a></li>
 </ul></li>
-<li><a href="#c-9-3-understandable" data-subsection>C.9.3 Understandable</a>
+<li><a href="#c-9-3" data-subsection>C.9.3 Understandable</a>
 <ul class="site-nav__subsections site-nav__subsections--nested">
-<li><a href="#c-9-3-1-readable" data-subsection>C.9.3.1 Readable</a></li>
-<li><a href="#c-9-3-2-predictable" data-subsection>C.9.3.2 Predictable</a></li>
-<li><a href="#c-9-3-3-input-assistance" data-subsection>C.9.3.3 Input assistance</a></li>
+<li><a href="#c-9-3-1" data-subsection>C.9.3.1 Readable</a></li>
+<li><a href="#c-9-3-2" data-subsection>C.9.3.2 Predictable</a></li>
+<li><a href="#c-9-3-3" data-subsection>C.9.3.3 Input assistance</a></li>
 </ul></li>
-<li><a href="#c-9-4-robust" data-subsection>C.9.4 Robust</a>
+<li><a href="#c-9-4" data-subsection>C.9.4 Robust</a>
 <ul class="site-nav__subsections site-nav__subsections--nested">
-<li><a href="#c-9-4-1-compatible" data-subsection>C.9.4.1 Compatible</a></li>
+<li><a href="#c-9-4-1" data-subsection>C.9.4.1 Compatible</a></li>
 </ul></li>
-<li><a href="#c-9-5-wcag-2-2-aaa-success-criteria-informative" data-subsection>C.9.5 WCAG 2.2 AAA Success Criteria (informative)</a>
+<li><a href="#c-9-5" data-subsection>C.9.5 WCAG 2.2 AAA Success Criteria (informative)</a>
 </li>
-<li><a href="#c-9-6-wcag-2-2-conformance-requirements" data-subsection>C.9.6 WCAG 2.2 conformance requirements</a>
+<li><a href="#c-9-6" data-subsection>C.9.6 WCAG 2.2 conformance requirements</a>
 </li>
-<li><a href="#c-9-7-user-preferences-for-web-pages" data-subsection>C.9.7 User preferences for web pages</a>
+<li><a href="#c-9-7" data-subsection>C.9.7 User preferences for web pages</a>
 </li>
 </ul>
 </li>
@@ -164,17 +167,17 @@
 </ul></details>
 </nav>
   <main id="main-content" tabindex="-1">
+    <p class="draft-notice"><strong>Draft under approval.</strong> This content may change. The ETSI PDF remains the authoritative source. <a href="accessibility-statement.html">Accessibility statement</a>.</p>
     <div class="content">
-      <h1>Annex C.9 (normative): Web</h1>
 
-<h2 id="c-9-0-general-informative">C.9.0 General (informative)</h2>
+<h2 id="c-9-0">C.9.0 General (informative) <a class="heading-permalink" href="#c-9-0" data-copy-link aria-label="Copy link to C.9.0 General (informative)"><span aria-hidden="true">#</span></a></h2>
 <p>Clause 9.0 is informative only and contains no testable requirements.</p>
 
-<h2 id="c-9-1-perceivable">C.9.1 Perceivable</h2>
+<h2 id="c-9-1">C.9.1 Perceivable <a class="heading-permalink" href="#c-9-1" data-copy-link aria-label="Copy link to C.9.1 Perceivable"><span aria-hidden="true">#</span></a></h2>
 
-<h3 id="c-9-1-1-text-alternatives">C.9.1.1 Text alternatives</h3>
+<h3 id="c-9-1-1">C.9.1.1 Text alternatives <a class="heading-permalink" href="#c-9-1-1" data-copy-link aria-label="Copy link to C.9.1.1 Text alternatives"><span aria-hidden="true">#</span></a></h3>
 
-<h4>C.9.1.1.1 Non-text content</h4>
+<h4 id="c-9-1-1-1">C.9.1.1.1 Non-text content <a class="heading-permalink" href="#c-9-1-1-1" data-copy-link aria-label="Copy link to C.9.1.1.1 Non-text content"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -187,9 +190,9 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.1.1 Non-text content (Do not need to meet or test.)</li>
 </ul>
 
-<h3 id="c-9-1-2-time-based-media">C.9.1.2 Time-based media</h3>
+<h3 id="c-9-1-2">C.9.1.2 Time-based media <a class="heading-permalink" href="#c-9-1-2" data-copy-link aria-label="Copy link to C.9.1.2 Time-based media"><span aria-hidden="true">#</span></a></h3>
 
-<h4>C.9.1.2.1 Audio-only and video-only (pre-recorded)</h4>
+<h4 id="c-9-1-2-1">C.9.1.2.1 Audio-only and video-only (pre-recorded) <a class="heading-permalink" href="#c-9-1-2-1" data-copy-link aria-label="Copy link to C.9.1.2.1 Audio-only and video-only (pre-recorded)"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -202,7 +205,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.2.1 Audio-only and Video-only (Prerecorded) (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.1.2.2 Subtitles (pre-recorded)</h4>
+<h4 id="c-9-1-2-2">C.9.1.2.2 Subtitles (pre-recorded) <a class="heading-permalink" href="#c-9-1-2-2" data-copy-link aria-label="Copy link to C.9.1.2.2 Subtitles (pre-recorded)"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -215,7 +218,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.2.2 Captions (Prerecorded) (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.1.2.3 Audio description or media alternative (pre-recorded)</h4>
+<h4 id="c-9-1-2-3">C.9.1.2.3 Audio description or media alternative (pre-recorded) <a class="heading-permalink" href="#c-9-1-2-3" data-copy-link aria-label="Copy link to C.9.1.2.3 Audio description or media alternative (pre-recorded)"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -228,7 +231,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.2.3 Audio Description or Media Alternative (Prerecorded) (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.1.2.4 Subtitles (live)</h4>
+<h4 id="c-9-1-2-4">C.9.1.2.4 Subtitles (live) <a class="heading-permalink" href="#c-9-1-2-4" data-copy-link aria-label="Copy link to C.9.1.2.4 Subtitles (live)"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -241,7 +244,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.2.4 Captions (Live) (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.1.2.5 Audio description (pre-recorded)</h4>
+<h4 id="c-9-1-2-5">C.9.1.2.5 Audio description (pre-recorded) <a class="heading-permalink" href="#c-9-1-2-5" data-copy-link aria-label="Copy link to C.9.1.2.5 Audio description (pre-recorded)"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -254,9 +257,9 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.2.5 Audio Description (Prerecorded) (Do not need to meet or test.)</li>
 </ul>
 
-<h3 id="c-9-1-3-adaptable">C.9.1.3 Adaptable</h3>
+<h3 id="c-9-1-3">C.9.1.3 Adaptable <a class="heading-permalink" href="#c-9-1-3" data-copy-link aria-label="Copy link to C.9.1.3 Adaptable"><span aria-hidden="true">#</span></a></h3>
 
-<h4>C.9.1.3.1 Info and relationships</h4>
+<h4 id="c-9-1-3-1">C.9.1.3.1 Info and relationships <a class="heading-permalink" href="#c-9-1-3-1" data-copy-link aria-label="Copy link to C.9.1.3.1 Info and relationships"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -269,7 +272,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.3.1 Info and Relationships (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.1.3.2 Meaningful sequence</h4>
+<h4 id="c-9-1-3-2">C.9.1.3.2 Meaningful sequence <a class="heading-permalink" href="#c-9-1-3-2" data-copy-link aria-label="Copy link to C.9.1.3.2 Meaningful sequence"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -282,7 +285,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.3.2 Meaningful Sequence (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.1.3.3 Sensory characteristics</h4>
+<h4 id="c-9-1-3-3">C.9.1.3.3 Sensory characteristics <a class="heading-permalink" href="#c-9-1-3-3" data-copy-link aria-label="Copy link to C.9.1.3.3 Sensory characteristics"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -295,7 +298,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.3.3 Sensory Characteristics (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.1.3.4 Orientation</h4>
+<h4 id="c-9-1-3-4">C.9.1.3.4 Orientation <a class="heading-permalink" href="#c-9-1-3-4" data-copy-link aria-label="Copy link to C.9.1.3.4 Orientation"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -308,7 +311,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.3.4 Orientation (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.1.3.5 Identify input purpose</h4>
+<h4 id="c-9-1-3-5">C.9.1.3.5 Identify input purpose <a class="heading-permalink" href="#c-9-1-3-5" data-copy-link aria-label="Copy link to C.9.1.3.5 Identify input purpose"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -321,9 +324,9 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.3.5 Identify Input Purpose (Do not need to meet or test.)</li>
 </ul>
 
-<h3 id="c-9-1-4-distinguishable">C.9.1.4 Distinguishable</h3>
+<h3 id="c-9-1-4">C.9.1.4 Distinguishable <a class="heading-permalink" href="#c-9-1-4" data-copy-link aria-label="Copy link to C.9.1.4 Distinguishable"><span aria-hidden="true">#</span></a></h3>
 
-<h4>C.9.1.4.1 Use of colour</h4>
+<h4 id="c-9-1-4-1">C.9.1.4.1 Use of colour <a class="heading-permalink" href="#c-9-1-4-1" data-copy-link aria-label="Copy link to C.9.1.4.1 Use of colour"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -336,7 +339,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.4.1 Use of Color (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.1.4.2 Audio control</h4>
+<h4 id="c-9-1-4-2">C.9.1.4.2 Audio control <a class="heading-permalink" href="#c-9-1-4-2" data-copy-link aria-label="Copy link to C.9.1.4.2 Audio control"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -349,7 +352,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.4.2 Audio Control (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.1.4.3 Contrast (minimum)</h4>
+<h4 id="c-9-1-4-3">C.9.1.4.3 Contrast (minimum) <a class="heading-permalink" href="#c-9-1-4-3" data-copy-link aria-label="Copy link to C.9.1.4.3 Contrast (minimum)"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -362,7 +365,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.4.3 Contrast (Minimum) (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.1.4.4 Resize text</h4>
+<h4 id="c-9-1-4-4">C.9.1.4.4 Resize text <a class="heading-permalink" href="#c-9-1-4-4" data-copy-link aria-label="Copy link to C.9.1.4.4 Resize text"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -375,7 +378,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.4.4 Resize text (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.1.4.5 Images of text</h4>
+<h4 id="c-9-1-4-5">C.9.1.4.5 Images of text <a class="heading-permalink" href="#c-9-1-4-5" data-copy-link aria-label="Copy link to C.9.1.4.5 Images of text"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -388,15 +391,15 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.4.5 Images of Text (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.1.4.6 Void</h4>
+<h4 id="c-9-1-4-6">C.9.1.4.6 Void <a class="heading-permalink" href="#c-9-1-4-6" data-copy-link aria-label="Copy link to C.9.1.4.6 Void"><span aria-hidden="true">#</span></a></h4>
 
-<h4>C.9.1.4.7 Void</h4>
+<h4 id="c-9-1-4-7">C.9.1.4.7 Void <a class="heading-permalink" href="#c-9-1-4-7" data-copy-link aria-label="Copy link to C.9.1.4.7 Void"><span aria-hidden="true">#</span></a></h4>
 
-<h4>C.9.1.4.8 Void</h4>
+<h4 id="c-9-1-4-8">C.9.1.4.8 Void <a class="heading-permalink" href="#c-9-1-4-8" data-copy-link aria-label="Copy link to C.9.1.4.8 Void"><span aria-hidden="true">#</span></a></h4>
 
-<h4>C.9.1.4.9 Void</h4>
+<h4 id="c-9-1-4-9">C.9.1.4.9 Void <a class="heading-permalink" href="#c-9-1-4-9" data-copy-link aria-label="Copy link to C.9.1.4.9 Void"><span aria-hidden="true">#</span></a></h4>
 
-<h4>C.9.1.4.10 Reflow</h4>
+<h4 id="c-9-1-4-10">C.9.1.4.10 Reflow <a class="heading-permalink" href="#c-9-1-4-10" data-copy-link aria-label="Copy link to C.9.1.4.10 Reflow"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -409,7 +412,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.4.10 Reflow (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.1.4.11 Non-text contrast</h4>
+<h4 id="c-9-1-4-11">C.9.1.4.11 Non-text contrast <a class="heading-permalink" href="#c-9-1-4-11" data-copy-link aria-label="Copy link to C.9.1.4.11 Non-text contrast"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -422,7 +425,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.4.11 Non-text Contrast (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.1.4.12 Text spacing</h4>
+<h4 id="c-9-1-4-12">C.9.1.4.12 Text spacing <a class="heading-permalink" href="#c-9-1-4-12" data-copy-link aria-label="Copy link to C.9.1.4.12 Text spacing"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -435,7 +438,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.4.12 Text spacing (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.1.4.13 Content on hover or focus</h4>
+<h4 id="c-9-1-4-13">C.9.1.4.13 Content on hover or focus <a class="heading-permalink" href="#c-9-1-4-13" data-copy-link aria-label="Copy link to C.9.1.4.13 Content on hover or focus"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -448,11 +451,11 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.4.13 Content on Hover or Focus (Do not need to meet or test.)</li>
 </ul>
 
-<h2 id="c-9-2-operable">C.9.2 Operable</h2>
+<h2 id="c-9-2">C.9.2 Operable <a class="heading-permalink" href="#c-9-2" data-copy-link aria-label="Copy link to C.9.2 Operable"><span aria-hidden="true">#</span></a></h2>
 
-<h3 id="c-9-2-1-keyboard-accessible">C.9.2.1 Keyboard accessible</h3>
+<h3 id="c-9-2-1">C.9.2.1 Keyboard accessible <a class="heading-permalink" href="#c-9-2-1" data-copy-link aria-label="Copy link to C.9.2.1 Keyboard accessible"><span aria-hidden="true">#</span></a></h3>
 
-<h4>C.9.2.1.1 Keyboard</h4>
+<h4 id="c-9-2-1-1">C.9.2.1.1 Keyboard <a class="heading-permalink" href="#c-9-2-1-1" data-copy-link aria-label="Copy link to C.9.2.1.1 Keyboard"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -465,7 +468,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.1.1 Keyboard (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.2.1.2 No keyboard trap</h4>
+<h4 id="c-9-2-1-2">C.9.2.1.2 No keyboard trap <a class="heading-permalink" href="#c-9-2-1-2" data-copy-link aria-label="Copy link to C.9.2.1.2 No keyboard trap"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -478,9 +481,9 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.1.2 No Keyboard Trap (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.2.1.3 Void</h4>
+<h4 id="c-9-2-1-3">C.9.2.1.3 Void <a class="heading-permalink" href="#c-9-2-1-3" data-copy-link aria-label="Copy link to C.9.2.1.3 Void"><span aria-hidden="true">#</span></a></h4>
 
-<h4>C.9.2.1.4 Character key shortcuts</h4>
+<h4 id="c-9-2-1-4">C.9.2.1.4 Character key shortcuts <a class="heading-permalink" href="#c-9-2-1-4" data-copy-link aria-label="Copy link to C.9.2.1.4 Character key shortcuts"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -493,9 +496,9 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.1.4 Character Key Shortcuts (Do not need to meet or test.)</li>
 </ul>
 
-<h3 id="c-9-2-2-enough-time">C.9.2.2 Enough time</h3>
+<h3 id="c-9-2-2">C.9.2.2 Enough time <a class="heading-permalink" href="#c-9-2-2" data-copy-link aria-label="Copy link to C.9.2.2 Enough time"><span aria-hidden="true">#</span></a></h3>
 
-<h4>C.9.2.2.1 Timing adjustable</h4>
+<h4 id="c-9-2-2-1">C.9.2.2.1 Timing adjustable <a class="heading-permalink" href="#c-9-2-2-1" data-copy-link aria-label="Copy link to C.9.2.2.1 Timing adjustable"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -508,7 +511,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.2.1 Timing Adjustable (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.2.2.2 Pause, stop, hide</h4>
+<h4 id="c-9-2-2-2">C.9.2.2.2 Pause, stop, hide <a class="heading-permalink" href="#c-9-2-2-2" data-copy-link aria-label="Copy link to C.9.2.2.2 Pause, stop, hide"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -521,9 +524,9 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.2.2 Pause, Stop, Hide (Do not need to meet or test.)</li>
 </ul>
 
-<h3 id="c-9-2-3-seizures-and-physical-reactions">C.9.2.3 Seizures and physical reactions</h3>
+<h3 id="c-9-2-3">C.9.2.3 Seizures and physical reactions <a class="heading-permalink" href="#c-9-2-3" data-copy-link aria-label="Copy link to C.9.2.3 Seizures and physical reactions"><span aria-hidden="true">#</span></a></h3>
 
-<h4>C.9.2.3.1 Three flashes or below threshold</h4>
+<h4 id="c-9-2-3-1">C.9.2.3.1 Three flashes or below threshold <a class="heading-permalink" href="#c-9-2-3-1" data-copy-link aria-label="Copy link to C.9.2.3.1 Three flashes or below threshold"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -536,9 +539,9 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.3.1 Three Flashes or Below Threshold (Do not need to meet or test.)</li>
 </ul>
 
-<h3 id="c-9-2-4-navigable">C.9.2.4 Navigable</h3>
+<h3 id="c-9-2-4">C.9.2.4 Navigable <a class="heading-permalink" href="#c-9-2-4" data-copy-link aria-label="Copy link to C.9.2.4 Navigable"><span aria-hidden="true">#</span></a></h3>
 
-<h4>C.9.2.4.1 Bypass blocks</h4>
+<h4 id="c-9-2-4-1">C.9.2.4.1 Bypass blocks <a class="heading-permalink" href="#c-9-2-4-1" data-copy-link aria-label="Copy link to C.9.2.4.1 Bypass blocks"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -551,7 +554,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.4.1 Bypass Blocks (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.2.4.2 Page titled</h4>
+<h4 id="c-9-2-4-2">C.9.2.4.2 Page titled <a class="heading-permalink" href="#c-9-2-4-2" data-copy-link aria-label="Copy link to C.9.2.4.2 Page titled"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -564,7 +567,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.4.2 Page Titled (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.2.4.3 Focus order</h4>
+<h4 id="c-9-2-4-3">C.9.2.4.3 Focus order <a class="heading-permalink" href="#c-9-2-4-3" data-copy-link aria-label="Copy link to C.9.2.4.3 Focus order"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -577,7 +580,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.4.3 Focus Order (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.2.4.4 Link purpose (in context)</h4>
+<h4 id="c-9-2-4-4">C.9.2.4.4 Link purpose (in context) <a class="heading-permalink" href="#c-9-2-4-4" data-copy-link aria-label="Copy link to C.9.2.4.4 Link purpose (in context)"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -590,7 +593,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.4.4 Link Purpose (In Context) (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.2.4.5 Multiple ways</h4>
+<h4 id="c-9-2-4-5">C.9.2.4.5 Multiple ways <a class="heading-permalink" href="#c-9-2-4-5" data-copy-link aria-label="Copy link to C.9.2.4.5 Multiple ways"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -603,7 +606,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.4.5 Multiple Ways (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.2.4.6 Headings and labels</h4>
+<h4 id="c-9-2-4-6">C.9.2.4.6 Headings and labels <a class="heading-permalink" href="#c-9-2-4-6" data-copy-link aria-label="Copy link to C.9.2.4.6 Headings and labels"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -616,7 +619,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.4.6 Headings and Labels (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.2.4.7 Focus visible</h4>
+<h4 id="c-9-2-4-7">C.9.2.4.7 Focus visible <a class="heading-permalink" href="#c-9-2-4-7" data-copy-link aria-label="Copy link to C.9.2.4.7 Focus visible"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -629,13 +632,13 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.4.7 Focus Visible (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.2.4.8 Void</h4>
+<h4 id="c-9-2-4-8">C.9.2.4.8 Void <a class="heading-permalink" href="#c-9-2-4-8" data-copy-link aria-label="Copy link to C.9.2.4.8 Void"><span aria-hidden="true">#</span></a></h4>
 
-<h4>C.9.2.4.9 Void</h4>
+<h4 id="c-9-2-4-9">C.9.2.4.9 Void <a class="heading-permalink" href="#c-9-2-4-9" data-copy-link aria-label="Copy link to C.9.2.4.9 Void"><span aria-hidden="true">#</span></a></h4>
 
-<h4>C.9.2.4.10 Void</h4>
+<h4 id="c-9-2-4-10">C.9.2.4.10 Void <a class="heading-permalink" href="#c-9-2-4-10" data-copy-link aria-label="Copy link to C.9.2.4.10 Void"><span aria-hidden="true">#</span></a></h4>
 
-<h4>C.9.2.4.11 Focus not obscured (minimum)</h4>
+<h4 id="c-9-2-4-11">C.9.2.4.11 Focus not obscured (minimum) <a class="heading-permalink" href="#c-9-2-4-11" data-copy-link aria-label="Copy link to C.9.2.4.11 Focus not obscured (minimum)"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -648,9 +651,9 @@
 <li>Not applicable: If any requirement precondition is false or the non-web document does not contain content relevant to WCAG 2.2 Success Criterion 2.4.11 Focus Not Obscured (Minimum) (Do not need to meet or test.)</li>
 </ul>
 
-<h3 id="c-9-2-5-input-modalities">C.9.2.5 Input modalities</h3>
+<h3 id="c-9-2-5">C.9.2.5 Input modalities <a class="heading-permalink" href="#c-9-2-5" data-copy-link aria-label="Copy link to C.9.2.5 Input modalities"><span aria-hidden="true">#</span></a></h3>
 
-<h4>C.9.2.5.1 Pointer gestures</h4>
+<h4 id="c-9-2-5-1">C.9.2.5.1 Pointer gestures <a class="heading-permalink" href="#c-9-2-5-1" data-copy-link aria-label="Copy link to C.9.2.5.1 Pointer gestures"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -663,7 +666,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.5.1 Pointer Gestures (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.2.5.2 Pointer cancellation</h4>
+<h4 id="c-9-2-5-2">C.9.2.5.2 Pointer cancellation <a class="heading-permalink" href="#c-9-2-5-2" data-copy-link aria-label="Copy link to C.9.2.5.2 Pointer cancellation"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -676,7 +679,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.5.2 Pointer Cancellation (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.2.5.3 Label in name</h4>
+<h4 id="c-9-2-5-3">C.9.2.5.3 Label in name <a class="heading-permalink" href="#c-9-2-5-3" data-copy-link aria-label="Copy link to C.9.2.5.3 Label in name"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -689,7 +692,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.5.3 Label in Name (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.2.5.4 Motion actuation</h4>
+<h4 id="c-9-2-5-4">C.9.2.5.4 Motion actuation <a class="heading-permalink" href="#c-9-2-5-4" data-copy-link aria-label="Copy link to C.9.2.5.4 Motion actuation"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -702,11 +705,11 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.5.4 Motion Actuation (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.2.5.5 Void</h4>
+<h4 id="c-9-2-5-5">C.9.2.5.5 Void <a class="heading-permalink" href="#c-9-2-5-5" data-copy-link aria-label="Copy link to C.9.2.5.5 Void"><span aria-hidden="true">#</span></a></h4>
 
-<h4>C.9.2.5.6 Void</h4>
+<h4 id="c-9-2-5-6">C.9.2.5.6 Void <a class="heading-permalink" href="#c-9-2-5-6" data-copy-link aria-label="Copy link to C.9.2.5.6 Void"><span aria-hidden="true">#</span></a></h4>
 
-<h4>C.9.2.5.7 Dragging movements</h4>
+<h4 id="c-9-2-5-7">C.9.2.5.7 Dragging movements <a class="heading-permalink" href="#c-9-2-5-7" data-copy-link aria-label="Copy link to C.9.2.5.7 Dragging movements"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -719,7 +722,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.5.7 Dragging movements (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.2.5.8 Target size (minimum)</h4>
+<h4 id="c-9-2-5-8">C.9.2.5.8 Target size (minimum) <a class="heading-permalink" href="#c-9-2-5-8" data-copy-link aria-label="Copy link to C.9.2.5.8 Target size (minimum)"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -732,11 +735,11 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.5.8 Target size (minimum) (Do not need to meet or test.)</li>
 </ul>
 
-<h2 id="c-9-3-understandable">C.9.3 Understandable</h2>
+<h2 id="c-9-3">C.9.3 Understandable <a class="heading-permalink" href="#c-9-3" data-copy-link aria-label="Copy link to C.9.3 Understandable"><span aria-hidden="true">#</span></a></h2>
 
-<h3 id="c-9-3-1-readable">C.9.3.1 Readable</h3>
+<h3 id="c-9-3-1">C.9.3.1 Readable <a class="heading-permalink" href="#c-9-3-1" data-copy-link aria-label="Copy link to C.9.3.1 Readable"><span aria-hidden="true">#</span></a></h3>
 
-<h4>C.9.3.1.1 Language of page</h4>
+<h4 id="c-9-3-1-1">C.9.3.1.1 Language of page <a class="heading-permalink" href="#c-9-3-1-1" data-copy-link aria-label="Copy link to C.9.3.1.1 Language of page"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -749,7 +752,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.1.1 Language of Page (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.3.1.2 Language of parts</h4>
+<h4 id="c-9-3-1-2">C.9.3.1.2 Language of parts <a class="heading-permalink" href="#c-9-3-1-2" data-copy-link aria-label="Copy link to C.9.3.1.2 Language of parts"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -762,9 +765,9 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.1.2 Language of Parts (Do not need to meet or test.)</li>
 </ul>
 
-<h3 id="c-9-3-2-predictable">C.9.3.2 Predictable</h3>
+<h3 id="c-9-3-2">C.9.3.2 Predictable <a class="heading-permalink" href="#c-9-3-2" data-copy-link aria-label="Copy link to C.9.3.2 Predictable"><span aria-hidden="true">#</span></a></h3>
 
-<h4>C.9.3.2.1 On focus</h4>
+<h4 id="c-9-3-2-1">C.9.3.2.1 On focus <a class="heading-permalink" href="#c-9-3-2-1" data-copy-link aria-label="Copy link to C.9.3.2.1 On focus"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -777,7 +780,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.2.1 On Focus (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.3.2.2 On input</h4>
+<h4 id="c-9-3-2-2">C.9.3.2.2 On input <a class="heading-permalink" href="#c-9-3-2-2" data-copy-link aria-label="Copy link to C.9.3.2.2 On input"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -790,7 +793,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.2.2 On Input (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.3.2.3 Consistent navigation</h4>
+<h4 id="c-9-3-2-3">C.9.3.2.3 Consistent navigation <a class="heading-permalink" href="#c-9-3-2-3" data-copy-link aria-label="Copy link to C.9.3.2.3 Consistent navigation"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -803,7 +806,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.2.3 Consistent Navigation (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.3.2.4 Consistent identification</h4>
+<h4 id="c-9-3-2-4">C.9.3.2.4 Consistent identification <a class="heading-permalink" href="#c-9-3-2-4" data-copy-link aria-label="Copy link to C.9.3.2.4 Consistent identification"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -816,9 +819,9 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.2.4 Consistent Identification (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.3.2.5 Void</h4>
+<h4 id="c-9-3-2-5">C.9.3.2.5 Void <a class="heading-permalink" href="#c-9-3-2-5" data-copy-link aria-label="Copy link to C.9.3.2.5 Void"><span aria-hidden="true">#</span></a></h4>
 
-<h4>C.9.3.2.6 Consistent help</h4>
+<h4 id="c-9-3-2-6">C.9.3.2.6 Consistent help <a class="heading-permalink" href="#c-9-3-2-6" data-copy-link aria-label="Copy link to C.9.3.2.6 Consistent help"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -831,9 +834,9 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.2.6 Consistent Help (Do not need to meet or test.)</li>
 </ul>
 
-<h3 id="c-9-3-3-input-assistance">C.9.3.3 Input assistance</h3>
+<h3 id="c-9-3-3">C.9.3.3 Input assistance <a class="heading-permalink" href="#c-9-3-3" data-copy-link aria-label="Copy link to C.9.3.3 Input assistance"><span aria-hidden="true">#</span></a></h3>
 
-<h4>C.9.3.3.1 Error identification</h4>
+<h4 id="c-9-3-3-1">C.9.3.3.1 Error identification <a class="heading-permalink" href="#c-9-3-3-1" data-copy-link aria-label="Copy link to C.9.3.3.1 Error identification"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -846,7 +849,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.3.1 Error Identification (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.3.3.2 Labels or instructions</h4>
+<h4 id="c-9-3-3-2">C.9.3.3.2 Labels or instructions <a class="heading-permalink" href="#c-9-3-3-2" data-copy-link aria-label="Copy link to C.9.3.3.2 Labels or instructions"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -859,7 +862,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.3.2 Labels or Instructions (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.3.3.3 Error suggestion</h4>
+<h4 id="c-9-3-3-3">C.9.3.3.3 Error suggestion <a class="heading-permalink" href="#c-9-3-3-3" data-copy-link aria-label="Copy link to C.9.3.3.3 Error suggestion"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -872,7 +875,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.3.3 Error Suggestion (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.3.3.4 Error prevention (legal, financial, data)</h4>
+<h4 id="c-9-3-3-4">C.9.3.3.4 Error prevention (legal, financial, data) <a class="heading-permalink" href="#c-9-3-3-4" data-copy-link aria-label="Copy link to C.9.3.3.4 Error prevention (legal, financial, data)"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -885,11 +888,11 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.3.4 Error Prevention (Legal, Financial, Data) (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.3.3.5 Void</h4>
+<h4 id="c-9-3-3-5">C.9.3.3.5 Void <a class="heading-permalink" href="#c-9-3-3-5" data-copy-link aria-label="Copy link to C.9.3.3.5 Void"><span aria-hidden="true">#</span></a></h4>
 
-<h4>C.9.3.3.6 Void</h4>
+<h4 id="c-9-3-3-6">C.9.3.3.6 Void <a class="heading-permalink" href="#c-9-3-3-6" data-copy-link aria-label="Copy link to C.9.3.3.6 Void"><span aria-hidden="true">#</span></a></h4>
 
-<h4>C.9.3.3.7 Redundant entry</h4>
+<h4 id="c-9-3-3-7">C.9.3.3.7 Redundant entry <a class="heading-permalink" href="#c-9-3-3-7" data-copy-link aria-label="Copy link to C.9.3.3.7 Redundant entry"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -902,7 +905,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG.2 Success Criterion 3.3.7 Redundant Entry (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.3.3.8 Accessible authentication (minimum)</h4>
+<h4 id="c-9-3-3-8">C.9.3.3.8 Accessible authentication (minimum) <a class="heading-permalink" href="#c-9-3-3-8" data-copy-link aria-label="Copy link to C.9.3.3.8 Accessible authentication (minimum)"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -915,13 +918,13 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.3.8 Accessible Authentication (Minimum) (Do not need to meet or test.)</li>
 </ul>
 
-<h2 id="c-9-4-robust">C.9.4 Robust</h2>
+<h2 id="c-9-4">C.9.4 Robust <a class="heading-permalink" href="#c-9-4" data-copy-link aria-label="Copy link to C.9.4 Robust"><span aria-hidden="true">#</span></a></h2>
 
-<h3 id="c-9-4-1-compatible">C.9.4.1 Compatible</h3>
+<h3 id="c-9-4-1">C.9.4.1 Compatible <a class="heading-permalink" href="#c-9-4-1" data-copy-link aria-label="Copy link to C.9.4.1 Compatible"><span aria-hidden="true">#</span></a></h3>
 
-<h4>C.9.4.1.1 Void</h4>
+<h4 id="c-9-4-1-1">C.9.4.1.1 Void <a class="heading-permalink" href="#c-9-4-1-1" data-copy-link aria-label="Copy link to C.9.4.1.1 Void"><span aria-hidden="true">#</span></a></h4>
 
-<h4>C.9.4.1.2 Name, role, value</h4>
+<h4 id="c-9-4-1-2">C.9.4.1.2 Name, role, value <a class="heading-permalink" href="#c-9-4-1-2" data-copy-link aria-label="Copy link to C.9.4.1.2 Name, role, value"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -934,7 +937,7 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 4.1.2 Name, Role, Value (Do not need to meet or test.)</li>
 </ul>
 
-<h4>C.9.4.1.3 Status messages</h4>
+<h4 id="c-9-4-1-3">C.9.4.1.3 Status messages <a class="heading-permalink" href="#c-9-4-1-3" data-copy-link aria-label="Copy link to C.9.4.1.3 Status messages"><span aria-hidden="true">#</span></a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -947,10 +950,10 @@
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 4.1.3 Status Messages (Do not need to meet or test.)</li>
 </ul>
 
-<h2 id="c-9-5-wcag-2-2-aaa-success-criteria-informative">C.9.5 WCAG 2.2 AAA Success Criteria (informative)</h2>
+<h2 id="c-9-5">C.9.5 WCAG 2.2 AAA Success Criteria (informative) <a class="heading-permalink" href="#c-9-5" data-copy-link aria-label="Copy link to C.9.5 WCAG 2.2 AAA Success Criteria (informative)"><span aria-hidden="true">#</span></a></h2>
 <p>Clause 9.5 is informative only and contains no testable requirements.</p>
 
-<h2 id="c-9-6-wcag-2-2-conformance-requirements">C.9.6 WCAG 2.2 conformance requirements</h2>
+<h2 id="c-9-6">C.9.6 WCAG 2.2 conformance requirements <a class="heading-permalink" href="#c-9-6" data-copy-link aria-label="Copy link to C.9.6 WCAG 2.2 conformance requirements"><span aria-hidden="true">#</span></a></h2>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -969,7 +972,7 @@
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
 
-<h2 id="c-9-7-user-preferences-for-web-pages">C.9.7 User preferences for web pages</h2>
+<h2 id="c-9-7">C.9.7 User preferences for web pages <a class="heading-permalink" href="#c-9-7" data-copy-link aria-label="Copy link to C.9.7 User preferences for web pages"><span aria-hidden="true">#</span></a></h2>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
 <p><strong>Preconditions:</strong></p>
@@ -1005,11 +1008,13 @@
   </main>
 </div>
 
-<button type="button" class="back-to-top" aria-label="Back to top of page">&uarr; Back to top</button>
+<a class="back-to-top" href="#top">&uarr; Back to top</a>
+
+<div id="status-live" class="visually-hidden" role="status" aria-live="polite"></div>
 
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <p>This site republishes the text of <cite>ETSI EN 301 549 V4.1.0: Accessibility requirements for ICT products and services</cite> as an accessible, WCAG 2.2 AA HTML edition. It is not an official ETSI publication.</p>
+    <p>This site republishes the text of <cite>ETSI EN 301 549 V4.1.0: Accessibility requirements for ICT products and services</cite> as an HTML edition, designed and tested with the aim of meeting WCAG 2.2 Level AA &mdash; see the <a href="accessibility-statement.html">accessibility statement</a> for what has and hasn't been verified. It is not an official ETSI publication, and this version of the standard is a final draft under approval, not yet published.</p>
     <p>Source: <a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/">ETSI EN 301 549 deliverables</a>. Original PDF: <a href="source/en_301549v040100va.pdf">en_301549v040100va.pdf</a>.</p>
   </div>
 </footer>

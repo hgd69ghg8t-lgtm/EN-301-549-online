@@ -1,14 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Annex D (informative): Further resources for cognitive accessibility | ETSI EN 301 549 V4.1.0 Online</title>
-<meta name="description" content="Annex D (informative): Further resources for cognitive accessibility — ETSI EN 301 549 V4.1.0 accessible HTML edition.">
+<meta name="description" content="Annex D (informative): Further resources for cognitive accessibility — ETSI EN 301 549 V4.1.0 accessible HTML edition (final draft, under approval).">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-<a class="skip-link" href="#main-content">Skip to main content</a>
+<a class="skip-link" id="top" href="#main-content">Skip to main content</a>
 
 <header class="site-header">
   <div class="site-header__inner">
@@ -34,11 +34,12 @@
         <p class="doc-header__meta">ETSI EN 301 549 V4.1.0 (2026-06) &middot; source PDF p.228-229</p>
       </div>
     </div>
-    <div class="doc-toolbar" role="toolbar" aria-label="Document actions">
+    <div class="doc-toolbar" role="group" aria-label="Document actions">
       <button type="button" class="doc-toolbar__btn" data-action="print">Print</button>
       <a class="doc-toolbar__btn" href="source/en_301549v040100va.pdf">Download PDF</a>
       <button type="button" class="doc-toolbar__btn" data-action="copy-link">
         <span class="doc-toolbar__btn-label">Copy link</span>
+        <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
       </button>
     </div>
   </div>
@@ -51,6 +52,8 @@
 <p><a href="index.html">Home</a></p>
 <details><summary>Front matter</summary><ul>
 <li><a href="about.html">About this standard</a>
+</li>
+<li><a href="accessibility-statement.html">Accessibility statement</a>
 </li>
 </ul></details>
 <details><summary>Clauses</summary><ul>
@@ -130,8 +133,8 @@
 </ul></details>
 </nav>
   <main id="main-content" tabindex="-1">
+    <p class="draft-notice"><strong>Draft under approval.</strong> This content may change. The ETSI PDF remains the authoritative source. <a href="accessibility-statement.html">Accessibility statement</a>.</p>
     <div class="content">
-      <h1>Annex D (informative): Further resources for cognitive accessibility</h1>
 
 <p>It is evident that people with limited cognitive, language and learning abilities have diverse accessibility needs and preferences and that there is a need for further guidelines and standards. Research in this area is ongoing. Relevant standardization work is currently being undertaken by the W3C&reg; Web Accessibility Initiative (WAI). WAI are working to improve the requirements and technical guidance for developers, to better address web accessibility for people with limited cognitive, language and learning abilities. Current W3C activity in this area can be found at <a href="https://www.w3.org/WAI/cognitive/">https://www.w3.org/WAI/cognitive/</a>.</p>
 <p>Ensuring that information is both easy-to-read and uses easy-to-understand language is an important way to support the needs of users with cognitive and learning disabilities. ISO/IEC 23859:2023 [i.60]: &ldquo;Information technology &mdash; User interfaces &mdash; Requirements and recommendations on making written text easy to read and understand&rdquo; is a valuable source of requirements and recommendations in this area.</p>
@@ -155,11 +158,13 @@
   </main>
 </div>
 
-<button type="button" class="back-to-top" aria-label="Back to top of page">&uarr; Back to top</button>
+<a class="back-to-top" href="#top">&uarr; Back to top</a>
+
+<div id="status-live" class="visually-hidden" role="status" aria-live="polite"></div>
 
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <p>This site republishes the text of <cite>ETSI EN 301 549 V4.1.0: Accessibility requirements for ICT products and services</cite> as an accessible, WCAG 2.2 AA HTML edition. It is not an official ETSI publication.</p>
+    <p>This site republishes the text of <cite>ETSI EN 301 549 V4.1.0: Accessibility requirements for ICT products and services</cite> as an HTML edition, designed and tested with the aim of meeting WCAG 2.2 Level AA &mdash; see the <a href="accessibility-statement.html">accessibility statement</a> for what has and hasn't been verified. It is not an official ETSI publication, and this version of the standard is a final draft under approval, not yet published.</p>
     <p>Source: <a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/">ETSI EN 301 549 deliverables</a>. Original PDF: <a href="source/en_301549v040100va.pdf">en_301549v040100va.pdf</a>.</p>
   </div>
 </footer>

@@ -1,0 +1,55 @@
+# Build, validate and accessibility-test the site on every push and PR.
+#
+# Toolchain, and why it's just these three things:
+#   - Python 3 stdlib (scripts/build.py) — the build itself IS the primary
+#     validator: it fails non-zero on missing/extra content fragments,
+#     wrong H1 counts, numbered-heading id mismatches, duplicate ids,
+#     skipped heading levels, malformed HTML, and broken internal links.
+#     This is project-specific validation (e.g. "does this id match this
+#     clause number") that no generic tool understands, so it's hand-written
+#     rather than configured out of a generic linter.
+#   - html-validate (Node) — generic HTML5/ARIA spec conformance on the
+#     generated output, genuinely different coverage from the custom
+#     Python checks above (e.g. invalid ARIA attribute usage).
+#   - Playwright + axe-core (Node) — the one thing static analysis can't
+#     do: an automated accessibility sweep in a real rendered browser.
+# Deliberately not adding a fourth link-checker (lychee/linkinator): the
+# custom Python build already validates every internal link and anchor.
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install Node dependencies
+        run: npm ci
+
+      - name: Install Chromium for Playwright
+        run: npx playwright install --with-deps chromium
+
+      - name: Build the site (fails on missing/invalid content, duplicate IDs, wrong H1 count, broken links, heading-hierarchy/id problems)
+        run: npm run build
+
+      - name: Fail if committed docs/ doesn't match a clean rebuild
+        run: |
+          git diff --exit-code -- docs/ || {
+            echo "::error::docs/ is out of date with content/, scripts/sitemap.json or data/source-metadata.json — rebuild and commit the difference.";
+            exit 1;
+          }
+
+      - name: Validate generated HTML (html-validate)
+        run: npx html-validate "docs/*.html"
+
+      - name: Accessibility sweep (axe-core, WCAG 2.0/2.1/2.2 AA)
+        run: npm run test:a11y

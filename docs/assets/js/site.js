@@ -1,7 +1,52 @@
 (function () {
   "use strict";
 
-  // ---------- Mobile contents toggle ----------
+  // ---------- Shared: polite status announcements ----------
+  // One live region per page (in the template). Clearing then re-setting
+  // the text (via rAF) makes repeated identical announcements re-fire,
+  // which a naive textContent-only update would not.
+  var liveRegion = document.getElementById("status-live");
+  function announce(message) {
+    if (!liveRegion) return;
+    liveRegion.textContent = "";
+    window.requestAnimationFrame(function () {
+      liveRegion.textContent = message;
+    });
+  }
+
+  // ---------- Shared: copy text to the clipboard ----------
+  // Clipboard API first; a legacy execCommand fallback for browsers/
+  // contexts where it's unavailable or the permission is denied.
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function (resolve, reject) {
+      var input = document.createElement("textarea");
+      input.value = text;
+      input.setAttribute("readonly", "");
+      input.style.position = "fixed";
+      input.style.top = "-1000px";
+      input.style.left = "-1000px";
+      document.body.appendChild(input);
+      input.select();
+      input.setSelectionRange(0, text.length);
+      var ok = false;
+      try {
+        ok = document.execCommand("copy");
+      } catch (err) {
+        ok = false;
+      }
+      document.body.removeChild(input);
+      if (ok) { resolve(); } else { reject(new Error("execCommand copy failed")); }
+    });
+  }
+
+  // ---------- Mobile contents disclosure ----------
+  // An in-flow expand/collapse panel (not a full-screen overlay), so
+  // opening it never hides other page content behind it and keyboard
+  // focus is never trapped or lost. Both the header toggle and the
+  // in-panel close button flip the same aria-expanded/is-open state.
   var toggle = document.querySelector(".toc-toggle");
   var nav = document.querySelector(".site-nav");
   var closeBtn = document.querySelector(".site-nav__close");
@@ -35,26 +80,55 @@
     }
   });
 
-  // ---------- Toolbar: print / copy link ----------
+  // ---------- Document toolbar: print ----------
   var printBtn = document.querySelector("[data-action='print']");
   if (printBtn) {
     printBtn.addEventListener("click", function () { window.print(); });
   }
+
+  // ---------- Document toolbar: copy page link ----------
+  // The button's own label never changes (a stable, predictable
+  // accessible name); success/failure is reported through the shared
+  // polite live region, plus a small aria-hidden visual status glyph so
+  // sighted users get more than a colour-only cue.
   var copyBtn = document.querySelector("[data-action='copy-link']");
   if (copyBtn) {
-    var copyLabel = copyBtn.querySelector(".doc-toolbar__btn-label");
+    var copyStatus = copyBtn.querySelector(".doc-toolbar__btn-status");
     copyBtn.addEventListener("click", function () {
-      navigator.clipboard.writeText(window.location.href).then(function () {
-        if (copyLabel) {
-          var original = copyLabel.textContent;
-          copyLabel.textContent = "Link copied!";
-          setTimeout(function () { copyLabel.textContent = original; }, 2000);
-        }
+      copyText(window.location.href).then(function () {
+        if (copyStatus) copyStatus.textContent = "✓";
+        announce("Link copied.");
+      }, function () {
+        if (copyStatus) copyStatus.textContent = "⚠";
+        announce("Couldn't copy the link automatically. You can copy it from the address bar.");
       });
+      if (copyStatus) {
+        window.setTimeout(function () { copyStatus.textContent = ""; }, 3000);
+      }
     });
   }
 
+  // ---------- Heading permalinks ----------
+  // Each numbered heading has a small, always-visible "#" link whose
+  // href already works as a normal same-page anchor with no JS at all.
+  // This only adds a copy-to-clipboard enhancement on top — it does not
+  // prevent the default navigation, so keyboard/no-JS users still get a
+  // fully working direct link.
+  document.querySelectorAll(".heading-permalink[data-copy-link]").forEach(function (link) {
+    link.addEventListener("click", function () {
+      var url = window.location.origin + window.location.pathname + link.getAttribute("href");
+      copyText(url).then(function () {
+        announce("Link to this heading copied.");
+      }, function () {
+        announce("Couldn't copy the link automatically. The address bar now shows it instead.");
+      });
+    });
+  });
+
   // ---------- Back to top ----------
+  // A real <a href="#top"> link (works with no JS, keyboard-only, and
+  // respects prefers-reduced-motion via CSS scroll-behavior). JS only
+  // toggles its visibility based on scroll position.
   var backToTop = document.querySelector(".back-to-top");
   if (backToTop) {
     window.addEventListener("scroll", function () {
@@ -64,9 +138,6 @@
         backToTop.classList.remove("is-visible");
       }
     }, { passive: true });
-    backToTop.addEventListener("click", function () {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
   }
 
   // ---------- Scrollable tables: keyboard access ----------

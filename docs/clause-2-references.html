@@ -1,14 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>2 References | ETSI EN 301 549 V4.1.0 Online</title>
-<meta name="description" content="2 References — ETSI EN 301 549 V4.1.0 accessible HTML edition.">
+<meta name="description" content="2 References — ETSI EN 301 549 V4.1.0 accessible HTML edition (final draft, under approval).">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-<a class="skip-link" href="#main-content">Skip to main content</a>
+<a class="skip-link" id="top" href="#main-content">Skip to main content</a>
 
 <header class="site-header">
   <div class="site-header__inner">
@@ -34,11 +34,12 @@
         <p class="doc-header__meta">ETSI EN 301 549 V4.1.0 (2026-06) &middot; source PDF p.12-16</p>
       </div>
     </div>
-    <div class="doc-toolbar" role="toolbar" aria-label="Document actions">
+    <div class="doc-toolbar" role="group" aria-label="Document actions">
       <button type="button" class="doc-toolbar__btn" data-action="print">Print</button>
       <a class="doc-toolbar__btn" href="source/en_301549v040100va.pdf">Download PDF</a>
       <button type="button" class="doc-toolbar__btn" data-action="copy-link">
         <span class="doc-toolbar__btn-label">Copy link</span>
+        <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
       </button>
     </div>
   </div>
@@ -52,15 +53,17 @@
 <details><summary>Front matter</summary><ul>
 <li><a href="about.html">About this standard</a>
 </li>
+<li><a href="accessibility-statement.html">Accessibility statement</a>
+</li>
 </ul></details>
 <details open><summary>Clauses</summary><ul>
 <li><a href="clause-1-scope.html">1 Scope</a>
 </li>
 <li><a href="clause-2-references.html" aria-current="page">2 References</a>
 <ul class="site-nav__subsections">
-<li><a href="#2-1-normative-references" data-subsection>2.1 Normative references</a>
+<li><a href="#2-1" data-subsection>2.1 Normative references</a>
 </li>
-<li><a href="#2-2-informative-references" data-subsection>2.2 Informative references</a>
+<li><a href="#2-2" data-subsection>2.2 Informative references</a>
 </li>
 </ul>
 </li>
@@ -135,10 +138,10 @@
 </ul></details>
 </nav>
   <main id="main-content" tabindex="-1">
+    <p class="draft-notice"><strong>Draft under approval.</strong> This content may change. The ETSI PDF remains the authoritative source. <a href="accessibility-statement.html">Accessibility statement</a>.</p>
     <div class="content">
-      <h1>2 References</h1>
 
-<h2 id="2-1-normative-references">2.1 Normative references</h2>
+<h2 id="2-1">2.1 Normative references <a class="heading-permalink" href="#2-1" data-copy-link aria-label="Copy link to 2.1 Normative references"><span aria-hidden="true">#</span></a></h2>
 <p>References are either specific (identified by date of publication and/or edition number or version number) or non-specific. For specific references, only the cited version applies. For non-specific references, the latest version of the referenced document (including any amendments) applies.</p>
 <p>Referenced documents which are not found to be publicly available in the expected location might be found in the ETSI docbox.</p>
 
@@ -153,7 +156,7 @@
   <li><span class="ref-tag">[4]</span> W3C&reg; Recommendation (12 December 2024)/ISO/IEC 40500:2025: &ldquo;Web Content Accessibility Guidelines (WCAG) 2.2&rdquo;.</li>
 </ol>
 
-<h2 id="2-2-informative-references">2.2 Informative references</h2>
+<h2 id="2-2">2.2 Informative references <a class="heading-permalink" href="#2-2" data-copy-link aria-label="Copy link to 2.2 Informative references"><span aria-hidden="true">#</span></a></h2>
 <p>References are either specific (identified by date of publication and/or edition number or version number) or non-specific. For specific references, only the cited version applies. For non-specific references, the latest version of the referenced document (including any amendments) applies.</p>
 
 <div class="callout"><p><span class="callout__label">NOTE:</span> While any hyperlinks included in this clause were valid at the time of publication, ETSI cannot guarantee their long-term validity.</p></div>
@@ -271,11 +274,13 @@
   </main>
 </div>
 
-<button type="button" class="back-to-top" aria-label="Back to top of page">&uarr; Back to top</button>
+<a class="back-to-top" href="#top">&uarr; Back to top</a>
+
+<div id="status-live" class="visually-hidden" role="status" aria-live="polite"></div>
 
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <p>This site republishes the text of <cite>ETSI EN 301 549 V4.1.0: Accessibility requirements for ICT products and services</cite> as an accessible, WCAG 2.2 AA HTML edition. It is not an official ETSI publication.</p>
+    <p>This site republishes the text of <cite>ETSI EN 301 549 V4.1.0: Accessibility requirements for ICT products and services</cite> as an HTML edition, designed and tested with the aim of meeting WCAG 2.2 Level AA &mdash; see the <a href="accessibility-statement.html">accessibility statement</a> for what has and hasn't been verified. It is not an official ETSI publication, and this version of the standard is a final draft under approval, not yet published.</p>
     <p>Source: <a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/">ETSI EN 301 549 deliverables</a>. Original PDF: <a href="source/en_301549v040100va.pdf">en_301549v040100va.pdf</a>.</p>
   </div>
 </footer>

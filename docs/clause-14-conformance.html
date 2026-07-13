@@ -1,14 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>14 Conformance | ETSI EN 301 549 V4.1.0 Online</title>
-<meta name="description" content="14 Conformance — ETSI EN 301 549 V4.1.0 accessible HTML edition.">
+<meta name="description" content="14 Conformance — ETSI EN 301 549 V4.1.0 accessible HTML edition (final draft, under approval).">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-<a class="skip-link" href="#main-content">Skip to main content</a>
+<a class="skip-link" id="top" href="#main-content">Skip to main content</a>
 
 <header class="site-header">
   <div class="site-header__inner">
@@ -34,11 +34,12 @@
         <p class="doc-header__meta">ETSI EN 301 549 V4.1.0 (2026-06) &middot; source PDF p.111-113</p>
       </div>
     </div>
-    <div class="doc-toolbar" role="toolbar" aria-label="Document actions">
+    <div class="doc-toolbar" role="group" aria-label="Document actions">
       <button type="button" class="doc-toolbar__btn" data-action="print">Print</button>
       <a class="doc-toolbar__btn" href="source/en_301549v040100va.pdf">Download PDF</a>
       <button type="button" class="doc-toolbar__btn" data-action="copy-link">
         <span class="doc-toolbar__btn-label">Copy link</span>
+        <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
       </button>
     </div>
   </div>
@@ -51,6 +52,8 @@
 <p><a href="index.html">Home</a></p>
 <details><summary>Front matter</summary><ul>
 <li><a href="about.html">About this standard</a>
+</li>
+<li><a href="accessibility-statement.html">Accessibility statement</a>
 </li>
 </ul></details>
 <details open><summary>Clauses</summary><ul>
@@ -82,11 +85,11 @@
 </li>
 <li><a href="clause-14-conformance.html" aria-current="page">14 Conformance</a>
 <ul class="site-nav__subsections">
-<li><a href="#14-1-achieving-conformance-informative" data-subsection>14.1 Achieving conformance (informative)</a>
+<li><a href="#14-1" data-subsection>14.1 Achieving conformance (informative)</a>
 </li>
-<li><a href="#14-2-special-states" data-subsection>14.2 Special states</a>
+<li><a href="#14-2" data-subsection>14.2 Special states</a>
 </li>
-<li><a href="#14-3-one-mode" data-subsection>14.3 One mode</a>
+<li><a href="#14-3" data-subsection>14.3 One mode</a>
 </li>
 </ul>
 </li>
@@ -137,10 +140,10 @@
 </ul></details>
 </nav>
   <main id="main-content" tabindex="-1">
+    <p class="draft-notice"><strong>Draft under approval.</strong> This content may change. The ETSI PDF remains the authoritative source. <a href="accessibility-statement.html">Accessibility statement</a>.</p>
     <div class="content">
-      <h1>14 Conformance</h1>
 
-<h2 id="14-1-achieving-conformance-informative">14.1 Achieving conformance (informative)</h2>
+<h2 id="14-1">14.1 Achieving conformance (informative) <a class="heading-permalink" href="#14-1" data-copy-link aria-label="Copy link to 14.1 Achieving conformance (informative)"><span aria-hidden="true">#</span></a></h2>
 <p>Conformance to the present document is achieved by meeting all the applicable requirements. Requirements are clauses containing the word &ldquo;shall&rdquo;. Applicable requirements are requirements whose preconditions are true for an ICT. Those clauses containing the word &ldquo;should&rdquo; are recommendations and are not required for conformance.</p>
 <p>All clauses containing requirements are self-scoping. This means they are introduced with the phrase &lsquo;Where ICT &lt;precondition&gt;&rsquo;. When one of the preconditions is false, the ICT is not within the scope of the requirement and the ICT does not need to comply with the text of the requirement in order to conform to the present document. If all of the preconditions are true for the ICT, then the requirement applies to that ICT.</p>
 <p>Annex C provides tests that are considered sufficient for testing the ICT for conformance to each requirement. These tests are sufficient but other testing approaches can be used if justified. Annex C tests are structured to provide 4 possible results: Pass, Fail, Not applicable (the ICT is not in the scope of requirement), and Test assumptions are not met (not True) so this testing approach is not valid and another means of testing would need to be used.</p>
@@ -150,7 +153,7 @@
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Sampling is frequently required on complex ICT when there are too many instances of the object to be tested. The present document cannot recommend specific ICT evaluation sampling techniques as these are context specific.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> If websites or other ICT incorporate an add-on, overlay, or other as part of their pages or other ICT, then those additions become part of the ICT and it is this combination that is evaluated to see if it meets all the applicable requirements in the present document as they are written.</p></div>
 
-<h2 id="14-2-special-states">14.2 Special states</h2>
+<h2 id="14-2">14.2 Special states <a class="heading-permalink" href="#14-2" data-copy-link aria-label="Copy link to 14.2 Special states"><span aria-hidden="true">#</span></a></h2>
 <p>The inherent nature of certain situations makes it impossible to make reliable and definitive statements that accessibility requirements have been met. The requirements in the present document do not apply in the following situations:</p>
 <ol type="a">
 <li>when the product is in a failure, repair or professional maintenance state where the ordinary set of input or output functions are not available;</li>
@@ -159,7 +162,7 @@
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Even in the above situations, it is best practice to apply requirements in the present document wherever it is feasible and safe to do so.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Although devices are felt to not be under control during these periods, best practice is to still avoid and flashing or other behaviours that could affect users health or well being.</p></div>
 
-<h2 id="14-3-one-mode">14.3 One mode</h2>
+<h2 id="14-3">14.3 One mode <a class="heading-permalink" href="#14-3" data-copy-link aria-label="Copy link to 14.3 One mode"><span aria-hidden="true">#</span></a></h2>
 <p>The requirements of the present document shall be considered met if all of the following are true:</p>
 <ol type="a">
 <li>they are satisfied in at least one mode of operation that provides all the same information and functionality; and</li>
@@ -212,11 +215,13 @@
   </main>
 </div>
 
-<button type="button" class="back-to-top" aria-label="Back to top of page">&uarr; Back to top</button>
+<a class="back-to-top" href="#top">&uarr; Back to top</a>
+
+<div id="status-live" class="visually-hidden" role="status" aria-live="polite"></div>
 
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <p>This site republishes the text of <cite>ETSI EN 301 549 V4.1.0: Accessibility requirements for ICT products and services</cite> as an accessible, WCAG 2.2 AA HTML edition. It is not an official ETSI publication.</p>
+    <p>This site republishes the text of <cite>ETSI EN 301 549 V4.1.0: Accessibility requirements for ICT products and services</cite> as an HTML edition, designed and tested with the aim of meeting WCAG 2.2 Level AA &mdash; see the <a href="accessibility-statement.html">accessibility statement</a> for what has and hasn't been verified. It is not an official ETSI publication, and this version of the standard is a final draft under approval, not yet published.</p>
     <p>Source: <a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/">ETSI EN 301 549 deliverables</a>. Original PDF: <a href="source/en_301549v040100va.pdf">en_301549v040100va.pdf</a>.</p>
   </div>
 </footer>

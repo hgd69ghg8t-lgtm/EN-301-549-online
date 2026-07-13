@@ -1,14 +1,14 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>About this standard | ETSI EN 301 549 V4.1.0 Online</title>
-<meta name="description" content="About this standard — ETSI EN 301 549 V4.1.0 accessible HTML edition.">
+<meta name="description" content="About this standard — ETSI EN 301 549 V4.1.0 accessible HTML edition (final draft, under approval).">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
-<a class="skip-link" href="#main-content">Skip to main content</a>
+<a class="skip-link" id="top" href="#main-content">Skip to main content</a>
 
 <header class="site-header">
   <div class="site-header__inner">
@@ -34,11 +34,12 @@
         <p class="doc-header__meta">ETSI EN 301 549 V4.1.0 (2026-06) &middot; source PDF p.9-11</p>
       </div>
     </div>
-    <div class="doc-toolbar" role="toolbar" aria-label="Document actions">
+    <div class="doc-toolbar" role="group" aria-label="Document actions">
       <button type="button" class="doc-toolbar__btn" data-action="print">Print</button>
       <a class="doc-toolbar__btn" href="source/en_301549v040100va.pdf">Download PDF</a>
       <button type="button" class="doc-toolbar__btn" data-action="copy-link">
         <span class="doc-toolbar__btn-label">Copy link</span>
+        <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
       </button>
     </div>
   </div>
@@ -52,6 +53,8 @@
 <details open><summary>Front matter</summary><ul>
 <li><a href="about.html" aria-current="page">About this standard</a>
 <ul class="site-nav__subsections">
+<li><a href="#source-and-version-metadata" data-subsection>Source and version metadata</a>
+</li>
 <li><a href="#important-notice" data-subsection>Important notice</a>
 </li>
 <li><a href="#notice-of-disclaimer-limitation-of-liability" data-subsection>Notice of disclaimer &amp; limitation of liability</a>
@@ -72,6 +75,8 @@
 <li><a href="#introduction" data-subsection>Introduction</a>
 </li>
 </ul>
+</li>
+<li><a href="accessibility-statement.html">Accessibility statement</a>
 </li>
 </ul></details>
 <details><summary>Clauses</summary><ul>
@@ -150,13 +155,18 @@
 </ul></details>
 </nav>
   <main id="main-content" tabindex="-1">
+    <p class="draft-notice"><strong>Draft under approval.</strong> This content may change. The ETSI PDF remains the authoritative source. <a href="accessibility-statement.html">Accessibility statement</a>.</p>
     <div class="content">
-      <h1>About this standard</h1>
+
 <p>This page reproduces the front matter of <cite>ETSI EN 301 549 V4.1.0 (2026-06), Final draft: Accessibility requirements for ICT products and services</cite>.</p>
 
 <div class="callout">
 <p><span class="callout__label">Why this site exists:</span> This HTML edition is an independent, non-commercial conversion of the ETSI EN 301 549 standard, published for the sole purpose of providing an accessible format of its text &mdash; the source PDF itself presents barriers to people using screen readers and other assistive technology. It is <strong>not</strong> an official ETSI publication, and no endorsement by ETSI, CEN or CENELEC is implied. As ETSI's own notice below states, the prevailing, authoritative version of this standard is the PDF published on the ETSI deliverable repository; where this HTML edition differs from that PDF in any way, the PDF governs. The copyright and disclaimer notices from the source document are reproduced in full immediately below, unedited, so that readers see the same terms that apply to the original.</p>
 </div>
+
+<h2 id="source-and-version-metadata">Source and version metadata</h2>
+<p>Machine-readable copies of these fields live in <code>data/source-metadata.json</code>. The checksum is computed directly from the committed PDF, not invented — see the note beside it.</p>
+<dl class="content-meta-list"><div><dt>Title</dt><dd>EN 301 549 V4.1.0: Accessibility requirements for ICT products and services</dd></div><div><dt>Version</dt><dd>V4.1.0</dd></div><div><dt>Status</dt><dd>Final draft, under approval — not yet a published standard</dd></div><div><dt>Source organisation</dt><dd>ETSI (European Telecommunications Standards Institute), in collaboration with CEN and CENELEC</dd></div><div><dt>Source PDF</dt><dd><a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/">https://www.etsi.org/deliver/etsi_en/301500_301599/301549/</a></dd></div><div><dt>Source PDF publication date</dt><dd>2026-06<p class="content-meta">The source PDF&#x27;s cover page prints only a year and month (2026-06), not a specific day.</p></dd></div><div><dt>Date downloaded</dt><dd>2026-07-13<p class="content-meta">Taken from this repository&#x27;s git history (the commit that first added the source PDF), not independently verified against ETSI&#x27;s own records.</p></dd></div><div><dt>Source PDF SHA-256</dt><dd><code>c2247f2d59c6f1465e5c10a8d6720aaa79c2d82a420435eb8f487e34dcc0672a</code><p class="content-meta">Computed directly from the PDF committed at docs/source/en_301549v040100va.pdf with `sha256sum`. Recompute and update this value whenever the source PDF is replaced.</p></dd></div><div><dt>Site build date</dt><dd>Not stamped<p class="content-meta">Intentionally left null. The build does not stamp a live timestamp into generated pages, to keep output deterministic and reproducible — see README. Set this manually if you want a fixed &#x27;last rebuilt&#x27; date to appear on the About page after a real content update.</p></dd></div></dl>
 
 <h2 id="important-notice">Important notice</h2>
 <p>The present document can be downloaded from the ETSI Search &amp; Browse Standards application.</p>
@@ -276,16 +286,18 @@
 </div>
     <nav class="page-pager" aria-label="Page navigation">
 <a class="page-pager__link page-pager__link--prev" href="index.html"><span class="page-pager__direction">&larr; Previous</span><span class="page-pager__title">Home</span></a>
-<a class="page-pager__link page-pager__link--next" href="clause-1-scope.html"><span class="page-pager__direction">Next &rarr;</span><span class="page-pager__title">1 Scope</span></a>
+<a class="page-pager__link page-pager__link--next" href="accessibility-statement.html"><span class="page-pager__direction">Next &rarr;</span><span class="page-pager__title">Accessibility statement</span></a>
 </nav>
   </main>
 </div>
 
-<button type="button" class="back-to-top" aria-label="Back to top of page">&uarr; Back to top</button>
+<a class="back-to-top" href="#top">&uarr; Back to top</a>
+
+<div id="status-live" class="visually-hidden" role="status" aria-live="polite"></div>
 
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <p>This site republishes the text of <cite>ETSI EN 301 549 V4.1.0: Accessibility requirements for ICT products and services</cite> as an accessible, WCAG 2.2 AA HTML edition. It is not an official ETSI publication.</p>
+    <p>This site republishes the text of <cite>ETSI EN 301 549 V4.1.0: Accessibility requirements for ICT products and services</cite> as an HTML edition, designed and tested with the aim of meeting WCAG 2.2 Level AA &mdash; see the <a href="accessibility-statement.html">accessibility statement</a> for what has and hasn't been verified. It is not an official ETSI publication, and this version of the standard is a final draft under approval, not yet published.</p>
     <p>Source: <a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/">ETSI EN 301 549 deliverables</a>. Original PDF: <a href="source/en_301549v040100va.pdf">en_301549v040100va.pdf</a>.</p>
   </div>
 </footer>
