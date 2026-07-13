@@ -92,6 +92,9 @@
   if (document.querySelector(".table-wrap")) {
     updateScrollableTables();
     window.addEventListener("resize", updateScrollableTables);
+    if (document.fonts) {
+      document.fonts.ready.then(updateScrollableTables);
+    }
   }
 
   // ---------- Contents sidebar: active subsection highlight ----------

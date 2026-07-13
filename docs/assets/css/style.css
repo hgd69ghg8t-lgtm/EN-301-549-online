@@ -6,7 +6,37 @@
   text, >=3:1 UI/focus indicators) — see README for the verification method.
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;700;800&family=Source+Sans+3:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+/*
+  Fonts are self-hosted (docs/assets/fonts/) rather than loaded from Google
+  Fonts at view time, so no visitor IP address is sent to a third-party font
+  CDN without consent. Both files are variable fonts covering the full
+  weight range the site uses, extracted from Google's own latin-subset
+  distribution.
+*/
+@font-face {
+  font-family: 'Overpass';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('../fonts/overpass-var.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url('../fonts/sourcesans3-var.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Source Sans 3';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url('../fonts/sourcesans3-italic-var.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 
 :root {
   --colour-text: #1a1a1a;
@@ -394,23 +424,6 @@ main { min-width: 0; }
 .ref-list li { display: flex; gap: 0.75rem; margin-bottom: 0.6rem; }
 .ref-list .ref-tag { flex: 0 0 auto; font-weight: 700; color: var(--colour-muted); min-width: 3.5rem; }
 
-/* Intro / preamble-style framed box */
-.intro-box {
-  background: var(--colour-panel-bg);
-  border: 1px solid var(--colour-border-strong);
-  padding: var(--space-4);
-  margin: 0 0 var(--space-4);
-}
-.intro-box__label {
-  font-family: var(--font-heading);
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--colour-muted);
-  margin: 0 0 var(--space-2);
-}
-
 /* ---------- Notes / examples ---------- */
 .callout {
   display: flex;
@@ -524,12 +537,11 @@ main { min-width: 0; }
 @media (min-width: 62em) {
   .site-nav { position: sticky; top: var(--space-4); max-height: calc(100vh - 2 * var(--space-4)); overflow-y: auto; border: 1px solid var(--colour-border); }
   .site-nav__close { display: none; }
-  .page-toc { position: sticky; top: var(--space-4); max-height: calc(100vh - 2 * var(--space-4)); overflow-y: auto; }
 }
 
 /* ---------- Print ---------- */
 @media print {
-  .site-header, .site-footer, .doc-toolbar, .toc-toggle, .site-nav, .page-toc, .page-pager, .skip-link, .back-to-top, .accent-bar { display: none; }
+  .site-header, .site-footer, .doc-toolbar, .toc-toggle, .site-nav, .page-pager, .skip-link, .back-to-top, .accent-bar { display: none; }
   .doc-header { background: none; color: #000; }
   .doc-header__meta, .breadcrumb a, .breadcrumb li { color: #000; }
   .page-shell { display: block; padding: 0; }

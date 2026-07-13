@@ -14,7 +14,7 @@ import html
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-SITEMAP = json.loads((ROOT / "scripts" / "sitemap.json").read_text())
+SITEMAP = json.loads((ROOT / "scripts" / "sitemap.json").read_text(encoding="utf-8"))
 CONTENT_DIR = ROOT / "content"
 DOCS_DIR = ROOT / "docs"
 
@@ -221,7 +221,7 @@ def render_page(index, page):
     is_index = slug == "index"
     fragment_path = CONTENT_DIR / f"{slug}.html"
     if fragment_path.exists():
-        fragment = fragment_path.read_text()
+        fragment = fragment_path.read_text(encoding="utf-8")
     else:
         fragment = f'<h1>{html.escape(page["title"])}</h1>\n<p><em>Not yet converted.</em></p>'
 
@@ -240,7 +240,7 @@ def render_page(index, page):
         source_pdf=SOURCE_PDF_NAME,
     )
     out_path = DOCS_DIR / f"{slug}.html"
-    out_path.write_text(html_out)
+    out_path.write_text(html_out, encoding="utf-8")
     return out_path
 
 
