@@ -1,0 +1,88 @@
+<h1>13 ICT providing relay or emergency service access</h1>
+
+<h2 id="13-1-relay-services-requirements">13.1 Relay services requirements</h2>
+
+<h3 id="13-1-1-general-informative">13.1.1 General (informative)</h3>
+<p>Relay services enable users with speech or hearing disabilities to communicate with other users of services providing real-time bidirectional voice. The relay services convert communication modalities, allowing each user to communicate in their preferred way, using human assistance or automated translation or hybrids between these forms. Relay services also support users with cognitive and memory disabilities.</p>
+<p>Users who use relay services because of a disability are here called &ldquo;primary users&rdquo;, while others involved are called &ldquo;secondary users&rdquo;.</p>
+<p>If a primary user needs to communicate using media not supported by the secondary user's system, the primary user makes use of a system that offers that media. For instance, a sign language user communicating with a voice-only user might connect via a relay service handling sign language in video.</p>
+<p>Even if it is unusual in practice, relay services can be interconnected to facilitate communication between primary users who cannot directly communicate. For example, a hard of hearing person using a text relay service can communicate with a deaf sign language user via a video relay service by connecting their respective services by voice.</p>
+<p>Clause 13.1.2 of the present document addresses invocation and connection, while clause 13.1.3 of the present document addresses the media transmission and modality conversion, also including media transmission and relay service use in some special contexts.</p>
+<p>The types of possible relay services include, but are not limited to the following types, which are more completely described in ETSI ES 202 975 [i.6]:</p>
+<ol type="a">
+<li>Text relay services which provide conversion between real-time text and voice. Text relay services can be divided in the following three subtypes regarding their mediation directions:
+<ul>
+<li>Bidirectional text relay service, which converts between speech and real-time text in both directions with the primary user both reading and sending text.</li>
+<li>Text relay service with voice through. which convert speech towards the primary user to text and let speech through from the primary user.</li>
+<li>Text relay service with hearing through, which convert text from the primary user to speech, and let speech through to the primary user.</li>
+</ul>
+</li>
+<li>Captioned telephony services which convert speech to real-time text towards the primary user while letting voice through in both directions.</li>
+<li>Video relay services which convert between sign language in video to and from primary users and spoken language from and to secondary users.</li>
+<li>Speech-to-speech relay services which convert between unclear speech from the primary user to clear speech to the secondary users, also letting speech through in both directions.</li>
+<li>Lipspeaking relay services which convert from speech in a voice channel to lipspeaking in a video channel towards the primary user and let voice through in both directions.</li>
+<li>Cognitive support services which provide support for memory and other cognitive functions in the voice channel in the direction towards the primary user and let voice through in both directions.</li>
+</ol>
+<p>For detailed guidelines on how to develop and implement relay service, it is best practice to meet the applicable relay service requirements of ETSI ES 202 975 [i.6].</p>
+<p>Relay service access is also essential in emergency communication cases. These aspects are elaborated in ETSI EN 303 919 [i.56].</p>
+<p>The general accessibility requirements contained in the clauses 13.1.2 and 13.1.3 of the present document are based on the functional architecture and invocation of relay services described in ETSI ES 202 975 [i.6].</p>
+
+<h3 id="13-1-2-relay-service-access">13.1.2 Relay service access</h3>
+
+<h4 id="13-1-2-1-general-remarks-on-access-to-relay-services-informative">13.1.2.1 General remarks on access to relay services (informative)</h4>
+<p>To ensure that the primary users of the relay service have equivalent access to electronic communication, they need to have free choice of communicating with or without the support of relay services. For instance, primary users with hearing impairments who use an ICT communication system that includes alternatives to voice communication such as RTT or total conversation, and where these media are also used by the secondary users, should, if desired, be able to contact the secondary users using a common communication channel, without involvement of the relay services.</p>
+<p>Clause 13.1.2 of the present document provides requirements for providing the access to relay services for the primary users that ensures their equivalent access to the communication services.</p>
+
+<h4 id="13-1-2-2-use-of-the-primary-user-destination-address-in-relayed-communications">13.1.2.2 Use of the primary user destination address in relayed communications</h4>
+<p>Where ICT is intended to support relay service inclusion in communication, and is, or includes, relay service invocation functions,</p>
+<p>the relay service invocation functions shall use destination addresses given to the primary users by their communication systems.</p>
+<div class="callout"><p><span class="callout__label">NOTE:</span> For more details see clause 6.3 in ETSI ES 202 975 [i.6].</p></div>
+
+<h4 id="13-1-2-3-conveying-of-caller-identifier-in-relayed-communications-for-primary-relay-users">13.1.2.3 Conveying of caller identifier in relayed communications for primary relay users</h4>
+<p>Where ICT is intended to support relay service inclusion in communication, and is, or includes, relay service invocation functions,</p>
+<p>the ICT shall convey the caller identifiers of primary users of relay services in their communication establishments to secondary users, unless the calling user equipment is set to anonymous communication mode.</p>
+<div class="callout"><p><span class="callout__label">NOTE:</span> For more details see clause 6.3 in ETSI ES 202 975 [i.6].</p></div>
+
+<h4 id="13-1-2-4-relay-service-invocation-decision-in-outgoing-communications">13.1.2.4 Relay service invocation decision in outgoing communications</h4>
+<p>Where ICT is intended to support relay service inclusion in communication, and is, or includes, relay service invocation functions,</p>
+<p>the ICT shall provide features that enable the primary user to decide by user action at the moment of initiating an outgoing communication if a relay service will be invoked in the communication or not.</p>
+<div class="callout"><p><span class="callout__label">NOTE:</span> It is also good practice to provide automatic decision support and settings to tune the decision support to user needs.</p></div>
+
+<h4 id="13-1-2-5-relay-service-invocation-decision-in-incoming-communications">13.1.2.5 Relay service invocation decision in incoming communications</h4>
+<p>Where ICT is intended to support relay service inclusion in communication, and is, or includes, relay service invocation functions,</p>
+<p>the ICT shall provide features that enable the primary user to decide by user action at the moment of receiving an incoming communication if a relay service will be invoked in the communication or not.</p>
+<div class="callout"><p><span class="callout__label">NOTE:</span> It is also good practice to provide automatic decision support and settings to tune the decision support to user needs.</p></div>
+
+<h4 id="13-1-2-6-relay-service-support-requested-by-the-primary-user-for-emergency-communications">13.1.2.6 Relay service support requested by the primary user for emergency communications</h4>
+<p>Where ICT is intended to support relay service inclusion in communication, and is, or includes, relay service invocation functions,</p>
+<p>the ICT shall initiate and perform emergency communications on the request by the primary user and invoke relay service.</p>
+<div class="callout"><p><span class="callout__label">NOTE:</span> The relay service invocation functions are expected to allow invocations of PSAPs in a three-party fashion and perform the relaying action in the ways specified in ETSI ES 202 975 [i.6], clauses 6.5.1.</p></div>
+
+<h3 id="13-1-3-relay-service-requirements">13.1.3 Relay service requirements</h3>
+
+<h4 id="13-1-3-1-relaying-action-in-real-time-bidirectional-voice-communication">13.1.3.1 Relaying action in real-time bidirectional voice communication</h4>
+<p>Where ICT is, or includes, a relay service,</p>
+<p>the relay service shall allow primary users to participate in speech communication with secondary users by performing modality conversion or communication support functions according to the type and mode of operation of the relay service.</p>
+
+<h4 id="13-1-3-2-media-handling-in-relay-service-communication">13.1.3.2 Media handling in relay service communication</h4>
+<p>Where ICT is intended to support relay service inclusion in communication, and is, or includes, relay service invocation functions,</p>
+<p>the relay service invocation functions shall allow passing-through media not involved in the conversion but enabled by the communication clients of the primary and secondary users.</p>
+<div class="callout"><p><span class="callout__label">NOTE:</span> Best practice is to allow the user to specify if they want the media being converted to also be passed on to the other user in addition to the conversion of its modality.</p></div>
+
+<h4 id="13-1-3-3-relay-service-support-in-ict-based-conferences">13.1.3.3 Relay service support in ICT based conferences</h4>
+<p>Where ICT is, or includes, a relay service,</p>
+<p>the ICT shall support participation of primary users in conferences.</p>
+<div class="callout"><p><span class="callout__label">NOTE 1:</span> The extra modality conversions required by each user may be conveyed via the conference system or directly between the relay service and the user of the relay service.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 2:</span> In order for the relay service to have the best information to successfully convey the conference voice communications the relay service should not only be able to hear the voice channel of the conference but also view all contents of the conference.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 3:</span> Access to conferences is commonly provided via web or app interface.</p></div>
+
+<h4 id="13-1-3-4-relay-service-support-during-emergency-communications-initiated-by-the-psap">13.1.3.4 Relay service support during emergency communications initiated by the PSAP</h4>
+<p>Where ICT is, or includes, a relay service,</p>
+<p>the relay service shall accept invocations by emergency communication PSAPs.</p>
+<div class="callout"><p><span class="callout__label">NOTE:</span> The relay service is expected to allow invocations by PSAPs in a three-party fashion and perform the relaying action in the ways specified in ETSI EN 303 919 [i.56], clauses 9 and 10.</p></div>
+
+<h2 id="13-2-void">13.2 Void</h2>
+<div class="callout"><p><span class="callout__label">NOTE:</span> The previous topic &ldquo;Access to relay services&rdquo; is now addressed throughout clause 13.1 of the present document.</p></div>
+
+<h2 id="13-3-access-to-emergency-services-informative">13.3 Access to emergency services (informative)</h2>
+<p>The present document addresses the accessibility of emergency communication by means of the emergency communication-specific scenarios of clauses 6.0.6 to 6.0.9 and by specific references to emergency communication in some of the clause C.6 conformance tests of the accessibility requirements.</p>

@@ -1,0 +1,199 @@
+<h1>Annex C.7 (normative): ICT with video capabilities</h1>
+
+<h2 id="c-7-1-subtitle-processing-technology">C.7.1 Subtitle processing technology</h2>
+
+<h3 id="c-7-1-1-subtitle-playback">C.7.1.1 Subtitle playback</h3>
+
+<div class="table-wrap">
+<table>
+<caption class="visually-hidden">C.7.1.1 Subtitle playback &ndash; Inspection</caption>
+<tbody>
+<tr><th scope="row">Type of assessment</th><td>Inspection</td></tr>
+<tr><th scope="row">Requirement<br>Preconditions</th><td><ol><li>The ICT displays video with synchronized audio.</li></ol></td></tr>
+<tr><th scope="row">Test Assumptions</th><td>A video source that includes open subtitles is available.</td></tr>
+<tr><th scope="row">Procedure</th><td><ol><li>Check that there is a mode of operation that allows the available subtitles to be displayed.</li></ol></td></tr>
+<tr><th scope="row">Result</th><td>
+<p>Pass: Check 1 is true</p>
+<p>Fail: Check 1 is false</p>
+<p>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</p>
+<p>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</p>
+</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class="table-wrap">
+<table>
+<caption class="visually-hidden">C.7.1.1 Subtitle playback &ndash; Test 2</caption>
+<tbody>
+<tr><th scope="row">Type of assessment</th><td>Test 2</td></tr>
+<tr><th scope="row">Requirement<br>Preconditions</th><td><ol><li>The ICT displays video with synchronized audio.</li><li>A video source that contains closed subtitles is available.</li></ol></td></tr>
+<tr><th scope="row">Procedure</th><td><ol><li>Check that there is a mechanism that provides an ability to choose to display the subtitles.</li></ol></td></tr>
+<tr><th scope="row">Result</th><td>
+<p>Pass: Check 1 is true</p>
+<p>Fail: Check 1 is false</p>
+<p>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</p>
+</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 id="c-7-1-2-subtitle-synchronization">C.7.1.2 Subtitle synchronization</h3>
+
+<div class="table-wrap">
+<table>
+<caption class="visually-hidden">C.7.1.2 Subtitle synchronization</caption>
+<tbody>
+<tr><th scope="row">Type of assessment</th><td>Measurement</td></tr>
+<tr><th scope="row">Requirement<br>Preconditions</th><td><ol><li>ICT displays video with synchronized audio.</li><li>The ICT has a mechanism to display subtitles.</li><li>Subtitles are available with timecodes.</li><li>The time s identified by the start timecode of a subtitle can be determined.</li><li>The time t when a subtitle appears can be determined.</li></ol></td></tr>
+<tr><th scope="row">Procedure</th><td>
+<p>For a minimum of 10 subtitles:</p>
+<ol>
+<li>Note the point in time t when a subtitle is supposed to be presented.</li>
+<li>Note the point in time s when a subtitle is actually presented.</li>
+<li>Note the Values m = (t - s) for each of the 10 instances.</li>
+<li>Check that the Average(AbsoluteValue(mValues)) &le; 100 ms.</li>
+</ol>
+</td></tr>
+<tr><th scope="row">Result</th><td>
+<p>Pass: Check 4 is true</p>
+<p>Fail: Check 4 is false</p>
+<p>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</p>
+</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 id="c-7-1-3-preservation-of-subtitle">C.7.1.3 Preservation of subtitle</h3>
+
+<div class="table-wrap">
+<table>
+<caption class="visually-hidden">C.7.1.3 Preservation of subtitle</caption>
+<tbody>
+<tr><th scope="row">Type of assessment</th><td>Inspection</td></tr>
+<tr><th scope="row">Requirement<br>Preconditions</th><td><ol><li>The ICT transmits converts or records video with synchronized audio.</li></ol></td></tr>
+<tr><th scope="row">Procedure</th><td><ol><li>Check that the ICT preserves subtitle data such that it can be displayed in a manner consistent with clauses 7.1.1 and 7.1.2.</li></ol></td></tr>
+<tr><th scope="row">Result</th><td>
+<p>Pass: Check 1 is true</p>
+<p>Fail: Check 1 is false</p>
+<p>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</p>
+</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 id="c-7-1-4-subtitle-characteristics">C.7.1.4 Subtitle characteristics</h3>
+
+<div class="table-wrap">
+<table>
+<caption class="visually-hidden">C.7.1.4 Subtitle characteristics</caption>
+<tbody>
+<tr><th scope="row">Type of assessment</th><td>Inspection</td></tr>
+<tr><th scope="row">Requirement<br>Preconditions</th><td><ol><li>The ICT displays video with synchronized audio.</li><li>The ICT has control over the presentation of subtitles.</li></ol></td></tr>
+<tr><th scope="row">Test Assumptions</th><td>The subtitles under test are displayed as modifiable characters.</td></tr>
+<tr><th scope="row">Procedure</th><td><ol><li>Check that the ICT provides a way for the user to adapt the displayed characteristics of subtitles to their individual requirements.</li></ol></td></tr>
+<tr><th scope="row">Result</th><td>
+<p>Pass: Check 1 is true</p>
+<p>Fail: Check 1 is false</p>
+<p>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</p>
+<p>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</p>
+</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 id="c-7-1-5-spoken-subtitles">C.7.1.5 Spoken subtitles</h3>
+
+<div class="table-wrap">
+<table>
+<caption class="visually-hidden">C.7.1.5 Spoken subtitles</caption>
+<tbody>
+<tr><th scope="row">Type of assessment</th><td>Inspection</td></tr>
+<tr><th scope="row">Requirement<br>Preconditions</th><td><ol><li>The ICT displays video with synchronized audio.</li></ol></td></tr>
+<tr><th scope="row">Test Assumptions</th><td>Spoken subtitles are available for the test video content.</td></tr>
+<tr><th scope="row">Procedure</th><td><ol><li>Check that there is a mode of operation that provides a spoken output of the available spoken subtitles.</li></ol></td></tr>
+<tr><th scope="row">Result</th><td>
+<p>Pass: Check 1 is true</p>
+<p>Fail: Check 1 is false</p>
+<p>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</p>
+<p>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</p>
+</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="c-7-2-audio-description-technology">C.7.2 Audio description technology</h2>
+
+<h3 id="c-7-2-1-audio-description-playback">C.7.2.1 Audio description playback</h3>
+
+<div class="table-wrap">
+<table>
+<caption class="visually-hidden">C.7.2.1 Audio description playback</caption>
+<tbody>
+<tr><th scope="row">Type of assessment</th><td>Inspection</td></tr>
+<tr><th scope="row">Requirement<br>Preconditions</th><td><ol><li>The ICT displays video with synchronized audio.</li></ol></td></tr>
+<tr><th scope="row">Test Assumptions</th><td><ol><li>A video source that includes audio description is available.</li></ol></td></tr>
+<tr><th scope="row">Procedure</th><td><ol><li>Check that there is an explicit and separate mechanism for audio description.</li><li>Check that there is a mechanism to select and play the audio description to the default audio channel.</li><li>Check that the ICT enables the user to select and play one of several audio tracks.</li></ol></td></tr>
+<tr><th scope="row">Result</th><td>
+<p>Pass: Checks 1 and 2 are true or 1 is false and 3 is true</p>
+<p>Fail: Check 1 is true and 2 is false or 1 is false and 3 is false</p>
+<p>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</p>
+<p>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</p>
+</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 id="c-7-2-2-audio-description-synchronization">C.7.2.2 Audio description synchronization</h3>
+
+<div class="table-wrap">
+<table>
+<caption class="visually-hidden">C.7.2.2 Audio description synchronization</caption>
+<tbody>
+<tr><th scope="row">Type of assessment</th><td>Inspection</td></tr>
+<tr><th scope="row">Requirement<br>Preconditions</th><td><ol><li>The ICT displays video with synchronized audio.</li><li>The ICT has a mechanism to play audio description.</li></ol></td></tr>
+<tr><th scope="row">Procedure</th><td><ol><li>Check that the synchronization between the audio/visual content and the corresponding audio description is preserved.</li></ol></td></tr>
+<tr><th scope="row">Result</th><td>
+<p>Pass: Check 1 is true</p>
+<p>Fail: Check 1 is false</p>
+<p>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</p>
+</td></tr>
+</tbody>
+</table>
+</div>
+
+<h3 id="c-7-2-3-preservation-of-audio-description">C.7.2.3 Preservation of audio description</h3>
+
+<div class="table-wrap">
+<table>
+<caption class="visually-hidden">C.7.2.3 Preservation of audio description</caption>
+<tbody>
+<tr><th scope="row">Type of assessment</th><td>Inspection</td></tr>
+<tr><th scope="row">Requirement<br>Preconditions</th><td><ol><li>The ICT transmits converts or records video with synchronized audio.</li></ol></td></tr>
+<tr><th scope="row">Procedure</th><td><ol><li>Check that the ICT preserves audio description data such that it can be played in a manner consistent with clauses 7.2.1 and 7.2.2.</li></ol></td></tr>
+<tr><th scope="row">Result</th><td>
+<p>Pass: Check 1 is true</p>
+<p>Fail: Check 1 is false</p>
+<p>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</p>
+</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="c-7-3-user-control-of-audiovisual-accessibility-features">C.7.3 User control of audiovisual accessibility features</h2>
+
+<div class="table-wrap">
+<table>
+<caption class="visually-hidden">C.7.3 User control of audiovisual accessibility features</caption>
+<tbody>
+<tr><th scope="row">Type of assessment</th><td>Inspection</td></tr>
+<tr><th scope="row">Requirement<br>Preconditions</th><td><ol><li>The ICT displays video with synchronized audio.</li><li>The ICT has control over the presentation of subtitles and other accessibility features.</li></ol></td></tr>
+<tr><th scope="row">Procedure</th><td><ol><li>Check that there is at least one mode of operation to activate and deactivate the presentation of those subtitles and other accessibility features that meets the requirements of the present document.</li></ol></td></tr>
+<tr><th scope="row">Result</th><td>
+<p>Pass: Check 1 is true</p>
+<p>Fail: Check 1 is false</p>
+<p>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</p>
+</td></tr>
+</tbody>
+</table>
+</div>
