@@ -785,9 +785,6 @@ def build_doc_header(page):
     {"".join(breadcrumb)}
     <div class="doc-header__top">
       <div>
-        <div class="doc-header__status-row">
-          <span class="status-badge">Final draft</span>
-        </div>
         <h1>{html.escape(page["title"])}</h1>
       </div>
     </div>
@@ -826,14 +823,16 @@ def build_pager(index):
 
 
 def build_site_title(asset_prefix):
-    """The masthead is always a plain link back to the homepage, on every
-    page including the homepage itself — it identifies the site, not the
-    page. The page's own <h1> is separate: the homepage's fragment supplies
-    its own (see content/index.html), and every other page's comes from
+    """The header brand is a logo-only link back to the homepage, on every
+    page including the homepage itself — a lettermark tile with a
+    visually-hidden accessible name carrying the full site title, so
+    screen-reader users still hear what the link is and where it goes.
+    The page's own <h1> is separate: the homepage's fragment supplies its
+    own (see content/index.html), and every other page's comes from
     build_doc_header()."""
-    subtitle = '<span class="site-header__subtitle">Accessibility requirements for ICT products and services</span>'
-    return (f'<a class="site-header__title" href="{asset_prefix}index.html">'
-            f'{DOC_LABEL} Online {subtitle}</a>')
+    return (f'<a class="site-header__brand" href="{asset_prefix}index.html">'
+            '<span class="site-logo" aria-hidden="true">A</span>'
+            f'<span class="visually-hidden">{DOC_LABEL} Online — home</span></a>')
 
 
 # The header and footer quick links: the site's own (non-standard) pages,

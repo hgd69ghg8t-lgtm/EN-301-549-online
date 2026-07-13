@@ -54,8 +54,6 @@
   --colour-toolbar-btn-bg: #004b86;
   --colour-toolbar-btn-hover-bg: #003d6e;
 
-  --colour-status-badge-bg: #505a5f;
-
   --colour-panel-bg: #f3f2f1;
   --colour-note-bg: #e8f1fa;
   --colour-note-border: #005ea2;
@@ -140,10 +138,10 @@ summary:focus-visible,
   outline: 3px solid var(--colour-focus-dark);
   outline-offset: 2px;
 }
-.site-header :focus-visible,
 .doc-header :focus-visible,
 .back-to-top:focus-visible,
-.site-nav a[aria-current="page"]:focus-visible {
+.site-nav a[aria-current="page"]:focus-visible,
+.site-footer :focus-visible {
   outline: 3px solid var(--colour-focus-yellow);
   outline-offset: 2px;
 }
@@ -167,38 +165,41 @@ a:hover { color: var(--colour-link-hover); }
 .content a,
 .content code { overflow-wrap: anywhere; }
 
-/* ---------- Site header ---------- */
+/* ---------- Site header ----------
+   A light, conventional nav bar: logo-only brand on the left (a
+   lettermark tile; the link's full site title is visually hidden but
+   announced to screen readers), quick links on the right, generous
+   whitespace, blue accent bar below. */
 .site-header {
-  background: var(--colour-site-header-bg);
-  color: #ffffff;
-  border-bottom: 1px solid var(--colour-site-header-border);
+  background: #ffffff;
+  color: var(--colour-text);
+  border-bottom: 1px solid var(--colour-border);
 }
 .site-header__inner {
   max-width: var(--page-max-width);
   margin: 0 auto;
-  padding: var(--space-3) var(--page-pad);
+  padding: clamp(1.25rem, 2.5vw, 2rem) var(--page-pad);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-2);
+  gap: var(--space-3);
 }
-.site-header__title {
-  margin: 0;
-  font-family: var(--font-heading);
-  font-size: 1.15rem;
-  font-weight: 800;
+.site-header__brand { display: inline-flex; text-decoration: none; }
+.site-logo {
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--colour-accent-bar);
   color: #ffffff;
-  text-decoration: none;
-  line-height: 1.3;
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: 1.5rem;
+  line-height: 1;
 }
-.site-header__title:hover { color: #ffffff; text-decoration: underline; }
-.site-header__subtitle {
-  display: block;
-  font-size: 0.8125rem;
-  font-weight: 400;
-  color: #b1b4b6;
-}
+.site-header__brand:hover .site-logo { background: var(--colour-link-hover); }
 
 /* Header quick links to the site's own pages (About, Accessibility
    statement). Shown from the sidebar breakpoint up; on narrow screens the
@@ -207,22 +208,23 @@ a:hover { color: var(--colour-link-hover); }
 .site-header__nav {
   display: none;
   margin-left: auto;
-  gap: var(--space-4);
+  gap: clamp(var(--space-4), 3vw, var(--space-6));
   align-items: center;
 }
 .site-header__nav a {
-  color: #d3d3d3;
-  font-size: 0.9375rem;
-  text-decoration: none;
-  padding: 0.25rem 0;
-}
-.site-header__nav a:hover { color: #ffffff; text-decoration: underline; }
-.site-header__nav a[aria-current="page"] {
-  color: #ffffff;
+  color: var(--colour-text);
+  font-family: var(--font-heading);
   font-weight: 700;
+  font-size: 1rem;
+  text-decoration: none;
+  padding: 0.4rem 0;
+}
+.site-header__nav a:hover { color: var(--colour-link); text-decoration: underline; }
+.site-header__nav a[aria-current="page"] {
+  color: var(--colour-link);
   text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 0.3em;
+  text-decoration-thickness: 3px;
+  text-underline-offset: 0.35em;
 }
 @media (min-width: 62em) {
   .site-header__nav { display: flex; }
@@ -255,17 +257,6 @@ a:hover { color: var(--colour-link-hover); }
 .breadcrumb li[aria-current="page"] { color: #ffffff; font-weight: 600; }
 
 .doc-header__top { display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: var(--space-4); }
-.doc-header__status-row { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; margin-bottom: var(--space-2); }
-.status-badge {
-  font-family: var(--font-heading);
-  font-size: 0.75rem;
-  font-weight: 700;
-  background: var(--colour-status-badge-bg);
-  color: #ffffff;
-  padding: 0.2rem 0.55rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
 .doc-header h1 {
   font-family: var(--font-heading);
   font-size: 1.6rem;
@@ -308,14 +299,15 @@ a:hover { color: var(--colour-link-hover); }
   font-family: var(--font-heading);
   font-weight: 700;
   font-size: 0.8125rem;
-  background: var(--colour-focus-yellow);
-  color: var(--colour-text);
+  background: var(--colour-text);
+  color: #ffffff;
   border: 0;
-  padding: 0.45rem 0.8rem;
+  padding: 0.55rem 0.9rem;
   align-items: center;
   gap: 0.4rem;
   cursor: pointer;
 }
+.toc-toggle:hover { background: var(--colour-link-hover); }
 @media (max-width: 61.99em) {
   .js .toc-toggle { display: inline-flex; }
 }
