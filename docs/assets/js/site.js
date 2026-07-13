@@ -69,6 +69,31 @@
     });
   }
 
+  // ---------- Scrollable tables: keyboard access ----------
+  // A .table-wrap that overflows horizontally is only reachable by mouse
+  // drag/trackpad unless it's in the tab order, so make it focusable and
+  // scrollable via arrow keys whenever it's actually scrollable.
+  function updateScrollableTables() {
+    document.querySelectorAll(".table-wrap").forEach(function (wrap) {
+      var scrollable = wrap.scrollWidth > wrap.clientWidth;
+      if (scrollable) {
+        wrap.setAttribute("tabindex", "0");
+        wrap.setAttribute("role", "region");
+        if (!wrap.hasAttribute("aria-label")) {
+          var caption = wrap.querySelector("caption");
+          wrap.setAttribute("aria-label", caption ? caption.textContent.trim() : "Scrollable table");
+        }
+      } else {
+        wrap.removeAttribute("tabindex");
+        wrap.removeAttribute("role");
+      }
+    });
+  }
+  if (document.querySelector(".table-wrap")) {
+    updateScrollableTables();
+    window.addEventListener("resize", updateScrollableTables);
+  }
+
   // ---------- Contents sidebar: active subsection highlight ----------
   // Scroll-spy: the active heading is the last one whose top has scrolled
   // past a fixed line near the top of the viewport. Simpler and more

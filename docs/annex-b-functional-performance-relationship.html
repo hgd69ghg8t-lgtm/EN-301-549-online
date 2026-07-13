@@ -87,7 +87,15 @@
 <li><a href="annex-a-conformance-evaluation.html">Annex A: Conformance evaluation</a>
 </li>
 <li><a href="annex-b-functional-performance-relationship.html" aria-current="page">Annex B: Functional performance relationship</a>
-
+<ul class="site-nav__subsections">
+<li><a href="#b-1-relationships-between-clauses-5-to-13-and-the-functional-performance-criteria" data-subsection>B.1 Relationships between clauses 5 to 13 and the functional performance criteria</a>
+</li>
+<li><a href="#b-2-interpretation-of-table-b-2" data-subsection>B.2 Interpretation of Table B.2</a>
+<ul class="site-nav__subsections site-nav__subsections--nested">
+<li><a href="#b-2-0-general" data-subsection>B.2.0 General</a></li>
+<li><a href="#b-2-1-example" data-subsection>B.2.1 Example</a></li>
+</ul></li>
+</ul>
 </li>
 <li><a href="annex-d-cognitive-accessibility.html">Annex D: Cognitive accessibility resources</a>
 </li>
@@ -132,7 +140,403 @@
   <main id="main-content" tabindex="-1">
     <div class="content">
       <h1>Annex B (informative): Relationship between requirements and functional performance criteria</h1>
-<p><em>Not yet converted.</em></p>
+
+<h2 id="b-1-relationships-between-clauses-5-to-13-and-the-functional-performance-criteria">B.1 Relationships between clauses 5 to 13 and the functional performance criteria</h2>
+<p>Table B.2 shows which of the requirements set out in clauses 5 to 13 support each of the functional performance criteria set out in clause 4.2.</p>
+<p>To allow Table B.2 to fit the page, the abbreviations shown in Table B.1 have been used in the column headers of Table B.2.</p>
+
+<div class="table-wrap">
+<table>
+<caption>Table B.1: Key to the column header designations used in Table B.2</caption>
+<thead>
+<tr>
+<th scope="col">Column header abbreviation</th>
+<th scope="col">Functional performance criterion</th>
+<th scope="col">Clause number</th>
+</tr>
+</thead>
+<tbody>
+<tr><th scope="row">WV</th><td>Usage without vision</td><td>4.2.1</td></tr>
+<tr><th scope="row">LV</th><td>Usage with limited vision</td><td>4.2.2</td></tr>
+<tr><th scope="row">WPC</th><td>Usage without perception of colour</td><td>4.2.3</td></tr>
+<tr><th scope="row">WH</th><td>Usage without hearing</td><td>4.2.4</td></tr>
+<tr><th scope="row">LH</th><td>Usage with limited hearing</td><td>4.2.5</td></tr>
+<tr><th scope="row">WVC</th><td>Usage without vocal capability</td><td>4.2.6</td></tr>
+<tr><th scope="row">LMS</th><td>Usage with limited manipulation or strength</td><td>4.2.7</td></tr>
+<tr><th scope="row">LR</th><td>Usage with limited reach</td><td>4.2.8</td></tr>
+<tr><th scope="row">PST</th><td>Minimize photosensitive seizure triggers</td><td>4.2.9</td></tr>
+<tr><th scope="row">LC</th><td>Usage with limited cognition</td><td>4.2.10</td></tr>
+<tr><th scope="row">PR</th><td>Privacy</td><td>4.2.11</td></tr>
+</tbody>
+</table>
+</div>
+
+<p>The following abbreviations have been used to represent the relationship between the requirements in clauses 5 to 13 and the functional performance criteria:</p>
+<ul>
+<li>P = Primary relationship. The requirement supports the functional performance criterion.</li>
+<li>S = Secondary relationship. The requirement provides partial support for the functional performance criterion because some users may use the feature in specific situations.</li>
+</ul>
+
+<div class="table-wrap">
+<table>
+<caption>Table B.2: Requirements in clauses 5 to 13 supporting the accessibility needs expressed in the functional performance criteria</caption>
+<thead>
+<tr>
+<th scope="col">Clause</th>
+<th scope="col">Requirement</th>
+<th scope="col">WV</th>
+<th scope="col">LV</th>
+<th scope="col">WPC</th>
+<th scope="col">WH</th>
+<th scope="col">LH</th>
+<th scope="col">WVC</th>
+<th scope="col">LMS</th>
+<th scope="col">LR</th>
+<th scope="col">PST</th>
+<th scope="col">LC</th>
+<th scope="col">PR</th>
+</tr>
+</thead>
+<tbody>
+<tr><th scope="row">5.1.2.1</th><td>Closed functionality</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">5.1.2.2</th><td>Assistive technology and closed functionality</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">5.1.3.1</th><td>Auditory output of visual information</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">5.1.3.2</th><td>Auditory output delivery including speech</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">5.1.3.3</th><td>Auditory output correlation (recommendation)</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">5.1.3.4</th><td>Speech output user control</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">5.1.3.5</th><td>Speech output automatic interruption</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">5.1.3.6</th><td>Auditory output for non-text content</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">5.1.3.7</th><td>Auditory output for video information</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">5.1.3.8</th><td>Masked entry</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>P</td></tr>
+<tr><th scope="row">5.1.3.9</th><td>Private access to personal data</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>P</td></tr>
+<tr><th scope="row">5.1.3.10</th><td>Non-interfering audio output</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">5.1.3.11</th><td>Private listening volume</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">5.1.3.12</th><td>Speaker volume</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">5.1.3.13</th><td>Volume reset</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">5.1.3.14</th><td>Spoken languages</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">5.1.3.15</th><td>Non-visual error identification</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">5.1.3.16</th><td>Receipts, tickets, and transactional outputs</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">5.1.4</th><td>Functionality closed to text enlargement</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">5.1.5</th><td>Visual output for auditory information</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">5.1.6.1</th><td>Functionality closed to keyboards</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">5.1.6.2</th><td>Input focus</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">5.1.7</th><td>Access without speech</td><td>-</td><td>-</td><td>-</td><td>S</td><td>S</td><td>P</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">5.1.8</th><td>Identify input purpose (closed functionality)</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">5.2</th><td>Activation of accessibility features</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">5.3</th><td>Biometrics</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>P</td></tr>
+<tr><th scope="row">5.4</th><td>Preservation of accessibility information during conversion</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">5.5</th><td>Control using tactilely discernible operable parts</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">5.6.1</th><td>Tactile or auditory status</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">5.6.2</th><td>Visual status</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">5.7</th><td>Key repeat</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>S</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">5.8</th><td>Double-strike key acceptance</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>S</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">5.9</th><td>Simultaneous user actions</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">5.10.1</th><td>Content technology</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">5.10.2</th><td>Accessible content creation</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">5.10.3</th><td>Preservation of accessibility information in transformations</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">5.10.4</th><td>Repair assistance</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">5.10.5</th><td>Templates</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">6.0.2</th><td>Communication client</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">6.0.3</th><td>Communication system</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">6.0.4</th><td>System connecting to another communication system</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">6.0.5</th><td>System with roaming visiting client</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">6.0.6</th><td>Client in emergency communications</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">6.0.7</th><td>Emergency communications</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">6.0.8</th><td>System with roaming visiting client in an emergency</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">6.0.9</th><td>System with client in emergency visiting another country</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">6.1.1</th><td>Voice communication interoperability</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">6.1.2</th><td>Audio bandwidth for capture and presentation for voice communication</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">6.1.3</th><td>Audio presentation in attached listening devices for voice communication (recommendation)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">6.1.4</th><td>Synchronization of subtitles (recommendation)</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">6.2.1.1</th><td>RTT functionality</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">6.2.1.2</th><td>Concurrent voice and RTT</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">6.2.1.3</th><td>Single user operations</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">6.2.2.1</th><td>Distinguishable display</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">6.2.2.2</th><td>Active communicator indication</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">6.2.2.3</th><td>Indication of audio with RTT</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">6.2.2.4</th><td>Presentation of relative time order of text</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">6.2.2.5</th><td>Review of RTT communication contents</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">6.2.3</th><td>DTMF touch-tone generation during RTT operations</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">6.2.4</th><td>RTT responsiveness</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">6.2.5</th><td>Adding and erasing of RTT input</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">6.2.6</th><td>Processing rate of RTT</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">6.2.7</th><td>Character representation</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">6.2.8</th><td>RTT input methods</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>P</td><td>S</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">6.2.9</th><td>RTT media establishment and use</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">6.2.10</th><td>RTT interoperability</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">6.3</th><td>Caller ID</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">6.4</th><td>Alternatives to voice-based services</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">6.5.2</th><td>Resolution</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">6.5.3</th><td>Frame rate</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">6.5.4</th><td>Synchronization between audio and video</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">6.5.5</th><td>Indicator of audio with video</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">6.5.6</th><td>Indication of all active communication participants</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">6.6</th><td>Alternatives to video-based services (recommendation)</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">6.7.1</th><td>Total conversation provision</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">6.7.2</th><td>Total conversation interoperability</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">7.1.1</th><td>Subtitle playback</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">7.1.2</th><td>Subtitle synchronization</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">7.1.3</th><td>Preservation of subtitles</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">7.1.4</th><td>Subtitle characteristics</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">7.1.5</th><td>Spoken subtitles</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">7.2.1</th><td>Audio description playback</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">7.2.2</th><td>Audio description synchronization</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">7.2.3</th><td>Preservation of audio description</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">7.3</th><td>User control of audiovisual accessibility features</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">8.2.1.1</th><td>Speech volume gain</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">8.2.1.2</th><td>Incremental volume control</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">8.2.2.1</th><td>Fixed-line devices and handsets</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">8.2.2.2</th><td>Wireless communication devices</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">8.3.2</th><td>Display location</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">8.3.3.1</th><td>Presentation of information necessary for the operation of stationary ICT (no design restrictions)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">8.3.3.2</th><td>Presentation of information necessary for the operation of stationary ICT (no design restrictions)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">8.3.5.1</th><td>Control location (vertical, no design restrictions)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">8.3.5.2</th><td>Control location (vertical, with design restrictions)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">8.3.6</th><td>Control location (horizontal)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">8.3.7.1</th><td>Reach depth ( no design restrictions)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">8.3.7.2</th><td>Reach depth (vertical, with design restrictions)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">8.3.9.2</th><td>Obstructed forward reach (no design constraints)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">8.3.9.3</th><td>Obstructed forward reach (with design constraints)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">8.3.10.1</th><td>Free space underneath stationary ICT with or without an obstruction (no design constraints)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">8.3.10.2</th><td>Free space underneath stationary ICT with or without an obstruction (with design constraints)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">8.3.11.2</th><td>Obstructed side reach (no design constraints)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">8.3.11.3</th><td>Obstructed side reach (with design constraints)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">8.3.14</th><td>Installation instructions</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">8.4.1</th><td>Numeric keys</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">8.4.2.1</th><td>Means of operation</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">8.4.2.2</th><td>Force of operation of operable parts</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">8.4.3</th><td>Keys, tickets and cards</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">8.5</th><td>Tactile indication of speech mode</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">8.6</th><td>Standard connections</td><td>P</td><td>P</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">8.7</th><td>Colour on hardware</td><td>-</td><td>S</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">8.8</th><td>Contrast on hardware</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">9.1.1.1</th><td>Non-text content</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>S</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">9.1.2.1</th><td>Audio-only and video-only (pre-recorded)</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">9.1.2.2</th><td>Subtitles (pre-recorded)</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">9.1.2.3</th><td>Audio description or media alternative (pre-recorded)</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">9.1.2.4</th><td>Subtitles (live)</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.1.2.5</th><td>Audio description (pre-recorded)</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">9.1.3.1</th><td>Info and relationships</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>S</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">9.1.3.2</th><td>Meaningful sequence</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">9.1.3.3</th><td>Sensory characteristics</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">9.1.3.4</th><td>Orientation</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">9.1.3.5</th><td>Identify input purpose</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>S</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.1.4.1</th><td>Use of colour</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">9.1.4.2</th><td>Audio control</td><td>P</td><td>S</td><td>-</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.1.4.3</th><td>Contrast (minimum)</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.1.4.4</th><td>Resize text</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.1.4.5</th><td>Images of text</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.1.4.10</th><td>Reflow</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.1.4.11</th><td>Non-text contrast</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.1.4.12</th><td>Text spacing</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.1.4.13</th><td>Content on hover or focus</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.2.1.1</th><td>Keyboard</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">9.2.1.2</th><td>No keyboard trap</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">9.2.1.4</th><td>Character key shortcuts</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">9.2.2.1</th><td>Timing adjustable</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.2.2.2</th><td>Pause, stop, hide</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>S</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.2.3.1</th><td>Three flashes or below threshold</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">9.2.4.1</th><td>Bypass blocks</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.2.4.2</th><td>Page titled</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.2.4.3</th><td>Focus order</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.2.4.4</th><td>Link purpose (in context)</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.2.4.5</th><td>Multiple ways</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.2.4.6</th><td>Headings and labels</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.2.4.7</th><td>Focus visible</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.2.4.11</th><td>Focus not obscured (minimum)</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.2.5.1</th><td>Pointer gestures</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.2.5.2</th><td>Pointer cancellation</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.2.5.3</th><td>Label in name</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">9.2.5.4</th><td>Motion actuation</td><td>S</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">9.2.5.7</th><td>Dragging movements</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">9.2.5.8</th><td>Target size (minimum)</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">9.3.1.1</th><td>Language of page</td><td>P</td><td>S</td><td>-</td><td>S</td><td>S</td><td>-</td><td>S</td><td>S</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.3.1.2</th><td>Language of parts</td><td>P</td><td>S</td><td>-</td><td>S</td><td>S</td><td>-</td><td>S</td><td>S</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.3.2.1</th><td>On focus</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.3.2.2</th><td>On input</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.3.2.3</th><td>Consistent navigation</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>S</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.3.2.4</th><td>Consistent identification</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>S</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.3.2.6</th><td>Consistent help</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>S</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.3.3.1</th><td>Error identification</td><td>P</td><td>P</td><td>P</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.3.3.2</th><td>Labels or instructions</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.3.3.3</th><td>Error suggestion</td><td>P</td><td>P</td><td>P</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.3.3.4</th><td>Error prevention (legal, financial, data)</td><td>P</td><td>P</td><td>P</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">9.3.3.7</th><td>Redundant entry</td><td>S</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.3.3.8</th><td>Accessible authentication (minimum)</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">9.4.1.2</th><td>Name, role, value</td><td>P</td><td>P</td><td>S</td><td>S</td><td>S</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.4.1.3</th><td>Status messages</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">9.6</th><td>WCAG conformance requirements</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>S</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">9.7</th><td>User preferences for web pages</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>S</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">10.1.1.1</th><td>Non-text content</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>S</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">10.1.2.1</th><td>Audio-only and video-only (pre-recorded)</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">10.1.2.2</th><td>Subtitles (pre-recorded)</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">10.1.2.3</th><td>Audio description or media alternative (pre-recorded)</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">10.1.2.4</th><td>Subtitles (live)</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.1.2.5</th><td>Audio description (pre-recorded)</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">10.1.3.1</th><td>Info and relationships</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>S</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">10.1.3.2</th><td>Meaningful sequence</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">10.1.3.3</th><td>Sensory characteristics</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">10.1.3.4</th><td>Orientation</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">10.1.3.5</th><td>Identify input purpose</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>S</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.1.4.1</th><td>Use of colour</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">10.1.4.2</th><td>Audio control</td><td>P</td><td>S</td><td>-</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.1.4.3</th><td>Contrast (minimum)</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.1.4.4</th><td>Resize text</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.1.4.5</th><td>Images of text</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.1.4.10</th><td>Reflow</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.1.4.11</th><td>Non-text contrast</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.1.4.12</th><td>Text spacing</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.1.4.13</th><td>Content on hover or focus</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.2.1.1</th><td>Keyboard</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">10.2.1.2</th><td>No keyboard trap</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">10.2.1.4</th><td>Character key shortcuts</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">10.2.2.1</th><td>Timing adjustable</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.2.2.2</th><td>Pause, stop, hide</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>S</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.2.3.1</th><td>Three flashes or below threshold</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">10.2.4.2</th><td>Non-web document titled</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.2.4.3</th><td>Focus order</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.2.4.4</th><td>Link purpose (in context)</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.2.4.6</th><td>Headings and labels</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.2.4.7</th><td>Focus visible</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.2.4.11</th><td>Focus not obscured (minimum)</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.2.5.1</th><td>Pointer gestures</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.2.5.2</th><td>Pointer cancellation</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.2.5.3</th><td>Label in name</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">10.2.5.4</th><td>Motion actuation</td><td>S</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">10.2.5.7</th><td>Dragging movements</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">10.2.5.8</th><td>Target size (minimum)</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">10.3.1.1</th><td>Language of non-web document</td><td>P</td><td>S</td><td>-</td><td>S</td><td>S</td><td>-</td><td>S</td><td>S</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.3.1.2</th><td>Language of parts</td><td>P</td><td>S</td><td>-</td><td>S</td><td>S</td><td>-</td><td>S</td><td>S</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.3.2.1</th><td>On focus</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.3.2.2</th><td>On input</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.3.2.3</th><td>Consistent navigation</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>S</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.3.2.4</th><td>Consistent identification</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>S</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.3.2.6</th><td>Consistent help</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>S</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.3.3.1</th><td>Error identification</td><td>P</td><td>P</td><td>P</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.3.3.2</th><td>Labels or instructions</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.3.3.3</th><td>Error suggestion</td><td>P</td><td>P</td><td>P</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.3.3.4</th><td>Error prevention (legal, financial, data)</td><td>P</td><td>P</td><td>P</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">10.3.3.7</th><td>Redundant entry</td><td>S</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.3.3.8</th><td>Accessible authentication (minimum)</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">10.4.1.2</th><td>Name, role, value</td><td>P</td><td>P</td><td>S</td><td>S</td><td>S</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.4.1.3</th><td>Status messages</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.5</th><td>Subtitle positioning (recommendation)</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">10.6</th><td>Audio description timing (recommendation)</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">10.7</th><td>User preferences for non-web documents</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">11.1.1.1</th><td>Non-text content</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>S</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">11.1.2.1</th><td>Audio-only and video-only (pre-recorded)</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">11.1.2.2</th><td>Subtitles (pre-recorded)</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">11.1.2.3</th><td>Audio description or media alternative (pre-recorded)</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">11.1.2.4</th><td>Subtitles (live)</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.1.2.5</th><td>Audio description (pre-recorded)</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">11.1.3.1</th><td>Info and relationships</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>S</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">11.1.3.2</th><td>Meaningful sequence</td><td>P</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">11.1.3.3</th><td>Sensory characteristics</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">11.1.3.4</th><td>Orientation</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">11.1.3.5</th><td>Identify input purpose</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>S</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.1.4.1</th><td>Use of colour</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">11.1.4.2</th><td>Audio control</td><td>P</td><td>S</td><td>-</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.1.4.3</th><td>Contrast (minimum)</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.1.4.4</th><td>Resize text</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.1.4.5</th><td>Images of text</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.1.4.10</th><td>Reflow</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.1.4.11</th><td>Non-text contrast</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.1.4.12</th><td>Text spacing</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.1.4.13</th><td>Content on hover or focus</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.2.1.1</th><td>Keyboard</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">11.2.1.2</th><td>No keyboard trap</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">11.2.1.4</th><td>Character key shortcuts</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">11.2.2.1</th><td>Timing adjustable</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.2.2.2</th><td>Pause, stop, hide</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>S</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.2.3.1</th><td>Three flashes or below threshold</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>-</td><td>-</td></tr>
+<tr><th scope="row">11.2.4.2</th><td>Non-web software titled</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.2.4.3</th><td>Focus order</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.2.4.4</th><td>Link purpose (in context)</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.2.4.6</th><td>Headings and labels</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.2.4.7</th><td>Focus visible</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.2.4.11</th><td>Focus not obscured (minimum)</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.2.5.1</th><td>Pointer gestures</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.2.5.2</th><td>Pointer cancellation</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.2.5.3</th><td>Label in name</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">11.2.5.4</th><td>Motion actuation</td><td>S</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">11.2.5.7</th><td>Dragging movements</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">11.2.5.8</th><td>Target size (minimum)</td><td>-</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">11.3.1.1</th><td>Language of non-web software</td><td>P</td><td>S</td><td>-</td><td>S</td><td>S</td><td>-</td><td>S</td><td>S</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.3.2.1</th><td>On focus</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.3.2.2</th><td>On input</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.3.2.4</th><td>Consistent identification</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>S</td><td>S</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.3.3.1</th><td>Error identification</td><td>P</td><td>P</td><td>P</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.3.3.2</th><td>Labels or instructions</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.3.3.3</th><td>Error suggestion</td><td>P</td><td>P</td><td>P</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.3.3.4</th><td>Error prevention (legal, financial, data)</td><td>P</td><td>P</td><td>P</td><td>S</td><td>S</td><td>S</td><td>S</td><td>S</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">11.3.3.7</th><td>Redundant entry</td><td>S</td><td>S</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.3.3.8</th><td>Accessible authentication (minimum)</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">11.4.1.2</th><td>Name, role, value</td><td>P</td><td>P</td><td>S</td><td>S</td><td>S</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.4.1.3</th><td>Status messages</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.5.2.1</th><td>Platform interoperability with assistive technologies</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>S</td></tr>
+<tr><th scope="row">11.5.2.3</th><td>Use of accessibility services (recommendation)</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>S</td></tr>
+<tr><th scope="row">11.5.2.4</th><td>Assistive technology</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">11.5.2.5</th><td>Object information</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>S</td></tr>
+<tr><th scope="row">11.5.2.6</th><td>Row, column, and headers</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.5.2.7</th><td>Values</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.5.2.8</th><td>Label relationships</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.5.2.9</th><td>Parent-child relationships</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.5.2.10</th><td>Text</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.5.2.11</th><td>List of available actions</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.5.2.12</th><td>Execution of available actions</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.5.2.13</th><td>Tracking of focus and selection attributes</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.5.2.14</th><td>Modification of focus and selection attributes</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.5.2.15</th><td>Change notification</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.5.2.16</th><td>Modifications of states and properties</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.5.2.17</th><td>Modifications of values and text</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>-</td><td>P</td><td>-</td></tr>
+<tr><th scope="row">11.6.1</th><td>User control of accessibility features</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">11.6.2</th><td>No disruption of accessibility features</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">11.7</th><td>User preferences</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">12.1</th><td>Accessible information about products</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">12.2</th><td>Accessible information about services</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">12.3</th><td>Accessibility and compatibility features</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">12.4</th><td>Electronic program guides</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">12.5</th><td>Electronic program guide display</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td><td>P</td></tr>
+<tr><th scope="row">13.1.2.2</th><td>Use of the primary user destination address in relayed communications</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">13.1.2.3</th><td>Conveying of caller identifier in relayed communications for primary relay users</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">13.1.2.4</th><td>Relay service invocation decision in outgoing communications</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">13.1.2.5</th><td>Relay service invocation decision in incoming communications</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">13.1.2.6</th><td>Relay service support requested by the primary user for emergency communications</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">13.1.3.1</th><td>Relaying action in relay service communication</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">13.1.3.2</th><td>Media handling in relay service communication</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">13.1.3.3</th><td>Relay service support in ICT based conferences</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+<tr><th scope="row">13.1.3.4</th><td>Relay service support during emergency communications initiated by the PSAP</td><td>-</td><td>-</td><td>-</td><td>P</td><td>P</td><td>P</td><td>-</td><td>-</td><td>-</td><td>S</td><td>-</td></tr>
+</tbody>
+</table>
+</div>
+
+<h2 id="b-2-interpretation-of-table-b-2">B.2 Interpretation of Table B.2</h2>
+
+<h3 id="b-2-0-general">B.2.0 General</h3>
+<p>Table B.2 illustrates the impact a specific accessibility issue might have on different users. It does this by mapping the technical requirements in the standard with the functional performance criteria in clause 4. A technical requirement can be Primary (P) or Secondary (S).</p>
+<p>The technical requirements are listed in a vertical column and the functional performance criteria horizontally.</p>
+<p>The table indicates which functional performance criteria, and corresponding user needs, are impacted by each technical requirement.</p>
+
+<h3 id="b-2-1-example">B.2.1 Example</h3>
+
+<h4>B.2.1.1 Step 1</h4>
+<p>For requirement 5.1.3.11, which relates to the possibility of changing the volume when the user is listening in a private headset, the table can be read like this:</p>
+<p>The requirement for private listening volume has a &ldquo;P&rdquo; for primary support in the column &ldquo;WV&rdquo;, which stands for &ldquo;without vision&rdquo;.</p>
+<p>This means that private listening volume supports the functional performance criteria for users who cannot see. In other words, the possibility for the user to control the volume when listening via a private headset is necessary for blind users.</p>
+
+<h4>B.2.1.2 Step 2</h4>
+<p>The second column shows that, for users with low vision, the possibility to control the volume when listening via a private headset is not as necessary as for blind users, it has an S for Secondary, where the first column had a P for Primary.</p>
+<p>Secondary support means that some users in this group may use the accessibility feature in specific situations.</p>
+
+<h4>B.2.1.3 Step 3</h4>
+<p>In this way it is possible to assess the impact on functional performance criteria if a particular requirement is not true.</p>
+<p>The third column considers users who are colour blind; the requirement on private listening volume is not marked at all. Of course, the possibility of changing the volume when listening in private headset is nice to have for all users, no matter their ability to distinguish between colours, but the listening volume does not compensate for the colour blindness.</p>
+
+<h4>B.2.1.4 Step 4</h4>
+<p>The table can also be read the other way around:</p>
+<p>Since blind users cannot see the screen, they need an alternative way to use the interface. If this alternative is audio via private headset, blind users need the possibility to change the volume.</p>
+<p>Some users who can see, but not well, need or prefer to use audio as an alternative way to use the interface. If this alternative is audio via private headset, some low vision users will benefit from the possibility to change the volume.</p>
+
     </div>
     <div class="doc-footer">
   <div>

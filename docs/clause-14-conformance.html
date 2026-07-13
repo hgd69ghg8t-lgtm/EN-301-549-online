@@ -81,7 +81,14 @@
 <li><a href="clause-13-relay-emergency.html">13 Relay/emergency access</a>
 </li>
 <li><a href="clause-14-conformance.html" aria-current="page">14 Conformance</a>
-
+<ul class="site-nav__subsections">
+<li><a href="#14-1-achieving-conformance-informative" data-subsection>14.1 Achieving conformance (informative)</a>
+</li>
+<li><a href="#14-2-special-states" data-subsection>14.2 Special states</a>
+</li>
+<li><a href="#14-3-one-mode" data-subsection>14.3 One mode</a>
+</li>
+</ul>
 </li>
 </ul></details>
 <details><summary>Annexes</summary><ul>
@@ -132,7 +139,60 @@
   <main id="main-content" tabindex="-1">
     <div class="content">
       <h1>14 Conformance</h1>
-<p><em>Not yet converted.</em></p>
+
+<h2 id="14-1-achieving-conformance-informative">14.1 Achieving conformance (informative)</h2>
+<p>Conformance to the present document is achieved by meeting all the applicable requirements. Requirements are clauses containing the word &ldquo;shall&rdquo;. Applicable requirements are requirements whose preconditions are true for an ICT. Those clauses containing the word &ldquo;should&rdquo; are recommendations and are not required for conformance.</p>
+<p>All clauses containing requirements are self-scoping. This means they are introduced with the phrase &lsquo;Where ICT &lt;precondition&gt;&rsquo;. When one of the preconditions is false, the ICT is not within the scope of the requirement and the ICT does not need to comply with the text of the requirement in order to conform to the present document. If all of the preconditions are true for the ICT, then the requirement applies to that ICT.</p>
+<p>Annex C provides tests that are considered sufficient for testing the ICT for conformance to each requirement. These tests are sufficient but other testing approaches can be used if justified. Annex C tests are structured to provide 4 possible results: Pass, Fail, Not applicable (the ICT is not in the scope of requirement), and Test assumptions are not met (not True) so this testing approach is not valid and another means of testing would need to be used.</p>
+<p>ICT is often composed of an assembly of two or more items of ICT. In some cases, two or more interoperable items of ICT may together meet more requirements of the standard when one item complements the functionality of the other and the sum together meets more of the accessibility requirements. However, combining two items of ICT, both of which fail to meet any particular requirement, will not lead to a combined ICT system that meets that requirement.</p>
+<p>The present document does not prioritize requirements.</p>
+<div class="callout"><p><span class="callout__label">NOTE 1:</span> Conformance with the accessibility requirements could be affected by subsequent implementation or maintenance.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 2:</span> Sampling is frequently required on complex ICT when there are too many instances of the object to be tested. The present document cannot recommend specific ICT evaluation sampling techniques as these are context specific.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 3:</span> If websites or other ICT incorporate an add-on, overlay, or other as part of their pages or other ICT, then those additions become part of the ICT and it is this combination that is evaluated to see if it meets all the applicable requirements in the present document as they are written.</p></div>
+
+<h2 id="14-2-special-states">14.2 Special states</h2>
+<p>The inherent nature of certain situations makes it impossible to make reliable and definitive statements that accessibility requirements have been met. The requirements in the present document do not apply in the following situations:</p>
+<ol type="a">
+<li>when the product is in a failure, repair or professional maintenance state where the ordinary set of input or output functions are not available;</li>
+<li>during those parts of start-up, shutdown, and other state transitions that can be completed without user interaction.</li>
+</ol>
+<div class="callout"><p><span class="callout__label">NOTE 1:</span> Even in the above situations, it is best practice to apply requirements in the present document wherever it is feasible and safe to do so.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 2:</span> Although devices are felt to not be under control during these periods, best practice is to still avoid and flashing or other behaviours that could affect users health or well being.</p></div>
+
+<h2 id="14-3-one-mode">14.3 One mode</h2>
+<p>The requirements of the present document shall be considered met if all of the following are true:</p>
+<ol type="a">
+<li>they are satisfied in at least one mode of operation that provides all the same information and functionality; and</li>
+<li>that mode can be reached through a path that fully meets the requirements of the present document; and</li>
+<li>that mode is the default mode if either:
+<ul>
+<li>the requirement is a safety or security requirement; or</li>
+<li>the requirement is an Assistive Technology non-interference requirement and the ICT is implemented in a way that not meeting the requirement could interfere with one or more types of assistive technology's ability to allow the user to choose the accessible mode.</li>
+</ul>
+</li>
+</ol>
+<div class="callout">
+<p><span class="callout__label">NOTE 1:</span> The safety and security requirements of the present document are:</p>
+<p>4.2.9 Minimize photosensitive seizure triggers</p>
+<p>4.2.11 Privacy</p>
+<p>5.1.3.8 Masked entry</p>
+<p>5.1.3.9 Private access to personal data</p>
+<p>5.1.3.13 Volume reset</p>
+<p>9.2.3.1, 10.2.3.1, 11.2.3.1 Three Flashes or below threshold</p>
+<p>The Assistive Technology non-interference requirements of the present document are:</p>
+<p>5.1.3.5 Speech output automatic interruption</p>
+<p>5.1.3.10 Non-interfering audio output</p>
+<p>5.1.6.2 Input focus</p>
+<p>5.2 Activation of accessibility features</p>
+<p>9.2.1.2, 10.2.1.2, &amp; 11.2.1.2 No keyboard trap</p>
+<p>9.2.2.2, 10.2.2.2, &amp; 11.2.2.2 Pause, stop, hide</p>
+<p>11.5.2.1 Platform interoperability with assistive technologies</p>
+<p>11.6.1 User control of accessibility features</p>
+<p>11.6.2 No disruption of accessibility features</p>
+<p>13.1.3 Relay service requirements (all)</p>
+</div>
+<div class="callout"><p><span class="callout__label">NOTE 2:</span> The greatest accessibility is achieved if the mode of operation that conforms to the present document is the default mode, though this may not always be possible.</p></div>
+
     </div>
     <div class="doc-footer">
   <div>

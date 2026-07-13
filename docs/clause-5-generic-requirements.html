@@ -63,7 +63,47 @@
 <li><a href="clause-4-functional-performance.html">4 Functional performance</a>
 </li>
 <li><a href="clause-5-generic-requirements.html" aria-current="page">5 Generic requirements</a>
-
+<ul class="site-nav__subsections">
+<li><a href="#5-1-closed-functionality" data-subsection>5.1 Closed functionality</a>
+<ul class="site-nav__subsections site-nav__subsections--nested">
+<li><a href="#5-1-1-introduction-informative" data-subsection>5.1.1 Introduction (informative)</a></li>
+<li><a href="#5-1-2-general" data-subsection>5.1.2 General</a></li>
+<li><a href="#5-1-3-non-visual-access" data-subsection>5.1.3 Non-visual access</a></li>
+<li><a href="#5-1-4-functionality-closed-to-text-enlargement" data-subsection>5.1.4 Functionality closed to text enlargement</a></li>
+<li><a href="#5-1-5-visual-output-for-auditory-information" data-subsection>5.1.5 Visual output for auditory information</a></li>
+<li><a href="#5-1-6-operation-without-keyboard-interface" data-subsection>5.1.6 Operation without keyboard interface</a></li>
+<li><a href="#5-1-7-access-without-speech" data-subsection>5.1.7 Access without speech</a></li>
+<li><a href="#5-1-8-identify-input-purpose-closed-functionality" data-subsection>5.1.8 Identify input purpose (closed functionality)</a></li>
+</ul></li>
+<li><a href="#5-2-activation-of-accessibility-features" data-subsection>5.2 Activation of accessibility features</a>
+</li>
+<li><a href="#5-3-biometrics" data-subsection>5.3 Biometrics</a>
+</li>
+<li><a href="#5-4-preservation-of-accessibility-information-during-conversion" data-subsection>5.4 Preservation of accessibility information during conversion</a>
+</li>
+<li><a href="#5-5-tactilely-discernible-operable-parts" data-subsection>5.5 Tactilely discernible operable parts</a>
+</li>
+<li><a href="#5-6-locking-or-toggle-controls" data-subsection>5.6 Locking or toggle controls</a>
+<ul class="site-nav__subsections site-nav__subsections--nested">
+<li><a href="#5-6-1-tactile-or-auditory-status" data-subsection>5.6.1 Tactile or auditory status</a></li>
+<li><a href="#5-6-2-visual-status" data-subsection>5.6.2 Visual status</a></li>
+</ul></li>
+<li><a href="#5-7-key-repeat" data-subsection>5.7 Key repeat</a>
+</li>
+<li><a href="#5-8-double-strike-key-acceptance" data-subsection>5.8 Double-strike key acceptance</a>
+</li>
+<li><a href="#5-9-simultaneous-user-actions" data-subsection>5.9 Simultaneous user actions</a>
+</li>
+<li><a href="#5-10-authoring-tools" data-subsection>5.10 Authoring tools</a>
+<ul class="site-nav__subsections site-nav__subsections--nested">
+<li><a href="#5-10-0-general-informative" data-subsection>5.10.0 General (informative)</a></li>
+<li><a href="#5-10-1-content-technology" data-subsection>5.10.1 Content technology</a></li>
+<li><a href="#5-10-2-accessible-content-creation" data-subsection>5.10.2 Accessible content creation</a></li>
+<li><a href="#5-10-3-preservation-of-accessibility-information-in-transformations" data-subsection>5.10.3 Preservation of accessibility information in transformations</a></li>
+<li><a href="#5-10-4-repair-assistance" data-subsection>5.10.4 Repair assistance</a></li>
+<li><a href="#5-10-5-templates" data-subsection>5.10.5 Templates</a></li>
+</ul></li>
+</ul>
 </li>
 <li><a href="clause-6-real-time-communication.html">6 Real-time communication</a>
 </li>
@@ -132,7 +172,270 @@
   <main id="main-content" tabindex="-1">
     <div class="content">
       <h1>5 Generic requirements</h1>
-<p><em>Not yet converted.</em></p>
+
+<h2 id="5-1-closed-functionality">5.1 Closed functionality</h2>
+
+<h3 id="5-1-1-introduction-informative">5.1.1 Introduction (informative)</h3>
+<p>ICT has closed functionality for many reasons, including design or policy. Some of the functionality of products can be closed because the product is self-contained and users are precluded from adding peripherals or software in order to access that functionality.</p>
+<p>ICT may have closed functionality in practice even though the ICT was not designed, developed or supplied to be closed.</p>
+<p>Computers that do not allow end-users to adjust settings or install software are functionally closed.</p>
+
+<h3 id="5-1-2-general">5.1.2 General</h3>
+
+<h4 id="5-1-2-1-closed-functionality">5.1.2.1 Closed functionality</h4>
+<p>Where ICT includes closed functionality,</p>
+<p>the closed functionality shall meet 5.1. For the non-closed functionality the applicable requirements set out in clauses 5.2 to 13 shall be met.</p>
+<div class="callout"><p><span class="callout__label">NOTE 1:</span> ICT may close some, but not all, of its functionalities. Only the closed functionalities have to meet the requirements of clause 5.1.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 2:</span> The requirements within this clause replace those in clauses 5.2 to 13 that specifically state that they do not apply to closed functionality. This may be because they relate to compatibility with assistive technology or to the ability for the user to adjust system accessibility settings in products with closed functionality (e.g. products that prevent access to the system settings control panel).</p></div>
+
+<h4 id="5-1-2-2-assistive-technology-and-closed-functionality">5.1.2.2 Assistive technology and closed functionality</h4>
+<p>Where ICT includes closed functionality,</p>
+<p>that closed functionality shall be operable without requiring the user to attach, connect or install assistive technology and meet the generic requirements of clauses 5.1.3 to 5.1.6 as applicable. Personal headsets and personal induction loops are not classed as assistive technology for the purpose of this clause.</p>
+
+<h3 id="5-1-3-non-visual-access">5.1.3 Non-visual access</h3>
+
+<h4 id="5-1-3-1-auditory-output-of-visual-information">5.1.3.1 Auditory output of visual information</h4>
+<p>Where ICT includes closed functionality, and visual information is needed to enable the use of the closed functionality of the ICT,</p>
+<p>the closed functionality shall be provided through one or more non-visual means that includes auditory output to enable the use of those functions.</p>
+<div class="callout"><p><span class="callout__label">NOTE 1:</span> Non-visual access may also include a tactile form such as braille in addition to audio. This is particularly useful for some individuals who are deaf-blind.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 2:</span> The visual information needed to enable use of some functions may include operating instructions and orientation, transaction prompts, user input verification, error messages and non-text content.</p></div>
+
+<h4 id="5-1-3-2-auditory-output-delivery-including-speech">5.1.3.2 Auditory output delivery including speech</h4>
+<p>Where ICT includes closed functionality, and auditory output is provided as non-visual access to closed functionality,</p>
+<p>the auditory output shall be delivered through one of the following:</p>
+<ol type="a">
+<li>directly by a mechanism included in or provided with the ICT; or</li>
+<li>by a personal headset that can be connected through a 3,5 mm audio jack without requiring the use of vision; or</li>
+<li>if it is a personal device (not a public-shared-use device), by a personal headset connected through any standard industry headset connection.</li>
+</ol>
+<div class="callout"><p><span class="callout__label">NOTE 1:</span> Mechanisms included in or provided with ICT may be, but are not limited to, a loudspeaker, and a built-in handset/headset.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 2:</span> The use of a speaker for providing personal information may be subject to privacy law restrictions in certain situations.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 3:</span> For personal use devices only, industry standard audio connections include but are not limited to audio USB standards and Bluetooth&reg;.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 4:</span> If auditory output is delivered by a connection for personal headphones, it is best practice, where space permits, to provide both visual and tactile information to indicate that it is possible to connect personal headphones to the ICT device. This can be done, for example, by using a tactile symbol representing headphones.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 5:</span> Any jack (mono, stereo, or microphone enabled) is sufficient to meet this requirement since all will provide audio output and will work interchangeably with headphones/earbuds to provide audio output.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 6:</span> In a publicly shared device industry standard audio connections including but not limited to audio USB standards and Bluetooth&reg; may be provided in addition to a 3,5 mm audio jack.</p></div>
+
+<h4 id="5-1-3-3-auditory-output-correlation">5.1.3.3 Auditory output correlation</h4>
+<p>Where ICT includes closed functionality, and auditory output is provided as non-visual access to closed functionality, and information that is under the control of the ICT is displayed on the screen,</p>
+<p>the ICT shall provide auditory information that includes all the non-decorative information displayed on the current screen.</p>
+<div class="callout"><p><span class="callout__label">NOTE 1:</span> Many people who are blind and partially sighted still have visual ability, and use aspects of the visual display even if it cannot be fully comprehended. An audio alternative that is both complete and complementary includes all visual information such as focus or highlighting, so that the audio can be correlated with information that is visible on the screen at any point in time.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 2:</span> The auditory information is intended to allow the user to perform the task(s) currently on the screen.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 3:</span> Examples of auditory information that allows the user to correlate the audio with the information displayed on the screen include structure and relationships conveyed through presentation.</p></div>
+
+<h4 id="5-1-3-4-speech-output-user-control">5.1.3.4 Speech output user control</h4>
+<p>Where ICT includes closed functionality, and speech output is provided as non-visual access to closed functionality,</p>
+<p>the speech output shall be capable of being interrupted and repeated when requested by the user, where permitted by security requirements.</p>
+<div class="callout"><p><span class="callout__label">NOTE 1:</span> Moving the speaking cursor away from an item is a common technique for interrupting the speech and is particularly important when moving from one item and to a different one causing that the new item will be read immediately. Moving off and back to an item can be used to cause it to re-read.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 2:</span> It is best practice to allow the user to pause speech output rather than just allowing them to interrupt it when the speech output is longer than 5 seconds.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 3:</span> It is best practice to allow the user to repeat only the most recent portion rather than requiring play to start from the beginning when the speech output is longer than 5 seconds.</p></div>
+
+<h4 id="5-1-3-5-speech-output-automatic-interruption">5.1.3.5 Speech output automatic interruption</h4>
+<p>Where ICT includes closed functionality, and speech output is provided as non-visual access to closed functionality, and the speech output is generated to provide feedback on user interface choices and user actions,</p>
+<p>the ICT shall interrupt current speech output when a user action occurs and when new speech output begins.</p>
+<div class="callout"><p><span class="callout__label">NOTE 1:</span> This requirement applies to the speech output provided for non-visual access as feedback for user interface choices and actions, not to any other speech being played by the device. If audio is already playing, including audio description as part of playing AV material, it is common to mute or &lsquo;duck&rsquo; the audio (greatly reduce the relative volume of the audio) to allow the accessibility audio to be clearly heard.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 2:</span> Where it is essential that the user hears the entire message, e.g. a safety instruction or warning, the ICT may need to block all user action so that speech is not interrupted.</p></div>
+
+<h4 id="5-1-3-6-auditory-output-for-non-text-content">5.1.3.6 Auditory output for non-text content</h4>
+<p>Where ICT includes closed functionality that presents non-text content other than video,</p>
+<p>any alternative for non-text content shall be presented to users via auditory output, including speech, unless the non-text content is pure decoration or is used only for visual formatting.</p>
+
+<h4 id="5-1-3-7-auditory-output-for-video-information">5.1.3.7 Auditory output for video information</h4>
+<p>Where ICT includes closed functionality, and pre-recorded video content is needed to enable the use of closed functionality of the ICT,</p>
+<p>an auditory equivalent shall be provided for the pre-recorded video content originating from the ICT, and, if provided from another source along with video content, it is also made available by the ICT.</p>
+<div class="callout"><p><span class="callout__label">NOTE 1:</span> This speech output can take the form of an audio description or, where there is a transcript of the video, a spoken version of the transcript content.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 2:</span> ICT is not required to create an auditory equivalent for content not originating from the ICT.</p></div>
+
+<h4 id="5-1-3-8-masked-entry">5.1.3.8 Masked entry</h4>
+<p>Where ICT includes closed functionality, and auditory output is provided as non-visual access to closed functionality, and the characters displayed are masking characters,</p>
+<p>the auditory output shall not be a spoken version of the characters entered unless the auditory output is known to be delivered only to a mechanism for private listening, or if the option exists and the user explicitly chooses to allow non-private auditory output.</p>
+<div class="callout"><p><span class="callout__label">NOTE 1:</span> Masking characters are usually displayed for security purposes and include, but are not limited to asterisks representing personal identification numbers.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 2:</span> Unmasked character output might be preferred when closed functionality is used, for example, in the privacy of the user's home. A warning highlighting privacy concerns might be appropriate to ensure that the user has made an informed choice.</p></div>
+
+<h4 id="5-1-3-9-private-access-to-personal-data">5.1.3.9 Private access to personal data</h4>
+<p>Where ICT includes closed functionality, and the ICT is intended for public shared use, and auditory output is provided by that ICT as non-visual access to closed functionality, and that output contains data that is considered to be private according to the applicable privacy policy,</p>
+<p>the corresponding auditory output shall only be delivered through a mechanism for private listening that can be connected without requiring the use of vision, or through any other mechanism explicitly chosen by the user.</p>
+<div class="callout"><p><span class="callout__label">NOTE 1:</span> The wording of the requirement is such that it only applies to audio generated by that particular ICT for non-visual access, and not to any audio, such as audio descriptions, or any other information including private information that is passed to it from another source.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 2:</span> The wording of this requirement means that does not apply in cases where data is not defined as being private according to the applicable privacy policy or where there is no applicable privacy policy.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 3:</span> Non-private output might be preferred when closed functionality is used, for example, in the privacy of the user's home. A warning highlighting privacy concerns might be appropriate to ensure that the user has made an informed choice.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 4:</span> An example of a privacy policy in Europe is the GDPR [i.82].</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 5:</span> Even if there are no privacy policies that cover the exact context in which the ICT is being used, it is best practice to not announce via a speaker a person's name, phone number, address, financial information (account numbers, amount of withdrawal) or other information that could be used to identify a person or track them later or to target them for robbery etc.</p></div>
+
+<h4 id="5-1-3-10-non-interfering-audio-output">5.1.3.10 Non-interfering audio output</h4>
+<p>Where ICT includes closed functionality, and auditory output is provided as non-visual access to closed functionality,</p>
+<p>the ICT shall not automatically play, at the same time, any interfering audible output that lasts longer than three seconds.</p>
+
+<h4 id="5-1-3-11-private-listening-volume">5.1.3.11 Private listening volume</h4>
+<p>Where ICT includes closed functionality, and auditory output is provided as non-visual access to closed functionality, and the auditory output is delivered through a mechanism for private listening,</p>
+<p>the ICT shall provide at least one non-visual mode of operation for controlling the volume.</p>
+
+<h4 id="5-1-3-12-speaker-volume">5.1.3.12 Speaker volume</h4>
+<p>Where ICT includes closed functionality, and auditory output is provided as non-visual access to closed functionality, and is delivered through speakers on the ICT,</p>
+<p>a non-visual incremental volume control shall be provided with output amplification up to a level of at least 65 dBA (-29 dBPaA).</p>
+<div class="callout"><p><span class="callout__label">NOTE:</span> For noisy environments, 65 dBA may not be sufficient.</p></div>
+
+<h4 id="5-1-3-13-volume-reset">5.1.3.13 Volume reset</h4>
+<p>Where ICT includes closed functionality, and the ICT is intended for public shared use, and auditory output is provided as non-visual access to closed functionality through a mechanism for private listening,</p>
+<p>a function that resets the volume to be at a level of 65 dBA or less after every use, shall be provided.</p>
+
+<h4 id="5-1-3-14-spoken-languages">5.1.3.14 Spoken languages</h4>
+<p>Where ICT includes closed functionality, and speech output is provided as non-visual access to closed functionality,</p>
+<p>the speech output shall be in the same human language as the displayed content provided, except:</p>
+<ol type="a">
+<li>for proper names, technical terms, words of indeterminate language, and words or phrases that have become part of the vernacular of the immediately surrounding text;</li>
+<li>where the content is generated externally and not under the control of the ICT vendor, the present clause shall not be required to apply for languages not supported by the ICT's speech synthesizer;</li>
+<li>for displayed languages that cannot be selected using non-visual access;</li>
+<li>where the user explicitly selects a speech language that is different from the language of the displayed content.</li>
+</ol>
+
+<h4 id="5-1-3-15-non-visual-error-identification">5.1.3.15 Non-visual error identification</h4>
+<p>Where ICT includes closed functionality, and speech output is provided as non-visual access to closed functionality, and an input error is automatically detected, and the error is indicated visually via text and/or other visual means,</p>
+<p>the speech output shall present equivalent error information.</p>
+
+<h4 id="5-1-3-16-receipts-tickets-and-transactional-outputs">5.1.3.16 Receipts, tickets, and transactional outputs</h4>
+<p>Where ICT includes closed functionality, and provides physical receipts, tickets or other outputs as a result of a self-service transaction,</p>
+<p>output that provides all information necessary to complete or verify the transaction shall be provided through one or more non-visual means that includes auditory output, except information that is printed and that is not needed to complete the transaction, such as receipts, itineraries, maps, etc.</p>
+<div class="callout"><p><span class="callout__label">NOTE:</span> The speech output may be provided by any element of the total ICT system.</p></div>
+
+<h3 id="5-1-4-functionality-closed-to-text-enlargement">5.1.4 Functionality closed to text enlargement</h3>
+<p>Where ICT includes closed functionality, and any functionality of the ICT is closed to the text enlargement features of its platform or assistive technology,</p>
+<p>the ICT shall provide a mode of operation where the text and images of text necessary for all functionality is displayed in such a way that the x-height of the text is at least 16 CSS px.</p>
+<div class="callout">
+<p><span class="callout__label">NOTE 1:</span> The formula for calculating the physical height (in mm) from the height (in CSSpx) and the distance D (in mm) from the eye to the display is physical height (mm) = D (mm) &times; height (CSSpx) / 2&nbsp;688.</p>
+<p>The relationship between viewing distance and physical x-height for a font with an x-height of 16 CSSpx is as follows:</p>
+<div class="table-wrap">
+<table>
+<caption>Table 5.1</caption>
+<thead>
+<tr><th scope="col">Viewing distance (mm)</th><th scope="col">x-height (mm) for 16CSSpx</th></tr>
+</thead>
+<tbody>
+<tr><th scope="row">400</th><td>2,38</td></tr>
+<tr><th scope="row">500</th><td>2,98</td></tr>
+<tr><th scope="row">700</th><td>4,17</td></tr>
+<tr><th scope="row">1&nbsp;000</th><td>5,95</td></tr>
+<tr><th scope="row">2&nbsp;000</th><td>11,90</td></tr>
+<tr><th scope="row">3&nbsp;000</th><td>17,86</td></tr>
+<tr><th scope="row">5&nbsp;000</th><td>29,76</td></tr>
+<tr><th scope="row">10&nbsp;000</th><td>59,52</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="callout"><p><span class="callout__label">NOTE 2:</span> This is the smallest font size - not the recommended font size for body text which should be larger.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 3:</span> For handheld devices D should be assumed as 400 mm.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 4:</span> For detailed information about x-height, CSSpx, etc., see section 4.3.2 of [i.70].</p></div>
+
+<h3 id="5-1-5-visual-output-for-auditory-information">5.1.5 Visual output for auditory information</h3>
+<p>Where ICT includes closed functionality, and auditory output is needed to enable the use of closed functionality of the ICT,</p>
+<p>the ICT shall provide visual information that is equivalent to the auditory information.</p>
+<div class="callout"><p><span class="callout__label">NOTE 1:</span> This visual information can take the form of subtitles or text transcripts.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 2:</span> Sign language interpretation can also be provided as best practice, but this is not sufficient to meet this requirement by itself.</p></div>
+
+<h3 id="5-1-6-operation-without-keyboard-interface">5.1.6 Operation without keyboard interface</h3>
+
+<h4 id="5-1-6-1-functionality-closed-to-keyboards">5.1.6.1 Functionality closed to keyboards</h4>
+<p>Where ICT includes closed functionality, and the functionality is closed to keyboards or keyboard interfaces,</p>
+<p>the functionality closed to keyboards or keyboard interfaces shall be operable without vision as required by clause 5.1.3.</p>
+<div class="callout"><p><span class="callout__label">NOTE:</span> A soft keyboard (an onscreen keyboard) would meet this requirement if it is operable without vision as required by clause 5.1.3.</p></div>
+
+<h4 id="5-1-6-2-input-focus">5.1.6.2 Input focus</h4>
+<p>Where ICT includes closed functionality, and the functionality is closed to keyboards or keyboard interfaces, and where input focus can be moved to a user interface element,</p>
+<p>it shall be possible to move the input focus away from that element using the same mechanism, in order to avoid trapping the input focus.</p>
+
+<h3 id="5-1-7-access-without-speech">5.1.7 Access without speech</h3>
+<p>Where ICT includes closed functionality, and speech is needed to operate closed functionality of the ICT,</p>
+<p>the ICT shall provide at least one mode of operation using an alternative input mechanism that does not require speech.</p>
+
+<h3 id="5-1-8-identify-input-purpose-closed-functionality">5.1.8 Identify input purpose (closed functionality)</h3>
+<p>Where ICT includes closed functionality, and input field(s) collecting information about the user are needed to enable the use of the closed functionality of the ICT, and the input field(s) serve a purpose identified in the WCAG 2.2 Input Purposes for User Interface Components section [4],</p>
+<p>in at least one mode of operation the ICT shall present to the user, in an audio form, the purpose of each of these input fields.</p>
+
+<h2 id="5-2-activation-of-accessibility-features">5.2 Activation of accessibility features</h2>
+<p>Where ICT includes documented accessibility features,</p>
+<p>it shall be possible to activate those documented accessibility features that are required to meet a specific need without relying on a method that does not support that need.</p>
+
+<h2 id="5-3-biometrics">5.3 Biometrics</h2>
+<p>Where ICT uses biological characteristics,</p>
+<p>the ICT shall not rely on the use of a biological characteristic as the only means of user identification or for control of the ICT.</p>
+<div class="callout"><p><span class="callout__label">NOTE:</span> Some examples of biological characteristics are fingerprints, eye retinal patterns, voice, and face.</p></div>
+
+<h2 id="5-4-preservation-of-accessibility-information-during-conversion">5.4 Preservation of accessibility information during conversion</h2>
+<p>Where ICT converts information or communication,</p>
+<p>the ICT shall preserve all documented non-proprietary information that is provided for accessibility to the extent that such information can be contained in or supported by the destination format.</p>
+<div class="callout"><p><span class="callout__label">NOTE 1:</span> Any transmission that is not lossless would involve conversion and would be covered by this requirement.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 2:</span> When transporting or displaying video, any loss of fidelity, synchronization, or quality would constitute a conversion and if the reduced fidelity, synchronization, or quality results in a loss of accessibility of, for example, the sign language portion of it, then it would constitute a violation of this requirement.</p></div>
+
+<h2 id="5-5-tactilely-discernible-operable-parts">5.5 Tactilely discernible operable parts</h2>
+<p>Where ICT includes functionality that requires manual operation and control,</p>
+<p>the ICT shall provide a mode of operation that allows all the functionality of the ICT that requires manual operation and control to be controlled without requiring vision using only tactilely discernible operable parts.</p>
+<div class="callout"><p><span class="callout__label">NOTE 1:</span> As noted in the definition of tactilely discernible operable part, a touchscreen or touchpad that can be tactilely discerned, or a part of a touchscreen that is located adjacent to a tactilely discernible edge, corner, or tactile markings on a screen frame is a tactilely discernible operable part.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 2:</span> Where physical buttons are arranged in small functional groups, or on-screen buttons are positioned in fixed positions adjacent to tactilely discernible boundaries (such as screen edges or surrounds), their position can be tactilely discerned.</p></div>
+
+<h2 id="5-6-locking-or-toggle-controls">5.6 Locking or toggle controls</h2>
+
+<h3 id="5-6-1-tactile-or-auditory-status">5.6.1 Tactile or auditory status</h3>
+<p>Where ICT includes a locking or toggle control,</p>
+<p>the ICT shall provide at least one mode of operation where the status of the control can be determined either through touch or sound without operating the control.</p>
+<div class="callout"><p><span class="callout__label">NOTE 1:</span> Locking or toggle controls are those controls that can only have two or three states and that keep their state while being used.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 2:</span> An example of a locking or toggle control is the &ldquo;Caps Lock&rdquo; key found on most keyboards. Another example is the volume button on a pay telephone, which can be set at normal, loud, or extra loud volume.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 3:</span> For example, on some devices Power On/Off and Input Selection are physical toggle controls where the status can be felt. Tones can be used to indicate a change in different states such as a low-high tone for on and high-low tone for off. Or if speech output is enabled and the user invokes an action, feedback can be by speech at user option. However, the last two are not useful if the action is not a reversable one without consequence (e.g. power off/on that causes loss of information if done).</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 4:</span> Even though all the above examples relate to hardware toggle controls, this clause also applies to graphical controls in software.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 5:</span> For graphical software controls in functionality that is not closed, this clause will usually be satisfied if the control conforms with the complementary WCAG success criteria 1.3.1 (Information and relationships) and 4.1.2 (Name, Role, Value), corresponding to clauses 9.1.3.1 and 9.4.1.2 (for web content), 10.1.3.1 and 10.4.1.2 (for non-web documents) and 11.1.3.1 and 11.4.1.2 (for non-web software). When state information is rendered in text or otherwise programmatically determinable it is possible to render it in an audible or tactile form.</p></div>
+
+<h3 id="5-6-2-visual-status">5.6.2 Visual status</h3>
+<p>Where ICT includes a locking or toggle control,</p>
+<p>the ICT shall provide at least one mode of operation where the status of the control can be visually determined when the control is presented.</p>
+<div class="callout"><p><span class="callout__label">NOTE 1:</span> Locking or toggle controls are those controls that can only have two or three states and that keep their state while being used.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 2:</span> An example of a locking or toggle control is the &ldquo;Caps Lock&rdquo; key found on most keyboards. An example of making the status of a control determinable is a visual status indicator on a keyboard.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 3:</span> A visual status can be a change on the screen or a flash of an LED after the user invokes an action. Where appropriate, adopting a pattern for example, a short flash for &ldquo;off&rdquo; and a longer or double flash for &ldquo;on&rdquo; can be considered as a good practice.</p></div>
+
+<h2 id="5-7-key-repeat">5.7 Key repeat</h2>
+<p>Where ICT includes a keyboard or keypad, and a key repeat function that cannot be turned off, and that key repeat will result in the generation of multiple entries of the same alphanumeric data into input fields or into documents:</p>
+<ol type="a">
+<li>the delay before the key repeat shall be adjustable to at least 2 seconds; and</li>
+<li>the key repeat rate shall be adjustable down to one character per 2 seconds.</li>
+</ol>
+
+<h2 id="5-8-double-strike-key-acceptance">5.8 Double-strike key acceptance</h2>
+<p>Where ICT includes a device-independent keyboard interface service, keyboard, or keypad, and includes a capability to adjust the time before the same key can be accepted again,</p>
+<p>the delay after any keystroke, during which the same key-press will not be accepted, shall be adjustable up to at least 0,5 seconds.</p>
+
+<h2 id="5-9-simultaneous-user-actions">5.9 Simultaneous user actions</h2>
+<p>Where ICT includes a mode of operation requiring simultaneous user actions for its operation,</p>
+<p>the ICT shall provide at least one mode of operation that does not require simultaneous user actions to operate the ICT.</p>
+<div class="callout"><p><span class="callout__label">NOTE:</span> Having to use both hands to open the lid of a laptop, having to press two or more keys at the same time or having to touch a surface with more than one finger are examples of simultaneous user actions.</p></div>
+
+<h2 id="5-10-authoring-tools">5.10 Authoring tools</h2>
+
+<h3 id="5-10-0-general-informative">5.10.0 General (informative)</h3>
+<p>For those creating web content authoring tools, ATAG 2.0 [i.33] provides information that can be of interest to those who want to go beyond these requirements.</p>
+<div class="callout"><p><span class="callout__label">NOTE:</span> This is applicable both to standalone and to web based authoring tools.</p></div>
+
+<h3 id="5-10-1-content-technology">5.10.1 Content technology</h3>
+<p>Where ICT is, or includes, authoring tool functionality,</p>
+<p>the authoring tool shall meet clauses 5.10.2 to 5.10.5 to the extent that information required for accessibility is supported by the format used for the output of the authoring tool.</p>
+
+<h3 id="5-10-2-accessible-content-creation">5.10.2 Accessible content creation</h3>
+<p>Where ICT is, or includes, authoring tool functionality,</p>
+<p>the authoring tool shall enable and guide the production of content that conforms to clause 9 (web), or clause 10 (Non-web documents), or clause 11 (Non-web software) as applicable.</p>
+<div class="callout"><p><span class="callout__label">NOTE:</span> Authoring tools may rely on additional tools where conformance with specific requirements is not achievable by a single tool. For example, a video editing tool may enable the creation of video files for distribution via broadcast television and the web, but authoring of subtitle files for multiple formats may be provided by a different tool.</p></div>
+
+<h3 id="5-10-3-preservation-of-accessibility-information-in-transformations">5.10.3 Preservation of accessibility information in transformations</h3>
+<p>Where ICT is, or includes, authoring tool functionality, and provides restructuring transformations or re-coding transformations,</p>
+<p>accessibility information shall be preserved in the output if equivalent mechanisms exist in the content technology of the output.</p>
+<div class="callout"><p><span class="callout__label">NOTE 1:</span> Restructuring transformations are transformations in which the content technology stays the same, but the structural features of the content are changed (e.g. linearizing tables, splitting a document into pages).</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 2:</span> Re-coding transformations are transformations in which the technology used to encode the content is changed.</p></div>
+
+<h3 id="5-10-4-repair-assistance">5.10.4 Repair assistance</h3>
+<p>Where ICT is, or includes, authoring tool functionality, and is capable of detecting that content does not meet a requirement of clause 9 (Web), or clause 10 (Non-web document), or clause 11 (Non-web software) as applicable,</p>
+<p>the authoring tool shall provide repair suggestion(s).</p>
+<div class="callout"><p><span class="callout__label">NOTE 1:</span> Automatic detection of failure to meet some requirements may be very challenging, but there are other types of failure that can be very easy to automatically detect. It is best practice that failure detection of at least the easily detected failures should be implemented.</p></div>
+<div class="callout"><p><span class="callout__label">NOTE 2:</span> This does not preclude automated and semi-automated repair which is possible (and encouraged with author review) for many types of content accessibility problems.</p></div>
+
+<h3 id="5-10-5-templates">5.10.5 Templates</h3>
+<p>Where ICT is, or includes, authoring tool functionality, and provides templates,</p>
+<p>at least one template that supports the creation of content that conforms to the requirements of clause 9 (Web) or clause 10 (Non-web document). or clause 11 (Non-web software) as applicable shall be available and identified as such.</p>
+
     </div>
     <div class="doc-footer">
   <div>
