@@ -174,13 +174,18 @@
     }, { passive: true });
   }
 
-  // ---------- Scrollable tables: keyboard access ----------
+  // ---------- Scrollable tables: keyboard access + visible cue ----------
   // A .table-wrap that overflows horizontally is only reachable by mouse
   // drag/trackpad unless it's in the tab order, so make it focusable and
-  // scrollable via arrow keys whenever it's actually scrollable.
+  // scrollable via arrow keys whenever it's actually scrollable — and add
+  // a visible "scroll sideways" hint so sighted users know more columns
+  // exist even on platforms with hidden overlay scrollbars. Everything is
+  // removed again the moment the table stops overflowing (e.g. after a
+  // resize), so a table that fits is just a table.
   function updateScrollableTables() {
     document.querySelectorAll(".table-wrap").forEach(function (wrap) {
       var scrollable = wrap.scrollWidth > wrap.clientWidth;
+      var hint = wrap.querySelector(".table-wrap__hint");
       if (scrollable) {
         wrap.setAttribute("tabindex", "0");
         wrap.setAttribute("role", "region");
@@ -188,9 +193,20 @@
           var caption = wrap.querySelector("caption");
           wrap.setAttribute("aria-label", caption ? caption.textContent.trim() : "Scrollable table");
         }
+        if (!hint) {
+          hint = document.createElement("p");
+          hint.className = "table-wrap__hint";
+          // aria-hidden: screen-reader users already hear the wrapper's
+          // role and label; this line is the sighted-user equivalent.
+          hint.setAttribute("aria-hidden", "true");
+          hint.textContent = "This table scrolls sideways →";
+          wrap.insertBefore(hint, wrap.firstChild);
+        }
       } else {
         wrap.removeAttribute("tabindex");
         wrap.removeAttribute("role");
+        wrap.removeAttribute("aria-label");
+        if (hint) hint.remove();
       }
     });
   }

@@ -74,8 +74,21 @@
   --space-5: 2rem;
   --space-6: 3rem;
 
-  --content-max-width: 46rem;
-  --page-max-width: 90rem;
+  /* Layout system:
+     - --page-max-width caps the whole page (header bands, shell, footer)
+       so ultra-wide monitors keep reasonable outer margins, while normal
+       desktops use most of the viewport.
+     - --page-pad is the fluid outer gutter shared by every band, so the
+       header, document band, content shell and footer all align at every
+       viewport width.
+     - --prose-measure caps *running text* (paragraphs, list items,
+       definitions) at a readable line length. It is deliberately NOT
+       applied to the content column itself: headings, tables and other
+       technical content may use the full column width. */
+  --page-max-width: 100rem;
+  --page-pad: clamp(1rem, 3vw, 2.5rem);
+  --column-gap: clamp(var(--space-4), 2.5vw, var(--space-6));
+  --prose-measure: 66ch;
 }
 
 /* ---------- Reset ---------- */
@@ -144,6 +157,13 @@ a {
 }
 a:hover { color: var(--colour-link-hover); }
 
+/* Long unbroken tokens — bare URLs used as link text in the reproduced
+   ETSI content, and checksums in <code> — must be allowed to wrap, or
+   they force page-level horizontal overflow at narrow widths and high
+   zoom (WCAG 1.4.10 Reflow). Presentation only; no wording changes. */
+.content a,
+.content code { overflow-wrap: anywhere; }
+
 /* ---------- Site header ---------- */
 .site-header {
   background: var(--colour-site-header-bg);
@@ -153,7 +173,7 @@ a:hover { color: var(--colour-link-hover); }
 .site-header__inner {
   max-width: var(--page-max-width);
   margin: 0 auto;
-  padding: var(--space-3) var(--space-3);
+  padding: var(--space-3) var(--page-pad);
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -186,7 +206,7 @@ a:hover { color: var(--colour-link-hover); }
 .doc-header__inner {
   max-width: var(--page-max-width);
   margin: 0 auto;
-  padding: var(--space-4) var(--space-3);
+  padding: var(--space-4) var(--page-pad);
 }
 .breadcrumb ol {
   list-style: none;
@@ -269,13 +289,20 @@ a:hover { color: var(--colour-link-hover); }
   .js .toc-toggle { display: inline-flex; }
 }
 
-/* ---------- Layout shell ---------- */
+/* ---------- Layout shell ----------
+   Mobile-first single column; from 62em a two-column grid where the
+   contents sidebar keeps a practical bounded width and the main content
+   column takes all remaining space (minmax(0, 1fr) — the 0 min lets wide
+   content such as tables shrink/scroll inside the column instead of
+   blowing the grid open). The column itself is NOT capped at a prose
+   measure: running text is capped per-element (see --prose-measure), so
+   tables, headings and technical content can use the full column. */
 .page-shell {
   max-width: var(--page-max-width);
   margin: 0 auto;
-  padding: var(--space-4) var(--space-3) var(--space-6);
+  padding: var(--space-4) var(--page-pad) var(--space-6);
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 0;
 }
 /* Deliberately no CSS `order` swap here: DOM order (site_nav, then main)
@@ -284,11 +311,11 @@ a:hover { color: var(--colour-link-hover); }
    isn't where it visually appears. */
 @media (min-width: 62em) {
   .page-shell {
-    grid-template-columns: 17.5rem minmax(0, var(--content-max-width));
+    grid-template-columns: minmax(14rem, 17.5rem) minmax(0, 1fr);
+    gap: var(--column-gap);
     align-items: start;
-    justify-content: start;
   }
-  main { border-left: 1px solid var(--colour-border); padding: 0 var(--space-5); }
+  main { border-left: 1px solid var(--colour-border); padding-left: var(--column-gap); }
 }
 
 /* ---------- Sidebar site nav (single contents tree: pages + current
@@ -359,7 +386,7 @@ a:hover { color: var(--colour-link-hover); }
   color: var(--colour-draft-text);
   padding: 0.65rem 1rem;
   margin: 0 0 var(--space-4);
-  max-width: 66ch;
+  max-width: var(--prose-measure);
   font-size: 0.9375rem;
 }
 .draft-notice a { color: var(--colour-draft-text); }
@@ -430,9 +457,9 @@ main { min-width: 0; }
 .content-meta-list dd { margin: 0.15rem 0 0; }
 .content-meta-list dd code { font-size: 0.85em; word-break: break-all; }
 
-.content p { margin: 0 0 var(--space-3); max-width: 66ch; }
+.content p { margin: 0 0 var(--space-3); max-width: var(--prose-measure); }
 .content > .content-meta { max-width: none; color: var(--colour-muted); }
-.content ul, .content ol { margin: 0 0 var(--space-3); padding-left: 1.4rem; max-width: 66ch; }
+.content ul, .content ol { margin: 0 0 var(--space-3); padding-left: 1.4rem; max-width: var(--prose-measure); }
 .content li { margin-bottom: 0.4rem; }
 .content dl { margin: 0 0 var(--space-4); border: 1px solid var(--colour-border); }
 .content dl > div { display: grid; grid-template-columns: 1fr; gap: 0.25rem; padding: 0.75rem var(--space-3); border-bottom: 1px solid var(--colour-border); }
@@ -441,10 +468,10 @@ main { min-width: 0; }
   .content dl > div { grid-template-columns: 12rem 1fr; gap: var(--space-3); }
 }
 .content dt { font-family: var(--font-heading); font-weight: 700; color: var(--colour-text); }
-.content dd { margin: 0; max-width: 66ch; }
+.content dd { margin: 0; max-width: var(--prose-measure); }
 
 /* ---------- Task-based homepage pathways ---------- */
-.task-pathways { list-style: none; padding-left: 0; margin: 0 0 var(--space-4); max-width: 66ch; }
+.task-pathways { list-style: none; padding-left: 0; margin: 0 0 var(--space-4); max-width: var(--prose-measure); }
 .task-pathways li { border-bottom: 1px solid var(--colour-border); padding: 0.85rem 0; }
 .task-pathways li:first-child { padding-top: 0; }
 .task-pathways li:last-child { border-bottom: 0; padding-bottom: 0; }
@@ -456,18 +483,26 @@ main { min-width: 0; }
 .ref-list li { display: flex; gap: 0.75rem; margin-bottom: 0.6rem; }
 .ref-list .ref-tag { flex: 0 0 auto; font-weight: 700; color: var(--colour-muted); min-width: 3.5rem; }
 
-/* ---------- Notes / examples ---------- */
+/* ---------- Notes / examples ----------
+   Block flow, not flex: a callout can contain several block children (a
+   NOTE paragraph followed by a list, or by a table — e.g. Table 5.1 in
+   clause 5.1.4), and flex-row laid those out side by side, squeezing a
+   table into a sliver that forced pointless horizontal scrolling. */
 .callout {
-  display: flex;
-  gap: 0.65rem;
   border-left: 4px solid var(--colour-note-border);
   background: var(--colour-note-bg);
   padding: 0.85rem 1rem;
   margin: var(--space-3) 0 var(--space-4);
-  max-width: 66ch;
+  max-width: var(--prose-measure);
 }
 .callout p { margin: 0; }
-.callout p + p { margin-top: 0.5rem; }
+.callout > * + * { margin-top: 0.5rem; }
+.callout > :last-child { margin-bottom: 0; }
+/* A note that carries a table needs the full content column, not a prose
+   measure — the table inside it then behaves exactly like any other
+   table on the page. (Where :has() is unsupported, the table simply
+   scrolls inside the note — a graceful fallback, not a breakage.) */
+.callout:has(.table-wrap) { max-width: none; }
 .callout__label { font-weight: 700; display: inline; }
 
 /* ---------- Website-authored orientation blocks ----------
@@ -486,7 +521,7 @@ main { min-width: 0; }
   border-bottom: 0 !important;
   font-size: 1.05rem !important;
 }
-.clause-summary p { max-width: 66ch; margin: 0 0 0.6rem; }
+.clause-summary p { max-width: var(--prose-measure); margin: 0 0 0.6rem; }
 .clause-summary p:last-child { margin-bottom: 0; font-style: normal; color: var(--colour-muted); }
 
 .etsi-content-notice {
@@ -495,7 +530,7 @@ main { min-width: 0; }
   color: var(--colour-muted);
   padding: 0.65rem 1rem;
   margin: 0 0 var(--space-4);
-  max-width: 66ch;
+  max-width: var(--prose-measure);
   font-size: 0.9375rem;
 }
 
@@ -505,7 +540,7 @@ main { min-width: 0; }
   border: 1px solid var(--colour-border-strong);
   padding: 1rem 1.25rem;
   margin: 0 0 var(--space-4);
-  max-width: 66ch;
+  max-width: var(--prose-measure);
 }
 .on-this-page h2 {
   margin-top: 0 !important;
@@ -559,9 +594,22 @@ main { min-width: 0; }
 .technical-details[open] summary { margin-bottom: 0.75rem; }
 .technical-details > p:first-of-type { color: var(--colour-muted); font-size: 0.9375rem; }
 
-/* ---------- Tables ---------- */
+/* ---------- Tables ----------
+   Tables use the full width of the content column and size their columns
+   from their content (table-layout: auto), wrapping cell text rather than
+   forcing a fixed minimum width. Horizontal scrolling inside .table-wrap
+   is a last-resort fallback for tables whose natural minimum width
+   genuinely exceeds the column (e.g. Annex B's 26-column matrix on a
+   phone) — site.js makes the wrapper focusable/labelled only while it
+   actually overflows, and adds a visible "scroll sideways" cue. */
 .table-wrap { overflow-x: auto; margin: 0 0 var(--space-4); border: 1px solid var(--colour-border); }
-.content table { border-collapse: collapse; width: 100%; min-width: 32rem; font-size: 0.95rem; }
+.content table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 100%;
+  table-layout: auto;
+  font-size: 0.95rem;
+}
 .content caption {
   text-align: left;
   font-family: var(--font-heading);
@@ -570,9 +618,42 @@ main { min-width: 0; }
   background: var(--colour-panel-bg);
   border-bottom: 1px solid var(--colour-border);
 }
-.content th, .content td { text-align: left; padding: 0.6rem 0.85rem; border-bottom: 1px solid var(--colour-border); vertical-align: top; }
+.content th, .content td {
+  text-align: left;
+  /* Fluid cell padding: roomy on desktop, tighter on small screens so
+     more of the table fits before scrolling is ever needed. */
+  padding: clamp(0.35rem, 0.25rem + 0.4vw, 0.6rem) clamp(0.5rem, 0.35rem + 0.6vw, 0.85rem);
+  border-bottom: 1px solid var(--colour-border);
+  vertical-align: top;
+  /* Let long tokens (URLs, clause references) break rather than widen the
+     column; normal words still wrap at word boundaries. */
+  overflow-wrap: anywhere;
+  word-break: normal;
+  hyphens: auto;
+}
 .content thead th { background: var(--colour-text); color: #ffffff; font-family: var(--font-heading); font-weight: 700; }
 .content tbody tr:nth-child(even) { background: var(--colour-panel-bg); }
+
+/* Visible affordance for the (now rare) tables that still overflow:
+   a pinned hint line site.js adds only while the wrapper actually
+   scrolls, plus an always-visible scrollbar where the platform supports
+   styling one. The hint is aria-hidden — screen-reader users already get
+   the wrapper's role/label ("Scrollable table") from site.js. */
+.table-wrap__hint {
+  position: sticky;
+  left: 0;
+  margin: 0;
+  max-width: none;
+  padding: 0.35rem 0.8rem;
+  font-size: 0.8125rem;
+  color: var(--colour-muted);
+  background: var(--colour-panel-bg);
+  border-bottom: 1px solid var(--colour-border);
+}
+.table-wrap::-webkit-scrollbar { height: 0.65rem; }
+.table-wrap::-webkit-scrollbar-track { background: var(--colour-panel-bg); }
+.table-wrap::-webkit-scrollbar-thumb { background: var(--colour-border-strong); border-radius: 0; }
+.table-wrap { scrollbar-width: thin; }
 
 /* ---------- Prev/next ---------- */
 .page-pager { display: flex; justify-content: space-between; gap: var(--space-3); margin-top: var(--space-6); padding-top: var(--space-3); border-top: 2px solid var(--colour-border-strong); }
@@ -612,10 +693,10 @@ main { min-width: 0; }
 .doc-footer .doc-footer__right { text-align: right; }
 
 .site-footer { background: var(--colour-site-header-bg); color: #ffffff; margin-top: var(--space-6); }
-.site-footer__inner { max-width: var(--page-max-width); margin: 0 auto; padding: var(--space-5) var(--space-3); font-size: 0.875rem; }
+.site-footer__inner { max-width: var(--page-max-width); margin: 0 auto; padding: var(--space-5) var(--page-pad); font-size: 0.875rem; }
 .site-footer a { color: #d3d3d3; }
 .site-footer a:hover { color: #ffffff; }
-.site-footer p { max-width: 66ch; }
+.site-footer p { max-width: var(--prose-measure); }
 
 /* ---------- Utility ---------- */
 .visually-hidden {

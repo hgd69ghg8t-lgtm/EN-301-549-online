@@ -166,9 +166,10 @@ npm install
 npm run build          # python3 scripts/build.py
 npm test               # build + structural/content validation (no network, no browser)
 npm run test:a11y      # axe-core against every generated page (requires a Chromium install)
+npm run test:layout    # responsive layout assertions at 320-1920px (requires a Chromium install)
 ```
 
-`npm test` is pure Python + Node, no browser required, and is what should run on every commit. `npm run test:a11y` additionally needs a Chromium binary; run `npx playwright install --with-deps chromium` once before the first local run. See [`.github/workflows/ci.yml`](.github/workflows/ci.yml) for exactly what runs in CI, and why these two tools specifically — see the comment at the top of that file.
+`npm test` is pure Python + Node, no browser required, and is what should run on every commit. `npm run test:a11y` and `npm run test:layout` additionally need a Chromium binary; run `npx playwright install --with-deps chromium` once before the first local run. The layout test checks, on representative pages at seven viewport widths (320-1920px): no page-level horizontal overflow, no sidebar/content overlap, the content column actually growing on wider screens, table wrappers only scrolling when the table's measured minimum width genuinely exceeds the space, and the mobile contents disclosure still working. See [`.github/workflows/ci.yml`](.github/workflows/ci.yml) for exactly what runs in CI and why these tools specifically — see the comment at the top of that file.
 
 ## Maintenance
 

@@ -70,14 +70,15 @@ and explain exactly what you corrected and why, with a page/clause reference, in
 
 ```
 npm install                                     # once
-npx playwright install --with-deps chromium     # once, for the a11y sweep
+npx playwright install --with-deps chromium     # once, for the browser-based tests
 python3 scripts/build.py                        # build (also the primary validator)
 npm test                                        # build + html-validate
 npm run test:a11y                               # axe-core sweep against every page
+npm run test:layout                             # responsive layout assertions, 320-1920px
 git diff --exit-code -- docs/                   # confirm docs/ matches a clean rebuild
 ```
 
-All four should be run, and pass, before merging a change that touches `content/`, `data/`, `scripts/`, `docs/assets/`, or `scripts/sitemap.json`.
+All of these should be run, and pass, before merging a change that touches `content/`, `data/`, `scripts/`, `docs/assets/`, or `scripts/sitemap.json`.
 
 ## Reviewing the accessibility statement
 
