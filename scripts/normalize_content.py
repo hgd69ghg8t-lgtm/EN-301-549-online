@@ -7,9 +7,10 @@ Run this after adding or editing headings in content/*.html:
 
 It rewrites every content fragment so that:
 
-* the fragment no longer opens with its own <h1> (the page template owns
-  the single <h1> for every page except the homepage, which has no
-  template-level doc header and keeps its fragment <h1>);
+* the fragment never opens with its own <h1> — the page template supplies
+  the single <h1> for every page: the site masthead becomes the homepage's
+  <h1>, and every other page's <h1> comes from its title in
+  scripts/sitemap.json;
 * every numbered heading (a heading whose visible text starts with a
   clause reference such as "9.1.1.1" or "C.8.2.1.1") has an id derived
   purely from that number, e.g. id="9-1-1-1" / id="c-8-2-1-1" — never
@@ -33,11 +34,6 @@ from heading_parser import parse_headings, canonical_id  # noqa: E402
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT_DIR = ROOT / "content"
 
-# The homepage has no template-level doc header/H1, so its own fragment
-# H1 is the page's only H1 and must be left alone.
-KEEP_FRAGMENT_H1 = {"index"}
-
-
 def render_starttag(level, attrs, new_id):
     parts = [f"h{level}"]
     id_written = False
@@ -55,7 +51,6 @@ def render_starttag(level, attrs, new_id):
 
 
 def normalize_file(path):
-    slug = path.stem
     raw = path.read_text(encoding="utf-8")
     headings = parse_headings(raw)
     if not headings:
@@ -64,7 +59,7 @@ def normalize_file(path):
     edits = []  # (start, end, replacement), applied right-to-left
 
     first = headings[0]
-    if first.level == 1 and slug not in KEEP_FRAGMENT_H1:
+    if first.level == 1:
         remove_end = first.close_end
         # also swallow a single trailing blank line so we don't leave
         # doubled blank lines behind

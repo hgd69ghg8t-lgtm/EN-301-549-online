@@ -132,30 +132,21 @@ def validate_sitemap_vs_content(errors):
 
 def validate_fragment_headings(slug, raw, headings, errors):
     label = f"content/{slug}.html"
-    is_index = slug == "index"
 
+    # Every page's <h1> now comes from the template — the homepage's own
+    # masthead is rendered as its <h1> (see build_site_title()), and every
+    # other page gets its <h1> from build_doc_header(). No content fragment
+    # should ever contain its own <h1>.
     h1s = [h for h in headings if h.level == 1]
-    if is_index:
-        if len(h1s) != 1:
-            errors.add(label, "h1-count",
-                       f"Homepage fragment must contain exactly one <h1> (found {len(h1s)}); "
-                       "it has no template-level doc header to supply one.",
-                       "Give content/index.html exactly one <h1> as its first heading.")
-        elif not h1s[0].text.strip():
-            errors.add(label, "h1-empty", "The <h1> element has no visible text.",
-                       "Give the <h1> real, non-empty text.")
-        elif headings[0] is not h1s[0]:
-            errors.add(label, "h1-not-first", "The <h1> is not the first heading in the fragment.",
-                       "Move the <h1> to the top of content/index.html.")
-    else:
-        if h1s:
-            errors.add(label, "h1-in-fragment",
-                       "This fragment contains its own <h1>, but the page template already "
-                       "supplies the page's <h1> from sitemap.json's title. Two <h1> elements "
-                       "would end up on the same generated page.",
-                       f"Remove the <h1>...</h1> from {label} (run scripts/normalize_content.py), "
-                       "and if the fragment's heading text is more complete than sitemap.json's "
-                       "title, update the title in scripts/sitemap.json instead.")
+    if h1s:
+        errors.add(label, "h1-in-fragment",
+                   "This fragment contains its own <h1>, but the page template already "
+                   "supplies the page's <h1> (the site masthead on the homepage, or the "
+                   "title from sitemap.json on every other page). Two <h1> elements would "
+                   "end up on the same generated page.",
+                   f"Remove the <h1>...</h1> from {label} (run scripts/normalize_content.py), "
+                   "and if the fragment's heading text is more complete than sitemap.json's "
+                   "title, update the title in scripts/sitemap.json instead.")
 
     seen_ids = {}
     last_level = 1  # virtual parent: the template's own <h1> (or fragment h1 for index)
@@ -408,6 +399,18 @@ def build_pager(index):
     return "\n".join(parts)
 
 
+def build_site_title(is_index, asset_prefix):
+    """The masthead title is the page's own <h1> on the homepage (which has
+    no other page-specific heading), and a plain link back home on every
+    other page (which already has its own <h1> from build_doc_header).
+    Exactly one <h1> per page, never two."""
+    subtitle = '<span class="site-header__subtitle">Accessibility requirements for ICT products and services</span>'
+    if is_index:
+        return f'<h1 class="site-header__title">{DOC_LABEL} Online {subtitle}</h1>'
+    return (f'<a class="site-header__title" href="{asset_prefix}index.html">'
+            f'{DOC_LABEL} Online {subtitle}</a>')
+
+
 PAGE_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -422,10 +425,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 
 <header class="site-header">
   <div class="site-header__inner">
-    <a class="site-header__title" href="{asset_prefix}index.html">
-      {doc_label} Online
-      <span class="site-header__subtitle">Accessibility requirements for ICT products and services</span>
-    </a>
+    {site_title}
     <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
   </div>
 </header>
@@ -531,6 +531,7 @@ def render_page(index, page, metadata, errors):
         doc_label=DOC_LABEL,
         description=html.escape(f'{page["title"]} — {DOC_LABEL} accessible HTML edition (final draft, under approval).'),
         asset_prefix="",
+        site_title=build_site_title(is_index, ""),
         doc_header="" if is_index else build_doc_header(page),
         draft_notice_rest=html.escape(draft_notice_rest),
         site_nav=build_site_nav(slug, headings),
