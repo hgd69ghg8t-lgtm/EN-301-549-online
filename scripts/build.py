@@ -110,6 +110,26 @@ def human_page_range(pdf_pages):
     return f"page {pdf_pages}"
 
 
+CSS_PATH = DOCS_DIR / "assets" / "css" / "style.css"
+JS_PATH = DOCS_DIR / "assets" / "js" / "site.js"
+
+
+def asset_version(path):
+    """Short content hash appended as ?v=... to the shared CSS/JS URLs.
+    GitHub Pages caches assets for ~10 minutes, so without this a style
+    change rolls out unevenly — pages loaded at different moments mix old
+    and new styling until every visitor's cache expires. With it, any
+    change to the file changes every page's asset URL in the same build,
+    so all pages pick up the new styles together. Content-derived, so a
+    rebuild from unchanged source still produces byte-identical output
+    (the reproducibility guarantee in the README holds). Note these two
+    files are hand-authored source that happens to live under docs/
+    (see README) — this does not read any *generated* output."""
+    if not path.exists():
+        return "0"
+    return hashlib.sha256(path.read_bytes()).hexdigest()[:8]
+
+
 def source_pdf_size(errors=None):
     """The download link's file size, computed from the PDF committed at
     docs/source/ — never downloaded or guessed, so the build works fully
@@ -832,7 +852,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title} | {doc_label} Online</title>
 <meta name="description" content="{description}">
-<link rel="stylesheet" href="{asset_prefix}assets/css/style.css">
+<link rel="stylesheet" href="{asset_prefix}assets/css/style.css?v={css_version}">
 </head>
 <body>
 <a class="skip-link" id="top" href="#main-content">Skip to main content</a>
@@ -868,7 +888,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
     <p>Unofficial HTML edition of the {source_month_year} final draft. <a href="{asset_prefix}about.html">Read how this edition was produced</a>.</p>
   </div>
 </footer>
-<script src="{asset_prefix}assets/js/site.js"></script>
+<script src="{asset_prefix}assets/js/site.js?v={js_version}"></script>
 </body>
 </html>
 """
@@ -1248,6 +1268,8 @@ def render_page(index, page, metadata, summaries, errors):
         doc_footer="" if is_index else build_doc_footer(page),
         pager="" if is_index else build_pager(index),
         source_pdf=SOURCE_PDF_NAME,
+        css_version=asset_version(CSS_PATH),
+        js_version=asset_version(JS_PATH),
     )
     # Empty template placeholders (e.g. doc_header/pager on the homepage)
     # otherwise leave lines containing only the surrounding indentation.
