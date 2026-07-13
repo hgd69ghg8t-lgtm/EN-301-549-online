@@ -16,15 +16,17 @@
       ETSI EN 301 549 V4.1.0 Online
       <span class="site-header__subtitle">Accessibility requirements for ICT products and services</span>
     </a>
-    <span class="site-header__doc-status">Final draft &middot; V4.1.0 (2026-06)</span>
+    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
   </div>
 </header>
+<div class="accent-bar" aria-hidden="true"></div>
 
 
 
 <div class="page-shell">
-  <nav class="site-nav" aria-labelledby="site-nav-heading">
-<h2 id="site-nav-heading">Contents</h2>
+  <nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
+<button type="button" class="site-nav__close" aria-label="Close table of contents"><span aria-hidden="true">Table of contents</span><span aria-hidden="true">&times;</span></button>
+<div class="site-nav__header">Contents</div>
 <p><a href="index.html">Home</a></p>
 <details><summary>Front matter</summary><ul>
 <li><a href="about.html">About this standard</a></li>
@@ -70,7 +72,7 @@
 <li><a href="annex-c-14-conformance.html">Annex C.14: Conformance</a></li>
 </ul></details>
 </nav>
-  <main id="main-content">
+  <main id="main-content" tabindex="-1">
     <div class="content">
       <h1>EN 301 549 Online</h1>
 <p class="content-meta">Accessible HTML edition of <cite>ETSI EN 301 549 V4.1.0 (2026-06), Final draft: Accessibility requirements for ICT products and services</cite>.</p>
@@ -126,6 +128,7 @@
 
     </div>
     
+    
   </main>
   <nav class="page-toc" aria-labelledby="page-toc-heading">
 <h2 id="page-toc-heading">On this page</h2>
@@ -142,11 +145,14 @@
 </ol></nav>
 </div>
 
+<button type="button" class="back-to-top" aria-label="Back to top of page">&uarr; Back to top</button>
+
 <footer class="site-footer">
   <div class="site-footer__inner">
     <p>This site republishes the text of <cite>ETSI EN 301 549 V4.1.0: Accessibility requirements for ICT products and services</cite> as an accessible, WCAG 2.2 AA HTML edition. It is not an official ETSI publication.</p>
     <p>Source: <a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/">ETSI EN 301 549 deliverables</a>. Original PDF: <a href="source/en_301549v040100va.pdf">en_301549v040100va.pdf</a>.</p>
   </div>
 </footer>
+<script src="assets/js/site.js"></script>
 </body>
 </html>

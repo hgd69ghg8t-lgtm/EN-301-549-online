@@ -71,9 +71,12 @@ def build_site_nav(current_slug):
             order.append(g)
         groups[g].append(page)
 
-    parts = ['<nav class="site-nav" aria-labelledby="site-nav-heading">',
-             '<h2 id="site-nav-heading">Contents</h2>']
-    parts.append(f'<p><a href="index.html">Home</a></p>')
+    parts = ['<nav id="site-nav-panel" class="site-nav" aria-label="Site contents">',
+             '<button type="button" class="site-nav__close" aria-label="Close table of contents">'
+             '<span aria-hidden="true">Table of contents</span>'
+             '<span aria-hidden="true">&times;</span></button>',
+             '<div class="site-nav__header">Contents</div>']
+    parts.append('<p><a href="index.html">Home</a></p>')
     for g in order:
         pages = groups[g]
         contains_current = any(p["slug"] == current_slug for p in pages)
@@ -87,14 +90,36 @@ def build_site_nav(current_slug):
     return "\n".join(parts)
 
 
-def build_breadcrumb(page):
-    parts = ['<nav class="breadcrumb" aria-label="Breadcrumb"><div class="breadcrumb__inner"><ol>']
-    parts.append('<li><a href="index.html">Home</a></li>')
+def build_doc_header(page):
+    breadcrumb = ['<nav class="breadcrumb" aria-label="Breadcrumb"><ol>',
+                  '<li><a href="index.html">Home</a></li>']
     if page["group"]:
-        parts.append(f'<li>{html.escape(page["group"])}</li>')
-    parts.append(f'<li aria-current="page">{html.escape(page["shortTitle"])}</li>')
-    parts.append('</ol></div></nav>')
-    return "\n".join(parts)
+        breadcrumb.append(f'<li>{html.escape(page["group"])}</li>')
+    breadcrumb.append(f'<li aria-current="page">{html.escape(page["shortTitle"])}</li>')
+    breadcrumb.append('</ol></nav>')
+
+    return f"""<div class="doc-header">
+  <div class="doc-header__inner">
+    {"".join(breadcrumb)}
+    <div class="doc-header__top">
+      <div>
+        <div class="doc-header__status-row">
+          <span class="status-badge">Final draft</span>
+          <span class="doc-header__eyebrow">{DOC_LABEL}</span>
+        </div>
+        <h1>{html.escape(page["title"])}</h1>
+        <p class="doc-header__meta">{DOC_LABEL} (2026-06) &middot; source PDF p.{html.escape(page.get("pdfPages") or "")}</p>
+      </div>
+    </div>
+    <div class="doc-toolbar" role="toolbar" aria-label="Document actions">
+      <button type="button" class="doc-toolbar__btn" data-action="print">Print</button>
+      <a class="doc-toolbar__btn" href="source/{SOURCE_PDF_NAME}">Download PDF</a>
+      <button type="button" class="doc-toolbar__btn" data-action="copy-link">
+        <span class="doc-toolbar__btn-label">Copy link</span>
+      </button>
+    </div>
+  </div>
+</div>"""
 
 
 def build_pager(index):
@@ -137,22 +162,26 @@ PAGE_TEMPLATE = """<!doctype html>
       {doc_label} Online
       <span class="site-header__subtitle">Accessibility requirements for ICT products and services</span>
     </a>
-    <span class="site-header__doc-status">Final draft &middot; V4.1.0 (2026-06)</span>
+    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
   </div>
 </header>
+<div class="accent-bar" aria-hidden="true"></div>
 
-{breadcrumb}
+{doc_header}
 
 <div class="page-shell{shell_modifier}">
   {site_nav}
-  <main id="main-content">
+  <main id="main-content" tabindex="-1">
     <div class="content">
       {content}
     </div>
+    {doc_footer}
     {pager}
   </main>
   {page_toc}
 </div>
+
+<button type="button" class="back-to-top" aria-label="Back to top of page">&uarr; Back to top</button>
 
 <footer class="site-footer">
   <div class="site-footer__inner">
@@ -160,9 +189,24 @@ PAGE_TEMPLATE = """<!doctype html>
     <p>Source: <a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/">ETSI EN 301 549 deliverables</a>. Original PDF: <a href="{asset_prefix}source/{source_pdf}">{source_pdf}</a>.</p>
   </div>
 </footer>
+<script src="{asset_prefix}assets/js/site.js"></script>
 </body>
 </html>
 """
+
+
+def build_doc_footer(page):
+    return f"""<div class="doc-footer">
+  <div>
+    <p class="doc-footer__label">Reprinted from</p>
+    <p><cite>{DOC_LABEL}: Accessibility requirements for ICT products and services</cite></p>
+    <p>{html.escape(page["title"])} &middot; source PDF p.{html.escape(page.get("pdfPages") or "")}</p>
+  </div>
+  <div class="doc-footer__right">
+    <p><a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/">ETSI deliverable page</a></p>
+    <p>&copy; ETSI 2026</p>
+  </div>
+</div>"""
 
 
 def render_page(index, page):
@@ -182,10 +226,11 @@ def render_page(index, page):
         doc_label=DOC_LABEL,
         description=html.escape(f'{page["title"]} — {DOC_LABEL} accessible HTML edition.'),
         asset_prefix="",
-        breadcrumb="" if is_index else build_breadcrumb(page),
+        doc_header="" if is_index else build_doc_header(page),
         shell_modifier=shell_modifier,
         site_nav=build_site_nav(slug),
         content=fragment,
+        doc_footer="" if is_index else build_doc_footer(page),
         pager="" if is_index else build_pager(index),
         page_toc=page_toc_html,
         source_pdf=SOURCE_PDF_NAME,
