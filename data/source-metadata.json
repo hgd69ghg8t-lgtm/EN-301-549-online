@@ -11,7 +11,7 @@
   "dateDownloaded": "2026-07-13",
   "dateDownloadedNote": "Taken from this repository's git history (the commit that first added the source PDF), not independently verified against ETSI's own records.",
   "statusLastChecked": "2026-07-13",
-  "statusLastCheckedNote": "The date this website's content was last checked against the source PDF. Currently the same as the date downloaded, above — update this field independently if the source is re-checked without a new PDF being downloaded.",
+  "statusLastCheckedNote": "The date someone genuinely checked ETSI's publication/approval status for this standard (not a build timestamp — the build never sets this automatically). Currently the same as the date downloaded, above, because downloading the PDF was itself that check. Update it only when a maintainer has actually re-checked the status — for example by visiting the ETSI deliverable page linked from this page and confirming whether the version or approval status has changed — and record what you found in docs-for-maintainers/maintenance.md's change notes. Never advance this date without doing the check; the build rejects missing, malformed, future-dated, or placeholder-looking values here.",
   "sha256": "c2247f2d59c6f1465e5c10a8d6720aaa79c2d82a420435eb8f487e34dcc0672a",
   "sha256Note": "Computed directly from the PDF committed at docs/source/en_301549v040100va.pdf with the sha256sum command. Recompute and update this value whenever the source PDF is replaced.",
   "siteBuildDate": null,

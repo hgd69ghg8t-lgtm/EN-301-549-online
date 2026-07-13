@@ -107,11 +107,12 @@ brew install poppler            # macOS
 - After adding or renumbering headings, run `python3 scripts/normalize_content.py` to bring every id in `content/` in line with the rule above in one pass, then rebuild.
 - Every numbered heading (h2/h3/h4) automatically gets a small permalink control next to it at build time, with an accessible name like "Copy link to 9.1.1.1 Non-text content" — you don't add this by hand in content fragments.
 - Heading levels should not skip (an `<h3>` should not be followed directly by an `<h4>`'s child, i.e. by an `<h5>`, without an intervening `<h4>` on the way down). The build fails on a skipped level.
-- A page with 4 or more h2/h3 headings automatically gets an "On this page" jump list at build time, generated from those headings — nothing to add by hand.
+- A page with 4 or more h2/h3 headings automatically gets an "On this page" jump list at build time, generated from those headings — nothing to add by hand. Its depth is deliberately capped at h2/h3 (the same two levels the left-hand sidebar shows) — h4 requirement-level headings are excluded even on the longest pages, since listing every one of them (up to ~100+ on the biggest clauses) would make the list unusable rather than helpful. Website-only headings ("About this clause", "On this page" itself, etc.) are never included — `build_on_this_page()` only ever sees the fragment's own parsed ETSI headings, and this is re-checked on the final rendered output (see `on-this-page-utility-heading` in the validator).
 - To give a page a short "About this clause"/"About this annex" orientation box, add an entry to `data/clause-summaries.json` keyed by slug. Keep it to 1–2 short paragraphs, describe what the clause covers without interpreting conformance requirements, and don't add one where it would be redundant or misleading — most pages deliberately have none. The build automatically appends the fixed "reproduced from the ETSI draft, not simplified or changed" sentence; don't duplicate it in the JSON. You can link the words "normative" or "informative" to their definition on the About page by writing `{{normative}}` / `{{informative}}` in the text.
 - A handful of `{{TOKEN}}` placeholders are available in content fragments for values `scripts/build.py` can compute reliably (so they can never go stale): `{{STATUS_LAST_CHECKED}}`, `{{SOURCE_MONTH_YEAR}}`, `{{SOURCE_PDF_SIZE}}`. See `substitute_tokens()` in `scripts/build.py` for the full list. The build fails if an unreplaced `{{...}}` token would be published.
 - Reader-facing dates use human formatting ("13 July 2026", "June 2026"), not ISO (`2026-07-13`) — `human_date()` in `scripts/build.py` does this conversion for every date the build itself renders. This does not apply to dates that are part of reproduced ETSI content (e.g. Annex F's change-history table uses ETSI's own date format, and that must not be reformatted).
 - The build fails if publishable placeholder text (e.g. `[insert a real contact method here]`) is found in generated output — don't leave TODO-style placeholders in content that's ready to ship.
+- Every `<dt>` definition term in a fragment (clause 3's Terms and Abbreviations lists today) automatically gets a stable `id="def-..."` at build time — generated from the term's own text, deterministic across builds, never from its position in the list — plus `tabindex="-1"` so it can receive keyboard focus when linked to directly. Nothing to add by hand, and an existing hand-authored `id` on a `<dt>` is always kept as-is. A `<dl>` with `AZ_INDEX_THRESHOLD` (20) or more terms also gets a same-page A-Z index inserted before it and a "Back to A-Z index" link after it — see `apply_glossary_terms()` in `scripts/build.py`. This never restructures or reorders the definitions themselves.
 
 ## Validation: the build fails on invalid content
 
@@ -129,7 +130,12 @@ brew install poppler            # macOS
 - unfilled placeholder text (e.g. `[insert a real contact method here]`) that would otherwise be published;
 - an unreplaced `{{TOKEN}}` in generated output;
 - a heading permalink with too short an accessible name to be meaningful (see "Content-authoring conventions");
-- the accessibility statement missing a real reporting route (a GitHub issues link or a `mailto:` link).
+- the accessibility statement missing a real reporting route (a GitHub issues link or a `mailto:` link);
+- an "On this page" list containing a website-only utility heading instead of just the fragment's own ETSI headings;
+- an invalid, missing, future-dated, or obviously-placeholder `statusLastChecked`/`dateDownloaded`;
+- a `data/clause-summaries.json` entry that references a page that doesn't exist, has a duplicate key, is empty, contains raw HTML, is too long, or contains placeholder text;
+- a `<dt>` glossary/abbreviation term rendered without a stable id, or two terms rendered with the same id;
+- an A-Z index rendered with no letter links, letters not in alphabetical order, or a letter link pointing at an id that doesn't exist on the page.
 
 ## Accessibility
 

@@ -120,3 +120,68 @@ def parse_headings(fragment_html):
     scanner.feed(fragment_html)
     scanner.close()
     return scanner.headings
+
+
+class Term:
+    """A <dt> definition-list term, with the same kind of byte-offset
+    tracking as Heading — used for clause 3's glossary entries."""
+    __slots__ = ("id", "attrs", "text", "start", "tag_end", "end", "close_end")
+
+    def __init__(self, id_, attrs, text, start, tag_end, end):
+        self.id = id_
+        self.attrs = attrs
+        self.text = text
+        self.start = start
+        self.tag_end = tag_end
+        self.end = end
+        self.close_end = end + len("</dt>")
+
+    def __repr__(self):
+        return f"Term(id={self.id!r} text={self.text!r})"
+
+
+class _TermScanner(HTMLParser):
+    def __init__(self, raw):
+        super().__init__(convert_charrefs=True)
+        self._line_offsets = _line_offsets(raw)
+        self.terms = []
+        self._stack = []
+
+    def _offset(self):
+        line, col = self.getpos()
+        return self._line_offsets[line - 1] + col
+
+    def handle_starttag(self, tag, attrs):
+        if tag != "dt":
+            return
+        attrs_d = dict(attrs)
+        start = self._offset()
+        tag_text = self.get_starttag_text() or ""
+        self._stack.append({
+            "id": attrs_d.get("id"),
+            "attrs": list(attrs),
+            "text": [],
+            "start": start,
+            "tag_end": start + len(tag_text),
+        })
+
+    def handle_data(self, data):
+        if self._stack:
+            self._stack[-1]["text"].append(data)
+
+    def handle_endtag(self, tag):
+        if tag != "dt" or not self._stack:
+            return
+        entry = self._stack.pop()
+        end = self._offset()
+        text = " ".join("".join(entry["text"]).split())
+        self.terms.append(Term(entry["id"], entry["attrs"], text, entry["start"], entry["tag_end"], end))
+
+
+def parse_terms(fragment_html):
+    """Return every <dt> definition-list term in document order, with the
+    same kind of byte offsets parse_headings() provides."""
+    scanner = _TermScanner(fragment_html)
+    scanner.feed(fragment_html)
+    scanner.close()
+    return scanner.terms

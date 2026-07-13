@@ -517,6 +517,32 @@ main { min-width: 0; }
 .on-this-page ul ul { padding-left: 1.25rem; margin-top: 0.3rem; }
 .on-this-page li { margin-bottom: 0.35rem; }
 
+/* ---------- A-Z index (clause 3 glossary/abbreviation lists) ---------- */
+.az-index {
+  background: var(--colour-panel-bg);
+  border: 1px solid var(--colour-border-strong);
+  padding: 0.85rem 1.25rem;
+  margin: 0 0 var(--space-4);
+}
+.az-index ul {
+  list-style: none;
+  margin: 0;
+  padding-left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.6rem;
+}
+.az-index a {
+  display: inline-block;
+  min-width: 1.6rem;
+  text-align: center;
+  padding: 0.15rem 0.3rem;
+  border: 1px solid var(--colour-border);
+  text-decoration: none;
+}
+.az-index a:hover { border-color: var(--colour-link-hover); background: var(--colour-panel-bg); }
+.back-to-az-index { font-size: 0.9375rem; }
+
 /* ---------- Technical provenance disclosure ----------
    Native <details>/<summary>: keyboard-operable and works with no
    JavaScript at all, so nothing extra was needed to make this accessible. */

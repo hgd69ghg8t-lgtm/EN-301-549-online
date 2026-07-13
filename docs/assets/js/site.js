@@ -125,6 +125,33 @@
     });
   });
 
+  // ---------- Glossary term focus-on-navigate ----------
+  // Baseline (no JS): a fragment link to a <dt id="..."> already scrolls it
+  // into view via normal browser anchor behaviour. This only adds keyboard
+  // focus on top of that, so screen reader and keyboard users landing on a
+  // definition get it announced/positioned as the current point, both on
+  // page load with a fragment already in the URL and when a same-page
+  // A-Z index or permalink is activated afterwards. tabindex="-1" (set at
+  // build time) makes each <dt> focusable-by-script without adding it to
+  // normal Tab order.
+  function focusFragmentTarget() {
+    var hash = window.location.hash;
+    if (!hash || hash.length < 2) return;
+    var target;
+    try {
+      target = document.getElementById(decodeURIComponent(hash.slice(1)));
+    } catch (err) {
+      target = document.getElementById(hash.slice(1));
+    }
+    if (target && target.tagName === "DT") {
+      target.focus();
+    }
+  }
+  if (document.querySelector(".az-index")) {
+    focusFragmentTarget();
+    window.addEventListener("hashchange", focusFragmentTarget);
+  }
+
   // ---------- Back to top ----------
   // A real <a href="#top"> link (works with no JS, keyboard-only, and
   // respects prefers-reduced-motion via CSS scroll-behavior). JS only

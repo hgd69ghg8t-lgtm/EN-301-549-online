@@ -1,0 +1,73 @@
+name: Accessibility problem
+description: Report something on this website that's hard or impossible to use, including with assistive technology.
+title: "[Accessibility] "
+# No `labels:` entry here deliberately — the repository doesn't currently
+# define an "accessibility" label, and GitHub issue forms don't create a
+# label that doesn't already exist. Add one (Settings > Labels) and then
+# add e.g. `labels: [accessibility]` here, if you want issues from this
+# form tagged automatically.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to report this. Please only fill in what you know — most fields below are optional.
+
+        **Please don't include sensitive personal information** (such as health details, financial information, or anything you wouldn't want made public) — this form creates a public GitHub issue that anyone can read. If your report needs to stay private, do not submit it here.
+
+        Submitting this form requires a free GitHub account. If you don't have one and can't create one, this form won't work for you — there is currently no other reporting channel for this website.
+
+  - type: input
+    id: page-url
+    attributes:
+      label: Page where you found the problem
+      description: Copy the web address (URL) from your browser's address bar, if you can.
+      placeholder: "https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What happened
+      description: Describe the problem in your own words. There's no wrong way to explain this.
+    validations:
+      required: true
+
+  - type: textarea
+    id: goal
+    attributes:
+      label: What you were trying to do
+      description: For example, "find the requirement for video captions" or "read the accessibility statement."
+    validations:
+      required: false
+
+  - type: input
+    id: browser-device
+    attributes:
+      label: Browser or device (if known)
+      description: For example, "Chrome on Windows" or "Safari on iPhone." Leave blank if you're not sure.
+    validations:
+      required: false
+
+  - type: input
+    id: assistive-technology
+    attributes:
+      label: Assistive technology (if known)
+      description: For example, a screen reader, screen magnifier, switch device, or voice control software, and its name if you know it.
+    validations:
+      required: false
+
+  - type: input
+    id: alternative-format
+    attributes:
+      label: Format that would work better for you
+      description: Only if relevant — for example, plain text, large print, or an easier-to-read version of a specific page.
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-info
+    attributes:
+      label: Anything else you'd like to add
+    validations:
+      required: false
