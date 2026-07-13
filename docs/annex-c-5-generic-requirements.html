@@ -31,7 +31,7 @@
     </div>
     <div class="doc-toolbar" role="group" aria-label="Document actions">
       <button type="button" class="doc-toolbar__btn" data-action="print">Print</button>
-      <a class="doc-toolbar__btn" href="source/en_301549v040100va.pdf">Download PDF</a>
+      <a class="doc-toolbar__btn" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF">Download PDF</a>
       <button type="button" class="doc-toolbar__btn" data-action="copy-link">
         <span class="doc-toolbar__btn-label">Copy link</span>
         <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
@@ -45,8 +45,8 @@
 <button type="button" class="site-nav__close" aria-label="Close table of contents"><span aria-hidden="true">Table of contents</span><span aria-hidden="true">&times;</span></button>
 <div class="site-nav__header">Contents</div>
 <p><a href="index.html">Home</a></p>
-<details><summary>Front matter</summary><ul>
-<li><a href="about.html">About this standard</a>
+<details><summary>About and legal information</summary><ul>
+<li><a href="about.html">About this HTML edition</a>
 </li>
 <li><a href="accessibility-statement.html">Accessibility statement</a>
 </li>
@@ -74,9 +74,9 @@
 </li>
 <li><a href="clause-11-non-web-software.html">11 Non-web software</a>
 </li>
-<li><a href="clause-12-information-products-services.html">12 Information about products/services</a>
+<li><a href="clause-12-information-products-services.html">12 Information about products and services</a>
 </li>
-<li><a href="clause-13-relay-emergency.html">13 Relay/emergency access</a>
+<li><a href="clause-13-relay-emergency.html">13 Relay and emergency service access</a>
 </li>
 <li><a href="clause-14-conformance.html">14 Conformance</a>
 </li>
@@ -159,18 +159,60 @@
 </li>
 <li><a href="annex-c-11-software.html">Annex C.11: Software</a>
 </li>
-<li><a href="annex-c-12-information-products-services.html">Annex C.12: Information about products/services</a>
+<li><a href="annex-c-12-information-products-services.html">Annex C.12: Information about products and services</a>
 </li>
-<li><a href="annex-c-13-relay-emergency.html">Annex C.13: Relay/emergency access</a>
+<li><a href="annex-c-13-relay-emergency.html">Annex C.13: Relay and emergency service access</a>
 </li>
 <li><a href="annex-c-14-conformance.html">Annex C.14: Conformance</a>
 </li>
 </ul></details>
 </nav>
   <main id="main-content" tabindex="-1">
-    <p class="draft-notice"><strong>Draft under approval.</strong> This content may change. The ETSI PDF remains the authoritative source. <a href="accessibility-statement.html">Accessibility statement</a>.</p>
+    <p class="draft-notice"><strong>Final draft under approval.</strong> This version may change. Use the official ETSI PDF as the source of record. <a href="accessibility-statement.html">Accessibility statement</a>.</p>
     <div class="content">
-
+      <nav class="on-this-page" aria-labelledby="on-this-page-heading">
+<h2 id="on-this-page-heading">On this page</h2>
+<ul>
+<li><a href="#c-5-1">C.5.1 Closed functionality</a>
+<ul>
+<li><a href="#c-5-1-1">C.5.1.1 Introduction (informative)</a></li>
+<li><a href="#c-5-1-2">C.5.1.2 General</a></li>
+<li><a href="#c-5-1-3">C.5.1.3 Non-visual access</a></li>
+<li><a href="#c-5-1-4">C.5.1.4 Functionality closed to text enlargement</a></li>
+<li><a href="#c-5-1-5">C.5.1.5 Visual output for auditory information</a></li>
+<li><a href="#c-5-1-6">C.5.1.6 Operation without keyboard interface</a></li>
+<li><a href="#c-5-1-7">C.5.1.7 Access without speech</a></li>
+<li><a href="#c-5-1-8">C.5.1.8 Identify input purpose (closed functionality)</a></li>
+</ul></li>
+<li><a href="#c-5-2">C.5.2 Activation of accessibility features</a>
+</li>
+<li><a href="#c-5-3">C.5.3 Biometrics</a>
+</li>
+<li><a href="#c-5-4">C.5.4 Preservation of accessibility information during conversion</a>
+</li>
+<li><a href="#c-5-5">C.5.5 Tactilely discernible operable parts</a>
+</li>
+<li><a href="#c-5-6">C.5.6 Locking or toggle controls</a>
+<ul>
+<li><a href="#c-5-6-1">C.5.6.1 Tactile or auditory status</a></li>
+<li><a href="#c-5-6-2">C.5.6.2 Visual status</a></li>
+</ul></li>
+<li><a href="#c-5-7">C.5.7 Key repeat</a>
+</li>
+<li><a href="#c-5-8">C.5.8 Double-strike key acceptance</a>
+</li>
+<li><a href="#c-5-9">C.5.9 Simultaneous user actions</a>
+</li>
+<li><a href="#c-5-10">C.5.10 Authoring tools</a>
+<ul>
+<li><a href="#c-5-10-0">C.5.10.0 General (informative)</a></li>
+<li><a href="#c-5-10-1">C.5.10.1 Content technology</a></li>
+<li><a href="#c-5-10-2">C.5.10.2 Accessible content creation</a></li>
+<li><a href="#c-5-10-3">C.5.10.3 Preservation of accessibility information in transformations</a></li>
+<li><a href="#c-5-10-4">C.5.10.4 Repair assistance</a></li>
+<li><a href="#c-5-10-5">C.5.10.5 Templates</a></li>
+</ul></li>
+</ul></nav>
 <h2 id="c-5-1">C.5.1 Closed functionality <a class="heading-permalink" href="#c-5-1" data-copy-link aria-label="Copy link to C.5.1 Closed functionality"><span aria-hidden="true">#</span></a></h2>
 
 <h3 id="c-5-1-1">C.5.1.1 Introduction (informative) <a class="heading-permalink" href="#c-5-1-1" data-copy-link aria-label="Copy link to C.5.1.1 Introduction (informative)"><span aria-hidden="true">#</span></a></h3>
@@ -881,11 +923,11 @@
     </div>
     <div class="doc-footer">
   <div>
-    <p class="doc-footer__label">Source</p>
-    <p>Annex C.5 (normative): Generic requirements &middot; source PDF p.143-152</p>
+    <p class="doc-footer__label">Source in the official PDF</p>
+    <p>Annex C.5, pages 143 to 152</p>
   </div>
   <div class="doc-footer__right">
-    <p><a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/">ETSI deliverable page</a></p>
+    <p><a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/">View this standard on the ETSI website</a></p>
     <p>&copy; ETSI 2026</p>
   </div>
 </div>
@@ -902,8 +944,7 @@
 
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <p>This site republishes the standard's text as an HTML edition, designed and tested with the aim of meeting WCAG 2.2 Level AA &mdash; see the <a href="accessibility-statement.html">accessibility statement</a> for what has and hasn't been verified. It is not an official ETSI publication, and this version of the standard is a final draft under approval, not yet published.</p>
-    <p>Source: <a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/">ETSI EN 301 549 deliverables</a>. Original PDF: <a href="source/en_301549v040100va.pdf">en_301549v040100va.pdf</a>.</p>
+    <p>Unofficial HTML edition of the June 2026 final draft. <a href="about.html">Read how this edition was produced</a>.</p>
   </div>
 </footer>
 <script src="assets/js/site.js"></script>

@@ -1,7 +1,7 @@
 [
   { "slug": "index", "title": "EN 301 549 Online", "shortTitle": "Home", "pdfPages": null, "group": "" },
-  { "slug": "about", "title": "About this standard", "shortTitle": "About this standard", "pdfPages": "9-11", "group": "Front matter" },
-  { "slug": "accessibility-statement", "title": "Accessibility statement", "shortTitle": "Accessibility statement", "pdfPages": null, "group": "Front matter" },
+  { "slug": "about", "title": "About this HTML edition", "shortTitle": "About this HTML edition", "pdfPages": "9-11", "group": "About and legal information" },
+  { "slug": "accessibility-statement", "title": "Accessibility statement", "shortTitle": "Accessibility statement", "pdfPages": null, "group": "About and legal information" },
 
   { "slug": "clause-1-scope", "title": "1 Scope", "shortTitle": "1 Scope", "pdfPages": "12", "group": "Clauses" },
   { "slug": "clause-2-references", "title": "2 References", "shortTitle": "2 References", "pdfPages": "12-16", "group": "Clauses" },
@@ -14,8 +14,8 @@
   { "slug": "clause-9-web", "title": "9 Web", "shortTitle": "9 Web", "pdfPages": "61-71", "group": "Clauses" },
   { "slug": "clause-10-non-web-documents", "title": "10 Non-web documents", "shortTitle": "10 Non-web documents", "pdfPages": "71-86", "group": "Clauses" },
   { "slug": "clause-11-non-web-software", "title": "11 Non-web software", "shortTitle": "11 Non-web software", "pdfPages": "86-106", "group": "Clauses" },
-  { "slug": "clause-12-information-products-services", "title": "12 Information about products and services", "shortTitle": "12 Information about products/services", "pdfPages": "106-108", "group": "Clauses" },
-  { "slug": "clause-13-relay-emergency", "title": "13 ICT providing relay or emergency service access", "shortTitle": "13 Relay/emergency access", "pdfPages": "108-111", "group": "Clauses" },
+  { "slug": "clause-12-information-products-services", "title": "12 Information about products and services", "shortTitle": "12 Information about products and services", "pdfPages": "106-108", "group": "Clauses" },
+  { "slug": "clause-13-relay-emergency", "title": "13 ICT providing relay or emergency service access", "shortTitle": "13 Relay and emergency service access", "pdfPages": "108-111", "group": "Clauses" },
   { "slug": "clause-14-conformance", "title": "14 Conformance", "shortTitle": "14 Conformance", "pdfPages": "111-113", "group": "Clauses" },
 
   { "slug": "annex-a-conformance-evaluation", "title": "Annex A (informative): ICT conformance evaluation", "shortTitle": "Annex A: Conformance evaluation", "pdfPages": "113-128", "group": "Annexes" },
@@ -30,8 +30,8 @@
   { "slug": "annex-c-9-web", "title": "Annex C.9 (normative): Web", "shortTitle": "Annex C.9: Web", "pdfPages": "178-192", "group": "Annex C: Determination of conformance" },
   { "slug": "annex-c-10-non-web-documents", "title": "Annex C.10 (normative): Non-web documents", "shortTitle": "Annex C.10: Non-web documents", "pdfPages": "192-203", "group": "Annex C: Determination of conformance" },
   { "slug": "annex-c-11-software", "title": "Annex C.11 (normative): Software", "shortTitle": "Annex C.11: Software", "pdfPages": "203-222", "group": "Annex C: Determination of conformance" },
-  { "slug": "annex-c-12-information-products-services", "title": "Annex C.12 (normative): Information about products and services", "shortTitle": "Annex C.12: Information about products/services", "pdfPages": "222-223", "group": "Annex C: Determination of conformance" },
-  { "slug": "annex-c-13-relay-emergency", "title": "Annex C.13 (normative): ICT providing relay or emergency service access", "shortTitle": "Annex C.13: Relay/emergency access", "pdfPages": "223-227", "group": "Annex C: Determination of conformance" },
+  { "slug": "annex-c-12-information-products-services", "title": "Annex C.12 (normative): Information about products and services", "shortTitle": "Annex C.12: Information about products and services", "pdfPages": "222-223", "group": "Annex C: Determination of conformance" },
+  { "slug": "annex-c-13-relay-emergency", "title": "Annex C.13 (normative): ICT providing relay or emergency service access", "shortTitle": "Annex C.13: Relay and emergency service access", "pdfPages": "223-227", "group": "Annex C: Determination of conformance" },
   { "slug": "annex-c-14-conformance", "title": "Annex C.14 (normative): Conformance", "shortTitle": "Annex C.14: Conformance", "pdfPages": "227-228", "group": "Annex C: Determination of conformance" },
 
   { "slug": "annex-d-cognitive-accessibility", "title": "Annex D (informative): Further resources for cognitive accessibility", "shortTitle": "Annex D: Cognitive accessibility resources", "pdfPages": "228-229", "group": "Annexes" },

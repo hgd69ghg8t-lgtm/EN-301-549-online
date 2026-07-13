@@ -1,0 +1,50 @@
+{
+  "clause-4-functional-performance": {
+    "heading": "About this clause",
+    "text": [
+      "Clause 4 sets out the functional performance criteria used throughout the standard. These describe what people need to be able to do — for example, see, hear or operate a control — rather than how a product must be built. Later clauses refer back to these criteria."
+    ]
+  },
+  "clause-8-hardware": {
+    "heading": "About this clause",
+    "text": [
+      "Clause 8 covers physical products, including their controls, displays and connectors. It sets out what makes hardware accessible to use."
+    ]
+  },
+  "clause-9-web": {
+    "heading": "About this clause",
+    "text": [
+      "Clause 9 applies Web Content Accessibility Guidelines (WCAG) 2.2 requirements to web pages."
+    ]
+  },
+  "clause-10-non-web-documents": {
+    "heading": "About this clause",
+    "text": [
+      "Clause 10 covers documents that are not web pages, such as PDF or word-processed files. It sets out what makes these documents accessible."
+    ]
+  },
+  "clause-11-non-web-software": {
+    "heading": "About this clause",
+    "text": [
+      "Clause 11 covers software that is not a web page, such as desktop or mobile applications. It sets out what makes this software accessible."
+    ]
+  },
+  "clause-14-conformance": {
+    "heading": "About this clause",
+    "text": [
+      "Clause 14 explains what it means for a product or service to conform with this standard, and how conformance is assessed."
+    ]
+  },
+  "annex-a-conformance-evaluation": {
+    "heading": "About this annex",
+    "text": [
+      "Annex A supports evaluating whether a specific product or service meets the essential requirements of the EU accessibility directives covered by this standard. It is {{informative}}, which means it provides guidance rather than setting new requirements."
+    ]
+  },
+  "annex-c-1-introduction": {
+    "heading": "About this annex",
+    "text": [
+      "Annex C describes ways to determine whether individual requirements are met. It is {{normative}}, which means it forms part of the requirements of the standard."
+    ]
+  }
+}

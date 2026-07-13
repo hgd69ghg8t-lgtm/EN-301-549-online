@@ -20,7 +20,7 @@
 
 <div class="doc-header">
   <div class="doc-header__inner">
-    <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Front matter</li><li aria-current="page">Accessibility statement</li></ol></nav>
+    <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>About and legal information</li><li aria-current="page">Accessibility statement</li></ol></nav>
     <div class="doc-header__top">
       <div>
         <div class="doc-header__status-row">
@@ -31,7 +31,7 @@
     </div>
     <div class="doc-toolbar" role="group" aria-label="Document actions">
       <button type="button" class="doc-toolbar__btn" data-action="print">Print</button>
-      <a class="doc-toolbar__btn" href="source/en_301549v040100va.pdf">Download PDF</a>
+      <a class="doc-toolbar__btn" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF">Download PDF</a>
       <button type="button" class="doc-toolbar__btn" data-action="copy-link">
         <span class="doc-toolbar__btn-label">Copy link</span>
         <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
@@ -45,24 +45,26 @@
 <button type="button" class="site-nav__close" aria-label="Close table of contents"><span aria-hidden="true">Table of contents</span><span aria-hidden="true">&times;</span></button>
 <div class="site-nav__header">Contents</div>
 <p><a href="index.html">Home</a></p>
-<details open><summary>Front matter</summary><ul>
-<li><a href="about.html">About this standard</a>
+<details open><summary>About and legal information</summary><ul>
+<li><a href="about.html">About this HTML edition</a>
 </li>
 <li><a href="accessibility-statement.html" aria-current="page">Accessibility statement</a>
 <ul class="site-nav__subsections">
-<li><a href="#target-standard" data-subsection>Target standard</a>
+<li><a href="#what-this-covers" data-subsection>What this statement covers</a>
 </li>
-<li><a href="#testing-status" data-subsection>Testing status</a>
+<li><a href="#report-a-problem" data-subsection>Report an accessibility problem</a>
 </li>
-<li><a href="#known-limitations" data-subsection>Known limitations</a>
+<li><a href="#accessibility-target" data-subsection>Accessibility target</a>
 </li>
-<li><a href="#reporting-problems" data-subsection>Reporting an accessibility problem</a>
+<li><a href="#testing-completed" data-subsection>Testing completed</a>
+</li>
+<li><a href="#known-issues" data-subsection>Known issues</a>
+</li>
+<li><a href="#testing-still-planned" data-subsection>Testing still planned</a>
 </li>
 <li><a href="#review-history" data-subsection>Review history</a>
 </li>
-<li><a href="#browsers-and-assistive-technology" data-subsection>Browsers and assistive technology</a>
-</li>
-<li><a href="#automated-vs-manual-checks" data-subsection>Which checks are automated and which need a person</a>
+<li><a href="#technical-testing-details" data-subsection>Technical testing details</a>
 </li>
 </ul>
 </li>
@@ -90,9 +92,9 @@
 </li>
 <li><a href="clause-11-non-web-software.html">11 Non-web software</a>
 </li>
-<li><a href="clause-12-information-products-services.html">12 Information about products/services</a>
+<li><a href="clause-12-information-products-services.html">12 Information about products and services</a>
 </li>
-<li><a href="clause-13-relay-emergency.html">13 Relay/emergency access</a>
+<li><a href="clause-13-relay-emergency.html">13 Relay and emergency service access</a>
 </li>
 <li><a href="clause-14-conformance.html">14 Conformance</a>
 </li>
@@ -134,55 +136,59 @@
 </li>
 <li><a href="annex-c-11-software.html">Annex C.11: Software</a>
 </li>
-<li><a href="annex-c-12-information-products-services.html">Annex C.12: Information about products/services</a>
+<li><a href="annex-c-12-information-products-services.html">Annex C.12: Information about products and services</a>
 </li>
-<li><a href="annex-c-13-relay-emergency.html">Annex C.13: Relay/emergency access</a>
+<li><a href="annex-c-13-relay-emergency.html">Annex C.13: Relay and emergency service access</a>
 </li>
 <li><a href="annex-c-14-conformance.html">Annex C.14: Conformance</a>
 </li>
 </ul></details>
 </nav>
   <main id="main-content" tabindex="-1">
-    <p class="draft-notice"><strong>Draft under approval.</strong> This content may change. The ETSI PDF remains the authoritative source. <a href="accessibility-statement.html">Accessibility statement</a>.</p>
+    <p class="draft-notice"><strong>Final draft under approval.</strong> This version may change. Use the official ETSI PDF as the source of record. <a href="accessibility-statement.html">Accessibility statement</a>.</p>
     <div class="content">
-      <p class="content-meta">This statement covers the accessibility of this website (the HTML edition of ETSI EN 301 549), not the accessibility of any product or service being evaluated against the standard it reproduces.</p>
-
-<h2 id="target-standard">Target standard</h2>
-<p>This site is designed and tested with the aim of meeting <strong>WCAG 2.2 Level AA</strong>. That is a target, not a certified or independently audited conformance claim &mdash; see <a href="#testing-status">Testing status</a> below for exactly what has and has not been checked.</p>
-
-<h2 id="testing-status">Testing status</h2>
-<p>The following automated checks have been run against every generated page in this site:</p>
+      <nav class="on-this-page" aria-labelledby="on-this-page-heading">
+<h2 id="on-this-page-heading">On this page</h2>
 <ul>
-  <li>An automated accessibility scan (axe-core) against the WCAG 2.0 A/AA, 2.1 AA and 2.2 AA rule sets.</li>
-  <li>Structural HTML validation: heading hierarchy, a single non-empty <code>&lt;h1&gt;</code> per page, no duplicate IDs, no malformed/unclosed tags.</li>
-  <li>Internal link and anchor-target validation (no broken same-site links, no dangling <code>#</code> fragments).</li>
-</ul>
-<p>Automated tools can only catch a subset of accessibility problems. They cannot judge whether alt text is actually meaningful, whether reading order makes sense to a real screen reader user, whether keyboard interaction feels usable rather than merely operable, or how the site behaves with specific assistive technology. <strong>A full manual evaluation, including real screen-reader and keyboard-only testing, has not yet been completed.</strong> See <a href="https://github.com/hgd69ghg8t-lgtm/EN-301-549-online/blob/claude/pdf-accessible-website-j88o8l/docs-for-maintainers/accessibility-testing.md">the manual testing checklist</a> for the maintained record of what has actually been tested, by whom, and when.</p>
+<li><a href="#what-this-covers">What this statement covers</a>
+</li>
+<li><a href="#report-a-problem">Report an accessibility problem</a>
+</li>
+<li><a href="#accessibility-target">Accessibility target</a>
+</li>
+<li><a href="#testing-completed">Testing completed</a>
+</li>
+<li><a href="#known-issues">Known issues</a>
+</li>
+<li><a href="#testing-still-planned">Testing still planned</a>
+</li>
+<li><a href="#review-history">Review history</a>
+</li>
+<li><a href="#technical-testing-details">Technical testing details</a>
+</li>
+</ul></nav><h2 id="what-this-covers">What this statement covers</h2>
+<p>This statement covers the accessibility of this website: the unofficial HTML edition of European Telecommunications Standards Institute (ETSI) EN&nbsp;301&nbsp;549. It does not cover the accessibility of any product or service being evaluated against the standard reproduced here.</p>
 
-<h2 id="known-limitations">Known limitations</h2>
+<h2 id="report-a-problem">Report an accessibility problem</h2>
+<p><a href="https://github.com/hgd69ghg8t-lgtm/EN-301-549-online/issues/new">Report an accessibility problem on GitHub</a>. Please include the page URL, what you were trying to do, the assistive technology and browser you were using if relevant, and what happened instead of what you expected.</p>
+
+<h2 id="accessibility-target">Accessibility target</h2>
+<p>We aim for this website to meet the Web Content Accessibility Guidelines (WCAG) 2.2 at Level AA.</p>
+<p>The website has not been independently audited, so this is not a formal conformance claim.</p>
+
+<h2 id="testing-completed">Testing completed</h2>
+<p>Automated checks run whenever the website changes. They check common coding and accessibility problems, including colour contrast, heading structure and broken links. See <a href="#technical-testing-details">Technical testing details</a> below for exactly which tools and checks these are.</p>
+<p>Automated checks can only catch a subset of accessibility problems. They cannot judge whether reading order makes sense to a real screen reader user, or whether keyboard interaction feels usable rather than merely operable.</p>
+
+<h2 id="known-issues">Known issues</h2>
 <ul>
-  <li>Manual screen-reader testing across the combinations listed below has not yet been recorded as complete &mdash; treat any specific assistive-technology compatibility claim as untested until the log in the manual testing checklist says otherwise.</li>
-  <li>Some tables in the standard (particularly in Annex C and Annex ZA/ZB) are wide and require horizontal scrolling on narrow viewports. These are marked as scrollable, focusable regions with an accessible label, but very complex tables can still be harder to follow with a screen reader than the surrounding prose.</li>
-  <li>This is a large, mostly text-based reference document. No attempt has been made to simplify or restructure the underlying legal/technical language of the standard itself for plain-language readability &mdash; that would change the meaning of a normative document and is out of scope for this project.</li>
+  <li>Manual screen-reader and keyboard-only testing has not yet been completed (see <a href="#testing-still-planned">Testing still planned</a>) &mdash; treat any specific assistive-technology compatibility as untested until this section says otherwise.</li>
+  <li>Some tables in the standard (particularly in Annex C and Annex ZA/ZB) are wide and need horizontal scrolling on narrow screens. These are marked as scrollable, focusable regions with an accessible label, but very complex tables can still be harder to follow with a screen reader than ordinary text.</li>
+  <li>This is a large, mostly text-based reference document. No attempt has been made to simplify the underlying legal or technical language of the standard itself &mdash; that would change the meaning of a normative document, and is out of scope for this website.</li>
 </ul>
 
-<h2 id="reporting-problems">Reporting an accessibility problem</h2>
-<p>If you find an accessibility barrier on this site, please report it: <strong>[insert a real contact method here &mdash; for example an email address or a link to the repository's issue tracker]</strong>. Please include the page URL, what you were trying to do, the assistive technology and browser you were using if relevant, and what happened instead of what you expected.</p>
-
-<h2 id="review-history">Review history</h2>
-<div class="table-wrap">
-<table>
-<caption class="visually-hidden">Accessibility statement review history</caption>
-<thead><tr><th scope="col">Date</th><th scope="col">Reviewer</th><th scope="col">Summary</th></tr></thead>
-<tbody>
-<tr><td>[insert date]</td><td>[insert name/role]</td><td>[insert what was reviewed and the outcome]</td></tr>
-</tbody>
-</table>
-</div>
-<p class="content-meta">No review has been recorded yet &mdash; the row above is a placeholder template for the first entry. Add a new row for every review rather than overwriting this one.</p>
-
-<h2 id="browsers-and-assistive-technology">Browsers and assistive technology</h2>
-<p>The combinations below are the ones this project intends to test against. Do not treat any of them as verified until they are recorded as tested in the <a href="https://github.com/hgd69ghg8t-lgtm/EN-301-549-online/blob/claude/pdf-accessible-website-j88o8l/docs-for-maintainers/accessibility-testing.md">manual testing log</a>.</p>
+<h2 id="testing-still-planned">Testing still planned</h2>
+<p>A full manual evaluation, including real screen-reader and keyboard-only testing, has not yet been completed. The combinations below are the ones this project intends to test against &mdash; do not treat any of them as verified until they are recorded as tested in the <a href="https://github.com/hgd69ghg8t-lgtm/EN-301-549-online/blob/claude/pdf-accessible-website-j88o8l/docs-for-maintainers/accessibility-testing.md">manual testing log</a>.</p>
 <ul>
   <li>NVDA with Firefox or Chrome (Windows)</li>
   <li>JAWS with Chrome or Edge (Windows)</li>
@@ -191,34 +197,40 @@
   <li>TalkBack (Android)</li>
 </ul>
 
-<h2 id="automated-vs-manual-checks">Which checks are automated and which need a person</h2>
-<div class="table-wrap">
-<table>
-<caption class="visually-hidden">Automated versus manual accessibility checks</caption>
-<thead><tr><th scope="col">Automated (run in CI on every change)</th><th scope="col">Requires manual evaluation</th></tr></thead>
-<tbody>
-<tr><td>axe-core automated rule checks (WCAG 2.0/2.1/2.2 AA)</td><td>Whether the reading and focus order actually make sense</td></tr>
-<tr><td>One non-empty <code>&lt;h1&gt;</code> per page; heading hierarchy</td><td>Whether heading wording is genuinely descriptive out of context</td></tr>
-<tr><td>Duplicate IDs; broken internal links and anchors</td><td>Real screen-reader and keyboard-only walkthroughs</td></tr>
-<tr><td>Colour-contrast ratios of the site's own design tokens</td><td>Cognitive load, plain-language clarity, actual usability</td></tr>
-<tr><td>Malformed/unclosed HTML</td><td>Behaviour under browser zoom, reflow, forced-colours mode, and reduced motion in real assistive-technology combinations</td></tr>
-</tbody>
-</table>
-</div>
+<h2 id="review-history">Review history</h2>
+<p>No accessibility review has been completed yet. When one happens, it will be recorded here and in the <a href="https://github.com/hgd69ghg8t-lgtm/EN-301-549-online/blob/claude/pdf-accessible-website-j88o8l/docs-for-maintainers/accessibility-testing.md">manual testing log</a>.</p>
+
+<h2 id="technical-testing-details">Technical testing details</h2>
+<p>The following automated checks run in continuous integration (CI) on every change to this website:</p>
+<ul>
+  <li>An automated accessibility scan (axe-core) against the WCAG 2.0 A/AA, 2.1 AA and 2.2 AA rule sets.</li>
+  <li>HTML validation, including invalid ARIA attribute usage.</li>
+  <li>Structural checks specific to this site: heading hierarchy, a single non-empty <code>&lt;h1&gt;</code> per page, no duplicate IDs, no malformed or unclosed tags.</li>
+  <li>Internal link and anchor-target checks (no broken same-site links, no dangling <code>#</code> fragments).</li>
+  <li>Colour-contrast ratios of the site's own design tokens (the colours defined in <code>docs/assets/css/style.css</code>).</li>
+</ul>
+<p>What still needs a person, not a tool:</p>
+<ul>
+  <li>Whether the reading and focus order actually make sense.</li>
+  <li>Whether heading and link wording is genuinely descriptive out of context.</li>
+  <li>Real screen-reader and keyboard-only walkthroughs.</li>
+  <li>Cognitive load, plain-language clarity and overall usability.</li>
+  <li>Behaviour under browser zoom, reflow, forced-colours mode and reduced motion in real assistive-technology combinations.</li>
+</ul>
 
     </div>
     <div class="doc-footer">
   <div>
-    <p class="doc-footer__label">Source</p>
+    <p class="doc-footer__label">Source in the official PDF</p>
     <p>Accessibility statement</p>
   </div>
   <div class="doc-footer__right">
-    <p><a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/">ETSI deliverable page</a></p>
+    <p><a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/">View this standard on the ETSI website</a></p>
     <p>&copy; ETSI 2026</p>
   </div>
 </div>
     <nav class="page-pager" aria-label="Page navigation">
-<a class="page-pager__link page-pager__link--prev" href="about.html"><span class="page-pager__direction">&larr; Previous</span><span class="page-pager__title">About this standard</span></a>
+<a class="page-pager__link page-pager__link--prev" href="about.html"><span class="page-pager__direction">&larr; Previous</span><span class="page-pager__title">About this HTML edition</span></a>
 <a class="page-pager__link page-pager__link--next" href="clause-1-scope.html"><span class="page-pager__direction">Next &rarr;</span><span class="page-pager__title">1 Scope</span></a>
 </nav>
   </main>
@@ -230,8 +242,7 @@
 
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <p>This site republishes the standard's text as an HTML edition, designed and tested with the aim of meeting WCAG 2.2 Level AA &mdash; see the <a href="accessibility-statement.html">accessibility statement</a> for what has and hasn't been verified. It is not an official ETSI publication, and this version of the standard is a final draft under approval, not yet published.</p>
-    <p>Source: <a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/">ETSI EN 301 549 deliverables</a>. Original PDF: <a href="source/en_301549v040100va.pdf">en_301549v040100va.pdf</a>.</p>
+    <p>Unofficial HTML edition of the June 2026 final draft. <a href="about.html">Read how this edition was produced</a>.</p>
   </div>
 </footer>
 <script src="assets/js/site.js"></script>

@@ -443,6 +443,14 @@ main { min-width: 0; }
 .content dt { font-family: var(--font-heading); font-weight: 700; color: var(--colour-text); }
 .content dd { margin: 0; max-width: 66ch; }
 
+/* ---------- Task-based homepage pathways ---------- */
+.task-pathways { list-style: none; padding-left: 0; margin: 0 0 var(--space-4); max-width: 66ch; }
+.task-pathways li { border-bottom: 1px solid var(--colour-border); padding: 0.85rem 0; }
+.task-pathways li:first-child { padding-top: 0; }
+.task-pathways li:last-child { border-bottom: 0; padding-bottom: 0; }
+.task-pathways a { font-family: var(--font-heading); font-weight: 700; font-size: 1.05rem; }
+.task-pathways p { margin: 0.25rem 0 0; color: var(--colour-muted); }
+
 /* Reference list, e.g. [1], [i.1] */
 .ref-list { list-style: none; padding-left: 0; }
 .ref-list li { display: flex; gap: 0.75rem; margin-bottom: 0.6rem; }
@@ -461,6 +469,69 @@ main { min-width: 0; }
 .callout p { margin: 0; }
 .callout p + p { margin-top: 0.5rem; }
 .callout__label { font-weight: 700; display: inline; }
+
+/* ---------- Website-authored orientation blocks ----------
+   Deliberately styled differently from the reproduced ETSI content below
+   them (tinted panel, no bottom-border h2 rule) so it's visually obvious
+   where website-authored text ends and reproduced standard text begins. */
+.clause-summary {
+  background: var(--colour-panel-bg);
+  border: 1px solid var(--colour-border-strong);
+  padding: 1rem 1.25rem;
+  margin: 0 0 var(--space-4);
+}
+.clause-summary h2 {
+  margin-top: 0 !important;
+  padding-bottom: 0 !important;
+  border-bottom: 0 !important;
+  font-size: 1.05rem !important;
+}
+.clause-summary p { max-width: 66ch; margin: 0 0 0.6rem; }
+.clause-summary p:last-child { margin-bottom: 0; font-style: normal; color: var(--colour-muted); }
+
+.etsi-content-notice {
+  border-left: 4px solid var(--colour-border-strong);
+  background: var(--colour-panel-bg);
+  color: var(--colour-muted);
+  padding: 0.65rem 1rem;
+  margin: 0 0 var(--space-4);
+  max-width: 66ch;
+  font-size: 0.9375rem;
+}
+
+/* ---------- On this page ---------- */
+.on-this-page {
+  background: var(--colour-panel-bg);
+  border: 1px solid var(--colour-border-strong);
+  padding: 1rem 1.25rem;
+  margin: 0 0 var(--space-4);
+  max-width: 66ch;
+}
+.on-this-page h2 {
+  margin-top: 0 !important;
+  padding-bottom: 0 !important;
+  border-bottom: 0 !important;
+  font-size: 1.05rem !important;
+}
+.on-this-page ul { list-style: none; margin: 0; padding-left: 0; }
+.on-this-page ul ul { padding-left: 1.25rem; margin-top: 0.3rem; }
+.on-this-page li { margin-bottom: 0.35rem; }
+
+/* ---------- Technical provenance disclosure ----------
+   Native <details>/<summary>: keyboard-operable and works with no
+   JavaScript at all, so nothing extra was needed to make this accessible. */
+.technical-details {
+  border: 1px solid var(--colour-border);
+  padding: 0.85rem 1.1rem;
+  margin: var(--space-5) 0 var(--space-4);
+}
+.technical-details summary {
+  cursor: pointer;
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+.technical-details[open] summary { margin-bottom: 0.75rem; }
+.technical-details > p:first-of-type { color: var(--colour-muted); font-size: 0.9375rem; }
 
 /* ---------- Tables ---------- */
 .table-wrap { overflow-x: auto; margin: 0 0 var(--space-4); border: 1px solid var(--colour-border); }

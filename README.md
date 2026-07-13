@@ -9,13 +9,27 @@ An HTML edition of 'ETSI EN 301 549 V4.1.0: Accessibility requirements for ICT p
 ```
 content/            36+ body-only HTML fragments — the actual transcribed
                      standard text (headings, paragraphs, lists, tables,
-                     callouts), plus this site's own about/accessibility-
-                     statement pages. This is what you hand-edit.
+                     callouts), plus this site's own homepage/about/
+                     accessibility-statement pages. This is what you hand-edit.
+                     Every fragment is clearly split into two kinds of text:
+                     website-authored (introductions, "About this clause"
+                     boxes, notices, navigation) and text reproduced
+                     verbatim from the ETSI draft. See "Content-authoring
+                     conventions" below for the rule about never editing
+                     the latter.
 data/
   source-metadata.json  Machine-readable source/version metadata (title,
                      version, status, source PDF URL, publication date,
-                     download date, SHA-256 checksum). Rendered onto the
-                     About page at build time.
+                     download date, checksum). Rendered onto the About
+                     page at build time, both as a plain-language summary
+                     and (in a collapsible "Technical provenance" section)
+                     the underlying checksum and file details.
+  clause-summaries.json  The short, website-authored "About this clause"/
+                     "About this annex" orientation text shown near the
+                     top of a handful of major pages. Optional per page —
+                     most pages have none, deliberately (see "Do not add
+                     a summary where it would be redundant or misleading"
+                     in the project's content-design brief).
 scripts/
   build.py           The build script: validates content, then wraps each
                      content/ fragment in the shared page template (skip
@@ -85,13 +99,19 @@ brew install poppler            # macOS
 
 ## Content-authoring conventions
 
+- **Never rewrite, simplify, correct, paraphrase or otherwise change wording reproduced from the ETSI EN 301 549 standard.** That text must stay faithful to the source document. The only things it's safe to edit are website-authored material: introductions, summaries, explanatory text, navigation labels, link text, notices, the accessibility statement, the About page, source labels, metadata presentation, and headings created specifically for this website (not ETSI's own clause headings).
 - Content fragments are body-only: no `<html>`, `<head>`, or `<body>` tags — the build template supplies those.
 - **Do not put an `<h1>` in a content fragment** (except `content/index.html`, the homepage, which has no template-level doc header and so owns the page's only `<h1>` itself). Every other page's `<h1>` comes from its `title` in `scripts/sitemap.json`. The build fails if a non-homepage fragment contains its own `<h1>`.
 - **Numbered headings get their id from their clause number, never from their wording.** A heading whose visible text starts with a clause reference (e.g. `9.1.1.1 Non-text content`, `C.8.2.1.1 Speech volume gain`, `ZB.2 User interface...`) must have `id="9-1-1-1"` / `id="c-8-2-1-1"` / `id="zb-2"` — the number with dots turned into hyphens, nothing else. This is enforced at build time; a mismatch fails the build with the exact expected id. The reason for this rule: a link to a numbered heading then stays correct even if that heading's descriptive wording is later corrected, since the id never depended on the wording in the first place.
 - Headings that aren't numbered (e.g. "Foreword", "Introduction") keep a hand-chosen, meaningful id — the build does not invent one from wording, since that would just move the instability problem rather than solve it.
 - After adding or renumbering headings, run `python3 scripts/normalize_content.py` to bring every id in `content/` in line with the rule above in one pass, then rebuild.
-- Every numbered heading (h2/h3/h4) automatically gets a small "#" permalink control next to it at build time — you don't add this by hand in content fragments.
+- Every numbered heading (h2/h3/h4) automatically gets a small permalink control next to it at build time, with an accessible name like "Copy link to 9.1.1.1 Non-text content" — you don't add this by hand in content fragments.
 - Heading levels should not skip (an `<h3>` should not be followed directly by an `<h4>`'s child, i.e. by an `<h5>`, without an intervening `<h4>` on the way down). The build fails on a skipped level.
+- A page with 4 or more h2/h3 headings automatically gets an "On this page" jump list at build time, generated from those headings — nothing to add by hand.
+- To give a page a short "About this clause"/"About this annex" orientation box, add an entry to `data/clause-summaries.json` keyed by slug. Keep it to 1–2 short paragraphs, describe what the clause covers without interpreting conformance requirements, and don't add one where it would be redundant or misleading — most pages deliberately have none. The build automatically appends the fixed "reproduced from the ETSI draft, not simplified or changed" sentence; don't duplicate it in the JSON. You can link the words "normative" or "informative" to their definition on the About page by writing `{{normative}}` / `{{informative}}` in the text.
+- A handful of `{{TOKEN}}` placeholders are available in content fragments for values `scripts/build.py` can compute reliably (so they can never go stale): `{{STATUS_LAST_CHECKED}}`, `{{SOURCE_MONTH_YEAR}}`, `{{SOURCE_PDF_SIZE}}`. See `substitute_tokens()` in `scripts/build.py` for the full list. The build fails if an unreplaced `{{...}}` token would be published.
+- Reader-facing dates use human formatting ("13 July 2026", "June 2026"), not ISO (`2026-07-13`) — `human_date()` in `scripts/build.py` does this conversion for every date the build itself renders. This does not apply to dates that are part of reproduced ETSI content (e.g. Annex F's change-history table uses ETSI's own date format, and that must not be reformatted).
+- The build fails if publishable placeholder text (e.g. `[insert a real contact method here]`) is found in generated output — don't leave TODO-style placeholders in content that's ready to ship.
 
 ## Validation: the build fails on invalid content
 
@@ -105,7 +125,11 @@ brew install poppler            # macOS
 - duplicate ids on the same page;
 - a heading level that skips a level going deeper;
 - malformed HTML (unclosed or mismatched tags);
-- a same-page `href="#id"` with no matching id, or a same-site `href="....html"` with no matching page.
+- a same-page `href="#id"` with no matching id, or a same-site `href="....html"` with no matching page;
+- unfilled placeholder text (e.g. `[insert a real contact method here]`) that would otherwise be published;
+- an unreplaced `{{TOKEN}}` in generated output;
+- a heading permalink with too short an accessible name to be meaningful (see "Content-authoring conventions");
+- the accessibility statement missing a real reporting route (a GitHub issues link or a `mailto:` link).
 
 ## Accessibility
 
@@ -159,6 +183,7 @@ Do not treat this site as ready for public release until every item below is eit
 - [ ] A licence has been chosen and recorded for this site's own code/design (see above).
 - [ ] `npm test` and `npm run test:a11y` both pass on the commit being published.
 - [ ] `python3 scripts/build.py && git diff --exit-code -- docs/` is clean (committed `docs/` matches a fresh rebuild).
-- [ ] The accessibility statement's placeholder contact method has been replaced with a real one.
-- [ ] The accessibility statement's review-history table has at least one real entry, not just the placeholder row.
+- [x] The accessibility statement has a real reporting route (currently a GitHub issues link — replace with a dedicated contact address if/when one exists).
+- [ ] The accessibility statement's "Review history" section has at least one real, completed review recorded.
+- [ ] A genuine manual accessibility test pass has been completed against `docs-for-maintainers/accessibility-testing.md`, and its log updated.
 - [ ] `data/source-metadata.json`'s checksum has been re-verified against the currently committed source PDF.

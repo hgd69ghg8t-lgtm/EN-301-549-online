@@ -31,7 +31,7 @@
     </div>
     <div class="doc-toolbar" role="group" aria-label="Document actions">
       <button type="button" class="doc-toolbar__btn" data-action="print">Print</button>
-      <a class="doc-toolbar__btn" href="source/en_301549v040100va.pdf">Download PDF</a>
+      <a class="doc-toolbar__btn" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF">Download PDF</a>
       <button type="button" class="doc-toolbar__btn" data-action="copy-link">
         <span class="doc-toolbar__btn-label">Copy link</span>
         <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
@@ -45,8 +45,8 @@
 <button type="button" class="site-nav__close" aria-label="Close table of contents"><span aria-hidden="true">Table of contents</span><span aria-hidden="true">&times;</span></button>
 <div class="site-nav__header">Contents</div>
 <p><a href="index.html">Home</a></p>
-<details><summary>Front matter</summary><ul>
-<li><a href="about.html">About this standard</a>
+<details><summary>About and legal information</summary><ul>
+<li><a href="about.html">About this HTML edition</a>
 </li>
 <li><a href="accessibility-statement.html">Accessibility statement</a>
 </li>
@@ -128,9 +128,9 @@
 </li>
 <li><a href="clause-11-non-web-software.html">11 Non-web software</a>
 </li>
-<li><a href="clause-12-information-products-services.html">12 Information about products/services</a>
+<li><a href="clause-12-information-products-services.html">12 Information about products and services</a>
 </li>
-<li><a href="clause-13-relay-emergency.html">13 Relay/emergency access</a>
+<li><a href="clause-13-relay-emergency.html">13 Relay and emergency service access</a>
 </li>
 <li><a href="clause-14-conformance.html">14 Conformance</a>
 </li>
@@ -172,18 +172,73 @@
 </li>
 <li><a href="annex-c-11-software.html">Annex C.11: Software</a>
 </li>
-<li><a href="annex-c-12-information-products-services.html">Annex C.12: Information about products/services</a>
+<li><a href="annex-c-12-information-products-services.html">Annex C.12: Information about products and services</a>
 </li>
-<li><a href="annex-c-13-relay-emergency.html">Annex C.13: Relay/emergency access</a>
+<li><a href="annex-c-13-relay-emergency.html">Annex C.13: Relay and emergency service access</a>
 </li>
 <li><a href="annex-c-14-conformance.html">Annex C.14: Conformance</a>
 </li>
 </ul></details>
 </nav>
   <main id="main-content" tabindex="-1">
-    <p class="draft-notice"><strong>Draft under approval.</strong> This content may change. The ETSI PDF remains the authoritative source. <a href="accessibility-statement.html">Accessibility statement</a>.</p>
+    <p class="draft-notice"><strong>Final draft under approval.</strong> This version may change. Use the official ETSI PDF as the source of record. <a href="accessibility-statement.html">Accessibility statement</a>.</p>
     <div class="content">
-
+      <nav class="on-this-page" aria-labelledby="on-this-page-heading">
+<h2 id="on-this-page-heading">On this page</h2>
+<ul>
+<li><a href="#6-0">6.0 Accessible real-time bidirectional communication operational scenarios</a>
+<ul>
+<li><a href="#6-0-1">6.0.1 Rationale for scenarios (informative)</a></li>
+<li><a href="#6-0-2">6.0.2 Communication client</a></li>
+<li><a href="#6-0-3">6.0.3 Communication system</a></li>
+<li><a href="#6-0-4">6.0.4 System connecting to another communication system</a></li>
+<li><a href="#6-0-5">6.0.5 System with roaming visiting client</a></li>
+<li><a href="#6-0-6">6.0.6 Client in emergency communications</a></li>
+<li><a href="#6-0-7">6.0.7 Emergency communications</a></li>
+<li><a href="#6-0-8">6.0.8 System with roaming visiting client in an emergency</a></li>
+<li><a href="#6-0-9">6.0.9 System with client in emergency visiting another country</a></li>
+</ul></li>
+<li><a href="#6-1">6.1 Real-time bidirectional voice communication</a>
+<ul>
+<li><a href="#6-1-1">6.1.1 Voice communication interoperability</a></li>
+<li><a href="#6-1-2">6.1.2 Audio bandwidth for capture and presentation for voice communication</a></li>
+<li><a href="#6-1-3">6.1.3 Audio presentation in attached listening devices for voice communication (recommendation)</a></li>
+<li><a href="#6-1-4">6.1.4 Synchronization of subtitles (recommendation)</a></li>
+</ul></li>
+<li><a href="#6-2">6.2 Real-Time Text (RTT)</a>
+<ul>
+<li><a href="#6-2-1">6.2.1 RTT provision</a></li>
+<li><a href="#6-2-2">6.2.2 Display of RTT</a></li>
+<li><a href="#6-2-3">6.2.3 DTMF touch-tone generation during RTT operations</a></li>
+<li><a href="#6-2-4">6.2.4 RTT responsiveness</a></li>
+<li><a href="#6-2-5">6.2.5 Adding and erasing of RTT input</a></li>
+<li><a href="#6-2-6">6.2.6 Processing rate of RTT</a></li>
+<li><a href="#6-2-7">6.2.7 Character representation</a></li>
+<li><a href="#6-2-8">6.2.8 RTT input methods</a></li>
+<li><a href="#6-2-9">6.2.9 RTT media establishment and use</a></li>
+<li><a href="#6-2-10">6.2.10 RTT interoperability</a></li>
+</ul></li>
+<li><a href="#6-3">6.3 Caller ID</a>
+</li>
+<li><a href="#6-4">6.4 Alternatives to voice-based services</a>
+</li>
+<li><a href="#6-5">6.5 Video communication</a>
+<ul>
+<li><a href="#6-5-1">6.5.1 General (informative)</a></li>
+<li><a href="#6-5-2">6.5.2 Resolution</a></li>
+<li><a href="#6-5-3">6.5.3 Frame rate</a></li>
+<li><a href="#6-5-4">6.5.4 Synchronization between audio and video</a></li>
+<li><a href="#6-5-5">6.5.5 Indicator of audio with video</a></li>
+<li><a href="#6-5-6">6.5.6 Indication of all active communication participants</a></li>
+</ul></li>
+<li><a href="#6-6">6.6 Alternatives to video-based services (recommendation)</a>
+</li>
+<li><a href="#6-7">6.7 Total conversation</a>
+<ul>
+<li><a href="#6-7-1">6.7.1 Total conversation provision</a></li>
+<li><a href="#6-7-2">6.7.2 Total conversation interoperability</a></li>
+</ul></li>
+</ul></nav>
 <h2 id="6-0">6.0 Accessible real-time bidirectional communication operational scenarios <a class="heading-permalink" href="#6-0" data-copy-link aria-label="Copy link to 6.0 Accessible real-time bidirectional communication operational scenarios"><span aria-hidden="true">#</span></a></h2>
 
 <h3 id="6-0-1">6.0.1 Rationale for scenarios (informative) <a class="heading-permalink" href="#6-0-1" data-copy-link aria-label="Copy link to 6.0.1 Rationale for scenarios (informative)"><span aria-hidden="true">#</span></a></h3>
@@ -480,11 +535,11 @@
     </div>
     <div class="doc-footer">
   <div>
-    <p class="doc-footer__label">Source</p>
-    <p>6 ICT supporting real-time bidirectional communication &middot; source PDF p.38-50</p>
+    <p class="doc-footer__label">Source in the official PDF</p>
+    <p>Clause 6, pages 38 to 50</p>
   </div>
   <div class="doc-footer__right">
-    <p><a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/">ETSI deliverable page</a></p>
+    <p><a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/">View this standard on the ETSI website</a></p>
     <p>&copy; ETSI 2026</p>
   </div>
 </div>
@@ -501,8 +556,7 @@
 
 <footer class="site-footer">
   <div class="site-footer__inner">
-    <p>This site republishes the standard's text as an HTML edition, designed and tested with the aim of meeting WCAG 2.2 Level AA &mdash; see the <a href="accessibility-statement.html">accessibility statement</a> for what has and hasn't been verified. It is not an official ETSI publication, and this version of the standard is a final draft under approval, not yet published.</p>
-    <p>Source: <a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/">ETSI EN 301 549 deliverables</a>. Original PDF: <a href="source/en_301549v040100va.pdf">en_301549v040100va.pdf</a>.</p>
+    <p>Unofficial HTML edition of the June 2026 final draft. <a href="about.html">Read how this edition was produced</a>.</p>
   </div>
 </footer>
 <script src="assets/js/site.js"></script>

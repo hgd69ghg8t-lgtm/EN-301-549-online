@@ -2,15 +2,18 @@
   "title": "EN 301 549 V4.1.0: Accessibility requirements for ICT products and services",
   "version": "V4.1.0",
   "status": "Final draft, under approval — not yet a published standard",
-  "draftNotice": "Draft under approval. This content may change. The ETSI PDF remains the authoritative source.",
+  "statusHeadline": "Final draft under approval",
+  "statusBody": "This version may change. Use the official ETSI PDF as the source of record.",
   "sourceOrganisation": "ETSI (European Telecommunications Standards Institute), in collaboration with CEN and CENELEC",
   "sourcePdfUrl": "https://www.etsi.org/deliver/etsi_en/301500_301599/301549/",
   "sourcePdfPublicationDate": "2026-06",
-  "sourcePdfPublicationDateNote": "The source PDF's cover page prints only a year and month (2026-06), not a specific day.",
+  "sourcePdfPublicationDateNote": "The source PDF's cover page prints only a year and month, not a specific day.",
   "dateDownloaded": "2026-07-13",
   "dateDownloadedNote": "Taken from this repository's git history (the commit that first added the source PDF), not independently verified against ETSI's own records.",
+  "statusLastChecked": "2026-07-13",
+  "statusLastCheckedNote": "The date this website's content was last checked against the source PDF. Currently the same as the date downloaded, above — update this field independently if the source is re-checked without a new PDF being downloaded.",
   "sha256": "c2247f2d59c6f1465e5c10a8d6720aaa79c2d82a420435eb8f487e34dcc0672a",
-  "sha256Note": "Computed directly from the PDF committed at docs/source/en_301549v040100va.pdf with `sha256sum`. Recompute and update this value whenever the source PDF is replaced.",
+  "sha256Note": "Computed directly from the PDF committed at docs/source/en_301549v040100va.pdf with the sha256sum command. Recompute and update this value whenever the source PDF is replaced.",
   "siteBuildDate": null,
-  "siteBuildDateNote": "Intentionally left null. The build does not stamp a live timestamp into generated pages, to keep output deterministic and reproducible — see README. Set this manually if you want a fixed 'last rebuilt' date to appear on the About page after a real content update."
+  "siteBuildDateNote": "Intentionally left empty. The build does not stamp a live timestamp into generated pages, so that rebuilding from unchanged source always produces identical output (see README). Set this manually if a fixed ‘last rebuilt’ date is wanted after a real content update."
 }
