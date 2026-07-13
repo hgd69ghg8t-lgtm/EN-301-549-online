@@ -81,14 +81,17 @@
      - --page-pad is the fluid outer gutter shared by every band, so the
        header, document band, content shell and footer all align at every
        viewport width.
-     - --prose-measure caps *running text* (paragraphs, list items,
-       definitions) at a readable line length. It is deliberately NOT
-       applied to the content column itself: headings, tables and other
-       technical content may use the full column width. */
+     - --prose-measure is the width cap for running text (paragraphs,
+       list items, definitions, notes). Set to none: text spans the same
+       full content column that headings, their divider rules, and tables
+       do, so nothing looks cut short against a full-width rule. Line
+       length at very wide viewports is bounded by --page-max-width. Set
+       this to a ch value (e.g. 66ch) to reintroduce a narrower reading
+       measure for text without affecting headings or tables. */
   --page-max-width: 100rem;
   --page-pad: clamp(1rem, 3vw, 2.5rem);
   --column-gap: clamp(var(--space-4), 2.5vw, var(--space-6));
-  --prose-measure: 66ch;
+  --prose-measure: none;
 }
 
 /* ---------- Reset ---------- */
