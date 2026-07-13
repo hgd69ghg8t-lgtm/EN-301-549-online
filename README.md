@@ -56,7 +56,9 @@ source/              The original ETSI source PDF (symlinked to
                      so the file is committed once, not twice).
 design/              Figma Make export used as the visual reference for the
                      site's design system. Not read by the build.
-docs-for-maintainers/  Manual (non-automatable) testing documentation.
+docs-for-maintainers/  Manual (non-automatable) testing documentation,
+                     routine maintenance tasks (maintenance.md), and the
+                     content-ownership/periodic-review record.
 .github/workflows/   CI: build, validate, and accessibility-test every
                      push and pull request.
 ```
@@ -167,6 +169,10 @@ npm run test:a11y      # axe-core against every generated page (requires a Chrom
 ```
 
 `npm test` is pure Python + Node, no browser required, and is what should run on every commit. `npm run test:a11y` additionally needs a Chromium binary; run `npx playwright install --with-deps chromium` once before the first local run. See [`.github/workflows/ci.yml`](.github/workflows/ci.yml) for exactly what runs in CI, and why these two tools specifically — see the comment at the top of that file.
+
+## Maintenance
+
+Routine maintenance tasks — updating the ETSI publication status, the status-check date, the source PDF link, clause summaries, the wording-integrity baseline, running the full test suite, reviewing the accessibility statement, recording manual testing, and more — are documented in [`docs-for-maintainers/maintenance.md`](docs-for-maintainers/maintenance.md).
 
 ## Hosting
 
