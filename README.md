@@ -63,7 +63,7 @@ docs-for-maintainers/  Manual (non-automatable) testing documentation.
 
 ## Which files are source of truth, and how to rebuild
 
-**Hand-edit:** everything under `content/`, `data/source-metadata.json`, `scripts/sitemap.json`, `docs/assets/css/style.css`, `docs/assets/js/site.js`, `docs/assets/fonts/`, `README.md`, and everything under `docs-for-maintainers/`.
+**Hand-edit:** everything under `content/`, `data/source-metadata.json`, `data/clause-summaries.json`, `data/content-ownership.json`, `scripts/sitemap.json`, `docs/assets/css/style.css`, `docs/assets/js/site.js`, `docs/assets/fonts/`, `README.md`, and everything under `docs-for-maintainers/`.
 
 **Generated — never hand-edit:** every other file directly under `docs/` (`docs/*.html`). They are committed to the repository (GitHub Pages serves straight from `docs/` with no build step of its own), but they are output, not input. If you edit a generated `docs/*.html` file directly, the next `python3 scripts/build.py` run will silently overwrite your change.
 
@@ -135,7 +135,8 @@ brew install poppler            # macOS
 - an invalid, missing, future-dated, or obviously-placeholder `statusLastChecked`/`dateDownloaded`;
 - a `data/clause-summaries.json` entry that references a page that doesn't exist, has a duplicate key, is empty, contains raw HTML, is too long, or contains placeholder text;
 - a `<dt>` glossary/abbreviation term rendered without a stable id, or two terms rendered with the same id;
-- an A-Z index rendered with no letter links, letters not in alphabetical order, or a letter link pointing at an id that doesn't exist on the page.
+- an A-Z index rendered with no letter links, letters not in alphabetical order, or a letter link pointing at an id that doesn't exist on the page;
+- a `data/content-ownership.json` entry with an unrecognised page slug or field, or a `lastReviewDate`/`nextReviewDate`/`statusCheckDate` that's malformed or an obvious placeholder (a `null` value, meaning "not known yet", is always valid — see `docs-for-maintainers/content-ownership.md`).
 
 ## Accessibility
 

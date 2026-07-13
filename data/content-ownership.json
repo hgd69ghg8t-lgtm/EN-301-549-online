@@ -1,0 +1,26 @@
+{
+  "index": {
+    "owner": null,
+    "ownerRole": null,
+    "lastReviewDate": null,
+    "nextReviewDate": null,
+    "reviewFrequency": null,
+    "statusCheckDate": null
+  },
+  "about": {
+    "owner": null,
+    "ownerRole": null,
+    "lastReviewDate": null,
+    "nextReviewDate": null,
+    "reviewFrequency": null,
+    "statusCheckDate": null
+  },
+  "accessibility-statement": {
+    "owner": null,
+    "ownerRole": null,
+    "lastReviewDate": null,
+    "nextReviewDate": null,
+    "reviewFrequency": null,
+    "statusCheckDate": null
+  }
+}

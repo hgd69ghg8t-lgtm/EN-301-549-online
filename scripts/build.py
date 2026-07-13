@@ -334,6 +334,92 @@ def load_clause_summaries(errors):
 
 
 # ---------------------------------------------------------------------
+# Content ownership / governance metadata (optional, never invented)
+# ---------------------------------------------------------------------
+
+CONTENT_OWNERSHIP_PATH = ROOT / "data" / "content-ownership.json"
+CONTENT_OWNERSHIP_FIELDS = (
+    "owner", "ownerRole", "lastReviewDate", "nextReviewDate",
+    "reviewFrequency", "statusCheckDate",
+)
+_CONTENT_OWNERSHIP_DATE_FIELDS = ("lastReviewDate", "nextReviewDate", "statusCheckDate")
+
+
+def load_content_ownership():
+    """Optional per-page governance metadata (who owns this page's content,
+    when it was last/next reviewed) for the site's website-authored pages.
+    This file is entirely optional and every field within it is optional:
+    real values are only ever added by a maintainer who actually knows
+    them. Nothing here is invented, and a missing file or missing field
+    never fails the build — see content_ownership_notices()."""
+    if not CONTENT_OWNERSHIP_PATH.exists():
+        return {}
+    try:
+        data = json.loads(CONTENT_OWNERSHIP_PATH.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def validate_content_ownership(ownership, errors):
+    rel = str(CONTENT_OWNERSHIP_PATH.relative_to(ROOT))
+    for slug, entry in ownership.items():
+        label = f"{rel} ({slug})"
+        if slug not in NON_STANDARD_SLUGS:
+            errors.add(label, "content-ownership-unknown-slug",
+                       f'"{slug}" is not one of this site\'s website-authored pages '
+                       f'({", ".join(sorted(NON_STANDARD_SLUGS))}).',
+                       "Fix the slug, or remove this entry if it doesn't apply.")
+            continue
+        if not isinstance(entry, dict):
+            errors.add(label, "content-ownership-invalid-entry",
+                       "This entry must be an object.",
+                       "Use an object with the expected fields — see "
+                       "docs-for-maintainers/content-ownership.md.")
+            continue
+        for field, value in entry.items():
+            if field not in CONTENT_OWNERSHIP_FIELDS:
+                errors.add(label, "content-ownership-unknown-field",
+                           f'Unrecognised field "{field}".',
+                           f"Use one of: {', '.join(CONTENT_OWNERSHIP_FIELDS)}.")
+                continue
+            if value is None:
+                continue  # deliberately unknown — not an error
+            if field in _CONTENT_OWNERSHIP_DATE_FIELDS:
+                if not isinstance(value, str) or value in PLACEHOLDER_DATES:
+                    errors.add(label, "content-ownership-date-placeholder",
+                               f'"{field}" is "{value}", which looks like a placeholder rather than '
+                               "a real date.",
+                               f'Set "{field}" to a real YYYY-MM-DD date, or leave it null (not a '
+                               "placeholder string) if it isn't known yet.")
+                    continue
+                try:
+                    datetime.date.fromisoformat(value)
+                except ValueError:
+                    errors.add(label, "content-ownership-date-invalid",
+                               f'"{field}" value "{value}" is not a valid ISO date (expected YYYY-MM-DD).',
+                               f'Fix "{field}" to a real YYYY-MM-DD date.')
+            elif isinstance(value, str) and PLACEHOLDER_RE.search(value):
+                errors.add(label, "content-ownership-placeholder",
+                           f'"{field}" contains unfilled placeholder text: "{value}".',
+                           "Remove the placeholder — leave the field null if the real value isn't "
+                           "known yet.")
+
+
+def content_ownership_notices(ownership):
+    """Slugs (among NON_STANDARD_SLUGS) with no governance metadata at all
+    — reported as a build-time notice (not an error, and never published
+    to the site) so the gap stays visible to maintainers rather than being
+    silently forgotten."""
+    missing = []
+    for slug in sorted(NON_STANDARD_SLUGS):
+        entry = ownership.get(slug) or {}
+        if not any(entry.get(f) for f in CONTENT_OWNERSHIP_FIELDS):
+            missing.append(slug)
+    return missing
+
+
+# ---------------------------------------------------------------------
 # Sitemap <-> content directory consistency
 # ---------------------------------------------------------------------
 
@@ -1223,6 +1309,8 @@ def main():
 
     metadata = load_metadata(errors)
     summaries = load_clause_summaries(errors)
+    ownership = load_content_ownership()
+    validate_content_ownership(ownership, errors)
     validate_sitemap_vs_content(errors)
 
     if errors:
@@ -1243,6 +1331,11 @@ def main():
 
     if errors:
         errors.report_and_exit()
+
+    missing_governance = content_ownership_notices(ownership)
+    if missing_governance:
+        print(f"Note: no content ownership/review metadata recorded for: {', '.join(missing_governance)}. "
+              "See docs-for-maintainers/content-ownership.md.")
 
     if check_only:
         print(f"Checked {len(rendered)} pages — no validation errors.")
