@@ -363,10 +363,6 @@ def build_doc_header(page):
     breadcrumb.append(f'<li aria-current="page">{html.escape(page["shortTitle"])}</li>')
     breadcrumb.append('</ol></nav>')
 
-    pdf_pages = page.get("pdfPages")
-    meta_line = f"Source PDF p.{html.escape(pdf_pages)}" if pdf_pages else ""
-    meta_html = f'<p class="doc-header__meta">{meta_line}</p>' if meta_line else ""
-
     return f"""<div class="doc-header">
   <div class="doc-header__inner">
     {"".join(breadcrumb)}
@@ -376,7 +372,6 @@ def build_doc_header(page):
           <span class="status-badge">Final draft</span>
         </div>
         <h1>{html.escape(page["title"])}</h1>
-        {meta_html}
       </div>
     </div>
     <div class="doc-toolbar" role="group" aria-label="Document actions">
