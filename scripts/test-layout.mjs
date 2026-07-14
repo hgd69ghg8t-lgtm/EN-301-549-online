@@ -297,8 +297,9 @@ async function main() {
       details: element.parentElement?.tagName,
       label: element.textContent.trim(),
       visible: Boolean(element.getClientRects().length),
+      labelCase: getComputedStyle(element.querySelector(".companion-guidance__label")).textTransform,
     }));
-    if (semantics.details !== "DETAILS" || !semantics.visible ||
+    if (semantics.details !== "DETAILS" || !semantics.visible || semantics.labelCase !== "none" ||
         !semantics.label.includes("Website-authored guidance") ||
         !semantics.label.includes("Companion guidance")) {
       failures.push("companion guidance disclosure semantics or visible label are incomplete");
