@@ -266,6 +266,46 @@ async function main() {
     await context.close();
   }
 
+  // Companion guidance uses the browser's native disclosure semantics and
+  // remains operable from the keyboard without JavaScript.
+  {
+    const context = await browser.newContext({
+      viewport: { width: 1280, height: 900 },
+      forcedColors: "active",
+    });
+    const page = await context.newPage();
+    await page.goto(`http://127.0.0.1:${port}/clause-1-scope.html`);
+    const details = page.locator(".companion-guidance details");
+    const summary = details.locator("summary");
+    const disclaimer = page.locator(".companion-guidance__disclaimer");
+    if (await details.getAttribute("open") !== null || await disclaimer.isVisible()) {
+      failures.push("companion guidance is not initially collapsed");
+    }
+    await summary.focus();
+    await page.keyboard.press("Enter");
+    if (await details.getAttribute("open") === null || !(await disclaimer.isVisible())) {
+      failures.push("companion guidance did not open with Enter");
+    }
+    if (!(await summary.evaluate((element) => element === document.activeElement))) {
+      failures.push("companion guidance summary lost keyboard focus after opening");
+    }
+    await page.keyboard.press("Space");
+    if (await details.getAttribute("open") !== null || await disclaimer.isVisible()) {
+      failures.push("companion guidance did not close with Space");
+    }
+    const semantics = await summary.evaluate((element) => ({
+      details: element.parentElement?.tagName,
+      label: element.textContent.trim(),
+      visible: Boolean(element.getClientRects().length),
+    }));
+    if (semantics.details !== "DETAILS" || !semantics.visible ||
+        !semantics.label.includes("Website-authored guidance") ||
+        !semantics.label.includes("Companion guidance")) {
+      failures.push("companion guidance disclosure semantics or visible label are incomplete");
+    }
+    await context.close();
+  }
+
   // The content column must grow meaningfully with the viewport — this is
   // the regression test for the old 46rem cap that wasted wide screens.
   for (const slug of PAGES) {
