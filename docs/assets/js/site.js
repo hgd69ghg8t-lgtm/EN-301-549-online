@@ -324,23 +324,15 @@
       var scrollable = wrap.scrollWidth > wrap.clientWidth;
       var hint = wrap.querySelector(".table-wrap__hint");
       if (scrollable) {
-        if (!wrap.hasAttribute("tabindex")) {
-          wrap.setAttribute("tabindex", "0");
-          wrap.dataset.siteTableTabindex = "true";
-        }
-        if (!wrap.hasAttribute("role")) {
-          wrap.setAttribute("role", "region");
-          wrap.dataset.siteTableRole = "true";
-        }
+        wrap.setAttribute("tabindex", "0");
+        wrap.setAttribute("role", "region");
         if (!wrap.hasAttribute("aria-label")) {
           var caption = wrap.querySelector("caption");
           wrap.setAttribute("aria-label", caption ? caption.textContent.trim() : "Scrollable table");
-          wrap.dataset.siteTableLabel = "true";
         }
         if (!hint) {
           hint = document.createElement("p");
           hint.className = "table-wrap__hint";
-          hint.dataset.siteTableHint = "true";
           // aria-hidden: screen-reader users already hear the wrapper's
           // role and label; this line is the sighted-user equivalent.
           hint.setAttribute("aria-hidden", "true");
@@ -348,19 +340,10 @@
           wrap.insertBefore(hint, wrap.firstChild);
         }
       } else {
-        if (wrap.dataset.siteTableTabindex === "true") {
-          wrap.removeAttribute("tabindex");
-          delete wrap.dataset.siteTableTabindex;
-        }
-        if (wrap.dataset.siteTableRole === "true") {
-          wrap.removeAttribute("role");
-          delete wrap.dataset.siteTableRole;
-        }
-        if (wrap.dataset.siteTableLabel === "true") {
-          wrap.removeAttribute("aria-label");
-          delete wrap.dataset.siteTableLabel;
-        }
-        if (hint && hint.dataset.siteTableHint === "true") hint.remove();
+        wrap.removeAttribute("tabindex");
+        wrap.removeAttribute("role");
+        wrap.removeAttribute("aria-label");
+        if (hint) hint.remove();
       }
     });
   }
