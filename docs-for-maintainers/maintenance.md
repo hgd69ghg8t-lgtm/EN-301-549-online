@@ -95,6 +95,10 @@ Never mark manual or screen-reader testing as done without an actual recorded se
 
 Follow the repeatable checklist in [`docs-for-maintainers/accessibility-testing.md`](accessibility-testing.md) (keyboard-only navigation, zoom/reflow/text-spacing, and screen-reader testing with at least NVDA+Firefox/Chrome and VoiceOver+Safari). After a real session, add a new row to that file's test log — date, tester, browser, assistive technology, pages tested, findings, issue links, retest result. Don't overwrite previous rows. Then update the accessibility statement as described above.
 
+## Cross-reference links
+
+Nothing to maintain: references in the text ("clause 5.1.3", "Annex ZA", "[i.25]") are linked automatically at render time from the current headings and clause 2's bibliography. If a heading is renumbered, the links follow it on the next build; a reference the build can't resolve is simply left unlinked, and a clause number duplicated across pages fails the build (`xref-ambiguous-number`).
+
 ## Site search
 
 Nothing to maintain: `docs/search-index.json` is regenerated from the content on every build (`build_search_index()` in `scripts/build.py`), and `npm run test:search` verifies the search end-to-end in CI. If a new website-authored page is added, it becomes searchable automatically via its sitemap entry.

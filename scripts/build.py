@@ -540,6 +540,204 @@ def validate_etsi_content_integrity(errors):
 
 
 # ---------------------------------------------------------------------
+# Auto-linked cross-references
+# ---------------------------------------------------------------------
+#
+# The reproduced ETSI text constantly refers to other parts of the
+# standard — "see clause 5.1.3", "clauses 9, 10 and 11", "Annex ZA",
+# "[i.25]" — as dead text, because that's all a PDF can do. At render
+# time the build turns those references into links. This is markup only:
+# not one character of wording changes (the wording-integrity hash check
+# would catch it if it did), and anything the build cannot resolve to a
+# real target with certainty is left as plain text — e.g. "Annex I",
+# which is an annex of an EU *Directive*, not of this document, resolves
+# to nothing and is deliberately not linked.
+#
+# Only genuine text is touched: anything already inside a link, a
+# heading, or a table caption is skipped (the parser tracks ancestors),
+# so heading self-links never gain nested links and clause 2's own
+# bibliography never links to itself.
+
+XREF_WORD_RE = re.compile(r'\b([Cc]lauses?|[Aa]nnex(?:es)?)(\s+)')
+XREF_TOKEN_RE = re.compile(r'[A-Z]{1,2}\.\d+(?:\.\d+)*|\d+(?:\.\d+)*|[A-Z]{1,2}\b')
+XREF_CONT_RE = re.compile(r',?\s+(?:and|or|to)\s+|,\s*')
+XREF_BRACKET_RE = re.compile(r'\[(i\.\d+|\d+)\]')
+
+# The one deliberate wording-adjacent exception: these tags appear in the
+# text as e.g. "[i.25]" and become ids like "ref-i-25" on clause 2's list
+# items, so the bracket tokens elsewhere have something to link to.
+REF_TAG_LI_RE = re.compile(r'<li><span class="ref-tag">\[(i\.\d+|\d+)\]</span>')
+
+
+def _ref_id(tag):
+    return "ref-" + tag.replace(".", "-")
+
+
+def inject_reference_ids(fragment):
+    """Give each bibliography entry in clause 2 a stable id derived from
+    its own [N]/[i.N] tag, so citations elsewhere can deep-link to it."""
+    return REF_TAG_LI_RE.sub(
+        lambda m: f'<li id="{_ref_id(m.group(1))}"><span class="ref-tag">[{m.group(1)}]</span>',
+        fragment)
+
+
+def build_xref_maps(errors):
+    """Site-wide lookup tables for the cross-reference linker, built from
+    the same sources everything else uses (sitemap + content fragments):
+      headings: "5.1.3" / "C.4" / "ZA.1" -> (slug, anchor id)
+      pages:    "9" -> clause page slug (top-level clause numbers are page
+                titles, not headings, so they map to whole pages)
+      annexes:  "ZA" -> annex page slug ("C" -> the first Annex C page)
+      refs:     {"4", "i.25", ...} — bibliography tags that exist
+    A clause number appearing on two pages would make links ambiguous, so
+    that's a build error, not a guess."""
+    headings_map = {}
+    pages_map = {}
+    annexes_map = {}
+    for page in SITEMAP:
+        slug = page["slug"]
+        if page["group"] == "Clauses":
+            number = page["title"].split(" ", 1)[0]
+            if number.isdigit():
+                pages_map[number] = slug
+        m = re.match(r'^Annex\s+([A-Z]{1,2})', page["title"])
+        if m and m.group(1) not in annexes_map:
+            annexes_map[m.group(1)] = slug
+        fragment_path = CONTENT_DIR / f"{slug}.html"
+        if not fragment_path.exists():
+            continue
+        for h in parse_headings(fragment_path.read_text(encoding="utf-8")):
+            if not h.number:
+                continue
+            anchor = h.id or canonical_id(h.number)
+            if h.number in headings_map and headings_map[h.number] != (slug, anchor):
+                errors.add(f"content/{slug}.html", "xref-ambiguous-number",
+                           f'Clause number "{h.number}" appears on both '
+                           f"{headings_map[h.number][0]} and {slug}; cross-reference links "
+                           "to it would be ambiguous.",
+                           "Renumber one of the headings, or fix the duplicated content.")
+            headings_map[h.number] = (slug, anchor)
+    refs = set()
+    clause2 = CONTENT_DIR / "clause-2-references.html"
+    if clause2.exists():
+        refs = set(REF_TAG_LI_RE.findall(clause2.read_text(encoding="utf-8")))
+    return {"headings": headings_map, "pages": pages_map, "annexes": annexes_map, "refs": refs}
+
+
+def _text_spans(fragment):
+    """(start, end) offsets of every raw text node that is safe to link
+    inside: not within an existing link, a heading, or a table caption.
+    convert_charrefs=False so offsets line up with the source string
+    (entities arrive separately and simply split text nodes)."""
+    from html.parser import HTMLParser
+
+    excluded = {"a", "h1", "h2", "h3", "h4", "h5", "h6", "caption"}
+
+    class Scanner(HTMLParser):
+        def __init__(self):
+            super().__init__(convert_charrefs=False)
+            self.spans = []
+            self.depth = 0
+            self._offsets = None
+
+        def _pos(self):
+            line, col = self.getpos()
+            return self._offsets[line - 1] + col
+
+        def handle_starttag(self, tag, attrs):
+            if tag in excluded:
+                self.depth += 1
+
+        def handle_endtag(self, tag):
+            if tag in excluded and self.depth:
+                self.depth -= 1
+
+        def handle_data(self, data):
+            if self.depth == 0 and data.strip():
+                start = self._pos()
+                self.spans.append((start, start + len(data)))
+
+    offsets = [0]
+    for line in fragment.splitlines(keepends=True):
+        offsets.append(offsets[-1] + len(line))
+    scanner = Scanner()
+    scanner._offsets = offsets
+    scanner.feed(fragment)
+    scanner.close()
+    return scanner.spans
+
+
+def _resolve_xref(token, kind, xrefs, current_slug):
+    """token -> href, or None when there is no certain target (in which
+    case the text is left exactly as it was)."""
+    target = None
+    if "." in token or token.isdigit():
+        target = xrefs["headings"].get(token)
+        if target is None and token.isdigit():
+            slug = xrefs["pages"].get(token)
+            if slug:
+                target = (slug, None)
+    if target is None and kind == "annex" and token.isalpha():
+        slug = xrefs["annexes"].get(token)
+        if slug:
+            target = (slug, None)
+    if target is None:
+        return None
+    slug, anchor = target
+    if slug == current_slug:
+        return f"#{anchor}" if anchor else None  # a bare self-page link helps nobody
+    return f"{slug}.html#{anchor}" if anchor else f"{slug}.html"
+
+
+def link_cross_references(fragment, current_slug, xrefs):
+    edits = []
+
+    def add_link(abs_start, abs_end, href):
+        text = fragment[abs_start:abs_end]
+        edits.append((abs_start, abs_end, f'<a class="xref" href="{href}">{text}</a>'))
+
+    for span_start, span_end in _text_spans(fragment):
+        text = fragment[span_start:span_end]
+
+        # "clause 5.1.3", "clauses 9, 10 and 11", "Annex ZA", "annexes A and B"
+        for m in XREF_WORD_RE.finditer(text):
+            kind = "annex" if m.group(1).lower().startswith("annex") else "clause"
+            pos = m.end()
+            while True:
+                tm = XREF_TOKEN_RE.match(text, pos)
+                if not tm:
+                    break
+                href = _resolve_xref(tm.group(0), kind, xrefs, current_slug)
+                if href:
+                    add_link(span_start + tm.start(), span_start + tm.end(), href)
+                pos = tm.end()
+                cm = XREF_CONT_RE.match(text, pos)
+                if not cm:
+                    break
+                pos = cm.end()
+
+        # "[4]" / "[i.25]" bibliography citations — everywhere except on
+        # the references page itself, where they'd link to themselves.
+        if current_slug != "clause-2-references":
+            for m in XREF_BRACKET_RE.finditer(text):
+                if m.group(1) in xrefs["refs"]:
+                    add_link(span_start + m.start(), span_start + m.end(),
+                             f"clause-2-references.html#{_ref_id(m.group(1))}")
+
+    # Overlap guard: a token can only be claimed once (first match wins).
+    edits.sort(key=lambda e: e[0])
+    kept, last_end = [], -1
+    for e in edits:
+        if e[0] >= last_end:
+            kept.append(e)
+            last_end = e[1]
+    out = fragment
+    for start, end, replacement in reversed(kept):
+        out = out[:start] + replacement + out[end:]
+    return out
+
+
+# ---------------------------------------------------------------------
 # Search index (docs/search-index.json)
 # ---------------------------------------------------------------------
 #
@@ -1258,7 +1456,7 @@ def apply_glossary_terms(fragment, errors, label):
     return out
 
 
-def render_page(index, page, metadata, summaries, errors):
+def render_page(index, page, metadata, summaries, errors, xrefs=None):
     slug = page["slug"]
     is_index = slug == "index"
     fragment_path = CONTENT_DIR / f"{slug}.html"
@@ -1268,6 +1466,8 @@ def render_page(index, page, metadata, summaries, errors):
     fragment = fragment_path.read_text(encoding="utf-8")
     fragment = substitute_tokens(fragment, metadata, errors)
     fragment = apply_glossary_terms(fragment, errors, f"content/{slug}.html")
+    if slug == "clause-2-references":
+        fragment = inject_reference_ids(fragment)
     headings = parse_headings(fragment)
     validate_fragment_headings(slug, fragment, headings, errors)
 
@@ -1287,6 +1487,8 @@ def render_page(index, page, metadata, summaries, errors):
     clause_summary = build_clause_summary(slug, summaries, errors)
     on_this_page = build_on_this_page(headings)
     fragment_html = inject_heading_links(fragment, headings)
+    if xrefs:
+        fragment_html = link_cross_references(fragment_html, slug, xrefs)
     content_html = clause_summary + on_this_page + fragment_html
 
     html_out = PAGE_TEMPLATE.format(
@@ -1465,9 +1667,13 @@ def main():
     if errors:
         errors.report_and_exit()
 
+    xrefs = build_xref_maps(errors)
+    if errors:
+        errors.report_and_exit()
+
     rendered = {}
     for i, page in enumerate(SITEMAP):
-        html_out = render_page(i, page, metadata, summaries, errors)
+        html_out = render_page(i, page, metadata, summaries, errors, xrefs)
         if html_out is not None:
             rendered[page["slug"]] = html_out
 
@@ -1477,6 +1683,19 @@ def main():
     all_slugs = set(rendered.keys())
     for slug, html_out in rendered.items():
         validate_rendered_page(slug, html_out, all_slugs, errors)
+
+    # Cross-page anchors: href="other-page.html#id" must point at an id
+    # that really exists on that page. (Per-page validation already covers
+    # same-page "#id" links; this covers everything the cross-reference
+    # linker and hand-authored content produce across pages.)
+    ids_by_slug = {s: set(re.findall(r'\sid="([^"]+)"', h)) for s, h in rendered.items()}
+    for slug, html_out in rendered.items():
+        for href in HREF_RE.findall(html_out):
+            m = re.match(r'^([a-z0-9-]+)\.html#(.+)$', href)
+            if m and m.group(1) in ids_by_slug and m.group(2) not in ids_by_slug[m.group(1)]:
+                errors.add(f"docs/{slug}.html", "broken-cross-page-anchor",
+                           f'href="{href}" points at an id that does not exist on {m.group(1)}.html.',
+                           "Fix the href, or add the missing id to the target page.")
 
     if errors:
         errors.report_and_exit()

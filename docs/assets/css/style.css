@@ -733,6 +733,11 @@ main { min-width: 0; }
   hyphens: auto;
 }
 .content thead th { background: var(--colour-text); color: #ffffff; font-family: var(--font-heading); font-weight: 700; }
+/* Links inside dark header cells (e.g. auto-linked clause references in
+   Table 8.4's column headings) need a light link colour — the normal blue
+   fails contrast on the near-black header background. */
+.content thead th a { color: var(--colour-doc-header-muted); }
+.content thead th a:hover { color: #ffffff; }
 .content tbody tr:nth-child(even) { background: var(--colour-panel-bg); }
 
 /* Visible affordance for the (now rare) tables that still overflow:
