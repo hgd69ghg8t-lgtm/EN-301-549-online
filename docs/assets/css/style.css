@@ -550,13 +550,19 @@ main { min-width: 0; }
   font-size: 0.9375rem;
 }
 
-/* ---------- On this page ---------- */
+/* ---------- On this page ----------
+   A compact, left-aligned card: it sizes to its own longest link
+   (fit-content) rather than stretching across the content column, with
+   sensible bounds — never wider than a reading measure, never so narrow
+   it looks broken, and never wider than the column on small screens. */
 .on-this-page {
   background: var(--colour-panel-bg);
   border: 1px solid var(--colour-border-strong);
-  padding: 1rem 1.25rem;
+  padding: 1rem 2.5rem 1rem 1.25rem;
   margin: 0 0 var(--space-4);
-  max-width: var(--prose-measure);
+  width: fit-content;
+  min-width: min(20rem, 100%);
+  max-width: min(66ch, 100%);
 }
 .on-this-page h2 {
   margin-top: 0 !important;
