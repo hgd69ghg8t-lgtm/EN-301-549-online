@@ -640,49 +640,107 @@ main { min-width: 0; }
 .clause-summary p { max-width: var(--prose-measure); margin: 0 0 0.6rem; }
 .clause-summary p:last-child { margin-bottom: 0; font-style: normal; color: var(--colour-muted); }
 .companion-guidance {
-  margin: 0 0 var(--space-5);
-  border: 3px solid var(--colour-link);
-  border-left-width: 0.65rem;
-  background: var(--colour-note-bg);
+  --guidance-slate: #2a2a2a;
+  --guidance-mid-grey: #595959;
+  --guidance-light-grey: #d3d3d3;
+  --guidance-off-white: #f4f4f4;
+  --guidance-link: #005dbb;
+  --guidance-link-active: #000c48;
+  --guidance-focus: #b53cde;
+  margin: 0 0 var(--space-6);
+  border: 1px solid var(--guidance-light-grey);
+  border-left: 0.35rem solid var(--guidance-link);
+  background: #fff;
+  color: var(--guidance-slate);
   max-width: var(--prose-measure);
 }
 .companion-guidance summary {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 1rem;
+  gap: var(--space-3);
+  align-items: center;
+  padding: 1.25rem 1.5rem;
   cursor: pointer;
-  padding: var(--space-3) var(--space-4);
+  list-style: none;
 }
-.companion-guidance summary:hover {
-  background: var(--colour-link);
-  color: #fff;
+.companion-guidance summary::-webkit-details-marker { display: none; }
+.companion-guidance summary::after {
+  content: "";
+  width: 0.65rem;
+  height: 0.65rem;
+  border-right: 0.2rem solid currentColor;
+  border-bottom: 0.2rem solid currentColor;
+  transform: rotate(45deg) translate(-0.1rem, 0.1rem);
+  transform-origin: center;
+}
+.companion-guidance details[open] > summary::after {
+  transform: rotate(225deg) translate(-0.1rem, 0.1rem);
+}
+.companion-guidance summary:hover .companion-guidance__title {
+  color: var(--guidance-link-active);
+  text-decoration-thickness: 0.18rem;
 }
 .companion-guidance summary:focus-visible {
-  outline: 3px solid var(--colour-focus-dark);
-  outline-offset: 3px;
+  outline: 0.25rem solid var(--guidance-focus);
+  outline-offset: 0.2rem;
 }
 .companion-guidance__label {
   display: block;
-  margin: 0;
-  font-family: var(--font-heading);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
+  margin: 0 0 0.25rem;
+  color: var(--guidance-mid-grey);
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.4;
+  text-transform: none;
+  letter-spacing: normal;
 }
 .companion-guidance__title {
   display: block;
-  margin-top: var(--space-1);
+  color: var(--guidance-link);
   font-family: var(--font-heading);
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   font-weight: 700;
+  line-height: 1.3;
+  text-decoration: underline;
+  text-decoration-thickness: 0.08rem;
+  text-underline-offset: 0.18rem;
 }
 .companion-guidance__content {
-  padding: 0 var(--space-4) var(--space-4);
-  border-top: 2px solid var(--colour-link);
+  padding: 1.5rem;
+  border-top: 1px solid var(--guidance-light-grey);
 }
-.companion-guidance__disclaimer { padding: var(--space-2); border: 2px solid currentColor; background: var(--colour-background); }
-.companion-guidance__review { font-size: 0.875rem; color: var(--colour-muted); }
+.companion-guidance__content > :first-child { margin-top: 0; }
+.companion-guidance__content > :last-child { margin-bottom: 0; }
+.companion-guidance__content h3 { margin-top: 2rem; margin-bottom: 0.75rem; }
+.companion-guidance__content p,
+.companion-guidance__content ul { margin-top: 0; margin-bottom: 1rem; }
+.companion-guidance__disclaimer {
+  padding: 1rem 1.25rem;
+  border: 0;
+  border-left: 0.3rem solid var(--guidance-slate);
+  background: var(--guidance-off-white);
+}
+.companion-guidance__review {
+  padding-top: 1rem;
+  border-top: 1px solid var(--guidance-light-grey);
+  color: var(--guidance-mid-grey);
+  font-size: 0.875rem;
+}
+@media (max-width: 30rem) {
+  .companion-guidance summary,
+  .companion-guidance__content { padding: 1rem; }
+}
 @media (forced-colors: active) {
   .companion-guidance { border-color: CanvasText; background: Canvas; color: CanvasText; }
-  .companion-guidance summary:hover { background: Highlight; color: HighlightText; }
-  .companion-guidance__content { border-color: CanvasText; }
+  .companion-guidance__label,
+  .companion-guidance__title,
+  .companion-guidance__review { color: CanvasText; }
+  .companion-guidance summary:focus-visible { outline-color: Highlight; }
+  .companion-guidance__content,
+  .companion-guidance__review { border-color: CanvasText; }
+  .companion-guidance__disclaimer { border-color: CanvasText; background: Canvas; }
 }
 
 .etsi-content-notice {
