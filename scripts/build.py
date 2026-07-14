@@ -1373,9 +1373,11 @@ def build_companion_guidance(slug, guidance):
     if not entry:
         return ""
     out = [
-        '<aside class="companion-guidance" id="companion-guidance" aria-labelledby="companion-guidance-heading">',
-        '<p class="companion-guidance__label">Website-authored guidance</p>',
-        '<h2 id="companion-guidance-heading">Companion guidance</h2>',
+        '<aside class="companion-guidance" aria-label="Companion guidance">',
+        '<details class="companion-guidance__accordion">',
+        '<summary><span class="companion-guidance__label">Website-authored guidance</span>'
+        '<span class="companion-guidance__title">Companion guidance</span></summary>',
+        '<div class="companion-guidance__content">',
         '<p class="companion-guidance__disclaimer"><strong>Not part of EN 301 549.</strong> '
         'This orientation does not replace the wording below.</p>',
     ]
@@ -1403,7 +1405,7 @@ def build_companion_guidance(slug, guidance):
         review_bits.append(f'Last reviewed {human_date(entry["lastReviewed"])}.')
     if review_bits:
         out.append(f'<p class="companion-guidance__review">{" ".join(review_bits)}</p>')
-    out.append('</aside>')
+    out.append('</div></details></aside>')
     return "".join(out)
 
 
