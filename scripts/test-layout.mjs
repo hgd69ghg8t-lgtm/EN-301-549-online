@@ -20,11 +20,14 @@
 import { chromium } from "playwright";
 import { createServer } from "node:http";
 import { readFile } from "node:fs";
+import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const DOCS_DIR = path.join(ROOT, "docs");
+const sitemap = JSON.parse(readFileSync(path.join(ROOT, "scripts", "sitemap.json"), "utf8"));
+const ALL_PAGES = sitemap.map((entry) => `${entry.slug}.html`);
 
 const MIME = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".woff2": "font/woff2", ".pdf": "application/pdf" };
 
@@ -76,7 +79,10 @@ async function main() {
     const context = await browser.newContext({ viewport: { width, height: 900 }, reducedMotion: "reduce" });
     const page = await context.newPage();
 
-    for (const slug of PAGES) {
+    // Every page gets the most constrained 320px pass. Wider viewports use
+    // representative content shapes to keep CI time proportionate.
+    const pagesAtWidth = width === 320 ? ALL_PAGES : PAGES;
+    for (const slug of pagesAtWidth) {
       await page.goto(`http://127.0.0.1:${port}/${slug}`);
       await page.evaluate(() => document.fonts.ready);
 
@@ -149,6 +155,114 @@ async function main() {
       }
     }
 
+    await context.close();
+  }
+
+  // Browser zoom reduces the effective CSS viewport. These cases model a
+  // 1280px desktop viewport at 200% and 400%, the WCAG reflow boundary.
+  for (const { label, width } of [
+    { label: "200% zoom", width: 640 },
+    { label: "400% zoom", width: 320 },
+  ]) {
+    const context = await browser.newContext({ viewport: { width, height: 900 } });
+    const page = await context.newPage();
+    for (const slug of ALL_PAGES) {
+      await page.goto(`http://127.0.0.1:${port}/${slug}`);
+      const overflow = await page.evaluate(
+        () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1
+      );
+      if (overflow) failures.push(`${slug} @ ${label}: page-level horizontal overflow`);
+    }
+    await context.close();
+  }
+
+  // Forced-colours must retain visible, operable navigation and controls.
+  {
+    const context = await browser.newContext({
+      viewport: { width: 1280, height: 900 },
+      forcedColors: "active",
+    });
+    const page = await context.newPage();
+    for (const slug of ALL_PAGES) {
+      await page.goto(`http://127.0.0.1:${port}/${slug}`);
+      const result = await page.evaluate(() => ({
+        overflow: document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+        mainVisible: Boolean(document.querySelector("main")?.getClientRects().length),
+        linksVisible: Array.from(document.querySelectorAll("a")).some(
+          (link) => link.getClientRects().length && getComputedStyle(link).visibility === "visible"
+        ),
+      }));
+      if (result.overflow) failures.push(`${slug} @ forced colours: page-level horizontal overflow`);
+      if (!result.mainVisible || !result.linksVisible) {
+        failures.push(`${slug} @ forced colours: main content or links are not visible`);
+      }
+    }
+    await context.close();
+  }
+
+  // Global link hover styles must not override the toolbar's light text on
+  // its dark button background (regression: Download PDF label disappeared).
+  {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const page = await context.newPage();
+    await page.goto(`http://127.0.0.1:${port}/clause-1-scope.html`);
+    const download = page.getByRole("link", { name: "Download the official ETSI standard as a PDF" });
+    await download.hover();
+    const visible = await download.evaluate((element) => {
+      const style = getComputedStyle(element);
+      return element.getClientRects().length > 0 &&
+        style.visibility === "visible" &&
+        style.color === "rgb(255, 255, 255)" &&
+        element.textContent.trim() === "Download PDF";
+    });
+    if (!visible) failures.push("Download PDF label is not visible on hover");
+    await context.close();
+  }
+
+  // Contents links need a clear hover state, including the current page and
+  // current subsection whose aria-current styles otherwise win the cascade.
+  {
+    const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
+    const page = await context.newPage();
+    await page.goto(`http://127.0.0.1:${port}/clause-1-scope.html`);
+    const contentsLink = page.locator(".site-nav a").first();
+    await contentsLink.hover();
+    const hoverStyle = await contentsLink.evaluate((element) => {
+      const style = getComputedStyle(element);
+      return { color: style.color, background: style.backgroundColor };
+    });
+    if (hoverStyle.color !== "rgb(255, 255, 255)" ||
+        hoverStyle.background !== "rgb(0, 61, 110)") {
+      failures.push("left contents link has no clear high-contrast hover state");
+    }
+    await context.close();
+  }
+
+  // The responsive-table helper may remove only attributes it added itself.
+  {
+    const context = await browser.newContext({ viewport: { width: 320, height: 900 } });
+    const page = await context.newPage();
+    await page.goto(`http://127.0.0.1:${port}/clause-9-web.html`);
+    const preserved = await page.evaluate(async () => {
+      const wrap = document.querySelector(".table-wrap");
+      if (!wrap) return null;
+      wrap.setAttribute("tabindex", "-1");
+      wrap.setAttribute("role", "group");
+      wrap.setAttribute("aria-label", "Authored table label");
+      wrap.style.overflow = "visible";
+      wrap.style.width = "100000px";
+      window.dispatchEvent(new Event("resize"));
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+      return {
+        tabindex: wrap.getAttribute("tabindex"),
+        role: wrap.getAttribute("role"),
+        label: wrap.getAttribute("aria-label"),
+      };
+    });
+    if (!preserved || preserved.tabindex !== "-1" ||
+        preserved.role !== "group" || preserved.label !== "Authored table label") {
+      failures.push("responsive table helper removed author-provided accessibility attributes");
+    }
     await context.close();
   }
 

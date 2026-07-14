@@ -334,7 +334,10 @@ a:hover { color: var(--colour-link-hover); }
   cursor: pointer;
   text-decoration: none;
 }
-.doc-toolbar__btn:hover { background: var(--colour-toolbar-btn-hover-bg); }
+.doc-toolbar__btn:hover {
+  background: var(--colour-toolbar-btn-hover-bg);
+  color: #ffffff;
+}
 .doc-toolbar__btn-status { font-weight: 400; opacity: 0.85; }
 .toc-toggle {
   display: none;
@@ -420,7 +423,10 @@ a:hover { color: var(--colour-link-hover); }
 }
 .site-nav > p { margin: 0; }
 .site-nav > p a { padding-left: var(--space-3); font-weight: 700; font-family: var(--font-heading); }
-.site-nav a:hover { background: var(--colour-note-bg); }
+.site-nav a:hover {
+  background: var(--colour-link-hover);
+  color: #ffffff;
+}
 .site-nav a[aria-current="page"] {
   background: var(--colour-link);
   color: #ffffff;
@@ -437,12 +443,19 @@ a:hover { color: var(--colour-link-hover); }
   border-left: 3px solid transparent;
 }
 .site-nav__subsections--nested a { padding-left: 3rem; }
-.site-nav__subsections a:hover { background: var(--colour-panel-bg); }
+.site-nav__subsections a:hover {
+  background: var(--colour-link-hover);
+  color: #ffffff;
+}
 .site-nav__subsections a[aria-current="location"] {
   background: var(--colour-note-bg);
   color: var(--colour-link);
   font-weight: 700;
   border-left-color: var(--colour-link);
+}
+.site-nav a[aria-current]:hover {
+  background: var(--colour-link-hover);
+  color: #ffffff;
 }
 
 /* ---------- Main content typography ---------- */
