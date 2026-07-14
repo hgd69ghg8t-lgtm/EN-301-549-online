@@ -32,6 +32,7 @@ ROOT = Path(__file__).resolve().parent.parent
 SITEMAP_PATH = ROOT / "scripts" / "sitemap.json"
 METADATA_PATH = ROOT / "data" / "source-metadata.json"
 CLAUSE_SUMMARIES_PATH = ROOT / "data" / "clause-summaries.json"
+COMPANION_GUIDANCE_PATH = ROOT / "data" / "companion-guidance.json"
 CONTENT_DIR = ROOT / "content"
 DOCS_DIR = ROOT / "docs"
 SOURCE_PDF_PATH = ROOT / "docs" / "source" / "en_301549v040100va.pdf"
@@ -1315,6 +1316,83 @@ NORMATIVE_LINK = '<a href="about.html#normative-and-informative">normative</a>'
 INFORMATIVE_LINK = '<a href="about.html#normative-and-informative">informative</a>'
 
 
+def load_companion_guidance(errors):
+    if not COMPANION_GUIDANCE_PATH.exists():
+        return {}
+    rel = str(COMPANION_GUIDANCE_PATH.relative_to(ROOT))
+    try:
+        data = json.loads(COMPANION_GUIDANCE_PATH.read_text(encoding="utf-8"),
+                          object_pairs_hook=_no_duplicate_keys)
+    except (json.JSONDecodeError, ValueError) as exc:
+        errors.add(rel, "companion-guidance-invalid-json", str(exc),
+                   "Fix the JSON syntax or duplicate key.")
+        return {}
+    known = {page["slug"] for page in SITEMAP}
+    for slug, entry in data.items():
+        label = f"{rel} ({slug})"
+        required = {"status", "owner", "lastReviewed", "inBrief", "audiences", "sections", "related"}
+        if slug not in known or not slug.startswith(("clause-", "annex-")):
+            errors.add(label, "companion-guidance-unknown-page", "Unknown clause or annex page.",
+                       "Correct the page slug.")
+            continue
+        if required - set(entry):
+            errors.add(label, "companion-guidance-missing-fields", "Required fields are missing.",
+                       "Add status, owner, review date and structured content.")
+            continue
+        if entry["status"] != "reviewed" or not str(entry["owner"]).strip():
+            errors.add(label, "companion-guidance-not-reviewed",
+                       "Published guidance needs reviewed status and an owner.",
+                       "Complete editorial review and record the accountable owner.")
+        validate_iso_date_field("lastReviewed", entry, errors, label)
+        text_values = list(entry["inBrief"]) + list(entry["audiences"])
+        for section in entry["sections"]:
+            text_values += [section.get("heading", "")] + section.get("paragraphs", []) + section.get("items", [])
+        if any(not isinstance(value, str) or not value.strip() or "<" in value or ">" in value
+               for value in text_values):
+            errors.add(label, "companion-guidance-unsafe-text",
+                       "Guidance must contain non-empty plain text only.",
+                       "Remove raw HTML and empty values.")
+        for link in entry["related"]:
+            if not link.get("label") or not re.fullmatch(r"[a-z0-9-]+\.html(?:#[a-z0-9-]+)?", link.get("href", "")):
+                errors.add(label, "companion-guidance-link-invalid",
+                           "Related links must be labelled local HTML links.",
+                           "Use page.html or page.html#anchor.")
+    return data
+
+
+def build_companion_guidance(slug, guidance):
+    entry = guidance.get(slug)
+    if not entry:
+        return ""
+    out = [
+        '<aside class="companion-guidance" id="companion-guidance" aria-labelledby="companion-guidance-heading">',
+        '<p class="companion-guidance__label">Website-authored guidance</p>',
+        '<h2 id="companion-guidance-heading">Companion guidance</h2>',
+        '<p class="companion-guidance__disclaimer"><strong>Not part of EN 301 549.</strong> '
+        'This orientation does not replace the wording below.</p>',
+    ]
+    out += [f"<p>{html.escape(p)}</p>" for p in entry["inBrief"]]
+    out.append("<h3>Who this may help</h3><ul>")
+    out += [f"<li>{html.escape(item)}</li>" for item in entry["audiences"]]
+    out.append("</ul>")
+    for i, section in enumerate(entry["sections"], 1):
+        sid = f"guidance-{slug}-{i}"
+        out.append(f'<section aria-labelledby="{sid}"><h3 id="{sid}">{html.escape(section["heading"])}</h3>')
+        out += [f"<p>{html.escape(p)}</p>" for p in section.get("paragraphs", [])]
+        if section.get("items"):
+            out.append("<ul>")
+            out += [f"<li>{html.escape(item)}</li>" for item in section["items"]]
+            out.append("</ul>")
+        out.append("</section>")
+    out.append("<h3>Related parts</h3><ul>")
+    out += [f'<li><a href="{html.escape(link["href"])}">{html.escape(link["label"])}</a></li>'
+            for link in entry["related"]]
+    out.append("</ul>")
+    out.append(f'<p class="companion-guidance__review">Owned by {html.escape(entry["owner"])}. '
+               f'Last reviewed {human_date(entry["lastReviewed"])}.</p></aside>')
+    return "".join(out)
+
+
 def build_clause_summary(slug, summaries, errors):
     """The short, clearly-labelled 'About this clause/annex' orientation
     block for the handful of pages listed in data/clause-summaries.json.
@@ -1514,7 +1592,7 @@ def apply_glossary_terms(fragment, errors, label):
     return out
 
 
-def render_page(index, page, metadata, summaries, errors, xrefs=None):
+def render_page(index, page, metadata, summaries, guidance, errors, xrefs=None):
     slug = page["slug"]
     is_index = slug == "index"
     fragment_path = CONTENT_DIR / f"{slug}.html"
@@ -1542,12 +1620,13 @@ def render_page(index, page, metadata, summaries, errors, xrefs=None):
         if technical_marker in fragment:
             fragment = fragment.replace(technical_marker, render_metadata_technical(metadata))
 
-    clause_summary = build_clause_summary(slug, summaries, errors)
+    companion = build_companion_guidance(slug, guidance)
+    clause_summary = "" if companion else build_clause_summary(slug, summaries, errors)
     on_this_page = build_on_this_page(headings)
     fragment_html = inject_heading_links(fragment, headings)
     if xrefs:
         fragment_html = link_cross_references(fragment_html, slug, xrefs)
-    content_html = clause_summary + on_this_page + fragment_html
+    content_html = companion + clause_summary + on_this_page + fragment_html
 
     html_out = PAGE_TEMPLATE.format(
         title=html.escape(page["title"]),
@@ -1720,6 +1799,7 @@ def main():
 
     metadata = load_metadata(errors)
     summaries = load_clause_summaries(errors)
+    guidance = load_companion_guidance(errors)
     ownership = load_content_ownership()
     validate_content_ownership(ownership, errors)
     validate_sitemap_vs_content(errors)
@@ -1734,7 +1814,7 @@ def main():
 
     rendered = {}
     for i, page in enumerate(SITEMAP):
-        html_out = render_page(i, page, metadata, summaries, errors, xrefs)
+        html_out = render_page(i, page, metadata, summaries, guidance, errors, xrefs)
         if html_out is not None:
             rendered[page["slug"]] = html_out
 
