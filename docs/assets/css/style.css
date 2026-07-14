@@ -655,7 +655,7 @@ main { min-width: 0; }
   color: #fff;
 }
 .companion-guidance summary:focus-visible {
-  outline: 3px solid var(--colour-focus);
+  outline: 3px solid var(--colour-focus-dark);
   outline-offset: 3px;
 }
 .companion-guidance__label {
