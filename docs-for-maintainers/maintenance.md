@@ -47,7 +47,7 @@ The build validates all of this automatically (unknown slug, duplicate key, empt
 
 ## Adding or changing site-authored wording
 
-Website-authored text (introductions, summaries, navigation labels, the About page's own sentences, the accessibility statement, notices) lives in `content/index.html`, `content/about.html`, `content/accessibility-statement.html`, and `data/clause-summaries.json` — edit freely, following the [content-authoring conventions](../README.md#content-authoring-conventions) in the README (sentence case, plain language, no italics for publication references, human-readable dates via `{{TOKEN}}`s rather than hand-typed ones).
+Website-authored text (introductions, summaries, navigation labels, the About page's own sentences, the accessibility statement, the search page, notices) lives in `content/index.html`, `content/about.html`, `content/accessibility-statement.html`, `content/search.html`, and `data/clause-summaries.json` — edit freely, following the [content-authoring conventions](../README.md#content-authoring-conventions) in the README (sentence case, plain language, no italics for publication references, human-readable dates via `{{TOKEN}}`s rather than hand-typed ones).
 
 Never mix new site-authored wording into a clause/annex `content/*.html` file's reproduced ETSI text — those files are protected by the wording-integrity check (see below), and adding your own sentences there would either fail that check or (worse) blur the line between what ETSI wrote and what this website added.
 

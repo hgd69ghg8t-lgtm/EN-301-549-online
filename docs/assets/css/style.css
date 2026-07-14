@@ -63,7 +63,6 @@
   --colour-panel-bg: #f3f2f1;
   --colour-note-bg: #e8f1fa;
   --colour-note-border: #005ea2;
-  --colour-live-status-bg: #1a1a1a;
 
   --font-heading: 'Overpass', Arial, sans-serif;
   --font-body: 'Source Sans 3', Arial, sans-serif;
@@ -169,9 +168,9 @@ a:hover { color: var(--colour-link-hover); }
 .content code { overflow-wrap: anywhere; }
 
 /* ---------- Site header ----------
-   A light, conventional nav bar: logo-only brand on the left (a
-   lettermark tile; the link's full site title is visually hidden but
-   announced to screen readers), quick links on the right, generous
+   A light, conventional nav bar: the AccessibleDocs brand (document icon
+   + wordmark; the full site title stays as visually-hidden text inside
+   the link) on the left, quick links and search on the right, generous
    whitespace, blue accent bar below. */
 .site-header {
   background: #ffffff;

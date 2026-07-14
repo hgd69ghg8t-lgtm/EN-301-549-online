@@ -12,9 +12,10 @@ The build validates its own output and exits with a non-zero status (and
 no partial docs/ write) if it finds missing/extra content fragments,
 duplicate IDs, a wrong number of <h1> elements, numbered headings whose
 id doesn't match their clause number, skipped heading levels, broken
-internal links, or invalid metadata. See validate() below for the full
-list. Run with --check-only to run every validation without writing
-docs/, e.g. to validate a change before committing it.
+internal links, or invalid metadata. See the validate_* functions and
+the README's "Validation" section for the full list. Run with
+--check-only to run every validation without writing docs/, e.g. to
+validate a change before committing it.
 """
 import json
 import re
@@ -40,13 +41,15 @@ SOURCE_PDF_PATH = ROOT / "docs" / "source" / "en_301549v040100va.pdf"
 SOURCE_PDF_NAME = "en_301549v040100va.pdf"
 DOC_LABEL = "ETSI EN 301 549 V4.1.0"
 
-# Website-authored pages are not part of the reproduced standard, so they
-# don't get a "Clause N"/"Annex X" source label in the page footer.
+# Website-authored pages, as opposed to reproduced-standard pages. These
+# are outside the ETSI wording-integrity baseline, are the pages
+# data/content-ownership.json may describe, and (index/search aside) are
+# the header/footer quick-link destinations.
 NON_STANDARD_SLUGS = {"index", "about", "accessibility-statement", "search"}
 
 # A page's own headings are listed in an "On this page" jump list once
 # there are at least this many h2/h3 headings — short pages don't need one.
-ON_THIS_PAGE_THRESHOLD = 4
+ON_THIS_PAGE_THRESHOLD = 2
 
 # A page's <dt> definition-list terms get stable ids and (once there are
 # enough of them to be worth it) an A-Z index once there are at least this
@@ -68,7 +71,7 @@ RESERVED_IDS = {"main-content", "site-nav-panel", "status-live", "top",
 # and re-checked here on the final rendered output so a future refactor
 # can't silently reintroduce this by accident.
 UTILITY_HEADING_TEXTS = {"About this clause", "About this annex", "On this page",
-                          "Source in the official PDF"}
+                          "Companion guidance"}
 
 REQUIRED_METADATA_FIELDS = (
     "title", "version", "status",
@@ -1330,7 +1333,7 @@ def load_companion_guidance(errors):
     known = {page["slug"] for page in SITEMAP}
     for slug, entry in data.items():
         label = f"{rel} ({slug})"
-        required = {"status", "owner", "lastReviewed", "inBrief", "audiences", "sections", "related"}
+        required = {"inBrief", "audiences", "sections", "related"}
         if slug not in known or not slug.startswith(("clause-", "annex-")):
             errors.add(label, "companion-guidance-unknown-page", "Unknown clause or annex page.",
                        "Correct the page slug.")
@@ -1339,10 +1342,15 @@ def load_companion_guidance(errors):
             errors.add(label, "companion-guidance-missing-fields", "Required fields are missing.",
                        "Add status, owner, review date and structured content.")
             continue
-        if entry["status"] != "reviewed" or not str(entry["owner"]).strip():
-            errors.add(label, "companion-guidance-not-reviewed",
-                       "Published guidance needs reviewed status and an owner.",
-                       "Complete editorial review and record the accountable owner.")
+        # owner/lastReviewed are optional: record them only when a real
+        # person or team genuinely reviewed the guidance (see
+        # data/content-ownership.json for the project-wide rule that
+        # governance facts are never invented). If present, they must be
+        # real values, not placeholders.
+        if "owner" in entry and not str(entry["owner"]).strip():
+            errors.add(label, "companion-guidance-empty-owner",
+                       "An owner field, when present, must name the accountable owner.",
+                       "Fill in the real owner, or remove the field.")
         validate_iso_date_field("lastReviewed", entry, errors, label)
         text_values = list(entry["inBrief"]) + list(entry["audiences"])
         for section in entry["sections"]:
@@ -1388,8 +1396,14 @@ def build_companion_guidance(slug, guidance):
     out += [f'<li><a href="{html.escape(link["href"])}">{html.escape(link["label"])}</a></li>'
             for link in entry["related"]]
     out.append("</ul>")
-    out.append(f'<p class="companion-guidance__review">Owned by {html.escape(entry["owner"])}. '
-               f'Last reviewed {human_date(entry["lastReviewed"])}.</p></aside>')
+    review_bits = []
+    if entry.get("owner"):
+        review_bits.append(f'Owned by {html.escape(entry["owner"])}.')
+    if entry.get("lastReviewed"):
+        review_bits.append(f'Last reviewed {human_date(entry["lastReviewed"])}.')
+    if review_bits:
+        out.append(f'<p class="companion-guidance__review">{" ".join(review_bits)}</p>')
+    out.append('</aside>')
     return "".join(out)
 
 

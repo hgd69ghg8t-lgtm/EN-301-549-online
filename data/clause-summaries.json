@@ -1,8 +1,44 @@
 {
+  "clause-1-scope": {
+    "heading": "About this clause",
+    "text": [
+      "Clause 1 describes what the standard covers: accessibility requirements for ICT products and services, together with the test procedures and evaluation methodology that go with them."
+    ]
+  },
+  "clause-2-references": {
+    "heading": "About this clause",
+    "text": [
+      "Clause 2 lists the documents this standard refers to. It is split into normative references, which are necessary for applying the standard, and informative references, which provide background and context."
+    ]
+  },
+  "clause-3-definitions": {
+    "heading": "About this clause",
+    "text": [
+      "Clause 3 defines the terms and abbreviations used throughout the standard. Use the A to Z index at the start of each list to jump straight to a definition."
+    ]
+  },
   "clause-4-functional-performance": {
     "heading": "About this clause",
     "text": [
       "Clause 4 sets out the functional performance criteria used throughout the standard. These describe what people need to be able to do — for example, see, hear or operate a control — rather than how a product must be built. Later clauses refer back to these criteria."
+    ]
+  },
+  "clause-5-generic-requirements": {
+    "heading": "About this clause",
+    "text": [
+      "Clause 5 contains requirements that apply across many kinds of ICT. It covers closed functionality (where a product prevents people from attaching or using their own assistive technology), activation of accessibility features, biometrics, tactile controls, and locking or toggle controls."
+    ]
+  },
+  "clause-6-real-time-communication": {
+    "heading": "About this clause",
+    "text": [
+      "Clause 6 covers ICT that provides real-time two-way communication. It includes requirements for voice communication, Real-Time Text (RTT), caller ID, alternatives to voice-based services, and video communication."
+    ]
+  },
+  "clause-7-video-capabilities": {
+    "heading": "About this clause",
+    "text": [
+      "Clause 7 covers ICT that plays video with synchronised audio. It sets out requirements for subtitle processing, audio description, and user control of these accessibility features."
     ]
   },
   "clause-8-hardware": {
@@ -29,6 +65,18 @@
       "Clause 11 covers software that is not a web page, such as desktop or mobile applications. It sets out what makes this software accessible."
     ]
   },
+  "clause-12-information-products-services": {
+    "heading": "About this clause",
+    "text": [
+      "Clause 12 covers the information provided with a product or service — including documentation of its accessibility and compatibility features — and electronic program guides."
+    ]
+  },
+  "clause-13-relay-emergency": {
+    "heading": "About this clause",
+    "text": [
+      "Clause 13 covers access to relay services, which convert between modes of communication such as text and speech, and includes informative material on access to emergency services."
+    ]
+  },
   "clause-14-conformance": {
     "heading": "About this clause",
     "text": [
@@ -41,10 +89,118 @@
       "Annex A supports evaluating whether a specific product or service meets the essential requirements of the EU accessibility directives covered by this standard. It is {{informative}}, which means it provides guidance rather than setting new requirements."
     ]
   },
+  "annex-b-functional-performance-relationship": {
+    "heading": "About this annex",
+    "text": [
+      "Annex B shows which requirements in clauses 5 to 13 support each of the functional performance criteria in clause 4. It is {{informative}}, which means it provides guidance rather than setting new requirements."
+    ]
+  },
   "annex-c-1-introduction": {
     "heading": "About this annex",
     "text": [
       "Annex C describes ways to determine whether individual requirements are met. It is {{normative}}, which means it forms part of the requirements of the standard."
+    ]
+  },
+  "annex-c-4-functional-performance": {
+    "heading": "About this annex",
+    "text": [
+      "Annex C.4 describes how meeting the functional performance criteria in clause 4 is assessed. Like all of Annex C it is {{normative}}, which means it forms part of the requirements of the standard."
+    ]
+  },
+  "annex-c-5-generic-requirements": {
+    "heading": "About this annex",
+    "text": [
+      "Annex C.5 describes ways to determine whether the requirements in clause 5 (generic requirements) are met. Like all of Annex C it is {{normative}}, which means it forms part of the requirements of the standard."
+    ]
+  },
+  "annex-c-6-real-time-communication": {
+    "heading": "About this annex",
+    "text": [
+      "Annex C.6 describes ways to determine whether the requirements in clause 6 (real-time communication) are met. Like all of Annex C it is {{normative}}, which means it forms part of the requirements of the standard."
+    ]
+  },
+  "annex-c-7-video-capabilities": {
+    "heading": "About this annex",
+    "text": [
+      "Annex C.7 describes ways to determine whether the requirements in clause 7 (ICT with video capabilities) are met. Like all of Annex C it is {{normative}}, which means it forms part of the requirements of the standard."
+    ]
+  },
+  "annex-c-8-hardware": {
+    "heading": "About this annex",
+    "text": [
+      "Annex C.8 describes ways to determine whether the requirements in clause 8 (hardware) are met. Like all of Annex C it is {{normative}}, which means it forms part of the requirements of the standard."
+    ]
+  },
+  "annex-c-9-web": {
+    "heading": "About this annex",
+    "text": [
+      "Annex C.9 describes ways to determine whether the requirements in clause 9 (web) are met. Like all of Annex C it is {{normative}}, which means it forms part of the requirements of the standard."
+    ]
+  },
+  "annex-c-10-non-web-documents": {
+    "heading": "About this annex",
+    "text": [
+      "Annex C.10 describes ways to determine whether the requirements in clause 10 (non-web documents) are met. Like all of Annex C it is {{normative}}, which means it forms part of the requirements of the standard."
+    ]
+  },
+  "annex-c-11-software": {
+    "heading": "About this annex",
+    "text": [
+      "Annex C.11 describes ways to determine whether the requirements in clause 11 (non-web software) are met. Like all of Annex C it is {{normative}}, which means it forms part of the requirements of the standard."
+    ]
+  },
+  "annex-c-12-information-products-services": {
+    "heading": "About this annex",
+    "text": [
+      "Annex C.12 describes ways to determine whether the requirements in clause 12 (information about products and services) are met. Like all of Annex C it is {{normative}}, which means it forms part of the requirements of the standard."
+    ]
+  },
+  "annex-c-13-relay-emergency": {
+    "heading": "About this annex",
+    "text": [
+      "Annex C.13 describes ways to determine whether the requirements in clause 13 (relay and emergency service access) are met. Like all of Annex C it is {{normative}}, which means it forms part of the requirements of the standard."
+    ]
+  },
+  "annex-c-14-conformance": {
+    "heading": "About this annex",
+    "text": [
+      "Annex C.14 describes ways to determine whether the requirements in clause 14 (conformance) are met. Like all of Annex C it is {{normative}}, which means it forms part of the requirements of the standard."
+    ]
+  },
+  "annex-d-cognitive-accessibility": {
+    "heading": "About this annex",
+    "text": [
+      "Annex D points to further resources and guidelines for making ICT accessible to people with limited cognitive, language and learning abilities. It is {{informative}}, which means it provides guidance rather than setting new requirements."
+    ]
+  },
+  "annex-e-guidance": {
+    "heading": "About this annex",
+    "text": [
+      "Annex E explains how to use the standard: what each clause covers, how to work out which requirements apply to a specific product or service, and where to start. It is {{informative}}, which means it provides guidance rather than setting new requirements."
+    ]
+  },
+  "annex-za-directive-2016-2102": {
+    "heading": "About this annex",
+    "text": [
+      "Annex ZA sets out how this standard relates to the essential requirements of the Web Accessibility Directive (Directive (EU) 2016/2102), for websites and for mobile applications. It is {{informative}}, which means it provides guidance rather than setting new requirements."
+    ]
+  },
+  "annex-zb-directive-2019-882": {
+    "heading": "About this annex",
+    "text": [
+      "Annex ZB sets out how this standard relates to the essential requirements of the European Accessibility Act (Directive (EU) 2019/882). It is {{informative}}, which means it provides guidance rather than setting new requirements."
+    ]
+  },
+  "annex-zc-other-directives": {
+    "heading": "About this annex",
+    "text": [
+      "Annex ZC sets out how this standard relates to the essential requirements of other Directives, according to Directive (EU) 2019/882, Section VI of Annex I. It is {{informative}}, which means it provides guidance rather than setting new requirements."
+    ]
+  },
+  "annex-f-change-history": {
+    "heading": "About this annex",
+    "text": [
+      "Annex F records the history of changes made between versions of this standard. It is {{informative}}, which means it provides guidance rather than setting new requirements."
     ]
   }
 }

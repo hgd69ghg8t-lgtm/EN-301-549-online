@@ -7,10 +7,11 @@ An HTML edition of 'ETSI EN 301 549 V4.1.0: Accessibility requirements for ICT p
 ## Project structure
 
 ```
-content/            36+ body-only HTML fragments — the actual transcribed
+content/            38 body-only HTML fragments — the actual transcribed
                      standard text (headings, paragraphs, lists, tables,
                      callouts), plus this site's own homepage/about/
-                     accessibility-statement pages. This is what you hand-edit.
+                     accessibility-statement/search pages. This is what you
+                     hand-edit.
                      Every fragment is clearly split into two kinds of text:
                      website-authored (introductions, "About this clause"
                      boxes, notices, navigation) and text reproduced
@@ -26,15 +27,14 @@ data/
                      the underlying checksum and file details.
   clause-summaries.json  The short, website-authored "About this clause"/
                      "About this annex" orientation text shown near the
-                     top of a handful of major pages. Optional per page —
-                     most pages have none, deliberately (see "Do not add
-                     a summary where it would be redundant or misleading"
-                     in the project's content-design brief).
+                     top of every clause and annex page. Keyed by slug;
+                     validated at build time (see "Validation" below).
 scripts/
   build.py           The build script: validates content, then wraps each
                      content/ fragment in the shared page template (skip
-                     link, header, breadcrumb, contents sidebar, draft
-                     notice, prev/next pager, footer) and writes docs/*.html.
+                     link, header with search and quick links, breadcrumb,
+                     contents sidebar, prev/next pager, footer) and writes
+                     docs/*.html plus the search index.
   heading_parser.py  Shared HTML heading parser (Python's stdlib
                      html.parser — no third-party dependency) used by both
                      build.py and normalize_content.py.
@@ -123,8 +123,8 @@ brew install poppler            # macOS
 - After adding or renumbering headings, run `python3 scripts/normalize_content.py` to bring every id in `content/` in line with the rule above in one pass, then rebuild.
 - Every numbered heading (h2/h3/h4) automatically becomes its own permalink at build time: the heading's text is wrapped in a self-referencing link (one keyboard tab stop whose accessible name is the heading text itself — no separate "#" control), which navigates to the heading's anchor and, with JavaScript, also copies the deep link. You don't add this by hand in content fragments.
 - Heading levels should not skip (an `<h3>` should not be followed directly by an `<h4>`'s child, i.e. by an `<h5>`, without an intervening `<h4>` on the way down). The build fails on a skipped level.
-- A page with 4 or more h2/h3 headings automatically gets an "On this page" jump list at build time, generated from those headings — nothing to add by hand. Its depth is deliberately capped at h2/h3 (the same two levels the left-hand sidebar shows) — h4 requirement-level headings are excluded even on the longest pages, since listing every one of them (up to ~100+ on the biggest clauses) would make the list unusable rather than helpful. Website-only headings ("About this clause", "On this page" itself, etc.) are never included — `build_on_this_page()` only ever sees the fragment's own parsed ETSI headings, and this is re-checked on the final rendered output (see `on-this-page-utility-heading` in the validator).
-- To give a page a short "About this clause"/"About this annex" orientation box, add an entry to `data/clause-summaries.json` keyed by slug. Keep it to 1–2 short paragraphs, describe what the clause covers without interpreting conformance requirements, and don't add one where it would be redundant or misleading — most pages deliberately have none. The build automatically appends the fixed "reproduced from the ETSI draft, not simplified or changed" sentence; don't duplicate it in the JSON. You can link the words "normative" or "informative" to their definition on the About page by writing `{{normative}}` / `{{informative}}` in the text.
+- A page with 2 or more h2/h3 headings automatically gets an "On this page" jump list at build time, generated from those headings — nothing to add by hand. Its depth is deliberately capped at h2/h3 (the same two levels the left-hand sidebar shows) — h4 requirement-level headings are excluded even on the longest pages, since listing every one of them (up to ~100+ on the biggest clauses) would make the list unusable rather than helpful. Website-only headings ("About this clause", "On this page" itself, etc.) are never included — `build_on_this_page()` only ever sees the fragment's own parsed ETSI headings, and this is re-checked on the final rendered output (see `on-this-page-utility-heading` in the validator).
+- Every clause and annex page has a short "About this clause"/"About this annex" orientation box, kept in `data/clause-summaries.json` keyed by slug. Keep each to 1–2 short paragraphs, and describe what the clause covers without interpreting conformance requirements, adding obligations, or narrowing scope. The build automatically appends the fixed "reproduced from the ETSI draft, not simplified or changed" sentence; don't duplicate it in the JSON. You can link the words "normative" or "informative" to their definition on the About page by writing `{{normative}}` / `{{informative}}` in the text.
 - Cross-references in the reproduced text — "see clause 5.1.3", "clauses 9, 10 and 11", "Annex ZA", bibliography citations like "[i.25]" — are turned into links automatically at build time (`link_cross_references()` in `scripts/build.py`). This is markup only: no wording changes (the wording-integrity check would fail if it did), text already inside a link, heading, or table caption is never touched, and anything the build can't resolve to a certain target is left as plain text — e.g. "Annex I", which belongs to an EU Directive, not this document. Clause 2's bibliography entries get stable `ref-…` ids so citations can deep-link to them.
 - The site search is entirely static: the build writes `docs/search-index.json` (one entry per heading section, glossary term, and page intro — deterministic, so reproducible builds still hold), and `docs/assets/js/site.js` filters it in the browser on `search.html`. No search service, no third-party library. Nothing to maintain by hand — the index regenerates from content on every build.
 - A handful of `{{TOKEN}}` placeholders are available in content fragments for values `scripts/build.py` can compute reliably (so they can never go stale): `{{STATUS_LAST_CHECKED}}`, `{{SOURCE_MONTH_YEAR}}`, `{{SOURCE_PDF_SIZE}}`. See `substitute_tokens()` in `scripts/build.py` for the full list. The build fails if an unreplaced `{{...}}` token would be published.

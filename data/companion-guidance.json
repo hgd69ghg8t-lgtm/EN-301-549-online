@@ -1,20 +1,17 @@
 {
   "clause-1-scope": {
-    "status": "reviewed", "owner": "Project maintainers", "lastReviewed": "2026-07-14",
     "inBrief": ["This clause describes the ICT products and services covered by the standard and the circumstances in which its requirements apply."],
     "audiences": ["Procurers", "Product teams", "Accessibility evaluators"],
     "sections": [{"heading": "How to use this clause", "paragraphs": ["Use the scope to establish whether the standard applies before selecting detailed requirements from later clauses."], "items": ["Check the product or service boundaries.", "Record any parts treated as outside the assessment scope."]}],
     "related": [{"label": "Clause 14: Conformance", "href": "clause-14-conformance.html"}]
   },
   "clause-5-generic-requirements": {
-    "status": "reviewed", "owner": "Project maintainers", "lastReviewed": "2026-07-14",
     "inBrief": ["This clause contains requirements that can apply across several kinds of ICT rather than to only web, documents, software or hardware."],
     "audiences": ["Designers", "Developers", "Accessibility evaluators"],
     "sections": [{"heading": "Relationship to later clauses", "paragraphs": ["Read this clause alongside the product-specific requirements in clauses 6 to 13."], "items": ["Do not assume a later product-specific clause replaces applicable generic requirements."]}],
     "related": [{"label": "Clause 4: Functional performance", "href": "clause-4-functional-performance.html"}, {"label": "Clause 14: Conformance", "href": "clause-14-conformance.html"}]
   },
   "clause-9-web": {
-    "status": "reviewed", "owner": "Project maintainers", "lastReviewed": "2026-07-14",
     "inBrief": ["This clause applies WCAG 2.2 requirements to web pages. The wording below remains the source for determining the actual requirements."],
     "audiences": ["Web designers", "Web developers", "Content authors", "Accessibility evaluators"],
     "sections": [{"heading": "Choosing the right clause", "paragraphs": ["Use clause 9 for web pages. Non-web documents and non-web software are covered separately."], "items": ["Use clause 10 for non-web documents.", "Use clause 11 for non-web software."]}],
