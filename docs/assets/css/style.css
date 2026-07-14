@@ -58,7 +58,9 @@
   --colour-doc-header-border: #1d6ea0;
   --colour-doc-header-muted: #9ecae5;
   --colour-toolbar-btn-bg: #004b86;
-  --colour-toolbar-btn-hover-bg: #003d6e;
+  /* Hover must stay visibly distinct from the title band it sits on
+     (--colour-doc-header-bg #003d6e), so darker than both rest and band. */
+  --colour-toolbar-btn-hover-bg: #002845;
 
   --colour-panel-bg: #f3f2f1;
   --colour-note-bg: #e8f1fa;
@@ -141,11 +143,20 @@ summary:focus-visible,
   outline-offset: 2px;
 }
 .doc-header :focus-visible,
-.back-to-top:focus-visible,
 .site-nav a[aria-current="page"]:focus-visible,
+.content thead th a:focus-visible,
 .site-footer :focus-visible {
   outline: 3px solid var(--colour-focus-yellow);
   outline-offset: 2px;
+}
+/* The back-to-top button floats over whatever is behind it — usually the
+   white page, but the near-black footer at the bottom — so no single
+   outline colour can work. Two rings: yellow against the button itself,
+   dark against the surroundings; at least one contrasts on any backdrop. */
+.back-to-top:focus-visible {
+  outline: 3px solid var(--colour-focus-yellow);
+  outline-offset: 0;
+  box-shadow: 0 0 0 6px var(--colour-focus-dark);
 }
 .skip-link:focus-visible {
   outline: 3px solid var(--colour-text);
@@ -333,8 +344,10 @@ a:hover { color: var(--colour-link-hover); }
   cursor: pointer;
   text-decoration: none;
 }
-.doc-toolbar__btn:hover {
+.doc-toolbar__btn:hover,
+.reader-tools > summary:hover {
   background: var(--colour-toolbar-btn-hover-bg);
+  border-color: var(--colour-doc-header-muted);
   color: #ffffff;
 }
 .doc-toolbar__btn-status { font-weight: 400; opacity: 0.85; }
@@ -369,7 +382,13 @@ a:hover { color: var(--colour-link-hover); }
 .reader-library h2 { font-size: 1.1rem; }
 .reader-library h3 { font-size: 1rem; margin-bottom: 0.25rem; }
 .reader-library ul { margin-top: 0; padding-left: 1.25rem; }
-.doc-toolbar__btn[aria-pressed="true"] { outline: 3px solid var(--colour-focus-yellow); }
+/* Pressed state as an inner ring, deliberately different from the outer
+   focus outline so "toggled on" and "keyboard focus" never look alike
+   (and a focused pressed button shows both indicators at once). */
+.doc-toolbar__btn[aria-pressed="true"] {
+  box-shadow: inset 0 0 0 2px var(--colour-focus-yellow);
+  border-color: var(--colour-focus-yellow);
+}
 html[data-reading-width="comfortable"] { --prose-measure: 66ch; }
 html[data-text-spacing="enhanced"] .content {
   line-height: 1.8;
@@ -552,6 +571,7 @@ main { min-width: 0; }
   text-decoration: none;
 }
 .heading-link:hover {
+  color: inherit; /* keep heading colour; the global a:hover blue would otherwise win */
   text-decoration: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: 0.18em;
@@ -953,9 +973,16 @@ main { min-width: 0; }
   font-size: 0.875rem;
   text-decoration: none;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  /* The white ring keeps the button's edge visible when it floats over
+     the dark footer, where the blue face alone would blend in. */
+  box-shadow: 0 0 0 2px #ffffff, 0 2px 8px rgba(0,0,0,0.25);
 }
-.back-to-top:hover { background: var(--colour-link-hover); }
+.back-to-top:hover {
+  background: var(--colour-link-hover);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.15em;
+}
 .back-to-top.is-visible { display: inline-flex; }
 
 /* ---------- Footer ---------- */
