@@ -1088,8 +1088,9 @@ def build_site_title(asset_prefix):
     The page's own <h1> is separate: every page's (including the
     homepage's) comes from build_doc_header()."""
     return (f'<a class="site-header__brand" href="{asset_prefix}index.html">'
-            '<span class="site-logo" aria-hidden="true">A</span>'
-            f'<span class="visually-hidden">{DOC_LABEL} Online — home</span></a>')
+            f'<img class="site-logo" src="{asset_prefix}assets/img/logo.svg" alt="" width="40" height="40">'
+            '<span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span>'
+            f'<span class="visually-hidden"> — {DOC_LABEL} Online, home</span></a>')
 
 
 # The header and footer quick links: the site's own (non-standard) pages,
@@ -1128,6 +1129,9 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <title>{title} | {doc_label} Online</title>
 <meta name="description" content="{description}">
 <link rel="stylesheet" href="{asset_prefix}assets/css/style.css?v={css_version}">
+<link rel="icon" href="{asset_prefix}assets/img/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="{asset_prefix}assets/img/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="{asset_prefix}assets/img/apple-touch-icon.png">
 </head>
 <body>
 <a class="skip-link" id="top" href="#main-content">Skip to main content</a>

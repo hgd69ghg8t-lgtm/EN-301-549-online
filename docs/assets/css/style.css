@@ -48,6 +48,12 @@
   --colour-site-header-border: #3a3a3a;
   --colour-accent-bar: #005ea2;
 
+  /* AccessibleDocs brand marks (logo document outline + wordmark).
+     Navy on white is 14.9:1; the blue is decorative accent within the
+     wordmark and also >4.5:1 on white. */
+  --colour-brand-navy: #14245a;
+  --colour-brand-blue: #2f80ed;
+
   --colour-doc-header-bg: #003d6e;
   --colour-doc-header-border: #1d6ea0;
   --colour-doc-header-muted: #9ecae5;
@@ -182,21 +188,23 @@ a:hover { color: var(--colour-link-hover); }
   justify-content: space-between;
   gap: var(--space-3);
 }
-.site-header__brand { display: inline-flex; text-decoration: none; }
-.site-logo {
-  width: 3rem;
-  height: 3rem;
-  display: flex;
+.site-header__brand {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  background: var(--colour-accent-bar);
-  color: #ffffff;
+  gap: 0.65rem;
+  text-decoration: none;
+}
+.site-logo { width: 2.5rem; height: 2.5rem; flex: 0 0 auto; }
+.site-wordmark {
   font-family: var(--font-heading);
   font-weight: 800;
-  font-size: 1.5rem;
+  font-size: 1.45rem;
   line-height: 1;
+  color: var(--colour-brand-navy);
+  letter-spacing: -0.01em;
 }
-.site-header__brand:hover .site-logo { background: var(--colour-link-hover); }
+.site-wordmark__accent { color: var(--colour-brand-blue); }
+.site-header__brand:hover .site-wordmark { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
 
 /* Header search: a plain GET form to search.html, so it works with no
    JavaScript at all — JS is only needed for the result filtering on the
