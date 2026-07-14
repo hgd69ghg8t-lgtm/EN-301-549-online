@@ -70,7 +70,7 @@ UTILITY_HEADING_TEXTS = {"About this clause", "About this annex", "On this page"
                           "Source in the official PDF"}
 
 REQUIRED_METADATA_FIELDS = (
-    "title", "version", "status", "statusHeadline", "statusBody",
+    "title", "version", "status",
     "sourceOrganisation", "sourcePdfUrl", "sourcePdfPublicationDate",
     "dateDownloaded", "statusLastChecked", "sha256",
 )
@@ -545,26 +545,12 @@ def validate_etsi_content_integrity(errors):
 
 def validate_fragment_headings(slug, raw, headings, errors):
     label = f"content/{slug}.html"
-    is_index = slug == "index"
 
-    # The homepage has no template-level doc header, so its fragment must
-    # supply the page's one <h1> itself. Every other page's <h1> comes from
-    # build_doc_header() (sitemap.json's title), so its fragment must not
-    # contain one at all — two <h1> elements would end up on the page.
+    # Every page's <h1> comes from build_doc_header() (sitemap.json's
+    # title) — including the homepage — so no fragment may contain one:
+    # two <h1> elements would end up on the same generated page.
     h1s = [h for h in headings if h.level == 1]
-    if is_index:
-        if len(h1s) != 1:
-            errors.add(label, "h1-count",
-                       f"Homepage fragment must contain exactly one <h1> (found {len(h1s)}); "
-                       "it has no template-level doc header to supply one.",
-                       "Give content/index.html exactly one <h1> as its first heading.")
-        elif not h1s[0].text.strip():
-            errors.add(label, "h1-empty", "The <h1> element has no visible text.",
-                       "Give the <h1> real, non-empty text.")
-        elif headings[0] is not h1s[0]:
-            errors.add(label, "h1-not-first", "The <h1> is not the first heading in the fragment.",
-                       "Move the <h1> to the top of content/index.html.")
-    elif h1s:
+    if h1s:
         errors.add(label, "h1-in-fragment",
                    "This fragment contains its own <h1>, but the page template already "
                    "supplies the page's <h1> from sitemap.json's title. Two <h1> elements "
@@ -773,11 +759,14 @@ def build_site_nav(current_slug, current_headings):
 
 
 def build_doc_header(page):
-    breadcrumb = ['<nav class="breadcrumb" aria-label="Breadcrumb"><ol>',
-                  '<li><a href="index.html">Home</a></li>']
-    if page["group"]:
-        breadcrumb.append(f'<li>{html.escape(page["group"])}</li>')
-    breadcrumb.append(f'<li aria-current="page">{html.escape(page["shortTitle"])}</li>')
+    breadcrumb = ['<nav class="breadcrumb" aria-label="Breadcrumb"><ol>']
+    if page["slug"] == "index":
+        breadcrumb.append('<li aria-current="page">Home</li>')
+    else:
+        breadcrumb.append('<li><a href="index.html">Home</a></li>')
+        if page["group"]:
+            breadcrumb.append(f'<li>{html.escape(page["group"])}</li>')
+        breadcrumb.append(f'<li aria-current="page">{html.escape(page["shortTitle"])}</li>')
     breadcrumb.append('</ol></nav>')
 
     return f"""<div class="doc-header">
@@ -827,9 +816,8 @@ def build_site_title(asset_prefix):
     page including the homepage itself — a lettermark tile with a
     visually-hidden accessible name carrying the full site title, so
     screen-reader users still hear what the link is and where it goes.
-    The page's own <h1> is separate: the homepage's fragment supplies its
-    own (see content/index.html), and every other page's comes from
-    build_doc_header()."""
+    The page's own <h1> is separate: every page's (including the
+    homepage's) comes from build_doc_header()."""
     return (f'<a class="site-header__brand" href="{asset_prefix}index.html">'
             '<span class="site-logo" aria-hidden="true">A</span>'
             f'<span class="visually-hidden">{DOC_LABEL} Online — home</span></a>')
@@ -889,7 +877,6 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <div class="page-shell">
   {site_nav}
   <main id="main-content" tabindex="-1">
-    <p class="draft-notice"><strong>{status_headline}.</strong> {status_body} <a href="accessibility-statement.html">Accessibility statement</a>.</p>
     <div class="content">
       {content}
     </div>
@@ -1225,18 +1212,7 @@ def render_page(index, page, metadata, summaries, errors):
     clause_summary = build_clause_summary(slug, summaries, errors)
     on_this_page = build_on_this_page(headings)
     fragment_html = inject_heading_links(fragment, headings)
-    if is_index:
-        # The homepage's <h1> lives inside the fragment itself (it has no
-        # template-level doc header), so anything website-authored that
-        # comes "before the content" must be spliced in after that <h1>,
-        # not prepended in front of it — otherwise an <h2> would appear
-        # before the page's only <h1> in document order. The <h1> is never
-        # numbered, so it never gets wrapped in a heading link, meaning its
-        # close_end offset is identical before and after inject_heading_links.
-        split_at = headings[0].close_end
-        content_html = fragment_html[:split_at] + clause_summary + on_this_page + fragment_html[split_at:]
-    else:
-        content_html = clause_summary + on_this_page + fragment_html
+    content_html = clause_summary + on_this_page + fragment_html
 
     html_out = PAGE_TEMPLATE.format(
         title=html.escape(page["title"]),
@@ -1244,9 +1220,7 @@ def render_page(index, page, metadata, summaries, errors):
         description=html.escape(f'{page["title"]} — {DOC_LABEL} accessible HTML edition (final draft, under approval).'),
         asset_prefix="",
         site_title=build_site_title(""),
-        doc_header="" if is_index else build_doc_header(page),
-        status_headline=html.escape(metadata["statusHeadline"]) if metadata else "Final draft under approval",
-        status_body=html.escape(metadata["statusBody"]) if metadata else "",
+        doc_header=build_doc_header(page),
         source_month_year=human_date(metadata["sourcePdfPublicationDate"]) if metadata else "",
         site_nav=build_site_nav(slug, headings),
         content=content_html,

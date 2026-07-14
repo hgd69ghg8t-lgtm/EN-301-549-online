@@ -57,9 +57,6 @@
   --colour-panel-bg: #f3f2f1;
   --colour-note-bg: #e8f1fa;
   --colour-note-border: #005ea2;
-  --colour-draft-bg: #fdf3e4;
-  --colour-draft-border: #8a6205;
-  --colour-draft-text: #5c4103;
   --colour-live-status-bg: #1a1a1a;
 
   --font-heading: 'Overpass', Arial, sans-serif;
@@ -401,18 +398,6 @@ a:hover { color: var(--colour-link-hover); }
   font-weight: 700;
   border-left-color: var(--colour-link);
 }
-
-/* ---------- Draft-status notice ---------- */
-.draft-notice {
-  background: var(--colour-draft-bg);
-  border: 1px solid var(--colour-draft-border);
-  color: var(--colour-draft-text);
-  padding: 0.65rem 1rem;
-  margin: 0 0 var(--space-4);
-  max-width: var(--prose-measure);
-  font-size: 0.9375rem;
-}
-.draft-notice a { color: var(--colour-draft-text); }
 
 /* ---------- Main content typography ---------- */
 main { min-width: 0; }
