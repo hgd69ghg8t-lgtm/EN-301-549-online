@@ -21,6 +21,132 @@
     });
   }
 
+  // ---------- Reader preferences, bookmarks and recent pages ----------
+  var PREFS_KEY = "accessibleDocs.readerPrefs.v1";
+  var BOOKMARKS_KEY = "accessibleDocs.bookmarks.v1";
+  var RECENT_KEY = "accessibleDocs.recent.v1";
+
+  function storageRead(key, fallback) {
+    try {
+      var value = JSON.parse(window.localStorage.getItem(key));
+      return value === null ? fallback : value;
+    } catch (err) {
+      return fallback;
+    }
+  }
+  function storageWrite(key, value) {
+    try {
+      window.localStorage.setItem(key, JSON.stringify(value));
+      return true;
+    } catch (err) {
+      announce("This browser could not save that change.");
+      return false;
+    }
+  }
+  function pageRecord() {
+    var body = document.body;
+    return {
+      slug: body.dataset.pageSlug,
+      title: body.dataset.pageTitle,
+      href: body.dataset.pageSlug + ".html"
+    };
+  }
+  function renderReaderList(selector, items, emptyText) {
+    var list = document.querySelector(selector);
+    if (!list) return;
+    list.textContent = "";
+    if (!items.length) {
+      var empty = document.createElement("li");
+      empty.textContent = emptyText;
+      list.appendChild(empty);
+      return;
+    }
+    items.forEach(function (item) {
+      var li = document.createElement("li");
+      var a = document.createElement("a");
+      a.href = item.href;
+      a.textContent = item.title;
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+  }
+  function initReaderFeatures() {
+    var prefs = storageRead(PREFS_KEY, { width: "wide", spacing: false });
+    if (!prefs || !["wide", "comfortable"].includes(prefs.width)) {
+      prefs = { width: "wide", spacing: false };
+    }
+    function applyPrefs() {
+      document.documentElement.dataset.readingWidth = prefs.width;
+      if (prefs.spacing) document.documentElement.dataset.textSpacing = "enhanced";
+      else delete document.documentElement.dataset.textSpacing;
+      document.querySelectorAll('input[name="reading-width"]').forEach(function (input) {
+        input.checked = input.value === prefs.width;
+      });
+      var spacing = document.querySelector("[data-reading-spacing]");
+      if (spacing) spacing.checked = Boolean(prefs.spacing);
+    }
+    applyPrefs();
+    document.querySelectorAll('input[name="reading-width"]').forEach(function (input) {
+      input.addEventListener("change", function () {
+        if (!input.checked) return;
+        prefs.width = input.value;
+        applyPrefs();
+        storageWrite(PREFS_KEY, prefs);
+      });
+    });
+    var spacing = document.querySelector("[data-reading-spacing]");
+    if (spacing) spacing.addEventListener("change", function () {
+      prefs.spacing = spacing.checked;
+      applyPrefs();
+      storageWrite(PREFS_KEY, prefs);
+    });
+    var reset = document.querySelector("[data-reader-reset]");
+    if (reset) reset.addEventListener("click", function () {
+      prefs = { width: "wide", spacing: false };
+      applyPrefs();
+      storageWrite(PREFS_KEY, prefs);
+      announce("Reading options reset.");
+    });
+
+    var record = pageRecord();
+    var bookmarks = storageRead(BOOKMARKS_KEY, []);
+    if (!Array.isArray(bookmarks)) bookmarks = [];
+    var bookmark = document.querySelector("[data-action='bookmark']");
+    function updateBookmark() {
+      if (!bookmark) return;
+      var saved = bookmarks.some(function (item) { return item.slug === record.slug; });
+      bookmark.setAttribute("aria-pressed", String(saved));
+      bookmark.querySelector(".bookmark-label").textContent = saved ? "Remove bookmark" : "Bookmark page";
+    }
+    if (bookmark) bookmark.addEventListener("click", function () {
+      var index = bookmarks.findIndex(function (item) { return item.slug === record.slug; });
+      if (index === -1) {
+        bookmarks.unshift(record);
+        bookmarks = bookmarks.slice(0, 50);
+        announce("Page bookmarked.");
+      } else {
+        bookmarks.splice(index, 1);
+        announce("Bookmark removed.");
+      }
+      storageWrite(BOOKMARKS_KEY, bookmarks);
+      updateBookmark();
+      renderReaderList("[data-bookmarks-list]", bookmarks, "No bookmarks yet.");
+    });
+    updateBookmark();
+    renderReaderList("[data-bookmarks-list]", bookmarks, "No bookmarks yet.");
+
+    var recent = storageRead(RECENT_KEY, []);
+    if (!Array.isArray(recent)) recent = [];
+    if (document.body.dataset.pageGroup) {
+      recent = recent.filter(function (item) { return item.slug !== record.slug; });
+      recent.unshift(record);
+      recent = recent.slice(0, 10);
+      storageWrite(RECENT_KEY, recent);
+    }
+    renderReaderList("[data-recent-list]", recent, "No recently viewed pages yet.");
+  }
+  initReaderFeatures();
+
   // ---------- Shared: copy text to the clipboard ----------
   // Clipboard API first; a legacy execCommand fallback for browsers/
   // contexts where it's unavailable or the permission is denied.
