@@ -1063,6 +1063,14 @@ def build_doc_header(page):
         breadcrumb.append(f'<li aria-current="page">{html.escape(page["shortTitle"])}</li>')
     breadcrumb.append('</ol></nav>')
 
+    bookmark = ""
+    if page["group"]:
+        bookmark = (
+            f'<button type="button" class="doc-toolbar__btn" data-action="bookmark" '
+            f'data-page-slug="{html.escape(page["slug"])}" aria-pressed="false">'
+            '<span class="bookmark-label">Bookmark page</span></button>'
+        )
+
     return f"""<div class="doc-header">
   <div class="doc-header__inner">
     {"".join(breadcrumb)}
@@ -1078,6 +1086,27 @@ def build_doc_header(page):
         <span class="doc-toolbar__btn-label">Copy link</span>
         <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
       </button>
+      {bookmark}
+      <details class="reader-tools">
+        <summary>Reading options</summary>
+        <div class="reader-tools__panel">
+          <fieldset>
+            <legend>Text width</legend>
+            <label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
+            <label><input type="radio" name="reading-width" value="wide"> Wide</label>
+          </fieldset>
+          <label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
+          <button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
+          <p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
+          <section class="reader-library" aria-labelledby="saved-pages-heading">
+            <h2 id="saved-pages-heading">Saved pages</h2>
+            <h3>Bookmarks</h3>
+            <ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
+            <h3>Recently viewed</h3>
+            <ul data-recent-list><li>No recently viewed pages yet.</li></ul>
+          </section>
+        </div>
+      </details>
     </div>
   </div>
 </div>"""
@@ -1158,7 +1187,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <link rel="icon" href="{asset_prefix}assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="{asset_prefix}assets/img/apple-touch-icon.png">
 </head>
-<body>
+<body data-page-slug="{page_slug}" data-page-title="{page_title}" data-page-group="{page_group}">
 <a class="skip-link" id="top" href="#main-content">Skip to main content</a>
 
 <header class="site-header">
@@ -1536,6 +1565,9 @@ def render_page(index, page, metadata, summaries, errors, xrefs=None):
         js_version=asset_version(JS_PATH),
         header_nav=build_header_nav(slug),
         footer_nav=build_footer_nav(slug),
+        page_slug=html.escape(slug),
+        page_title=html.escape(page["title"]),
+        page_group=html.escape(page["group"] or ""),
     )
     # Empty template placeholders (e.g. doc_header/pager on the homepage)
     # otherwise leave lines containing only the surrounding indentation.
