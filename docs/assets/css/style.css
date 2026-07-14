@@ -640,6 +640,21 @@ main { min-width: 0; }
 }
 .clause-summary p { max-width: var(--prose-measure); margin: 0 0 0.6rem; }
 .clause-summary p:last-child { margin-bottom: 0; font-style: normal; color: var(--colour-muted); }
+.companion-guidance {
+  margin: 0 0 var(--space-5);
+  padding: var(--space-4);
+  border: 3px solid var(--colour-link);
+  border-left-width: 0.65rem;
+  background: var(--colour-note-bg);
+  max-width: var(--prose-measure);
+}
+.companion-guidance__label { margin: 0; font-family: var(--font-heading); font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; }
+.companion-guidance h2 { margin-top: var(--space-1); }
+.companion-guidance__disclaimer { padding: var(--space-2); border: 2px solid currentColor; background: var(--colour-background); }
+.companion-guidance__review { font-size: 0.875rem; color: var(--colour-muted); }
+@media (forced-colors: active) {
+  .companion-guidance { border-color: CanvasText; background: Canvas; color: CanvasText; }
+}
 
 .etsi-content-notice {
   border-left: 4px solid var(--colour-border-strong);
