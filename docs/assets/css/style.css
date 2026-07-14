@@ -3,7 +3,7 @@
   Website Layout.make), modelled on legislation.govt.nz with NZ Government /
   GOV.UK-influenced conventions (sharp corners, high-contrast civic blue,
   yellow focus rings). Colour pairs verified against WCAG 2.2 AA (>=4.5:1
-  text, >=3:1 UI/focus indicators) — see README for the verification method.
+  text, >=3:1 UI/focus indicators) â€” see README for the verification method.
 */
 
 /*
@@ -130,7 +130,7 @@ button { font: inherit; }
 
 /* ---------- Focus visibility (WCAG 2.2 AA 2.4.11/2.4.13) ----------
    Context-aware: dark outline on light backgrounds, yellow outline on
-   dark backgrounds — both verified >=3:1 against every background they
+   dark backgrounds â€” both verified >=3:1 against every background they
    appear on (see README). */
 a:focus-visible,
 button:focus-visible,
@@ -161,8 +161,8 @@ a {
 }
 a:hover { color: var(--colour-link-hover); }
 
-/* Long unbroken tokens — bare URLs used as link text in the reproduced
-   ETSI content, and checksums in <code> — must be allowed to wrap, or
+/* Long unbroken tokens â€” bare URLs used as link text in the reproduced
+   ETSI content, and checksums in <code> â€” must be allowed to wrap, or
    they force page-level horizontal overflow at narrow widths and high
    zoom (WCAG 1.4.10 Reflow). Presentation only; no wording changes. */
 .content a,
@@ -207,7 +207,7 @@ a:hover { color: var(--colour-link-hover); }
 .site-header__brand:hover .site-wordmark { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.2em; }
 
 /* Header search: a plain GET form to search.html, so it works with no
-   JavaScript at all — JS is only needed for the result filtering on the
+   JavaScript at all â€” JS is only needed for the result filtering on the
    search page itself. */
 .site-search {
   display: flex;
@@ -294,7 +294,7 @@ a:hover { color: var(--colour-link-hover); }
   font-size: 0.8125rem;
 }
 .breadcrumb li { display: flex; align-items: center; gap: 0.35rem; color: var(--colour-doc-header-muted); }
-.breadcrumb li:not(:last-child)::after { content: "›"; margin-left: 0.35rem; }
+.breadcrumb li:not(:last-child)::after { content: "â€º"; margin-left: 0.35rem; }
 .breadcrumb a { color: var(--colour-doc-header-muted); text-decoration: underline; }
 .breadcrumb a:hover { color: #ffffff; }
 .breadcrumb li[aria-current="page"] { color: #ffffff; font-weight: 600; }
@@ -334,7 +334,10 @@ a:hover { color: var(--colour-link-hover); }
   cursor: pointer;
   text-decoration: none;
 }
-.doc-toolbar__btn:hover { background: var(--colour-toolbar-btn-hover-bg); }
+.doc-toolbar__btn:hover {
+  background: var(--colour-toolbar-btn-hover-bg);
+  color: #ffffff;
+}
 .doc-toolbar__btn-status { font-weight: 400; opacity: 0.85; }
 .toc-toggle {
   display: none;
@@ -358,7 +361,7 @@ a:hover { color: var(--colour-link-hover); }
 /* ---------- Layout shell ----------
    Mobile-first single column; from 62em a two-column grid where the
    contents sidebar keeps a practical bounded width and the main content
-   column takes all remaining space (minmax(0, 1fr) — the 0 min lets wide
+   column takes all remaining space (minmax(0, 1fr) â€” the 0 min lets wide
    content such as tables shrink/scroll inside the column instead of
    blowing the grid open). The column itself is NOT capped at a prose
    measure: running text is capped per-element (see --prose-measure), so
@@ -420,7 +423,10 @@ a:hover { color: var(--colour-link-hover); }
 }
 .site-nav > p { margin: 0; }
 .site-nav > p a { padding-left: var(--space-3); font-weight: 700; font-family: var(--font-heading); }
-.site-nav a:hover { background: var(--colour-note-bg); }
+.site-nav a:hover {
+  background: var(--colour-link-hover);
+  color: #ffffff;
+}
 .site-nav a[aria-current="page"] {
   background: var(--colour-link);
   color: #ffffff;
@@ -437,12 +443,19 @@ a:hover { color: var(--colour-link-hover); }
   border-left: 3px solid transparent;
 }
 .site-nav__subsections--nested a { padding-left: 3rem; }
-.site-nav__subsections a:hover { background: var(--colour-panel-bg); }
+.site-nav__subsections a:hover {
+  background: var(--colour-link-hover);
+  color: #ffffff;
+}
 .site-nav__subsections a[aria-current="location"] {
   background: var(--colour-note-bg);
   color: var(--colour-link);
   font-weight: 700;
   border-left-color: var(--colour-link);
+}
+.site-nav a[aria-current]:hover {
+  background: var(--colour-link-hover);
+  color: #ffffff;
 }
 
 /* ---------- Main content typography ---------- */
@@ -490,8 +503,8 @@ main { min-width: 0; }
 }
 /* Each numbered heading's text is itself a same-page permalink: one
    keyboard tab stop whose accessible name is the heading text (no
-   separate "#" control). It looks like a normal heading — colour and
-   weight inherited — with an underline on hover as the pointer
+   separate "#" control). It looks like a normal heading â€” colour and
+   weight inherited â€” with an underline on hover as the pointer
    affordance, and the site-wide focus outline as the keyboard highlight. */
 .heading-link {
   color: inherit;
@@ -547,7 +560,7 @@ main { min-width: 0; }
 
 /* ---------- Notes / examples ----------
    Block flow, not flex: a callout can contain several block children (a
-   NOTE paragraph followed by a list, or by a table — e.g. Table 5.1 in
+   NOTE paragraph followed by a list, or by a table â€” e.g. Table 5.1 in
    clause 5.1.4), and flex-row laid those out side by side, squeezing a
    table into a sliver that forced pointless horizontal scrolling. */
 .callout {
@@ -561,9 +574,9 @@ main { min-width: 0; }
 .callout > * + * { margin-top: 0.5rem; }
 .callout > :last-child { margin-bottom: 0; }
 /* A note that carries a table needs the full content column, not a prose
-   measure — the table inside it then behaves exactly like any other
+   measure â€” the table inside it then behaves exactly like any other
    table on the page. (Where :has() is unsupported, the table simply
-   scrolls inside the note — a graceful fallback, not a breakage.) */
+   scrolls inside the note â€” a graceful fallback, not a breakage.) */
 .callout:has(.table-wrap) { max-width: none; }
 .callout__label { font-weight: 700; display: inline; }
 
@@ -599,7 +612,7 @@ main { min-width: 0; }
 /* ---------- On this page ----------
    A compact, left-aligned card: it sizes to its own longest link
    (fit-content) rather than stretching across the content column, with
-   sensible bounds — never wider than a reading measure, never so narrow
+   sensible bounds â€” never wider than a reading measure, never so narrow
    it looks broken, and never wider than the column on small screens. */
 .on-this-page {
   background: var(--colour-panel-bg);
@@ -643,7 +656,7 @@ main { min-width: 0; }
 }
 .search-form__row button:hover { background: var(--colour-link-hover); }
 /* The no-JS explanation is hidden the moment site.js runs (it adds the
-   "js" class to <html>) — without JS it stays visible and honest. */
+   "js" class to <html>) â€” without JS it stays visible and honest. */
 .js .search-nojs { display: none; }
 #search-count { font-weight: 600; }
 .search-results { list-style: none; margin: 0; padding: 0; max-width: 75ch; }
@@ -709,7 +722,7 @@ main { min-width: 0; }
    forcing a fixed minimum width. Horizontal scrolling inside .table-wrap
    is a last-resort fallback for tables whose natural minimum width
    genuinely exceeds the column (e.g. Annex B's 26-column matrix on a
-   phone) — site.js makes the wrapper focusable/labelled only while it
+   phone) â€” site.js makes the wrapper focusable/labelled only while it
    actually overflows, and adds a visible "scroll sideways" cue. */
 .table-wrap { overflow-x: auto; margin: 0 0 var(--space-4); border: 1px solid var(--colour-border); }
 .content table {
@@ -742,7 +755,7 @@ main { min-width: 0; }
 }
 .content thead th { background: var(--colour-text); color: #ffffff; font-family: var(--font-heading); font-weight: 700; }
 /* Links inside dark header cells (e.g. auto-linked clause references in
-   Table 8.4's column headings) need a light link colour — the normal blue
+   Table 8.4's column headings) need a light link colour â€” the normal blue
    fails contrast on the near-black header background. */
 .content thead th a { color: var(--colour-doc-header-muted); }
 .content thead th a:hover { color: #ffffff; }
@@ -751,7 +764,7 @@ main { min-width: 0; }
 /* Visible affordance for the (now rare) tables that still overflow:
    a pinned hint line site.js adds only while the wrapper actually
    scrolls, plus an always-visible scrollbar where the platform supports
-   styling one. The hint is aria-hidden — screen-reader users already get
+   styling one. The hint is aria-hidden â€” screen-reader users already get
    the wrapper's role/label ("Scrollable table") from site.js. */
 .table-wrap__hint {
   position: sticky;
@@ -809,7 +822,7 @@ main { min-width: 0; }
 .site-footer p { max-width: var(--prose-measure); }
 
 /* Footer navigation: the same quick links as the header (plus Home),
-   present at every width — on narrow screens this is the always-visible
+   present at every width â€” on narrow screens this is the always-visible
    route to the About and Accessibility statement pages. */
 .site-footer__nav ul {
   list-style: none;
@@ -880,7 +893,7 @@ main { min-width: 0; }
 /* ---------- Reduced motion ----------
    Smooth-scrolling to in-page anchors (TOC subsections, heading
    permalinks, back-to-top) only when the visitor hasn't asked for
-   reduced motion. Nothing about functionality changes either way —
+   reduced motion. Nothing about functionality changes either way â€”
    this only controls whether the scroll animates or jumps instantly. */
 @media (prefers-reduced-motion: no-preference) {
   html { scroll-behavior: smooth; }
