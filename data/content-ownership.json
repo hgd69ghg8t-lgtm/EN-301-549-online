@@ -22,5 +22,13 @@
     "nextReviewDate": null,
     "reviewFrequency": null,
     "statusCheckDate": null
+  },
+  "search": {
+    "owner": null,
+    "ownerRole": null,
+    "lastReviewDate": null,
+    "nextReviewDate": null,
+    "reviewFrequency": null,
+    "statusCheckDate": null
   }
 }

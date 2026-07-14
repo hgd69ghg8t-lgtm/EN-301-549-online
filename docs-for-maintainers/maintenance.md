@@ -10,7 +10,7 @@ If that reports a diff, `docs/` was out of date — commit the rebuilt output to
 
 ## Updating the ETSI publication status
 
-The standard's current status (draft, under approval, published, superseded, etc.) is described in three places in `data/source-metadata.json`: `status`, `statusHeadline`, and `statusBody`. Update all three together so they stay consistent, based on what you actually found when checking the [ETSI deliverable page](https://www.etsi.org/deliver/etsi_en/301500_301599/301549/) (the URL in `sourcePdfUrl`). Don't guess or infer a status from indirect signals — check the page itself.
+The standard's current status (draft, under approval, published, superseded, etc.) is described by the `status` field in `data/source-metadata.json` (shown on the About page; the homepage intro also describes the draft status in its own words — update both together). Base any change on what you actually found when checking the [ETSI deliverable page](https://www.etsi.org/deliver/etsi_en/301500_301599/301549/) (the URL in `sourcePdfUrl`). Don't guess or infer a status from indirect signals — check the page itself.
 
 If the version number itself has changed (e.g. a new V4.2.0 supersedes V4.1.0), that's a much bigger change than this section covers — it likely means re-extracting content from a new source PDF (see the README's `pdftotext` instructions) and re-running every step in this guide, not just editing `data/source-metadata.json`.
 
@@ -75,6 +75,7 @@ python3 scripts/build.py                        # build (also the primary valida
 npm test                                        # build + html-validate
 npm run test:a11y                               # axe-core sweep against every page
 npm run test:layout                             # responsive layout assertions, 320-1920px
+npm run test:search                             # site-search end-to-end checks
 git diff --exit-code -- docs/                   # confirm docs/ matches a clean rebuild
 ```
 
@@ -93,6 +94,10 @@ Never mark manual or screen-reader testing as done without an actual recorded se
 ## Recording manual accessibility testing
 
 Follow the repeatable checklist in [`docs-for-maintainers/accessibility-testing.md`](accessibility-testing.md) (keyboard-only navigation, zoom/reflow/text-spacing, and screen-reader testing with at least NVDA+Firefox/Chrome and VoiceOver+Safari). After a real session, add a new row to that file's test log — date, tester, browser, assistive technology, pages tested, findings, issue links, retest result. Don't overwrite previous rows. Then update the accessibility statement as described above.
+
+## Site search
+
+Nothing to maintain: `docs/search-index.json` is regenerated from the content on every build (`build_search_index()` in `scripts/build.py`), and `npm run test:search` verifies the search end-to-end in CI. If a new website-authored page is added, it becomes searchable automatically via its sitemap entry.
 
 ## Reviewing broken links
 

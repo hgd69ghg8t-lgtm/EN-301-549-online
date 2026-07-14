@@ -56,3 +56,6 @@ jobs:
 
       - name: Responsive layout assertions (no page overflow, no avoidable table scrollbars, content grows with viewport)
         run: npm run test:layout
+
+      - name: Site search end-to-end checks
+        run: npm run test:search

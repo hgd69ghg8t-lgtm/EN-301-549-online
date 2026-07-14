@@ -134,6 +134,141 @@
     });
   });
 
+  // ---------- Site search (search.html) ----------
+  // Entirely static: the build writes docs/search-index.json (one entry
+  // per heading section, glossary term, and page intro), and this filters
+  // it in the browser. No search service, no third-party library. The
+  // header's search form is a plain GET form to search.html, so reaching
+  // this page needs no JavaScript — only the filtering itself does, and
+  // the page says so when JS is unavailable (see .search-nojs).
+  var searchInput = document.getElementById("search-input");
+  var searchResults = document.getElementById("search-results");
+  var searchCount = document.getElementById("search-count");
+  if (searchInput && searchResults) {
+    var SEARCH_LIMIT = 50;
+    var index = null;
+
+    function tokens(q) {
+      return q.toLowerCase().split(/\s+/).filter(Boolean);
+    }
+
+    function scoreEntry(entry, toks, q) {
+      var t = entry.t.toLowerCase();
+      var b = entry.b.toLowerCase();
+      var score = 0;
+      for (var i = 0; i < toks.length; i++) {
+        var inTitle = t.indexOf(toks[i]) !== -1;
+        var inBody = b.indexOf(toks[i]) !== -1;
+        if (!inTitle && !inBody) return 0; // every word must match somewhere
+        score += inTitle ? 3 : 1;
+      }
+      // A query that looks like a clause number ("9.1.4.4") should surface
+      // that exact heading first.
+      if (t.indexOf(q) === 0) score += 10;
+      else if (t.indexOf(q) !== -1) score += 4;
+      return score;
+    }
+
+    // Builds "…text <mark>match</mark> text…" safely via DOM nodes.
+    function snippetFor(entry, toks) {
+      var frag = document.createDocumentFragment();
+      var b = entry.b;
+      if (!b) return frag;
+      var lower = b.toLowerCase();
+      var pos = -1;
+      for (var i = 0; i < toks.length; i++) {
+        pos = lower.indexOf(toks[i]);
+        if (pos !== -1) break;
+      }
+      if (pos === -1) { pos = 0; }
+      var start = Math.max(0, pos - 70);
+      var end = Math.min(b.length, pos + 130);
+      var slice = b.slice(start, end);
+      var sliceLower = slice.toLowerCase();
+      if (start > 0) frag.appendChild(document.createTextNode("… "));
+      var cursor = 0;
+      while (cursor < slice.length) {
+        var next = -1, nextTok = null;
+        for (var j = 0; j < toks.length; j++) {
+          var at = sliceLower.indexOf(toks[j], cursor);
+          if (at !== -1 && (next === -1 || at < next)) { next = at; nextTok = toks[j]; }
+        }
+        if (next === -1) {
+          frag.appendChild(document.createTextNode(slice.slice(cursor)));
+          break;
+        }
+        frag.appendChild(document.createTextNode(slice.slice(cursor, next)));
+        var mark = document.createElement("mark");
+        mark.textContent = slice.slice(next, next + nextTok.length);
+        frag.appendChild(mark);
+        cursor = next + nextTok.length;
+      }
+      if (end < b.length) frag.appendChild(document.createTextNode(" …"));
+      return frag;
+    }
+
+    function runSearch(q) {
+      q = q.trim();
+      searchResults.textContent = "";
+      if (!q) { searchCount.textContent = ""; return; }
+      var toks = tokens(q);
+      var ql = q.toLowerCase();
+      var hits = [];
+      for (var i = 0; i < index.length; i++) {
+        var s = scoreEntry(index[i], toks, ql);
+        if (s > 0) hits.push({ s: s, e: index[i] });
+      }
+      hits.sort(function (a, b) { return b.s - a.s; });
+      var shown = hits.slice(0, SEARCH_LIMIT);
+      searchCount.textContent = hits.length === 0
+        ? "No results for “" + q + "”. Try fewer or different words, or a clause number."
+        : (hits.length > SEARCH_LIMIT
+            ? hits.length + " results for “" + q + "” — showing the first " + SEARCH_LIMIT + "."
+            : hits.length + (hits.length === 1 ? " result" : " results") + " for “" + q + "”.");
+      shown.forEach(function (hit) {
+        var li = document.createElement("li");
+        var a = document.createElement("a");
+        a.href = hit.e.u;
+        a.textContent = hit.e.t;
+        var where = document.createElement("span");
+        where.className = "search-result__page";
+        where.textContent = hit.e.p;
+        var p = document.createElement("p");
+        p.className = "search-result__snippet";
+        p.appendChild(snippetFor(hit.e, toks));
+        li.appendChild(a);
+        li.appendChild(where);
+        li.appendChild(p);
+        searchResults.appendChild(li);
+      });
+    }
+
+    var initialQ = new URLSearchParams(window.location.search).get("q") || "";
+    searchInput.value = initialQ;
+
+    fetch("search-index.json").then(function (r) { return r.json(); }).then(function (data) {
+      index = data;
+      if (initialQ) runSearch(initialQ);
+      var timer = null;
+      searchInput.addEventListener("input", function () {
+        window.clearTimeout(timer);
+        timer = window.setTimeout(function () {
+          runSearch(searchInput.value);
+          var url = new URL(window.location.href);
+          if (searchInput.value.trim()) url.searchParams.set("q", searchInput.value.trim());
+          else url.searchParams.delete("q");
+          window.history.replaceState(null, "", url);
+        }, 150);
+      });
+      searchInput.closest("form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        runSearch(searchInput.value);
+      });
+    }).catch(function () {
+      searchCount.textContent = "Search couldn’t load its index. Reload the page to try again.";
+    });
+  }
+
   // ---------- Glossary term focus-on-navigate ----------
   // Baseline (no JS): a fragment link to a <dt id="..."> already scrolls it
   // into view via normal browser anchor behaviour. This only adds keyboard

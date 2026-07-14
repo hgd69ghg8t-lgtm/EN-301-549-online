@@ -19,6 +19,7 @@ Unplug the mouse. Test on at least one full clause page with numbered headings a
 - [ ] **PDF/external download link** — reach the "Download the official ETSI standard (PDF)" link (or the no-size fallback wording) by keyboard; confirm it's a real, working link with an accessible name that makes sense out of context (not just "click here" or "PDF").
 - [ ] **Focus order** — confirm the order controls receive focus in matches the visual reading order on the page; nothing jumps unexpectedly.
 - [ ] **Visible focus** — as you tab through, confirm a visible focus indicator is present on every control reached above, at default zoom.
+- [ ] **Search** — reach the header search box by keyboard, type a query, press Enter; confirm you land on the search page with results, that the result count is announced (role=status), and that arrowing/tabbing through results and activating one lands on the right heading. With JavaScript off, confirm the search page shows its plain-language fallback instead of a dead form.
 - [ ] **No keyboard traps** — confirm you can always Tab or Shift+Tab away from every control above, including the mobile contents panel and any `<details>` disclosure, without needing the mouse.
 
 ## Zoom, reflow and text spacing

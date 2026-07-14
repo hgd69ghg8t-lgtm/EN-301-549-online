@@ -41,6 +41,7 @@ const PAGES = [
   "clause-10-non-web-documents.html",
   "annex-b-functional-performance-relationship.html",
   "annex-za-directive-2016-2102.html",
+  "search.html",
 ];
 
 const WIDTHS = [320, 375, 768, 1024, 1280, 1440, 1920];

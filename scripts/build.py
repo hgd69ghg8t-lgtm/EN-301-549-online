@@ -41,7 +41,7 @@ DOC_LABEL = "ETSI EN 301 549 V4.1.0"
 
 # Website-authored pages are not part of the reproduced standard, so they
 # don't get a "Clause N"/"Annex X" source label in the page footer.
-NON_STANDARD_SLUGS = {"index", "about", "accessibility-statement"}
+NON_STANDARD_SLUGS = {"index", "about", "accessibility-statement", "search"}
 
 # A page's own headings are listed in an "On this page" jump list once
 # there are at least this many h2/h3 headings — short pages don't need one.
@@ -540,6 +540,77 @@ def validate_etsi_content_integrity(errors):
 
 
 # ---------------------------------------------------------------------
+# Search index (docs/search-index.json)
+# ---------------------------------------------------------------------
+#
+# A static, build-time search index — no search service, no third-party
+# library. One JSON entry per heading section (h2-h4), per glossary term,
+# and per page intro: {"u": url, "p": page name, "t": title, "b": body
+# text}. docs/assets/js/site.js fetches it on the search page and filters
+# it in the browser. Deterministic (same source always produces the same
+# bytes), so the repository's reproducible-build guarantee holds.
+
+SEARCH_INDEX_PATH = DOCS_DIR / "search-index.json"
+# Long sections (e.g. clause 3's whole "3.1 Terms" block, whose individual
+# definitions are indexed separately anyway) are capped so the index stays
+# a reasonable download; the cap is generous enough that genuine
+# requirement sections are never truncated.
+SEARCH_BODY_MAX_CHARS = 4000
+
+
+def _squash(text):
+    return " ".join(strip_tags(text).split())
+
+
+def build_search_index(metadata):
+    """Assembles the index from the same processed fragments the pages are
+    rendered from. Runs its own pass with a throwaway error collector —
+    any real content problems were already reported during rendering, and
+    reporting them twice would just be noise."""
+    scratch = Errors()
+    entries = []
+    for page in SITEMAP:
+        slug = page["slug"]
+        if slug == "search":
+            continue  # the search page itself isn't searchable content
+        fragment_path = CONTENT_DIR / f"{slug}.html"
+        if not fragment_path.exists():
+            continue
+        fragment = fragment_path.read_text(encoding="utf-8")
+        fragment = substitute_tokens(fragment, metadata, scratch)
+        fragment = apply_glossary_terms(fragment, scratch, f"content/{slug}.html")
+        headings = parse_headings(fragment)
+        page_name = page["shortTitle"]
+
+        intro = _squash(fragment[:headings[0].start] if headings else fragment)
+        if intro:
+            entries.append({"u": f"{slug}.html", "p": page_name,
+                            "t": page["title"], "b": intro[:SEARCH_BODY_MAX_CHARS]})
+
+        for i, h in enumerate(headings):
+            if h.level not in (2, 3, 4) or not h.id:
+                continue
+            end = headings[i + 1].start if i + 1 < len(headings) else len(fragment)
+            body = _squash(fragment[h.close_end:end])
+            entries.append({"u": f"{slug}.html#{h.id}", "p": page_name,
+                            "t": h.text, "b": body[:SEARCH_BODY_MAX_CHARS]})
+
+        # Glossary/abbreviation terms get their own entries, pointing at
+        # the stable per-term ids assign_term_ids() created.
+        terms = parse_terms(fragment)
+        for i, term in enumerate(terms):
+            if not term.id:
+                continue
+            dl_end = fragment.find("</dl>", term.close_end)
+            next_start = terms[i + 1].start if i + 1 < len(terms) else len(fragment)
+            end = min(x for x in (dl_end, next_start) if x != -1)
+            body = _squash(fragment[term.close_end:end])
+            entries.append({"u": f"{slug}.html#{term.id}", "p": page_name,
+                            "t": term.text, "b": body[:SEARCH_BODY_MAX_CHARS]})
+    return entries
+
+
+# ---------------------------------------------------------------------
 # Per-fragment heading validation + heading-link injection
 # ---------------------------------------------------------------------
 
@@ -846,7 +917,7 @@ def build_header_nav(current_slug):
 def build_footer_nav(current_slug):
     items = "".join(
         f"<li>{_quick_link(slug, label, current_slug)}</li>"
-        for slug, label in [("index", "Home")] + QUICK_LINKS
+        for slug, label in [("index", "Home"), ("search", "Search")] + QUICK_LINKS
     )
     return f'<nav class="site-footer__nav" aria-label="Footer"><ul>{items}</ul></nav>'
 
@@ -866,6 +937,10 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <header class="site-header">
   <div class="site-header__inner">
     {site_title}
+    <form class="site-search" role="search" aria-label="Site search" action="search.html">
+      <input type="search" name="q" aria-label="Search this standard" autocomplete="off">
+      <button type="submit">Search</button>
+    </form>
     {header_nav}
     <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
   </div>
@@ -1224,7 +1299,7 @@ def render_page(index, page, metadata, summaries, errors):
         source_month_year=human_date(metadata["sourcePdfPublicationDate"]) if metadata else "",
         site_nav=build_site_nav(slug, headings),
         content=content_html,
-        pager="" if is_index else build_pager(index),
+        pager="" if slug in ("index", "search") else build_pager(index),
         source_pdf=SOURCE_PDF_NAME,
         css_version=asset_version(CSS_PATH),
         js_version=asset_version(JS_PATH),
@@ -1419,7 +1494,12 @@ def main():
     for slug, html_out in rendered.items():
         (DOCS_DIR / f"{slug}.html").write_text(html_out, encoding="utf-8")
 
-    print(f"Built {len(rendered)} pages into {DOCS_DIR}")
+    index_entries = build_search_index(metadata)
+    SEARCH_INDEX_PATH.write_text(
+        json.dumps(index_entries, ensure_ascii=False, separators=(",", ":")) + "\n",
+        encoding="utf-8")
+
+    print(f"Built {len(rendered)} pages and a {len(index_entries)}-entry search index into {DOCS_DIR}")
 
 
 if __name__ == "__main__":

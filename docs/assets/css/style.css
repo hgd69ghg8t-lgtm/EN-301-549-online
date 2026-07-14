@@ -198,13 +198,43 @@ a:hover { color: var(--colour-link-hover); }
 }
 .site-header__brand:hover .site-logo { background: var(--colour-link-hover); }
 
+/* Header search: a plain GET form to search.html, so it works with no
+   JavaScript at all — JS is only needed for the result filtering on the
+   search page itself. */
+.site-search {
+  display: flex;
+  margin-left: auto;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+.site-search input {
+  font: inherit;
+  font-size: 0.9375rem;
+  min-width: 0;
+  width: clamp(7rem, 18vw, 16rem);
+  padding: 0.45rem 0.6rem;
+  border: 2px solid var(--colour-border-strong);
+  border-right: 0;
+}
+.site-search input:focus-visible { outline: 3px solid var(--colour-focus-dark); outline-offset: 2px; }
+.site-search button {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.875rem;
+  background: var(--colour-accent-bar);
+  color: #ffffff;
+  border: 0;
+  padding: 0 0.9rem;
+  cursor: pointer;
+}
+.site-search button:hover { background: var(--colour-link-hover); }
+
 /* Header quick links to the site's own pages (About, Accessibility
    statement). Shown from the sidebar breakpoint up; on narrow screens the
    same pages stay one tap away in the Contents panel and the footer, so
    the header stays compact next to the Contents toggle. */
 .site-header__nav {
   display: none;
-  margin-left: auto;
   gap: clamp(var(--space-4), 3vw, var(--space-6));
   align-items: center;
 }
@@ -573,6 +603,47 @@ main { min-width: 0; }
 .on-this-page ul { list-style: none; margin: 0; padding-left: 0; }
 .on-this-page ul ul { padding-left: 1.25rem; margin-top: 0.3rem; }
 .on-this-page li { margin-bottom: 0.35rem; }
+
+/* ---------- Search page ---------- */
+.search-form { margin: 0 0 var(--space-4); }
+.search-form label { display: block; font-family: var(--font-heading); font-weight: 700; margin-bottom: 0.5rem; }
+.search-form__row { display: flex; max-width: 40rem; }
+.search-form__row input {
+  font: inherit;
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0.6rem 0.75rem;
+  border: 2px solid var(--colour-text);
+  border-right: 0;
+}
+.search-form__row button {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  background: var(--colour-accent-bar);
+  color: #ffffff;
+  border: 0;
+  padding: 0 1.4rem;
+  cursor: pointer;
+}
+.search-form__row button:hover { background: var(--colour-link-hover); }
+/* The no-JS explanation is hidden the moment site.js runs (it adds the
+   "js" class to <html>) — without JS it stays visible and honest. */
+.js .search-nojs { display: none; }
+#search-count { font-weight: 600; }
+.search-results { list-style: none; margin: 0; padding: 0; max-width: 75ch; }
+.search-results li { padding: 0.85rem 0; border-bottom: 1px solid var(--colour-border); }
+.search-results a { font-family: var(--font-heading); font-weight: 700; font-size: 1.05rem; }
+.search-result__page {
+  display: inline-block;
+  margin-left: 0.6rem;
+  font-size: 0.8125rem;
+  color: var(--colour-muted);
+  font-family: var(--font-heading);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.search-result__snippet { margin: 0.3rem 0 0; font-size: 0.95rem; color: var(--colour-muted); }
+.search-result__snippet mark { background: var(--colour-focus-yellow); color: var(--colour-text); }
 
 /* ---------- A-Z index (clause 3 glossary/abbreviation lists) ---------- */
 .az-index {

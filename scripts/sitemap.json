@@ -39,5 +39,6 @@
   { "slug": "annex-za-directive-2016-2102", "title": "Annex ZA (informative): Relationship between the present document and the essential requirements of Directive (EU) 2016/2102", "shortTitle": "Annex ZA: Directive (EU) 2016/2102", "pdfPages": "233-260", "group": "Annexes" },
   { "slug": "annex-zb-directive-2019-882", "title": "Annex ZB (informative): Relationship between the present document and the essential requirements of Directive (EU) 2019/882", "shortTitle": "Annex ZB: Directive (EU) 2019/882", "pdfPages": "260-278", "group": "Annexes" },
   { "slug": "annex-zc-other-directives", "title": "Annex ZC (informative): Relationship between the present document and the essential requirements of other Directives according to Directive (EU) 2019/882, Section VI of Annex I", "shortTitle": "Annex ZC: Other Directives", "pdfPages": "278-279", "group": "Annexes" },
-  { "slug": "annex-f-change-history", "title": "Annex F (informative): Change history", "shortTitle": "Annex F: Change history", "pdfPages": "279-280", "group": "Annexes" }
+  { "slug": "annex-f-change-history", "title": "Annex F (informative): Change history", "shortTitle": "Annex F: Change history", "pdfPages": "279-280", "group": "Annexes" },
+  { "slug": "search", "title": "Search this standard", "shortTitle": "Search", "pdfPages": null, "group": "" }
 ]
