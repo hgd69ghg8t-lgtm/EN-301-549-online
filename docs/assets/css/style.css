@@ -656,26 +656,26 @@ main { min-width: 0; }
 }
 .companion-guidance summary {
   position: relative;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 1rem;
-  gap: var(--space-3);
-  align-items: center;
-  padding: 1.25rem 1.5rem;
+  display: block;
+  padding: 1.25rem 3.5rem 1.25rem 1.5rem;
   cursor: pointer;
   list-style: none;
 }
 .companion-guidance summary::-webkit-details-marker { display: none; }
 .companion-guidance summary::after {
   content: "";
+  position: absolute;
+  top: 50%;
+  right: 1.5rem;
   width: 0.65rem;
   height: 0.65rem;
   border-right: 0.2rem solid currentColor;
   border-bottom: 0.2rem solid currentColor;
-  transform: rotate(45deg) translate(-0.1rem, 0.1rem);
+  transform: translateY(-65%) rotate(45deg);
   transform-origin: center;
 }
 .companion-guidance details[open] > summary::after {
-  transform: rotate(225deg) translate(-0.1rem, 0.1rem);
+  transform: translateY(-35%) rotate(225deg);
 }
 .companion-guidance summary:hover .companion-guidance__title {
   color: var(--guidance-link-active);
@@ -729,7 +729,8 @@ main { min-width: 0; }
   font-size: 0.875rem;
 }
 @media (max-width: 30rem) {
-  .companion-guidance summary,
+  .companion-guidance summary { padding: 1rem 3rem 1rem 1rem; }
+  .companion-guidance summary::after { right: 1.25rem; }
   .companion-guidance__content { padding: 1rem; }
 }
 @media (forced-colors: active) {
