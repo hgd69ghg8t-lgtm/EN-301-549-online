@@ -8,7 +8,7 @@
 //      monitor blank).
 //   3. The sidebar and the main content never overlap.
 //   4. A .table-wrap only scrolls when its table's natural minimum width
-//      genuinely exceeds the space available â€” never because CSS forced a
+//      genuinely exceeds the space available — never because CSS forced a
 //      minimum width on the table or squeezed its container.
 //   5. The mobile contents disclosure still works at narrow widths.
 //
@@ -135,7 +135,7 @@ async function main() {
         failures.push(`${slug} @ ${width}px: sidebar overlaps main content`);
       }
       for (const bad of r.badWraps) {
-        failures.push(`${slug} @ ${width}px: avoidable table scrollbar â€” ${bad}`);
+        failures.push(`${slug} @ ${width}px: avoidable table scrollbar — ${bad}`);
       }
       (contentWidths[slug] ||= {})[width] = r.contentWidth;
     }
@@ -266,15 +266,15 @@ async function main() {
     await context.close();
   }
 
-  // The content column must grow meaningfully with the viewport â€” this is
+  // The content column must grow meaningfully with the viewport — this is
   // the regression test for the old 46rem cap that wasted wide screens.
   for (const slug of PAGES) {
     const w = contentWidths[slug];
     if (!(w[1280] > w[1024] && w[1440] > w[1280] && w[1920] > w[1440])) {
-      failures.push(`${slug}: main content column does not grow with the viewport (1024â†’${w[1024]}px, 1280â†’${w[1280]}px, 1440â†’${w[1440]}px, 1920â†’${w[1920]}px)`);
+      failures.push(`${slug}: main content column does not grow with the viewport (1024→${w[1024]}px, 1280→${w[1280]}px, 1440→${w[1440]}px, 1920→${w[1920]}px)`);
     }
     if (w[1920] < 1000) {
-      failures.push(`${slug}: main content column only ${w[1920]}px wide at 1920px viewport â€” wide screens are still mostly blank`);
+      failures.push(`${slug}: main content column only ${w[1920]}px wide at 1920px viewport — wide screens are still mostly blank`);
     }
   }
 
@@ -286,7 +286,7 @@ async function main() {
     for (const f of failures) console.error(`  FAIL ${f}`);
     process.exit(1);
   }
-  console.log(`Layout OK: ${PAGES.length} pages Ã— ${WIDTHS.length} widths â€” no page overflow, no sidebar overlap, no avoidable table scrollbars, content column grows with the viewport.`);
+  console.log(`Layout OK: ${PAGES.length} pages × ${WIDTHS.length} widths — no page overflow, no sidebar overlap, no avoidable table scrollbars, content column grows with the viewport.`);
 }
 
 main().catch((err) => { console.error(err); process.exit(1); });
