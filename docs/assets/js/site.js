@@ -5,7 +5,7 @@
   // by-default mobile contents panel and its toggle button) behind it. Set
   // as early as possible, and before anything else below runs. Without
   // this class, .site-nav and its contents stay in their plain, always-
-  // visible no-JS state â€” see the CSS comment above ".js .site-nav".
+  // visible no-JS state — see the CSS comment above ".js .site-nav".
   document.documentElement.classList.add("js");
 
   // ---------- Shared: polite status announcements ----------
@@ -103,10 +103,10 @@
     var copyStatus = copyBtn.querySelector(".doc-toolbar__btn-status");
     copyBtn.addEventListener("click", function () {
       copyText(window.location.href).then(function () {
-        if (copyStatus) copyStatus.textContent = "âœ“";
+        if (copyStatus) copyStatus.textContent = "✓";
         announce("Link copied.");
       }, function () {
-        if (copyStatus) copyStatus.textContent = "âš ";
+        if (copyStatus) copyStatus.textContent = "⚠";
         announce("Couldn't copy the link automatically. You can copy it from the address bar.");
       });
       if (copyStatus) {
@@ -118,9 +118,9 @@
   // ---------- Heading links ----------
   // Each numbered heading's own text is a self-referencing link (one tab
   // stop whose accessible name is the heading text itself), and its href
-  // already works as a normal same-page anchor with no JS at all â€” after
+  // already works as a normal same-page anchor with no JS at all — after
   // activating it, the address bar holds the deep link. This only adds a
-  // copy-to-clipboard enhancement on top â€” it does not prevent the
+  // copy-to-clipboard enhancement on top — it does not prevent the
   // default navigation, so keyboard/no-JS users still get a fully
   // working direct link.
   document.querySelectorAll(".heading-link[data-copy-link]").forEach(function (link) {
@@ -139,7 +139,7 @@
   // per heading section, glossary term, and page intro), and this filters
   // it in the browser. No search service, no third-party library. The
   // header's search form is a plain GET form to search.html, so reaching
-  // this page needs no JavaScript â€” only the filtering itself does, and
+  // this page needs no JavaScript — only the filtering itself does, and
   // the page says so when JS is unavailable (see .search-nojs).
   var searchInput = document.getElementById("search-input");
   var searchResults = document.getElementById("search-results");
@@ -169,7 +169,7 @@
       return score;
     }
 
-    // Builds "â€¦text <mark>match</mark> textâ€¦" safely via DOM nodes.
+    // Builds "…text <mark>match</mark> text…" safely via DOM nodes.
     function snippetFor(entry, toks) {
       var frag = document.createDocumentFragment();
       var b = entry.b;
@@ -185,7 +185,7 @@
       var end = Math.min(b.length, pos + 130);
       var slice = b.slice(start, end);
       var sliceLower = slice.toLowerCase();
-      if (start > 0) frag.appendChild(document.createTextNode("â€¦ "));
+      if (start > 0) frag.appendChild(document.createTextNode("… "));
       var cursor = 0;
       while (cursor < slice.length) {
         var next = -1, nextTok = null;
@@ -203,7 +203,7 @@
         frag.appendChild(mark);
         cursor = next + nextTok.length;
       }
-      if (end < b.length) frag.appendChild(document.createTextNode(" â€¦"));
+      if (end < b.length) frag.appendChild(document.createTextNode(" …"));
       return frag;
     }
 
@@ -221,10 +221,10 @@
       hits.sort(function (a, b) { return b.s - a.s; });
       var shown = hits.slice(0, SEARCH_LIMIT);
       searchCount.textContent = hits.length === 0
-        ? "No results for â€œ" + q + "â€. Try fewer or different words, or a clause number."
+        ? "No results for “" + q + "”. Try fewer or different words, or a clause number."
         : (hits.length > SEARCH_LIMIT
-            ? hits.length + " results for â€œ" + q + "â€ â€” showing the first " + SEARCH_LIMIT + "."
-            : hits.length + (hits.length === 1 ? " result" : " results") + " for â€œ" + q + "â€.");
+            ? hits.length + " results for “" + q + "” — showing the first " + SEARCH_LIMIT + "."
+            : hits.length + (hits.length === 1 ? " result" : " results") + " for “" + q + "”.");
       shown.forEach(function (hit) {
         var li = document.createElement("li");
         var a = document.createElement("a");
@@ -265,7 +265,7 @@
         runSearch(searchInput.value);
       });
     }).catch(function () {
-      searchCount.textContent = "Search couldnâ€™t load its index. Reload the page to try again.";
+      searchCount.textContent = "Search couldn’t load its index. Reload the page to try again.";
     });
   }
 
@@ -314,7 +314,7 @@
   // ---------- Scrollable tables: keyboard access + visible cue ----------
   // A .table-wrap that overflows horizontally is only reachable by mouse
   // drag/trackpad unless it's in the tab order, so make it focusable and
-  // scrollable via arrow keys whenever it's actually scrollable â€” and add
+  // scrollable via arrow keys whenever it's actually scrollable — and add
   // a visible "scroll sideways" hint so sighted users know more columns
   // exist even on platforms with hidden overlay scrollbars. Everything is
   // removed again the moment the table stops overflowing (e.g. after a
@@ -344,7 +344,7 @@
           // aria-hidden: screen-reader users already hear the wrapper's
           // role and label; this line is the sighted-user equivalent.
           hint.setAttribute("aria-hidden", "true");
-          hint.textContent = "This table scrolls sideways â†’";
+          hint.textContent = "This table scrolls sideways →";
           wrap.insertBefore(hint, wrap.firstChild);
         }
       } else {
