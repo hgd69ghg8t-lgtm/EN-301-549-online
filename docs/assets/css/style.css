@@ -203,9 +203,15 @@ a:hover { color: var(--colour-link-hover); }
    search page itself. */
 .site-search {
   display: flex;
-  margin-left: auto;
   flex: 0 1 auto;
   min-width: 0;
+}
+/* On narrow screens (nav links hidden) the search stretches to fill the
+   row between the logo and the Contents toggle, so the header stays a
+   single tidy line instead of wrapping. */
+@media (max-width: 61.99em) {
+  .site-search { flex: 1 1 8rem; }
+  .site-search input { width: 100%; }
 }
 .site-search input {
   font: inherit;
@@ -235,8 +241,10 @@ a:hover { color: var(--colour-link-hover); }
    the header stays compact next to the Contents toggle. */
 .site-header__nav {
   display: none;
+  margin-left: auto;
   gap: clamp(var(--space-4), 3vw, var(--space-6));
   align-items: center;
+  margin-right: clamp(var(--space-3), 2vw, var(--space-5));
 }
 .site-header__nav a {
   color: var(--colour-text);

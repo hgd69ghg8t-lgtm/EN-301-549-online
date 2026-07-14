@@ -937,11 +937,11 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <header class="site-header">
   <div class="site-header__inner">
     {site_title}
+    {header_nav}
     <form class="site-search" role="search" aria-label="Site search" action="search.html">
       <input type="search" name="q" aria-label="Search this standard" autocomplete="off">
       <button type="submit">Search</button>
     </form>
-    {header_nav}
     <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
   </div>
 </header>
