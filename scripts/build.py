@@ -245,6 +245,24 @@ def load_metadata(errors):
     rel_str = str(rel)
     validate_iso_date_field("statusLastChecked", data, errors, rel_str)
     validate_iso_date_field("dateDownloaded", data, errors, rel_str)
+
+    expected_sha = data.get("sha256")
+    if expected_sha is not None:
+        if not isinstance(expected_sha, str) or not re.fullmatch(r"[0-9a-fA-F]{64}", expected_sha):
+            errors.add(rel_str, "metadata-sha256-invalid",
+                       '"sha256" must be exactly 64 hexadecimal characters.',
+                       "Replace it with the SHA-256 checksum of the committed source PDF.")
+        elif not SOURCE_PDF_PATH.exists():
+            errors.add(str(SOURCE_PDF_PATH.relative_to(ROOT)), "source-pdf-missing",
+                       "The source PDF recorded by the metadata is missing.",
+                       f"Commit the source PDF at {SOURCE_PDF_PATH.relative_to(ROOT)}.")
+        else:
+            actual_sha = hashlib.sha256(SOURCE_PDF_PATH.read_bytes()).hexdigest()
+            if actual_sha != expected_sha.lower():
+                errors.add(rel_str, "metadata-sha256-mismatch",
+                           'The recorded "sha256" does not match the committed source PDF.',
+                           "Verify the PDF is the intended source, then update the checksum "
+                           "only after independently recomputing it.")
     return data
 
 

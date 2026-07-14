@@ -17,6 +17,9 @@
 # custom Python build already validates every internal link and anchor.
 name: CI
 
+permissions:
+  contents: read
+
 on:
   push:
   pull_request:
