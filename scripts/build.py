@@ -44,13 +44,13 @@ DOC_LABEL = "ETSI EN 301 549 V4.1.0"
 NON_STANDARD_SLUGS = {"index", "about", "accessibility-statement", "search"}
 
 # A page's own headings are listed in an "On this page" jump list once
-# there are at least this many h2/h3 headings â€” short pages don't need one.
+# there are at least this many h2/h3 headings — short pages don't need one.
 ON_THIS_PAGE_THRESHOLD = 4
 
 # A page's <dt> definition-list terms get stable ids and (once there are
 # enough of them to be worth it) an A-Z index once there are at least this
 # many. This is deliberately a term-count threshold, not a hardcoded page
-# slug: today only clause 3's 141-term glossary crosses it â€” the small
+# slug: today only clause 3's 141-term glossary crosses it — the small
 # 4-term "Key to Tables ... columns" legends elsewhere don't, and shouldn't.
 AZ_INDEX_THRESHOLD = 20
 
@@ -60,7 +60,7 @@ RESERVED_IDS = {"main-content", "site-nav-panel", "status-live", "top",
                  "on-this-page-heading", "about-this-page"}
 
 # Website-only headings that must never end up listed in the "On this page"
-# jump list â€” that list is meant to help readers scan the reproduced ETSI
+# jump list — that list is meant to help readers scan the reproduced ETSI
 # section headings, not website scaffolding. Checked structurally at
 # render time (build_on_this_page() is only ever fed the fragment's own
 # parsed headings, never the injected clause-summary/on-this-page markup),
@@ -107,14 +107,14 @@ JS_PATH = DOCS_DIR / "assets" / "js" / "site.js"
 def asset_version(path):
     """Short content hash appended as ?v=... to the shared CSS/JS URLs.
     GitHub Pages caches assets for ~10 minutes, so without this a style
-    change rolls out unevenly â€” pages loaded at different moments mix old
+    change rolls out unevenly — pages loaded at different moments mix old
     and new styling until every visitor's cache expires. With it, any
     change to the file changes every page's asset URL in the same build,
     so all pages pick up the new styles together. Content-derived, so a
     rebuild from unchanged source still produces byte-identical output
     (the reproducibility guarantee in the README holds). Note these two
     files are hand-authored source that happens to live under docs/
-    (see README) â€” this does not read any *generated* output."""
+    (see README) — this does not read any *generated* output."""
     if not path.exists():
         return "0"
     return hashlib.sha256(path.read_bytes()).hexdigest()[:8]
@@ -122,10 +122,10 @@ def asset_version(path):
 
 def source_pdf_size(errors=None):
     """The download link's file size, computed from the PDF committed at
-    docs/source/ â€” never downloaded or guessed, so the build works fully
+    docs/source/ — never downloaded or guessed, so the build works fully
     offline and the value can never silently go stale (it's recomputed
     every build from whatever file is actually there). If the file is
-    missing, callers fall back to plain "(PDF)" wording with no size â€” see
+    missing, callers fall back to plain "(PDF)" wording with no size — see
     substitute_tokens(). A file that exists but is implausibly small is a
     real problem (a corrupted or truncated commit), not something to
     silently paper over, so that's a build error instead of a fallback."""
@@ -134,7 +134,7 @@ def source_pdf_size(errors=None):
     size_bytes = SOURCE_PDF_PATH.stat().st_size
     if size_bytes < 1024 and errors is not None:
         errors.add(str(SOURCE_PDF_PATH.relative_to(ROOT)), "source-pdf-implausible-size",
-                   f"The committed source PDF is only {size_bytes} bytes â€” almost certainly "
+                   f"The committed source PDF is only {size_bytes} bytes — almost certainly "
                    "truncated or corrupted, not a real ETSI standard document.",
                    "Re-commit a complete copy of the source PDF.")
         return None
@@ -144,7 +144,7 @@ def source_pdf_size(errors=None):
 
 def substitute_tokens(fragment, metadata, errors):
     """A handful of {{TOKEN}} placeholders content authors can use instead
-    of hard-coding a value that build.py can compute reliably â€” so it can
+    of hard-coding a value that build.py can compute reliably — so it can
     never go stale relative to data/source-metadata.json or the committed
     PDF. Not a general templating system: just these fixed tokens."""
     if not metadata:
@@ -189,14 +189,14 @@ class Errors:
 # ---------------------------------------------------------------------
 
 # Dates that are almost certainly a leftover placeholder rather than a
-# genuine check date â€” reject these outright rather than publish them.
+# genuine check date — reject these outright rather than publish them.
 PLACEHOLDER_DATES = {"0000-00-00", "1970-01-01", "1900-01-01", "9999-12-31", "0001-01-01"}
 
 
 def validate_iso_date_field(field, data, errors, rel, allow_future=False):
     """Shared validation for a full YYYY-MM-DD field in source-metadata.json:
     present, syntactically valid, not an obvious placeholder, and (for
-    statusLastChecked specifically) not in the future â€” a future check date
+    statusLastChecked specifically) not in the future — a future check date
     can only mean the field was set mechanically rather than genuinely
     checked."""
     if field not in data:
@@ -217,7 +217,7 @@ def validate_iso_date_field(field, data, errors, rel, allow_future=False):
     if not allow_future and parsed > datetime.date.today():
         errors.add(rel, "metadata-date-future",
                    f'"{field}" value "{value}" is in the future.',
-                   f'"{field}" must be a date something was genuinely checked on â€” set it to today '
+                   f'"{field}" must be a date something was genuinely checked on — set it to today '
                    "or an earlier date, not a future one.")
 
 
@@ -291,7 +291,7 @@ def load_clause_summaries(errors):
     """Plain-language 'About this clause/annex' orientation blurbs, keyed by
     slug. Kept as structured data rather than hard-coded in build.py so a
     non-developer can add or edit one without touching Python. A summary is
-    optional per page â€” most pages have none, deliberately (see README).
+    optional per page — most pages have none, deliberately (see README).
     Validated here rather than hand-reviewed only, since this data is meant
     to stay small and easy to extend without re-auditing the whole file by
     eye every time."""
@@ -358,7 +358,7 @@ def load_clause_summaries(errors):
             if "<" in stripped_of_tokens or ">" in stripped_of_tokens:
                 errors.add(label, "clause-summary-raw-html",
                            f"Paragraph {i + 1} contains a '<' or '>' character outside of the "
-                           f"supported {{{{normative}}}}/{{{{informative}}}} tokens â€” raw HTML is not "
+                           f"supported {{{{normative}}}}/{{{{informative}}}} tokens — raw HTML is not "
                            "supported in this file.",
                            "Write plain text only. Use {{normative}} or {{informative}} for the one "
                            "supported link, not a hand-written <a> tag.")
@@ -387,7 +387,7 @@ def load_content_ownership():
     This file is entirely optional and every field within it is optional:
     real values are only ever added by a maintainer who actually knows
     them. Nothing here is invented, and a missing file or missing field
-    never fails the build â€” see content_ownership_notices()."""
+    never fails the build — see content_ownership_notices()."""
     if not CONTENT_OWNERSHIP_PATH.exists():
         return {}
     try:
@@ -410,10 +410,14 @@ def validate_content_ownership(ownership, errors):
         if not isinstance(entry, dict):
             errors.add(label, "content-ownership-invalid-entry",
                        "This entry must be an object.",
-                       "Use an object with the expected fields â€” see "
+                       "Use an object with the expected fields — see "
                        "docs-for-maintainers/content-ownership.md.")
             continue
- …10846 tokens truncated…g(attrs, term_id):
+        for field, value in entry.items():
+            if field not in CONTENT_O…10778 tokens truncated…urn slug or "term"
+
+
+def render_dt_starttag(attrs, term_id):
     parts = ["dt"]
     has_id = has_tabindex = False
     for k, v in attrs:
@@ -487,7 +491,7 @@ def find_dl_spans(fragment):
 def build_az_index(assigned_terms, index_id, aria_label):
     """A same-page A-Z index: one link per letter that's actually present,
     each pointing at the first term starting with that letter. Only letters
-    with at least one term appear â€” no disabled-looking dead letters. Uses
+    with at least one term appear — no disabled-looking dead letters. Uses
     aria-label rather than a heading, so it never becomes an extra entry in
     the page's own heading structure (on-this-page, sidebar nav, permalinks).
     aria_label must be unique per page (html-validate's unique-landmark
@@ -515,8 +519,8 @@ def apply_glossary_terms(fragment, errors, label):
     each <dl> with enough terms to be worth it, splice in a same-page A-Z
     index before the list and a "Back to A-Z index" link after it. No-op
     for pages with no <dt> terms. Definition lists with too few terms to
-    need an index â€” e.g. the small 4-entry "Key to Tables ... columns"
-    legends elsewhere â€” still get stable ids but no index, per
+    need an index — e.g. the small 4-entry "Key to Tables ... columns"
+    legends elsewhere — still get stable ids but no index, per
     AZ_INDEX_THRESHOLD. Never touches the definitions' own text or order."""
     terms = parse_terms(fragment)
     if not terms:
@@ -606,7 +610,7 @@ def render_page(index, page, metadata, summaries, errors, xrefs=None):
     html_out = PAGE_TEMPLATE.format(
         title=html.escape(page["title"]),
         doc_label=DOC_LABEL,
-        description=html.escape(f'{page["title"]} â€” {DOC_LABEL} accessible HTML edition (final draft, under approval).'),
+        description=html.escape(f'{page["title"]} — {DOC_LABEL} accessible HTML edition (final draft, under approval).'),
         asset_prefix="",
         site_title=build_site_title(""),
         doc_header=build_doc_header(page),
@@ -682,7 +686,7 @@ def validate_rendered_page(slug, html_out, all_slugs, errors):
                    "data/source-metadata.json is present so tokens actually get substituted.")
 
     # NOTE: deliberately not scanning for raw ISO dates in reader-facing
-    # text site-wide â€” Annex F's change-history table is reproduced ETSI
+    # text site-wide — Annex F's change-history table is reproduced ETSI
     # content containing ETSI's own process dates (e.g. "2025-11-13 to
     # 2026-02-11"), which must never be reformatted or flagged. Website-
     # authored dates are verified by inspection instead: everywhere this
@@ -694,7 +698,7 @@ def validate_rendered_page(slug, html_out, all_slugs, errors):
         text = strip_tags(inner)
         if len(text) < 2:
             errors.add(label, "heading-link-empty",
-                       f'A heading link to "#{frag_id}" has no meaningful text â€” its accessible name '
+                       f'A heading link to "#{frag_id}" has no meaningful text — its accessible name '
                        "is the heading text it wraps, so it must not be empty.",
                        "Check inject_heading_links() wrapped the heading's actual text.")
 
@@ -703,7 +707,7 @@ def validate_rendered_page(slug, html_out, all_slugs, errors):
             errors.add(label, "accessibility-statement-no-reporting-route",
                        "The accessibility statement has no reporting link (expected a GitHub issues "
                        "link or a mailto: link).",
-                       "Add a real reporting route â€” see content/accessibility-statement.html.")
+                       "Add a real reporting route — see content/accessibility-statement.html.")
 
     on_this_page_match = re.search(r'<nav class="on-this-page".*?</nav>', html_out, re.DOTALL)
     if on_this_page_match:
@@ -718,7 +722,7 @@ def validate_rendered_page(slug, html_out, all_slugs, errors):
                            "not clause-summary/on-this-page markup injected before it.")
 
     # Excludes the "content-meta-list" <dl> used for source/version metadata
-    # rows (e.g. on the About page) â€” those are plain key-value pairs, not
+    # rows (e.g. on the About page) — those are plain key-value pairs, not
     # glossary/abbreviation definitions, and are never passed through
     # apply_glossary_terms() (they're substituted in afterwards).
     glossary_scan_html = re.sub(r'<dl class="content-meta-list">.*?</dl>', '', html_out, flags=re.DOTALL)
@@ -818,7 +822,7 @@ def main():
               "See docs-for-maintainers/content-ownership.md.")
 
     if check_only:
-        print(f"Checked {len(rendered)} pages â€” no validation errors.")
+        print(f"Checked {len(rendered)} pages — no validation errors.")
         return
 
     DOCS_DIR.mkdir(exist_ok=True)
