@@ -339,6 +339,48 @@ a:hover { color: var(--colour-link-hover); }
   color: #ffffff;
 }
 .doc-toolbar__btn-status { font-weight: 400; opacity: 0.85; }
+.reader-tools { display: none; position: relative; }
+.js .reader-tools { display: block; }
+.reader-tools > summary {
+  cursor: pointer;
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  padding: 0.4rem 0.75rem;
+  background: var(--colour-toolbar-btn-bg);
+  border: 1px solid var(--colour-doc-header-border);
+  color: #ffffff;
+}
+.reader-tools__panel {
+  position: absolute;
+  z-index: 5;
+  right: 0;
+  width: min(23rem, calc(100vw - 2 * var(--page-pad)));
+  padding: var(--space-3);
+  background: var(--colour-background);
+  border: 2px solid var(--colour-link);
+  color: var(--colour-text);
+  box-shadow: 0 0.25rem 1rem rgba(0,0,0,0.25);
+}
+.reader-tools fieldset { border: 0; padding: 0; margin: 0 0 var(--space-2); }
+.reader-tools legend { font-family: var(--font-heading); font-weight: 700; }
+.reader-tools label { display: block; margin: 0.35rem 0; }
+.reader-tools__reset { margin-top: var(--space-2); }
+.reader-tools__privacy { font-size: 0.875rem; color: var(--colour-muted); }
+.reader-library h2 { font-size: 1.1rem; }
+.reader-library h3 { font-size: 1rem; margin-bottom: 0.25rem; }
+.reader-library ul { margin-top: 0; padding-left: 1.25rem; }
+.doc-toolbar__btn[aria-pressed="true"] { outline: 3px solid var(--colour-focus-yellow); }
+html[data-reading-width="comfortable"] { --prose-measure: 66ch; }
+html[data-text-spacing="enhanced"] .content {
+  line-height: 1.8;
+  letter-spacing: 0.012em;
+  word-spacing: 0.08em;
+}
+html[data-text-spacing="enhanced"] .content p {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
 .toc-toggle {
   display: none;
   margin-left: auto;
@@ -901,7 +943,7 @@ main { min-width: 0; }
 
 /* ---------- Print ---------- */
 @media print {
-  .site-header, .site-footer, .doc-toolbar, .toc-toggle, .site-nav, .page-pager, .skip-link, .back-to-top, .accent-bar { display: none; }
+  .site-header, .site-footer, .doc-toolbar, .reader-tools, .reader-library, .toc-toggle, .site-nav, .page-pager, .skip-link, .back-to-top, .accent-bar { display: none; }
   /* Heading links print as plain heading text. */
   .heading-link { color: inherit; text-decoration: none; }
   .doc-header { background: none; color: #000; }
