@@ -441,7 +441,12 @@ a:hover { color: var(--colour-link-hover); }
   cursor: pointer;
 }
 .page-tools__item:hover,
-.page-tools .reader-tools > summary:hover { background: var(--colour-panel-bg); }
+.page-tools .reader-tools > summary:hover {
+  background: var(--colour-panel-bg);
+  /* restate the text colour: the global a:hover blue would otherwise
+     make the link items change while button items don't */
+  color: var(--colour-text);
+}
 .page-tools__item svg { width: 1.1rem; height: 1.1rem; flex: 0 0 auto; color: var(--colour-link); }
 .doc-toolbar__btn-status { font-weight: 400; margin-left: auto; }
 /* Pressed bookmark: tinted row, distinct from keyboard focus. */
