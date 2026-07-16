@@ -448,7 +448,9 @@ html[data-text-spacing="enhanced"] .content p {
   font-family: var(--font-heading);
   font-weight: 700;
   font-size: 0.9375rem;
-  background: var(--colour-site-header-bg);
+  /* Blue in every state (tap leaves :hover stuck on touch screens, so
+     the rest and hover colours must read as the same design). */
+  background: var(--colour-link-hover);
   color: #ffffff;
   border: 0;
   padding: var(--space-3);
@@ -472,7 +474,7 @@ html[data-text-spacing="enhanced"] .content p {
   transform: rotate(225deg);
   margin-top: 0.25rem;
 }
-.toc-toggle:hover { background: var(--colour-link-hover); }
+.toc-toggle:hover { background: var(--colour-link); }
 @media (max-width: 61.99em) {
   .js .toc-toggle { display: flex; }
   .page-sidebar { margin-bottom: var(--space-4); }
