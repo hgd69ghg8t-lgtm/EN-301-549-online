@@ -41,6 +41,12 @@ SOURCE_PDF_PATH = ROOT / "docs" / "source" / "en_301549v040100va.pdf"
 SOURCE_PDF_NAME = "en_301549v040100va.pdf"
 DOC_LABEL = "ETSI EN 301 549 V4.1.0"
 
+# The published GitHub Pages address, used only for absolute URLs that
+# must be absolute (rel=canonical, Open Graph tags, sitemap.xml). Keep the
+# trailing slash. If the site ever moves (custom domain, different repo),
+# this is the one place to update.
+SITE_BASE_URL = "https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/"
+
 # Website-authored pages, as opposed to reproduced-standard pages. These
 # are outside the ETSI wording-integrity baseline, are the pages
 # data/content-ownership.json may describe, and (index/search aside) are
@@ -198,11 +204,12 @@ PLACEHOLDER_DATES = {"0000-00-00", "1970-01-01", "1900-01-01", "9999-12-31", "00
 
 
 def validate_iso_date_field(field, data, errors, rel, allow_future=False):
-    """Shared validation for a full YYYY-MM-DD field in source-metadata.json:
-    present, syntactically valid, not an obvious placeholder, and (for
-    statusLastChecked specifically) not in the future — a future check date
-    can only mean the field was set mechanically rather than genuinely
-    checked."""
+    """Shared validation for a full YYYY-MM-DD field in any metadata file
+    (source-metadata.json, companion-guidance.json, …; the failing file is
+    named by `rel`): present, syntactically valid, not an obvious
+    placeholder, and — unless allow_future — not in the future, since a
+    future check date can only mean the field was set mechanically rather
+    than genuinely checked."""
     if field not in data:
         return  # already reported as a missing required field
     value = data[field]
@@ -216,7 +223,7 @@ def validate_iso_date_field(field, data, errors, rel, allow_future=False):
     except ValueError:
         errors.add(rel, "metadata-date-invalid",
                    f'"{field}" value "{value}" is not a valid ISO date (expected YYYY-MM-DD).',
-                   f'Fix "{field}" in data/source-metadata.json to a real YYYY-MM-DD date.')
+                   f'Set "{field}" to a real YYYY-MM-DD date.')
         return
     if not allow_future and parsed > datetime.date.today():
         errors.add(rel, "metadata-date-future",
@@ -294,11 +301,12 @@ def _no_duplicate_keys(pairs):
 def load_clause_summaries(errors):
     """Plain-language 'About this clause/annex' orientation blurbs, keyed by
     slug. Kept as structured data rather than hard-coded in build.py so a
-    non-developer can add or edit one without touching Python. A summary is
-    optional per page — most pages have none, deliberately (see README).
-    Validated here rather than hand-reviewed only, since this data is meant
-    to stay small and easy to extend without re-auditing the whole file by
-    eye every time."""
+    non-developer can add or edit one without touching Python. Every clause
+    and annex page has one (the README's content-authoring conventions
+    promise exactly that); website-authored pages (home, about, …) have
+    none. Validated here rather than hand-reviewed only, since this data is
+    meant to stay easy to extend without re-auditing the whole file by eye
+    every time."""
     rel = str(CLAUSE_SUMMARIES_PATH.relative_to(ROOT))
     if not CLAUSE_SUMMARIES_PATH.exists():
         return {}
@@ -325,6 +333,21 @@ def load_clause_summaries(errors):
                        "This entry must have \"heading\" and \"text\" fields.",
                        'Add the missing field(s), e.g. "heading": "About this clause".')
             continue
+
+        unknown = set(entry) - {"heading", "text", "nature"}
+        if unknown:
+            errors.add(label, "clause-summary-unknown-field",
+                       f"Unrecognised fields: {', '.join(sorted(unknown))}.",
+                       'Use only "heading", "text" and the optional "nature".')
+
+        # The optional nature flag appends the standard single-sourced
+        # "It is normative/informative, which means …" sentence at render
+        # time, so that explainer is written once in build_clause_summary
+        # rather than copy-pasted (and slowly drifting) across entries.
+        if "nature" in entry and entry["nature"] not in ("normative", "informative"):
+            errors.add(label, "clause-summary-nature-invalid",
+                       f'"nature" is {entry["nature"]!r}; it must be "normative" or "informative".',
+                       'Set "nature" to one of the two values, or remove the field.')
 
         if not isinstance(entry["heading"], str) or not entry["heading"].strip():
             errors.add(label, "clause-summary-empty-heading",
@@ -1194,6 +1217,15 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title} | {doc_label} Online</title>
 <meta name="description" content="{description}">
+<meta name="theme-color" content="#14245a">
+<link rel="canonical" href="{canonical_url}">
+<meta property="og:site_name" content="{doc_label} Online">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{title} | {doc_label} Online">
+<meta property="og:description" content="{description}">
+<meta property="og:url" content="{canonical_url}">
+<meta property="og:image" content="{og_image_url}">
+<meta name="twitter:card" content="summary">
 <link rel="stylesheet" href="{asset_prefix}assets/css/style.css?v={css_version}">
 <link rel="icon" href="{asset_prefix}assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="{asset_prefix}assets/img/favicon-32.png" sizes="32x32" type="image/png">
@@ -1299,7 +1331,7 @@ def build_on_this_page(headings):
     """A same-page contents list for pages long enough to need one,
     generated from the page's own h2/h3 headings (never the page's h1).
     Below ON_THIS_PAGE_THRESHOLD headings this returns nothing — a jump
-    list with two entries isn't useful and just adds clutter."""
+    list with a single destination is noise, not navigation."""
     subsections = [h for h in headings if h.level in (2, 3)]
     if len(subsections) < ON_THIS_PAGE_THRESHOLD:
         return ""
@@ -1351,20 +1383,31 @@ def load_companion_guidance(errors):
             errors.add(label, "companion-guidance-unknown-page", "Unknown clause or annex page.",
                        "Correct the page slug.")
             continue
-        if required - set(entry):
-            errors.add(label, "companion-guidance-missing-fields", "Required fields are missing.",
-                       "Add status, owner, review date and structured content.")
+        missing = required - set(entry)
+        if missing:
+            errors.add(label, "companion-guidance-missing-fields",
+                       f"Required fields are missing: {', '.join(sorted(missing))}.",
+                       "Add the missing structured-content fields (inBrief, audiences, sections, related).")
             continue
-        # owner/lastReviewed are optional: record them only when a real
-        # person or team genuinely reviewed the guidance (see
-        # data/content-ownership.json for the project-wide rule that
-        # governance facts are never invented). If present, they must be
-        # real values, not placeholders.
-        if "owner" in entry and not str(entry["owner"]).strip():
-            errors.add(label, "companion-guidance-empty-owner",
-                       "An owner field, when present, must name the accountable owner.",
-                       "Fill in the real owner, or remove the field.")
-        validate_iso_date_field("lastReviewed", entry, errors, label)
+        # owner/lastReviewDate (same field names and conventions as
+        # data/content-ownership.json) are optional: record them only when
+        # a real person or team genuinely reviewed the guidance — the
+        # project-wide rule is that governance facts are never invented.
+        # Anything else in an entry is rejected, so a stale or misspelled
+        # field can never sit in the data silently unvalidated.
+        unknown = set(entry) - required - {"owner", "lastReviewDate"}
+        if unknown:
+            errors.add(label, "companion-guidance-unknown-field",
+                       f"Unrecognised fields: {', '.join(sorted(unknown))}.",
+                       "Remove them, or use the documented fields only "
+                       "(inBrief, audiences, sections, related, owner, lastReviewDate).")
+        owner = entry.get("owner")
+        if "owner" in entry and (not isinstance(owner, str) or not owner.strip()
+                                 or PLACEHOLDER_RE.search(owner)):
+            errors.add(label, "companion-guidance-owner-invalid",
+                       "An owner field, when present, must be a non-placeholder name as text.",
+                       "Name the real accountable owner, or remove the field.")
+        validate_iso_date_field("lastReviewDate", entry, errors, label)
         text_values = list(entry["inBrief"]) + list(entry["audiences"])
         for section in entry["sections"]:
             text_values += [section.get("heading", "")] + section.get("paragraphs", []) + section.get("items", [])
@@ -1414,8 +1457,8 @@ def build_companion_guidance(slug, guidance):
     review_bits = []
     if entry.get("owner"):
         review_bits.append(f'Owned by {html.escape(entry["owner"])}.')
-    if entry.get("lastReviewed"):
-        review_bits.append(f'Last reviewed {human_date(entry["lastReviewed"])}.')
+    if entry.get("lastReviewDate"):
+        review_bits.append(f'Last reviewed {human_date(entry["lastReviewDate"])}.')
     if review_bits:
         out.append(f'<p class="companion-guidance__review">{" ".join(review_bits)}</p>')
     out.append('</div></details></aside>')
@@ -1424,7 +1467,7 @@ def build_companion_guidance(slug, guidance):
 
 def build_clause_summary(slug, summaries, errors):
     """The short, clearly-labelled 'About this clause/annex' orientation
-    block for the handful of pages listed in data/clause-summaries.json.
+    block every clause and annex page carries, from data/clause-summaries.json.
     Every summary ends with the same fixed sentence stating the content
     below is reproduced unchanged — see the critical constraint in
     README's content-authoring conventions."""
@@ -1440,6 +1483,16 @@ def build_clause_summary(slug, summaries, errors):
                        "Split into two paragraphs, or remove one of the placeholders.")
         text = para.replace("{{normative}}", NORMATIVE_LINK).replace("{{informative}}", INFORMATIVE_LINK)
         paragraphs.append(f"<p>{text}</p>")
+    # The normative/informative explainer is single-sourced here, keyed on
+    # the entry's optional "nature" flag, so its wording can never drift
+    # between the ~20 annex entries that carry it.
+    nature = entry.get("nature")
+    if nature == "normative":
+        paragraphs.append(f"<p>It is {NORMATIVE_LINK}, which means it forms part of the "
+                          "requirements of the standard.</p>")
+    elif nature == "informative":
+        paragraphs.append(f"<p>It is {INFORMATIVE_LINK}, which means it provides guidance "
+                          "rather than setting new requirements.</p>")
     paragraphs.append("<p>The wording below is reproduced from the ETSI draft and has not been "
                        "simplified or changed.</p>")
     heading = html.escape(entry["heading"])
@@ -1649,18 +1702,23 @@ def render_page(index, page, metadata, summaries, guidance, errors, xrefs=None):
         if technical_marker in fragment:
             fragment = fragment.replace(technical_marker, render_metadata_technical(metadata))
 
+    # Every clause/annex page gets its "About this clause/annex" box (the
+    # README promises exactly that); companion guidance, where present,
+    # renders after it as the clearly-labelled extra aside.
+    clause_summary = build_clause_summary(slug, summaries, errors)
     companion = build_companion_guidance(slug, guidance)
-    clause_summary = "" if companion else build_clause_summary(slug, summaries, errors)
     on_this_page = build_on_this_page(headings)
     fragment_html = inject_heading_links(fragment, headings)
     if xrefs:
         fragment_html = link_cross_references(fragment_html, slug, xrefs)
-    content_html = companion + clause_summary + on_this_page + fragment_html
+    content_html = clause_summary + companion + on_this_page + fragment_html
 
     html_out = PAGE_TEMPLATE.format(
         title=html.escape(page["title"]),
         doc_label=DOC_LABEL,
         description=html.escape(f'{page["title"]} — {DOC_LABEL} accessible HTML edition (final draft, under approval).'),
+        canonical_url=html.escape(SITE_BASE_URL if slug == "index" else f"{SITE_BASE_URL}{slug}.html"),
+        og_image_url=html.escape(f"{SITE_BASE_URL}assets/img/apple-touch-icon.png"),
         asset_prefix="",
         site_title=build_site_title(""),
         doc_header=build_doc_header(page),
@@ -1886,6 +1944,23 @@ def main():
     index_entries = build_search_index(metadata)
     SEARCH_INDEX_PATH.write_text(
         json.dumps(index_entries, ensure_ascii=False, separators=(",", ":")) + "\n",
+        encoding="utf-8")
+
+    # sitemap.xml and robots.txt for search engines and link previews.
+    # Deterministic (URL list comes straight from the sitemap, no
+    # timestamps — a <lastmod> would either be invented or churn every
+    # build and break the byte-identical-rebuild guarantee).
+    sitemap_urls = "".join(
+        f"<url><loc>{html.escape(SITE_BASE_URL if p['slug'] == 'index' else SITE_BASE_URL + p['slug'] + '.html')}</loc></url>"
+        for p in SITEMAP
+    )
+    (DOCS_DIR / "sitemap.xml").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+        f"{sitemap_urls}</urlset>\n",
+        encoding="utf-8")
+    (DOCS_DIR / "robots.txt").write_text(
+        f"User-agent: *\nAllow: /\nSitemap: {SITE_BASE_URL}sitemap.xml\n",
         encoding="utf-8")
 
     print(f"Built {len(rendered)} pages and a {len(index_entries)}-entry search index into {DOCS_DIR}")

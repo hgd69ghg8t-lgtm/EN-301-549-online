@@ -86,121 +86,141 @@
   "annex-a-conformance-evaluation": {
     "heading": "About this annex",
     "text": [
-      "Annex A supports evaluating whether a specific product or service meets the essential requirements of the EU accessibility directives covered by this standard. It is {{informative}}, which means it provides guidance rather than setting new requirements."
-    ]
+      "Annex A supports evaluating whether a specific product or service meets the essential requirements of the EU accessibility directives covered by this standard."
+    ],
+    "nature": "informative"
   },
   "annex-b-functional-performance-relationship": {
     "heading": "About this annex",
     "text": [
-      "Annex B shows which requirements in clauses 5 to 13 support each of the functional performance criteria in clause 4. It is {{informative}}, which means it provides guidance rather than setting new requirements."
-    ]
+      "Annex B shows which requirements in clauses 5 to 13 support each of the functional performance criteria in clause 4."
+    ],
+    "nature": "informative"
   },
   "annex-c-1-introduction": {
     "heading": "About this annex",
     "text": [
-      "Annex C describes ways to determine whether individual requirements are met. It is {{normative}}, which means it forms part of the requirements of the standard."
-    ]
+      "Annex C describes ways to determine whether individual requirements are met."
+    ],
+    "nature": "normative"
   },
   "annex-c-4-functional-performance": {
     "heading": "About this annex",
     "text": [
-      "Annex C.4 describes how meeting the functional performance criteria in clause 4 is assessed. Like all of Annex C it is {{normative}}, which means it forms part of the requirements of the standard."
-    ]
+      "Annex C.4 describes how meeting the functional performance criteria in clause 4 is assessed."
+    ],
+    "nature": "normative"
   },
   "annex-c-5-generic-requirements": {
     "heading": "About this annex",
     "text": [
-      "Annex C.5 describes ways to determine whether the requirements in clause 5 (generic requirements) are met. Like all of Annex C it is {{normative}}, which means it forms part of the requirements of the standard."
-    ]
+      "Annex C.5 describes ways to determine whether the requirements in clause 5 (generic requirements) are met."
+    ],
+    "nature": "normative"
   },
   "annex-c-6-real-time-communication": {
     "heading": "About this annex",
     "text": [
-      "Annex C.6 describes ways to determine whether the requirements in clause 6 (real-time communication) are met. Like all of Annex C it is {{normative}}, which means it forms part of the requirements of the standard."
-    ]
+      "Annex C.6 describes ways to determine whether the requirements in clause 6 (real-time communication) are met."
+    ],
+    "nature": "normative"
   },
   "annex-c-7-video-capabilities": {
     "heading": "About this annex",
     "text": [
-      "Annex C.7 describes ways to determine whether the requirements in clause 7 (ICT with video capabilities) are met. Like all of Annex C it is {{normative}}, which means it forms part of the requirements of the standard."
-    ]
+      "Annex C.7 describes ways to determine whether the requirements in clause 7 (ICT with video capabilities) are met."
+    ],
+    "nature": "normative"
   },
   "annex-c-8-hardware": {
     "heading": "About this annex",
     "text": [
-      "Annex C.8 describes ways to determine whether the requirements in clause 8 (hardware) are met. Like all of Annex C it is {{normative}}, which means it forms part of the requirements of the standard."
-    ]
+      "Annex C.8 describes ways to determine whether the requirements in clause 8 (hardware) are met."
+    ],
+    "nature": "normative"
   },
   "annex-c-9-web": {
     "heading": "About this annex",
     "text": [
-      "Annex C.9 describes ways to determine whether the requirements in clause 9 (web) are met. Like all of Annex C it is {{normative}}, which means it forms part of the requirements of the standard."
-    ]
+      "Annex C.9 describes ways to determine whether the requirements in clause 9 (web) are met."
+    ],
+    "nature": "normative"
   },
   "annex-c-10-non-web-documents": {
     "heading": "About this annex",
     "text": [
-      "Annex C.10 describes ways to determine whether the requirements in clause 10 (non-web documents) are met. Like all of Annex C it is {{normative}}, which means it forms part of the requirements of the standard."
-    ]
+      "Annex C.10 describes ways to determine whether the requirements in clause 10 (non-web documents) are met."
+    ],
+    "nature": "normative"
   },
   "annex-c-11-software": {
     "heading": "About this annex",
     "text": [
-      "Annex C.11 describes ways to determine whether the requirements in clause 11 (non-web software) are met. Like all of Annex C it is {{normative}}, which means it forms part of the requirements of the standard."
-    ]
+      "Annex C.11 describes ways to determine whether the requirements in clause 11 (non-web software) are met."
+    ],
+    "nature": "normative"
   },
   "annex-c-12-information-products-services": {
     "heading": "About this annex",
     "text": [
-      "Annex C.12 describes ways to determine whether the requirements in clause 12 (information about products and services) are met. Like all of Annex C it is {{normative}}, which means it forms part of the requirements of the standard."
-    ]
+      "Annex C.12 describes ways to determine whether the requirements in clause 12 (information about products and services) are met."
+    ],
+    "nature": "normative"
   },
   "annex-c-13-relay-emergency": {
     "heading": "About this annex",
     "text": [
-      "Annex C.13 describes ways to determine whether the requirements in clause 13 (relay and emergency service access) are met. Like all of Annex C it is {{normative}}, which means it forms part of the requirements of the standard."
-    ]
+      "Annex C.13 describes ways to determine whether the requirements in clause 13 (relay and emergency service access) are met."
+    ],
+    "nature": "normative"
   },
   "annex-c-14-conformance": {
     "heading": "About this annex",
     "text": [
-      "Annex C.14 describes ways to determine whether the requirements in clause 14 (conformance) are met. Like all of Annex C it is {{normative}}, which means it forms part of the requirements of the standard."
-    ]
+      "Annex C.14 describes ways to determine whether the requirements in clause 14 (conformance) are met."
+    ],
+    "nature": "normative"
   },
   "annex-d-cognitive-accessibility": {
     "heading": "About this annex",
     "text": [
-      "Annex D points to further resources and guidelines for making ICT accessible to people with limited cognitive, language and learning abilities. It is {{informative}}, which means it provides guidance rather than setting new requirements."
-    ]
+      "Annex D points to further resources and guidelines for making ICT accessible to people with limited cognitive, language and learning abilities."
+    ],
+    "nature": "informative"
   },
   "annex-e-guidance": {
     "heading": "About this annex",
     "text": [
-      "Annex E explains how to use the standard: what each clause covers, how to work out which requirements apply to a specific product or service, and where to start. It is {{informative}}, which means it provides guidance rather than setting new requirements."
-    ]
+      "Annex E explains how to use the standard: what each clause covers, how to work out which requirements apply to a specific product or service, and where to start."
+    ],
+    "nature": "informative"
   },
   "annex-za-directive-2016-2102": {
     "heading": "About this annex",
     "text": [
-      "Annex ZA sets out how this standard relates to the essential requirements of the Web Accessibility Directive (Directive (EU) 2016/2102), for websites and for mobile applications. It is {{informative}}, which means it provides guidance rather than setting new requirements."
-    ]
+      "Annex ZA sets out how this standard relates to the essential requirements of the Web Accessibility Directive (Directive (EU) 2016/2102), for websites and for mobile applications."
+    ],
+    "nature": "informative"
   },
   "annex-zb-directive-2019-882": {
     "heading": "About this annex",
     "text": [
-      "Annex ZB sets out how this standard relates to the essential requirements of the European Accessibility Act (Directive (EU) 2019/882). It is {{informative}}, which means it provides guidance rather than setting new requirements."
-    ]
+      "Annex ZB sets out how this standard relates to the essential requirements of the European Accessibility Act (Directive (EU) 2019/882)."
+    ],
+    "nature": "informative"
   },
   "annex-zc-other-directives": {
     "heading": "About this annex",
     "text": [
-      "Annex ZC sets out how this standard relates to the essential requirements of other Directives, according to Directive (EU) 2019/882, Section VI of Annex I. It is {{informative}}, which means it provides guidance rather than setting new requirements."
-    ]
+      "Annex ZC sets out how this standard relates to the essential requirements of other Directives, according to Directive (EU) 2019/882, Section VI of Annex I."
+    ],
+    "nature": "informative"
   },
   "annex-f-change-history": {
     "heading": "About this annex",
     "text": [
-      "Annex F records the history of changes made between versions of this standard. It is {{informative}}, which means it provides guidance rather than setting new requirements."
-    ]
+      "Annex F records the history of changes made between versions of this standard."
+    ],
+    "nature": "informative"
   }
 }

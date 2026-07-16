@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/sitemap.xml

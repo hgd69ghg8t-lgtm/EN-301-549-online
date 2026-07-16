@@ -41,6 +41,7 @@ Nothing to do by hand: the download link's file size (`{{SOURCE_PDF_SIZE}}`) is 
 - Describe what the clause/annex covers — never interpret conformance requirements, add obligations, or narrow the standard's scope.
 - Write it so it's clearly website-authored, in plain language, not something that could be mistaken for ETSI's own wording.
 - Use `{{normative}}` / `{{informative}}` to link those words to their definition on the About page — don't hand-write an `<a>` tag (raw HTML isn't supported in this file).
+- To say a part is normative or informative, set the optional `"nature": "normative"` (or `"informative"`) field instead of writing the sentence out — the build appends the standard "It is normative/informative, which means …" wording automatically, so it can never drift between entries.
 - The slug you key it by must be a real page slug from `scripts/sitemap.json`.
 
 The build validates all of this automatically (unknown slug, duplicate key, empty/oversized text, raw HTML, placeholder text) — but it cannot judge whether a summary is *accurate*. Re-read it against the clause it summarises before committing.
