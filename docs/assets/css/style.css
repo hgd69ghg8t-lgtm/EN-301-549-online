@@ -271,14 +271,17 @@ a:hover { color: var(--colour-link-hover); }
 }
 .site-search input {
   font: inherit;
-  font-size: 0.9375rem;
+  /* 16px minimum: iOS Safari auto-zooms the page when focusing any
+     input with a smaller font, which blew the opened mobile search row
+     past the viewport edge. */
+  font-size: 1rem;
   min-width: 0;
   width: clamp(7rem, 18vw, 16rem);
   padding: 0.45rem 0.6rem;
   border: 2px solid var(--colour-border-strong);
   border-right: 0;
 }
-.site-search input:focus-visible { outline: 3px solid var(--colour-focus-dark); outline-offset: 2px; }
+.site-search input:focus-visible { outline: 3px solid var(--colour-focus-dark); outline-offset: -3px; }
 .site-search button {
   font-family: var(--font-heading);
   font-weight: 700;
