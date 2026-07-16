@@ -669,6 +669,9 @@ main { min-width: 0; }
 .content dd { margin: 0; max-width: var(--prose-measure); }
 
 /* ---------- Task-based homepage pathways ---------- */
+/* .content ul qualifier: outranks the generic .content ul indent so the
+   list sits flush left with its section heading. */
+.content ul.task-pathways,
 .task-pathways { list-style: none; padding-left: 0; margin: 0 0 var(--space-4); max-width: var(--prose-measure); }
 .task-pathways li { border-bottom: 1px solid var(--colour-border); padding: 0.85rem 0; }
 .task-pathways li:first-child { padding-top: 0; }
