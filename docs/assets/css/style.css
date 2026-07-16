@@ -1053,6 +1053,10 @@ main { min-width: 0; }
 }
 .back-to-top:hover {
   background: var(--colour-link-hover);
+  /* Must restate white: the global a:hover colour (the same dark blue
+     as this hover background) outranks .back-to-top's own colour and
+     made the label invisible. */
+  color: #ffffff;
   text-decoration: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: 0.15em;
