@@ -676,6 +676,15 @@ main { min-width: 0; }
 .task-pathways a { font-family: var(--font-heading); font-weight: 700; font-size: 1.05rem; }
 .task-pathways p { margin: 0.25rem 0 0; color: var(--colour-muted); }
 
+/* Homepage full-contents lists: flush-left links, one per line, no
+   bullet indent — aligned with their section heading. A .contents-note
+   is an optional website-authored aside that sits under its link in
+   muted text (e.g. Annex C's split explanation). */
+.content ul.contents-list,
+.content ol.contents-list { list-style: none; margin: 0 0 var(--space-3); padding-left: 0; max-width: var(--prose-measure); }
+.contents-list li { margin-bottom: 0.9rem; }
+.contents-list .contents-note { display: block; color: var(--colour-muted); font-size: 0.9375rem; margin-top: 0.1rem; }
+
 /* Reference list, e.g. [1], [i.1] */
 .ref-list { list-style: none; padding-left: 0; }
 .ref-list li { display: flex; gap: 0.75rem; margin-bottom: 0.6rem; }
