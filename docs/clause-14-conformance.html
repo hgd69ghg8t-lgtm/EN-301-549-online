@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>14 Conformance | ETSI EN 301 549 V4.1.0 Online</title>
 <meta name="description" content="14 Conformance — ETSI EN 301 549 V4.1.0 accessible HTML edition (final draft, under approval).">
-<link rel="stylesheet" href="assets/css/style.css?v=61fb7472">
+<link rel="stylesheet" href="assets/css/style.css?v=ef2733dd">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
@@ -17,11 +17,14 @@
   <div class="site-header__inner">
     <a class="site-header__brand" href="index.html"><img class="site-logo" src="assets/img/logo.svg" alt="" width="40" height="40"><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
     <nav class="site-header__nav" aria-label="About this website"><a href="about.html">About this HTML edition</a><a href="accessibility-statement.html">Accessibility statement</a></nav>
-    <form class="site-search" role="search" aria-label="Site search" action="search.html">
+    <button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
+    </button>
+    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
+    <form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
       <input type="search" name="q" aria-label="Search this standard" autocomplete="off">
       <button type="submit">Search</button>
     </form>
-    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
   </div>
 </header>
 <div class="accent-bar" aria-hidden="true"></div>
@@ -243,6 +246,6 @@
     <p>Unofficial HTML edition of the June 2026 final draft. Standard text &copy; ETSI 2026. <a href="about.html">Read how this edition was produced</a>.</p>
   </div>
 </footer>
-<script src="assets/js/site.js?v=23452e97"></script>
+<script src="assets/js/site.js?v=731e9098"></script>
 </body>
 </html>

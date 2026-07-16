@@ -213,6 +213,32 @@
     }
   });
 
+  // ---------- Mobile search disclosure ----------
+  // Mirrors the contents toggle above: on narrow screens the header
+  // search collapses to a magnifier icon button (CSS shows it only with
+  // .js); tapping it opens the form full-width and moves focus into the
+  // input. Escape closes and hands focus back. Without JavaScript the
+  // plain form is always visible, so search never depends on script.
+  var searchToggle = document.querySelector(".search-toggle");
+  var searchForm = document.querySelector(".site-search");
+  if (searchToggle && searchForm) {
+    // Named distinctly from the search page's own searchInput below —
+    // both share this function scope, so a duplicate var would collide.
+    var headerSearchInput = searchForm.querySelector("input[type='search']");
+    searchToggle.addEventListener("click", function () {
+      var open = searchForm.classList.toggle("is-open");
+      searchToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      if (open && headerSearchInput) headerSearchInput.focus();
+    });
+    searchForm.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && searchForm.classList.contains("is-open")) {
+        searchForm.classList.remove("is-open");
+        searchToggle.setAttribute("aria-expanded", "false");
+        searchToggle.focus();
+      }
+    });
+  }
+
   // ---------- Document toolbar: print ----------
   var printBtn = document.querySelector("[data-action='print']");
   if (printBtn) {

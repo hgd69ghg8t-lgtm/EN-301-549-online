@@ -1198,11 +1198,14 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
   <div class="site-header__inner">
     {site_title}
     {header_nav}
-    <form class="site-search" role="search" aria-label="Site search" action="search.html">
+    <button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
+    </button>
+    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
+    <form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
       <input type="search" name="q" aria-label="Search this standard" autocomplete="off">
       <button type="submit">Search</button>
     </form>
-    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
   </div>
 </header>
 <div class="accent-bar" aria-hidden="true"></div>

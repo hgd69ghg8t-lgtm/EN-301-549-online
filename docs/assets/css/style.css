@@ -224,12 +224,50 @@ a:hover { color: var(--colour-link-hover); }
   flex: 0 1 auto;
   min-width: 0;
 }
-/* On narrow screens (nav links hidden) the search stretches to fill the
-   row between the logo and the Contents toggle, so the header stays a
-   single tidy line instead of wrapping. */
+/* On narrow screens the search collapses to a magnifier icon button so
+   the brand, icon and Contents toggle share one row; tapping the icon
+   opens the form as a full-width row below (see site.js). Both the icon
+   and the collapse are gated on the .js class: without JavaScript the
+   plain form stays visible, stretched between the logo and the header
+   edge, so search never depends on script. */
+.search-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  flex: 0 0 auto;
+  margin-left: auto;
+  background: #ffffff;
+  border: 2px solid var(--colour-border-strong);
+  color: var(--colour-text);
+  cursor: pointer;
+}
+.search-toggle svg { width: 1.3rem; height: 1.3rem; }
+.search-toggle:hover { border-color: var(--colour-link); color: var(--colour-link); }
+.search-toggle[aria-expanded="true"] {
+  background: var(--colour-link);
+  border-color: var(--colour-link);
+  color: #ffffff;
+}
+.search-toggle[aria-expanded="true"]:hover {
+  background: var(--colour-link-hover);
+  border-color: var(--colour-link-hover);
+}
 @media (max-width: 61.99em) {
   .site-search { flex: 1 1 8rem; }
-  .site-search input { width: 100%; }
+  /* flex-grow, not width: the later base rule's clamp() width would win
+     over an equal-specificity width override, but it sets no flex, so
+     the input grows to fill the form row in both the no-JS and the
+     opened-by-icon states. */
+  .site-search input { flex: 1 1 auto; }
+  .js .search-toggle { display: inline-flex; }
+  .js .site-search { display: none; }
+  .js .site-search.is-open { display: flex; flex: 1 1 100%; margin-top: 0.6rem; }
+  /* Make room for the one-row brand + icon + Contents arrangement. */
+  .site-header__inner { gap: 0.5rem; }
+  .site-wordmark { font-size: clamp(1.05rem, 4.2vw, 1.45rem); }
+  .site-logo { width: 2rem; height: 2rem; }
 }
 .site-search input {
   font: inherit;
@@ -415,7 +453,9 @@ html[data-text-spacing="enhanced"] .content p {
 }
 .toc-toggle:hover { background: var(--colour-link-hover); }
 @media (max-width: 61.99em) {
-  .js .toc-toggle { display: inline-flex; }
+  /* margin-left: auto would fight the search icon's own auto margin
+     (free space would split between them); the icon carries the push. */
+  .js .toc-toggle { display: inline-flex; margin-left: 0; padding: 0.55rem 0.7rem; }
 }
 
 /* ---------- Layout shell ----------
