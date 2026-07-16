@@ -200,22 +200,26 @@ async function main() {
     await context.close();
   }
 
-  // Global link hover styles must not override the toolbar's light text on
-  // its dark button background (regression: Download PDF label disappeared).
+  // Global link hover styles must not make a menu item's label illegible
+  // against its hover background (regression: Download PDF label
+  // disappeared when a hover colour matched the hover background). The
+  // link now lives inside the Page tools menu, so open that first.
   {
     const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
     const page = await context.newPage();
     await page.goto(`http://127.0.0.1:${port}/clause-1-scope.html`);
+    await page.locator(".page-tools > summary").click();
     const download = page.getByRole("link", { name: "Download the official ETSI standard as a PDF" });
     await download.hover();
     const visible = await download.evaluate((element) => {
       const style = getComputedStyle(element);
       return element.getClientRects().length > 0 &&
         style.visibility === "visible" &&
-        style.color === "rgb(255, 255, 255)" &&
+        style.color === "rgb(26, 26, 26)" &&
+        style.backgroundColor === "rgb(243, 242, 241)" &&
         element.textContent.trim() === "Download PDF";
     });
-    if (!visible) failures.push("Download PDF label is not visible on hover");
+    if (!visible) failures.push("Download PDF label is not visible on hover inside the Page tools menu");
     await context.close();
   }
 

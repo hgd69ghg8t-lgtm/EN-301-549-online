@@ -1064,12 +1064,18 @@ def build_doc_header(page):
         breadcrumb.append(f'<li aria-current="page">{html.escape(page["shortTitle"])}</li>')
     breadcrumb.append('</ol></nav>')
 
+    icon = {
+        "print": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>',
+        "download": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>',
+        "link": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg>',
+        "bookmark": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg>',
+    }
     bookmark = ""
     if page["group"]:
         bookmark = (
-            f'<button type="button" class="doc-toolbar__btn" data-action="bookmark" '
+            f'<button type="button" class="page-tools__item" data-action="bookmark" '
             f'data-page-slug="{html.escape(page["slug"])}" aria-pressed="false">'
-            '<span class="bookmark-label">Bookmark page</span></button>'
+            f'{icon["bookmark"]}<span class="bookmark-label">Bookmark page</span></button>'
         )
 
     return f"""<div class="doc-header">
@@ -1080,11 +1086,14 @@ def build_doc_header(page):
         <h1>{html.escape(page["title"])}</h1>
       </div>
     </div>
-    <div class="doc-toolbar" role="group" aria-label="Document actions">
-      <button type="button" class="doc-toolbar__btn" data-action="print">Print</button>
-      <a class="doc-toolbar__btn" href="source/{SOURCE_PDF_NAME}" aria-label="Download the official ETSI standard as a PDF">Download PDF</a>
-      <button type="button" class="doc-toolbar__btn" data-action="copy-link">
-        <span class="doc-toolbar__btn-label">Copy link</span>
+    <div class="doc-toolbar">
+      <details class="page-tools">
+      <summary>Page tools</summary>
+      <div class="page-tools__panel">
+      <button type="button" class="page-tools__item" data-action="print">{icon['print']}Print this page</button>
+      <a class="page-tools__item" href="source/{SOURCE_PDF_NAME}" aria-label="Download the official ETSI standard as a PDF">{icon['download']}Download PDF</a>
+      <button type="button" class="page-tools__item" data-action="copy-link">
+        {icon['link']}<span class="doc-toolbar__btn-label">Copy link to this page</span>
         <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
       </button>
       {bookmark}
@@ -1107,6 +1116,8 @@ def build_doc_header(page):
             <ul data-recent-list><li>No recently viewed pages yet.</li></ul>
           </section>
         </div>
+      </details>
+      </div>
       </details>
     </div>
   </div>

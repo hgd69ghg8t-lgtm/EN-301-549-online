@@ -229,6 +229,19 @@
     });
   }
 
+  // ---------- Page tools menu ----------
+  // Native details/summary does open/close on its own; this only adds
+  // Escape-to-close with focus handed back to the Page tools button.
+  var pageTools = document.querySelector(".page-tools");
+  if (pageTools) {
+    pageTools.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && pageTools.open) {
+        pageTools.open = false;
+        pageTools.querySelector("summary").focus();
+      }
+    });
+  }
+
   // ---------- Document toolbar: print ----------
   var printBtn = document.querySelector("[data-action='print']");
   if (printBtn) {
