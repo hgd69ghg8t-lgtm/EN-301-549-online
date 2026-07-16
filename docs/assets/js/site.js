@@ -176,20 +176,13 @@
   }
 
   // ---------- Mobile contents disclosure ----------
-  // An in-flow expand/collapse panel (not a full-screen overlay), so
-  // opening it never hides other page content behind it and keyboard
-  // focus is never trapped or lost. Both the header toggle and the
-  // in-panel close button flip the same aria-expanded/is-open state.
+  // A plain in-flow disclosure: the Contents bar sits directly above the
+  // panel it expands (top of the page body on narrow screens), so focus
+  // stays on the button when it opens — the panel is the very next thing
+  // in reading order. Escape closes and keeps focus on the button.
   var toggle = document.querySelector(".toc-toggle");
   var nav = document.querySelector(".site-nav");
-  var closeBtn = document.querySelector(".site-nav__close");
 
-  function openNav() {
-    if (!nav) return;
-    nav.classList.add("is-open");
-    if (toggle) toggle.setAttribute("aria-expanded", "true");
-    if (closeBtn) closeBtn.focus();
-  }
   function closeNav() {
     if (!nav) return;
     nav.classList.remove("is-open");
@@ -200,12 +193,9 @@
   }
   if (toggle && nav) {
     toggle.addEventListener("click", function () {
-      var expanded = toggle.getAttribute("aria-expanded") === "true";
-      if (expanded) { closeNav(); } else { openNav(); }
+      var open = nav.classList.toggle("is-open");
+      toggle.setAttribute("aria-expanded", open ? "true" : "false");
     });
-  }
-  if (closeBtn) {
-    closeBtn.addEventListener("click", closeNav);
   }
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && nav && nav.classList.contains("is-open")) {

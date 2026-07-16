@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>8 Hardware | ETSI EN 301 549 V4.1.0 Online</title>
 <meta name="description" content="8 Hardware — ETSI EN 301 549 V4.1.0 accessible HTML edition (final draft, under approval).">
-<link rel="stylesheet" href="assets/css/style.css?v=ef2733dd">
+<link rel="stylesheet" href="assets/css/style.css?v=85316636">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
@@ -20,7 +20,6 @@
     <button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
     </button>
-    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
     <form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
       <input type="search" name="q" aria-label="Search this standard" autocomplete="off">
       <button type="submit">Search</button>
@@ -70,8 +69,9 @@
 </div>
 
 <div class="page-shell">
-  <nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
-<button type="button" class="site-nav__close" aria-label="Close table of contents"><span aria-hidden="true">Table of contents</span><span aria-hidden="true">&times;</span></button>
+  <div class="page-sidebar">
+    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
+    <nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
 <div class="site-nav__header">Contents</div>
 <p><a href="index.html">Home</a></p>
 <details><summary>About and legal information</summary><ul>
@@ -195,6 +195,7 @@
 </li>
 </ul></details>
 </nav>
+  </div>
   <main id="main-content" tabindex="-1">
     <div class="content">
       <div class="clause-summary"><h2 id="about-this-page">About this clause</h2><p>Clause 8 covers physical products, including their controls, displays and connectors. It sets out what makes hardware accessible to use.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div><nav class="on-this-page" aria-labelledby="on-this-page-heading">
@@ -509,6 +510,6 @@
     <p>Unofficial HTML edition of the June 2026 final draft. Standard text &copy; ETSI 2026. <a href="about.html">Read how this edition was produced</a>.</p>
   </div>
 </footer>
-<script src="assets/js/site.js?v=731e9098"></script>
+<script src="assets/js/site.js?v=bd60e781"></script>
 </body>
 </html>

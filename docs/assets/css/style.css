@@ -437,25 +437,45 @@ html[data-text-spacing="enhanced"] .content p {
   margin-top: 2em;
   margin-bottom: 2em;
 }
+/* In-page contents disclosure bar for narrow screens: sits directly
+   above the collapsed nav panel (top of the page body, where the sidebar
+   stacks on mobile), not in the header. Shown only with JavaScript —
+   without it the panel is simply always open below, so no button is
+   needed (a control with no behaviour would be a dead control). */
 .toc-toggle {
   display: none;
-  margin-left: auto;
+  width: 100%;
   font-family: var(--font-heading);
   font-weight: 700;
-  font-size: 0.8125rem;
-  background: var(--colour-text);
+  font-size: 0.9375rem;
+  background: var(--colour-site-header-bg);
   color: #ffffff;
   border: 0;
-  padding: 0.55rem 0.9rem;
+  padding: var(--space-3);
   align-items: center;
+  justify-content: space-between;
   gap: 0.4rem;
   cursor: pointer;
 }
+.toc-toggle::after {
+  /* chevron state cue: points down when closed, up when open */
+  content: "";
+  flex: 0 0 auto;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 0.2rem solid currentColor;
+  border-bottom: 0.2rem solid currentColor;
+  transform: rotate(45deg);
+  margin-top: -0.25rem;
+}
+.toc-toggle[aria-expanded="true"]::after {
+  transform: rotate(225deg);
+  margin-top: 0.25rem;
+}
 .toc-toggle:hover { background: var(--colour-link-hover); }
 @media (max-width: 61.99em) {
-  /* margin-left: auto would fight the search icon's own auto margin
-     (free space would split between them); the icon carries the push. */
-  .js .toc-toggle { display: inline-flex; margin-left: 0; padding: 0.55rem 0.7rem; }
+  .js .toc-toggle { display: flex; }
+  .page-sidebar { margin-bottom: var(--space-4); }
 }
 
 /* ---------- Layout shell ----------
@@ -1074,32 +1094,20 @@ main { min-width: 0; }
 @media (max-width: 61.99em) {
   .site-nav {
     border: 1px solid var(--colour-border);
-    margin-bottom: var(--space-4);
     max-height: 70vh;
     overflow-y: auto;
     background: var(--colour-background);
   }
   .js .site-nav { display: none; }
   .js .site-nav.is-open { display: block; }
-  .site-nav__close { display: none; }
-  .js .site-nav__close {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    background: var(--colour-site-header-bg);
-    color: #ffffff;
-    border: 0;
-    padding: var(--space-3);
-    font-family: var(--font-heading);
-    font-weight: 700;
-    cursor: pointer;
-  }
   .site-nav__header { display: none; }
 }
 @media (min-width: 62em) {
-  .site-nav { position: sticky; top: var(--space-4); max-height: calc(100vh - 2 * var(--space-4)); overflow-y: auto; border: 1px solid var(--colour-border); }
-  .site-nav__close { display: none; }
+  /* Sticky lives on the wrapper, not the nav: the grid's align-items:
+     start sizes the wrapper to its content, and the nav sticks within
+     the column as the page scrolls. */
+  .page-sidebar { position: sticky; top: var(--space-4); }
+  .site-nav { max-height: calc(100vh - 2 * var(--space-4)); overflow-y: auto; border: 1px solid var(--colour-border); }
 }
 
 /* ---------- Reduced motion ----------

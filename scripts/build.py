@@ -1034,9 +1034,6 @@ def build_site_nav(current_slug, current_headings):
         groups[g].append(page)
 
     parts = ['<nav id="site-nav-panel" class="site-nav" aria-label="Site contents">',
-             '<button type="button" class="site-nav__close" aria-label="Close table of contents">'
-             '<span aria-hidden="true">Table of contents</span>'
-             '<span aria-hidden="true">&times;</span></button>',
              '<div class="site-nav__header">Contents</div>']
     parts.append('<p><a href="index.html">Home</a></p>')
     for g in order:
@@ -1201,7 +1198,6 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
     <button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
     </button>
-    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
     <form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
       <input type="search" name="q" aria-label="Search this standard" autocomplete="off">
       <button type="submit">Search</button>
@@ -1213,7 +1209,10 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 {doc_header}
 
 <div class="page-shell">
-  {site_nav}
+  <div class="page-sidebar">
+    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
+    {site_nav}
+  </div>
   <main id="main-content" tabindex="-1">
     <div class="content">
       {content}
