@@ -477,7 +477,10 @@ html[data-text-spacing="enhanced"] .content p {
   transform: rotate(225deg);
   margin-top: 0.25rem;
 }
-.toc-toggle:hover { background: var(--colour-link); }
+/* No background shift on hover — taps leave :hover stuck on touch
+   screens, so a colour change reads as a broken state. Underline the
+   label for pointer feedback instead; the chevron carries open/closed. */
+.toc-toggle:hover { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.15em; }
 @media (max-width: 61.99em) {
   .js .toc-toggle { display: flex; }
   .page-sidebar { margin-bottom: var(--space-4); }
