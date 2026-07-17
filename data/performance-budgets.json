@@ -1,0 +1,49 @@
+{
+  "comment": [
+    "Performance baseline and budgets for scripts/check-performance.mjs.",
+    "All numbers are measured against the LOCAL generated docs/ site over a",
+    "loopback server (never the public internet), on a mobile viewport with",
+    "a fast-3G-class network profile and 4x CPU throttling — see the",
+    "'profile' block in the measurement output. Byte budgets are exact and",
+    "deterministic; timing budgets carry wide tolerances so CI never fails",
+    "on scheduler jitter. Run: npm run test:performance",
+    "The 'baseline' block is the measured state of the site BEFORE the 2026",
+    "performance work, kept for comparison; 'budgets' is what CI enforces."
+  ],
+  "baseline": {
+    "measuredOn": "2026-07-17",
+    "staticSizes": {
+      "cssBytes": 51712,
+      "jsBytes": 32666,
+      "fontBytes": 68198,
+      "searchIndexBytes": 737090,
+      "largestHtmlPage": "annex-za-directive-2016-2102.html",
+      "largestHtmlBytes": 130252,
+      "totalHtmlBytes": 1734144
+    },
+    "pages": {
+      "index.html": { "requests": 6, "transferBytes": 169830, "domContentLoadedMs": 938, "loadMs": 1397, "fcpMs": 920, "lcpMs": 920, "cls": 0, "scriptMs": 15, "longTasks": [135], "domNodes": 297 },
+      "clause-3-definitions.html": { "requests": 6, "transferBytes": 221900, "domContentLoadedMs": 974, "loadMs": 1464, "fcpMs": 936, "lcpMs": 936, "cls": 0.0291, "scriptMs": 18, "longTasks": [175, 103], "domNodes": 1072 },
+      "clause-9-web.html": { "requests": 6, "transferBytes": 206850, "domContentLoadedMs": 922, "loadMs": 1405, "fcpMs": 900, "lcpMs": 900, "cls": 0, "scriptMs": 18, "longTasks": [189, 84], "domNodes": 904 },
+      "annex-b-functional-performance-relationship.html": { "requests": 6, "transferBytes": 230200, "domContentLoadedMs": 1780, "loadMs": 2689, "fcpMs": 1596, "lcpMs": 1596, "cls": 0.0017, "scriptMs": 23, "longTasks": [793, 670, 336], "domNodes": 4668 },
+      "search.html": { "requests": 7, "transferBytes": 902000, "domContentLoadedMs": 854, "loadMs": 1527, "fcpMs": 860, "lcpMs": 860, "cls": 0.0454, "scriptMs": 20, "longTasks": [78], "domNodes": 218, "searchResponseMs": 2808 }
+    }
+  },
+  "budgets": {
+    "totalCssBytes": 51712,
+    "coreJsBytes": 32666,
+    "totalJsBytes": 32666,
+    "fontBytes": 68198,
+    "largestHtmlBytes": 130252,
+    "suggestionsIndexBytes": 737090,
+    "fullSearchIndexBytes": 737090,
+    "maxInitialRequests": 7,
+    "maxInitialTransferBytes": 925000,
+    "maxDomNodes": 4700,
+    "maxCls": 0.05,
+    "maxScriptDurationMs": 250,
+    "maxLongTasks": 4,
+    "maxSearchResponseMs": 4000,
+    "forbidFullIndexOnOrdinaryPages": false
+  }
+}
