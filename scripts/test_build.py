@@ -90,7 +90,7 @@ class ThemeChromeConstantTests(unittest.TestCase):
     compares two independent artefacts, so a change to any single place
     fails here rather than drifting silently."""
 
-    CSS = (ROOT / "docs" / "assets" / "css" / "style.css").read_text(encoding="utf-8")
+    CSS = (ROOT / "scripts" / "source" / "style.css").read_text(encoding="utf-8")
     PAGE = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
 
     def test_constants_match_the_css_tokens_they_mirror(self):
@@ -110,8 +110,10 @@ class ThemeChromeConstantTests(unittest.TestCase):
                       self.PAGE)
 
     def test_pre_paint_script_carries_the_constants(self):
-        self.assertIn(f'var LIGHT = "{build.THEME_CHROME_LIGHT}", DARK = "{build.THEME_CHROME_DARK}";',
-                      self.PAGE)
+        expected = (build.THEME_SCRIPT
+                    .replace("@LIGHT@", build.THEME_CHROME_LIGHT)
+                    .replace("@DARK@", build.THEME_CHROME_DARK))
+        self.assertIn(f"<script>{expected}</script>", self.PAGE)
 
     def test_favicon_palette_aligns_with_site_backgrounds(self):
         # The favicon is necessarily a separate SVG asset (a favicon cannot
@@ -130,29 +132,49 @@ class PrePaintOrderingTests(unittest.TestCase):
     """Static ordering evidence for the no-flash design: the theme script
     is synchronous and precedes the stylesheet in the generated HTML, so
     an explicit theme is applied before the stylesheet can first paint
-    with the wrong tokens. (Real first-paint behaviour is still worth an
-    occasional manual look in real browsers.)"""
+    with the wrong tokens. The script itself is emitted pre-minified —
+    the full rationale lives as a comment above THEME_SCRIPT in
+    scripts/build.py and in the README, not repeated in every page.
+    (Real first-paint behaviour is still worth an occasional manual look
+    in real browsers.)"""
 
     PAGE = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
 
     def script(self):
-        start = self.PAGE.index("Theme apply, deliberately placed before the stylesheet")
+        # The theme script is the page's first inline <script>.
+        start = self.PAGE.index("<script>") + len("<script>")
         return self.PAGE[start:self.PAGE.index("</script>", start)]
 
     def test_theme_script_precedes_the_stylesheet(self):
-        self.assertLess(self.PAGE.index("Theme apply, deliberately placed before the stylesheet"),
+        self.assertLess(self.PAGE.index("<script>"),
                         self.PAGE.index('<link rel="stylesheet"'))
+
+    def test_theme_script_is_inline_and_synchronous(self):
+        # The document's first script of any kind must be the bare inline
+        # <script> (no src/defer/async attributes) — it has to run in
+        # place, before the stylesheet is even discovered, and no
+        # external script may be discovered ahead of it.
+        self.assertEqual(self.PAGE.index("<script"), self.PAGE.index("<script>"))
 
     def test_theme_metas_precede_the_script(self):
         # the script writes to both metas, so they must already be parsed
         self.assertLess(self.PAGE.index('id="theme-colour-light"'),
-                        self.PAGE.index("Theme apply, deliberately placed before the stylesheet"))
+                        self.PAGE.index("<script>"))
 
     def test_script_applies_the_theme_synchronously(self):
         script = self.script()
         self.assertIn('localStorage.getItem("accessibleDocs.readerPrefs.v1")', script)
-        self.assertIn('document.documentElement.setAttribute("data-theme", theme)', script)
-        self.assertIn("window.__syncThemeColour(theme || \"auto\")", script)
+        self.assertIn('document.documentElement.setAttribute("data-theme",t)', script)
+        self.assertIn('window.__syncThemeColour(t||"auto")', script)
+
+    def test_malformed_storage_cannot_break_rendering(self):
+        # The storage read/parse is wrapped in try/catch and only the two
+        # literal theme names are accepted — garbage in localStorage can
+        # never set an attribute or throw before first paint.
+        script = self.script()
+        self.assertIn("try{", script)
+        self.assertIn("catch(e){}", script)
+        self.assertIn('p.theme==="dark"||p.theme==="light"', script)
 
     def test_script_needs_no_asynchronous_step(self):
         script = self.script()
@@ -160,6 +182,104 @@ class PrePaintOrderingTests(unittest.TestCase):
                           "addEventListener", ".then(", "await ", "Promise"):
             self.assertNotIn(forbidden, script,
                              f"pre-paint script must be synchronous; found {forbidden!r}")
+
+
+class HtmlMinificationTests(unittest.TestCase):
+    """minify_page_html() may only remove indentation and blank lines
+    outside preformatted content — the whitespace-collapsed visible text
+    must be identical before and after, and <pre>/<textarea> content must
+    pass through byte-for-byte."""
+
+    def test_strips_indentation_and_blank_lines(self):
+        src = "<div>\n   <p>hello\n      world</p>\n\n</div>\n"
+        out = build.minify_page_html(src)
+        self.assertEqual(out, "<div>\n<p>hello\nworld</p>\n</div>\n")
+        self.assertEqual(build.canonical_etsi_text(out), build.canonical_etsi_text(src))
+
+    def test_preformatted_content_is_untouched(self):
+        src = "<div>\n  <pre>\n   indented\n\n  kept</pre>\n  <p>after</p>\n</div>\n"
+        out = build.minify_page_html(src)
+        self.assertIn("\n   indented\n\n  kept</pre>", out)
+        self.assertIn("<p>after</p>", out)
+        self.assertNotIn("  <p>after</p>", out)
+
+    def test_generated_pages_preserve_visible_text(self):
+        # End-to-end on a real generated page: the committed docs/ page is
+        # minified output; its canonical text must match a fresh render's.
+        page = (ROOT / "docs" / "clause-9-web.html").read_text(encoding="utf-8")
+        self.assertEqual(build.canonical_etsi_text(build.minify_page_html(page)),
+                         build.canonical_etsi_text(page))
+
+
+class HashedAssetTests(unittest.TestCase):
+    """The content-hashed filename scheme: hashes derive from final
+    production bytes, change exactly when the bytes change, and every
+    generated page references only assets that exist."""
+
+    def test_hash_is_deterministic_and_content_derived(self):
+        self.assertEqual(build.content_hash("body{}"), build.content_hash("body{}"))
+        self.assertNotEqual(build.content_hash("body{}"), build.content_hash("body{color:red}"))
+        self.assertTrue(re.fullmatch(r"[0-9a-f]{8}", build.content_hash("x")))
+
+    def test_changing_one_source_changes_only_that_filename(self):
+        minified = {"style.css": "body{}", "core.js": "var a=1;"}
+        before = build.hashed_asset_names(minified)
+        after = build.hashed_asset_names({"style.css": "body{color:red}", "core.js": "var a=1;"})
+        self.assertNotEqual(before["style.css"], after["style.css"])
+        self.assertEqual(before["core.js"], after["core.js"])
+        self.assertTrue(re.fullmatch(r"style\.[0-9a-f]{8}\.css", before["style.css"]))
+
+    def test_generated_pages_reference_no_unhashed_or_stale_assets(self):
+        docs = ROOT / "docs"
+        on_disk = ({f"assets/css/{p.name}" for p in (docs / "assets" / "css").glob("*.css")} |
+                   {f"assets/js/{p.name}" for p in (docs / "assets" / "js").glob("*.js")} |
+                   {p.name for p in docs.glob("search-index*.json")} |
+                   {p.name for p in docs.glob("search-suggestions*.json")})
+        referenced = set()
+        for page in docs.glob("*.html"):
+            html_text = page.read_text(encoding="utf-8")
+            for ref in build.collect_asset_refs(html_text):
+                if ref.endswith((".css", ".js", ".json")):
+                    referenced.add(ref)
+                    self.assertIn(ref, on_disk,
+                                  f"{page.name} references {ref}, which is not on disk")
+        # ...and the reverse: nothing hashed on disk goes unreferenced.
+        self.assertEqual(on_disk - referenced, set(),
+                         "stale hashed production assets exist that no page references")
+
+    def test_core_script_is_deferred_in_head(self):
+        page = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
+        head = page[:page.index("</head>")]
+        self.assertRegex(head, r'<script defer src="assets/js/core\.[0-9a-f]{8}\.js"></script>')
+        # and no script tag at the end of <body> any more
+        body_tail = page[page.rindex("</footer>"):]
+        self.assertNotIn("<script", body_tail)
+
+    def test_tables_bundle_only_on_pages_with_tables(self):
+        with_tables = (ROOT / "docs" / "clause-9-web.html").read_text(encoding="utf-8")
+        without_tables = (ROOT / "docs" / "clause-4-functional-performance.html").read_text(encoding="utf-8")
+        self.assertRegex(with_tables, r'assets/js/tables\.[0-9a-f]{8}\.js')
+        self.assertNotIn("assets/js/tables.", without_tables)
+
+    def test_ordinary_pages_never_name_the_full_search_index(self):
+        ordinary = (ROOT / "docs" / "clause-9-web.html").read_text(encoding="utf-8")
+        search_page = (ROOT / "docs" / "search.html").read_text(encoding="utf-8")
+        self.assertNotIn("data-search-index", ordinary)
+        self.assertIn("data-search-index", search_page)
+        self.assertIn("data-search-worker", search_page)
+        self.assertIn("data-suggest-index", ordinary)
+
+    def test_no_production_webfonts(self):
+        fonts_dir = ROOT / "docs" / "assets" / "fonts"
+        woff2 = list(fonts_dir.glob("**/*.woff2")) if fonts_dir.exists() else []
+        self.assertEqual(woff2, [], "production output must not ship webfont files")
+        for page in (ROOT / "docs").glob("*.html"):
+            self.assertNotIn(".woff2", page.read_text(encoding="utf-8"),
+                             f"{page.name} references a webfont")
+        css_files = list((ROOT / "docs" / "assets" / "css").glob("*.css"))
+        for css in css_files:
+            self.assertNotIn("@font-face", css.read_text(encoding="utf-8"),
+                             f"{css.name} still declares a webfont")
 
 
 if __name__ == "__main__":

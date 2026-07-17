@@ -8,36 +8,7 @@
 <meta id="theme-colour-light" name="theme-color" media="(prefers-color-scheme: light)" content="#14245a">
 <meta id="theme-colour-dark" name="theme-color" media="(prefers-color-scheme: dark)" content="#16191d">
 <link rel="canonical" href="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/annex-c-5-generic-requirements.html">
-<script>/* Theme apply, deliberately placed before the stylesheet link and
-kept synchronous (scripts/test_build.py asserts both statically): an
-explicit Dark/Light choice is set on <html> before the stylesheet can
-first paint with the wrong tokens, preventing — or at worst minimising —
-a wrong-theme flash. Also keeps
-the browser-chrome theme-color in step with the RESOLVED theme — on an
-explicit choice both meta elements get the same value, so whichever
-media query the OS matches, the chrome colour agrees with the page.
-site.js reuses __syncThemeColour when the choice changes mid-session.
-The hex values are injected from build.py (THEME_CHROME_*), the single
-source the unit tests check the CSS and generated output against.
-Everything else about theming is CSS; without JavaScript the OS
-preference applies. */
-(function () {
-  var LIGHT = "#14245a", DARK = "#16191d";
-  window.__syncThemeColour = function (theme) {
-    var l = document.getElementById("theme-colour-light");
-    var d = document.getElementById("theme-colour-dark");
-    if (!l || !d) return;
-    l.content = theme === "dark" ? DARK : LIGHT;
-    d.content = theme === "light" ? LIGHT : DARK;
-  };
-  var theme = null;
-  try {
-    var p = JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));
-    if (p && (p.theme === "dark" || p.theme === "light")) theme = p.theme;
-  } catch (e) {}
-  if (theme) document.documentElement.setAttribute("data-theme", theme);
-  window.__syncThemeColour(theme || "auto");
-})();</script>
+<script>(function(){var L="#14245a",D="#16191d";window.__syncThemeColour=function(t){var l=document.getElementById("theme-colour-light"),d=document.getElementById("theme-colour-dark");if(l&&d){l.content=t==="dark"?D:L;d.content=t==="light"?L:D}};var t=null;try{var p=JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));if(p&&(p.theme==="dark"||p.theme==="light"))t=p.theme}catch(e){}if(t)document.documentElement.setAttribute("data-theme",t);window.__syncThemeColour(t||"auto")})();</script>
 <meta property="og:site_name" content="ETSI EN 301 549 V4.1.0 Online">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Annex C.5 (normative): Generic requirements | ETSI EN 301 549 V4.1.0 Online">
@@ -45,84 +16,83 @@ preference applies. */
 <meta property="og:url" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/annex-c-5-generic-requirements.html">
 <meta property="og:image" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/assets/img/apple-touch-icon.png">
 <meta name="twitter:card" content="summary">
-<link rel="stylesheet" href="assets/css/style.css?v=c5430ccf">
+<link rel="stylesheet" href="assets/css/style.18c586c2.css">
+<script defer src="assets/js/core.06591bb3.js"></script>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 </head>
-<body data-page-slug="annex-c-5-generic-requirements" data-page-title="Annex C.5 (normative): Generic requirements" data-page-group="Annex C: Determination of conformance">
+<body data-page-slug="annex-c-5-generic-requirements" data-page-title="Annex C.5 (normative): Generic requirements" data-page-group="Annex C: Determination of conformance" data-search-js="assets/js/search.3f91c211.js" data-reader-js="assets/js/reader-library.63836e18.js" data-suggest-index="search-suggestions.e295bad5.json">
 <a class="skip-link" id="top" href="#main-content">Skip to main content</a>
-
+<div class="top-sentinel" aria-hidden="true"></div>
 <header class="site-header">
-  <div class="site-header__inner">
-    <a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
-    <nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
-    <button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
-    </button>
-    <form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
-      <input type="search" name="q" aria-label="Search this standard" autocomplete="off">
-      <button type="submit">Search</button>
-    </form>
-  </div>
+<div class="site-header__inner">
+<a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
+<nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
+<button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
+</button>
+<form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
+<input type="search" name="q" aria-label="Search this standard" autocomplete="off">
+<button type="submit">Search</button>
+</form>
+</div>
 </header>
 <div class="accent-bar" aria-hidden="true"></div>
-
 <div class="doc-header">
-  <div class="doc-header__inner">
-    <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Annex C: Determination of conformance</li><li aria-current="page">Annex C.5: Generic requirements</li></ol></nav>
-    <div class="doc-header__top">
-      <div>
-        <h1>Annex C.5 (normative): Generic requirements</h1>
-      </div>
-    </div>
-    <div class="doc-toolbar">
-      <details class="page-tools">
-      <summary>Page tools</summary>
-      <div class="page-tools__panel">
-      <button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
-      <a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
-      <button type="button" class="page-tools__item" data-action="copy-link">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
-        <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
-      </button>
-      <button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="annex-c-5-generic-requirements" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
-      <details class="reader-tools">
-        <summary>Reading options</summary>
-        <div class="reader-tools__panel">
-          <fieldset>
-            <legend>Text width</legend>
-            <label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
-            <label><input type="radio" name="reading-width" value="wide"> Wide</label>
-          </fieldset>
-          <fieldset>
-            <legend>Colour theme</legend>
-            <label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
-            <label><input type="radio" name="colour-theme" value="light"> Light</label>
-            <label><input type="radio" name="colour-theme" value="dark"> Dark</label>
-          </fieldset>
-          <label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
-          <button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
-          <p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
-          <section class="reader-library" aria-labelledby="saved-pages-heading">
-            <h2 id="saved-pages-heading">Saved pages</h2>
-            <h3>Bookmarks</h3>
-            <ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
-            <h3>Recently viewed</h3>
-            <ul data-recent-list><li>No recently viewed pages yet.</li></ul>
-          </section>
-        </div>
-      </details>
-      </div>
-      </details>
-    </div>
-  </div>
+<div class="doc-header__inner">
+<nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Annex C: Determination of conformance</li><li aria-current="page">Annex C.5: Generic requirements</li></ol></nav>
+<div class="doc-header__top">
+<div>
+<h1>Annex C.5 (normative): Generic requirements</h1>
 </div>
-
+</div>
+<div class="doc-toolbar">
+<details class="page-tools">
+<summary>Page tools</summary>
+<div class="page-tools__panel">
+<button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
+<a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
+<button type="button" class="page-tools__item" data-action="copy-link">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
+<span class="doc-toolbar__btn-status" aria-hidden="true"></span>
+</button>
+<button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="annex-c-5-generic-requirements" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
+<details class="reader-tools">
+<summary>Reading options</summary>
+<div class="reader-tools__panel">
+<fieldset>
+<legend>Text width</legend>
+<label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
+<label><input type="radio" name="reading-width" value="wide"> Wide</label>
+</fieldset>
+<fieldset>
+<legend>Colour theme</legend>
+<label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
+<label><input type="radio" name="colour-theme" value="light"> Light</label>
+<label><input type="radio" name="colour-theme" value="dark"> Dark</label>
+</fieldset>
+<label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
+<button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
+<p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
+<section class="reader-library" aria-labelledby="saved-pages-heading">
+<h2 id="saved-pages-heading">Saved pages</h2>
+<h3>Bookmarks</h3>
+<ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
+<h3>Recently viewed</h3>
+<ul data-recent-list><li>No recently viewed pages yet.</li></ul>
+</section>
+</div>
+</details>
+</div>
+</details>
+</div>
+</div>
+</div>
 <div class="page-shell">
-  <div class="page-sidebar">
-    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
-    <nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
+<div class="page-sidebar">
+<button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
+<nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
 <div class="site-nav__header">Contents</div>
 <p><a href="index.html">Home</a></p>
 <p><a href="about.html">About</a></p>
@@ -242,10 +212,10 @@ preference applies. */
 </li>
 </ul></details>
 </nav>
-  </div>
-  <main id="main-content" tabindex="-1">
-    <div class="content">
-      <div class="clause-summary"><h2 id="about-this-page">About this annex</h2><p>Annex C.5 describes ways to determine whether the requirements in clause 5 (generic requirements) are met.</p><p>It is <a href="about.html#normative-and-informative">normative</a>, which means it forms part of the requirements of the standard.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div><nav class="on-this-page" aria-labelledby="on-this-page-heading">
+</div>
+<main id="main-content" tabindex="-1">
+<div class="content">
+<div class="clause-summary"><h2 id="about-this-page">About this annex</h2><p>Annex C.5 describes ways to determine whether the requirements in clause 5 (generic requirements) are met.</p><p>It is <a href="about.html#normative-and-informative">normative</a>, which means it forms part of the requirements of the standard.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div><nav class="on-this-page" aria-labelledby="on-this-page-heading">
 <h2 id="on-this-page-heading">On this page</h2>
 <ul>
 <li><a href="#c-5-1">C.5.1 Closed functionality</a>
@@ -289,15 +259,11 @@ preference applies. */
 </ul></li>
 </ul></nav>
 <h2 id="c-5-1"><a class="heading-link" href="#c-5-1" data-copy-link>C.5.1 Closed functionality</a></h2>
-
 <h3 id="c-5-1-1"><a class="heading-link" href="#c-5-1-1" data-copy-link>C.5.1.1 Introduction (informative)</a></h3>
 <p>Clause <a class="xref" href="clause-5-generic-requirements.html#5-1-1">5.1.1</a> is informative only and contains no testable requirements.</p>
-
 <h3 id="c-5-1-2"><a class="heading-link" href="#c-5-1-2" data-copy-link>C.5.1.2 General</a></h3>
-
 <h4 id="c-5-1-2-1"><a class="heading-link" href="#c-5-1-2-1" data-copy-link>C.5.1.2.1 Closed functionality</a></h4>
 <p>See clauses <a class="xref" href="#c-5-2">C.5.2</a> to C.13, as applicable.</p>
-
 <h4 id="c-5-1-2-2"><a class="heading-link" href="#c-5-1-2-2" data-copy-link>C.5.1.2.2 Assistive technology</a></h4>
 <p><strong>Type of assessment:</strong> Testing</p>
 <p><strong>Requirement:</strong> The ICT includes closed functionality.</p>
@@ -313,9 +279,7 @@ preference applies. */
 <li>Fail: Check 2 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h3 id="c-5-1-3"><a class="heading-link" href="#c-5-1-3" data-copy-link>C.5.1.3 Non-visual access</a></h3>
-
 <h4 id="c-5-1-3-1"><a class="heading-link" href="#c-5-1-3-1" data-copy-link>C.5.1.3.1 Audio output of visual information</a></h4>
 <p><strong>Type of assessment:</strong> Testing</p>
 <p><strong>Requirement:</strong> The ICT includes closed functionality.</p>
@@ -334,7 +298,6 @@ preference applies. */
 <li>Fail: Check 2 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-5-1-3-2"><a class="heading-link" href="#c-5-1-3-2" data-copy-link>C.5.1.3.2 Auditory output delivery including speech</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT includes closed functionality.</p>
@@ -353,7 +316,6 @@ preference applies. */
 <li>Fail: Checks 1 and 2 are false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-5-1-3-3"><a class="heading-link" href="#c-5-1-3-3" data-copy-link>C.5.1.3.3 Auditory output correlation</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT includes closed functionality.</p>
@@ -373,7 +335,6 @@ preference applies. */
 <li>Fail: Any check is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-5-1-3-4"><a class="heading-link" href="#c-5-1-3-4" data-copy-link>C.5.1.3.4 Speech output user control</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT includes closed functionality.</p>
@@ -392,7 +353,6 @@ preference applies. */
 <li>Fail: Any check is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-5-1-3-5"><a class="heading-link" href="#c-5-1-3-5" data-copy-link>C.5.1.3.5 Speech output automatic interruption</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT includes closed functionality.</p>
@@ -412,7 +372,6 @@ preference applies. */
 <li>Fail: Check 2 or 3 are false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-5-1-3-6"><a class="heading-link" href="#c-5-1-3-6" data-copy-link>C.5.1.3.6 Speech output for non-text content</a></h4>
 <p><strong>Type of assessment:</strong> Testing</p>
 <p><strong>Requirement:</strong> The ICT includes closed functionality.</p>
@@ -433,7 +392,6 @@ preference applies. */
 <li>Fail: Checks 1 is true and 2 false; or 1 is true and 3 false; or 1 and 2 and 3 are true and 4 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-5-1-3-7"><a class="heading-link" href="#c-5-1-3-7" data-copy-link>C.5.1.3.7 Speech output for video information</a></h4>
 <p><strong>Type of assessment:</strong> Testing</p>
 <p><strong>Preconditions:</strong></p>
@@ -452,7 +410,6 @@ preference applies. */
 <li>Fail: Check 1 or check 2 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-5-1-3-8"><a class="heading-link" href="#c-5-1-3-8" data-copy-link>C.5.1.3.8 Masked entry</a></h4>
 <p><strong>Type of assessment:</strong> Testing</p>
 <p><strong>Requirement:</strong> The ICT includes closed functionality.</p>
@@ -472,7 +429,6 @@ preference applies. */
 <li>Fail: Check is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-5-1-3-9"><a class="heading-link" href="#c-5-1-3-9" data-copy-link>C.5.1.3.9 Private access to personal data</a></h4>
 <p><strong>Type of assessment:</strong> Testing</p>
 <p><strong>Requirement:</strong> The ICT includes closed functionality.</p>
@@ -494,7 +450,6 @@ preference applies. */
 <li>Fail: Checks 1 or 2 are false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-5-1-3-10"><a class="heading-link" href="#c-5-1-3-10" data-copy-link>C.5.1.3.10 Non-interfering audio output</a></h4>
 <p><strong>Type of assessment:</strong> Testing</p>
 <p><strong>Requirement:</strong> The ICT includes closed functionality.</p>
@@ -512,7 +467,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-5-1-3-11"><a class="heading-link" href="#c-5-1-3-11" data-copy-link>C.5.1.3.11 Private listening volume</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT includes closed functionality.</p>
@@ -531,7 +485,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-5-1-3-12"><a class="heading-link" href="#c-5-1-3-12" data-copy-link>C.5.1.3.12 Speaker volume</a></h4>
 <p><strong>Type of assessment:</strong> Inspection and measurement</p>
 <p><strong>Requirement:</strong> The ICT includes closed functionality.</p>
@@ -551,7 +504,6 @@ preference applies. */
 <li>Fail: Check 1 or 2 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-5-1-3-13"><a class="heading-link" href="#c-5-1-3-13" data-copy-link>C.5.1.3.13 Volume reset</a></h4>
 <p><strong>Type of assessment:</strong> Inspection and measurement</p>
 <p><strong>Requirement:</strong> The ICT includes closed functionality.</p>
@@ -570,7 +522,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-5-1-3-14"><a class="heading-link" href="#c-5-1-3-14" data-copy-link>C.5.1.3.14 Spoken languages</a></h4>
 <p><strong>Type of assessment:</strong> Testing</p>
 <p><strong>Requirement:</strong> The ICT includes closed functionality.</p>
@@ -592,7 +543,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-5-1-3-15"><a class="heading-link" href="#c-5-1-3-15" data-copy-link>C.5.1.3.15 Non-visual error identification</a></h4>
 <p><strong>Type of assessment:</strong> Testing</p>
 <p><strong>Requirement:</strong> The ICT includes closed functionality.</p>
@@ -613,7 +563,6 @@ preference applies. */
 <li>Fail: Check 1 or check 2 false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-5-1-3-16"><a class="heading-link" href="#c-5-1-3-16" data-copy-link>C.5.1.3.16 Receipts, tickets and transactional outputs</a></h4>
 <p><strong>Type of assessment:</strong> Testing</p>
 <p><strong>Requirement:</strong> The ICT includes closed functionality.</p>
@@ -631,7 +580,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h3 id="c-5-1-4"><a class="heading-link" href="#c-5-1-4" data-copy-link>C.5.1.4 Functionality closed to text enlargement</a></h3>
 <p><strong>Type of assessment:</strong> Inspection and measurement</p>
 <p><strong>Requirement:</strong> The ICT includes closed functionality</p>
@@ -651,7 +599,6 @@ preference applies. */
 <li>Fail: Check 3 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h3 id="c-5-1-5"><a class="heading-link" href="#c-5-1-5" data-copy-link>C.5.1.5 Visual output for auditory information</a></h3>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT includes closed functionality</p>
@@ -669,9 +616,7 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h3 id="c-5-1-6"><a class="heading-link" href="#c-5-1-6" data-copy-link>C.5.1.6 Operation without keyboard interface</a></h3>
-
 <h4 id="c-5-1-6-1"><a class="heading-link" href="#c-5-1-6-1" data-copy-link>C.5.1.6.1 Closed functionality</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT includes closed functionality</p>
@@ -689,7 +634,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-5-1-6-2"><a class="heading-link" href="#c-5-1-6-2" data-copy-link>C.5.1.6.2 Input focus</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT includes closed functionality</p>
@@ -708,7 +652,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h3 id="c-5-1-7"><a class="heading-link" href="#c-5-1-7" data-copy-link>C.5.1.7 Access without speech</a></h3>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT includes closed functionality.</p>
@@ -726,7 +669,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h3 id="c-5-1-8"><a class="heading-link" href="#c-5-1-8" data-copy-link>C.5.1.8 Identify input purpose (closed functionality)</a></h3>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT includes closed functionality.</p>
@@ -747,7 +689,6 @@ preference applies. */
 <li>Fail: Check 2 or Check 3 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h2 id="c-5-2"><a class="heading-link" href="#c-5-2" data-copy-link>C.5.2 Activation of accessibility features</a></h2>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT includes documented accessibility features.</p>
@@ -762,7 +703,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.).</li>
 </ul>
-
 <h2 id="c-5-3"><a class="heading-link" href="#c-5-3" data-copy-link>C.5.3 Biometrics</a></h2>
 <p><strong>Type of assessment:</strong> Testing</p>
 <p><strong>Requirement:</strong> The ICT uses biological characteristic for user identification or for control of ICT.</p>
@@ -777,7 +717,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.).</li>
 </ul>
-
 <h2 id="c-5-4"><a class="heading-link" href="#c-5-4" data-copy-link>C.5.4 Preservation of accessibility information during conversion</a></h2>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT converts information or communication.</p>
@@ -797,7 +736,6 @@ preference applies. */
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.).</li>
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
-
 <h2 id="c-5-5"><a class="heading-link" href="#c-5-5" data-copy-link>C.5.5 Tactilely discernible operable parts</a></h2>
 <p><strong>Type of assessment:</strong> Testing</p>
 <p><strong>Requirement:</strong> The ICT includes functionality that requires manual operation and control.</p>
@@ -812,9 +750,7 @@ preference applies. */
 <li>Fail: Checks 1 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h2 id="c-5-6"><a class="heading-link" href="#c-5-6" data-copy-link>C.5.6 Locking or toggle controls</a></h2>
-
 <h3 id="c-5-6-1"><a class="heading-link" href="#c-5-6-1" data-copy-link>C.5.6.1 Tactile or auditory status</a></h3>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT has a locking or toggle control.</p>
@@ -830,7 +766,6 @@ preference applies. */
 <li>Fail: Checks 1 and 2 are false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h3 id="c-5-6-2"><a class="heading-link" href="#c-5-6-2" data-copy-link>C.5.6.2 Visual status</a></h3>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT includes a locking or toggle control.</p>
@@ -845,7 +780,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h2 id="c-5-7"><a class="heading-link" href="#c-5-7" data-copy-link>C.5.7 Key repeat</a></h2>
 <p><strong>Type of assessment:</strong> Testing</p>
 <p><strong>Requirement:</strong> The ICT includes a key repeat function that cannot be turned off.</p>
@@ -864,7 +798,6 @@ preference applies. */
 <li>Fail: Check 1 or 2 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h2 id="c-5-8"><a class="heading-link" href="#c-5-8" data-copy-link>C.5.8 Double-strike key acceptance</a></h2>
 <p><strong>Type of assessment:</strong> Testing</p>
 <p><strong>Requirement:</strong> The ICT includes a keyboard or keypad.</p>
@@ -883,7 +816,6 @@ preference applies. */
 <li>Fail: Check 5 is true</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h2 id="c-5-9"><a class="heading-link" href="#c-5-9" data-copy-link>C.5.9 Simultaneous user actions</a></h2>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> ICT has a mode of operation requiring simultaneous user actions for its operation.</p>
@@ -899,12 +831,9 @@ preference applies. */
 <li>Fail: Check 2 is false for all modes of operation</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h2 id="c-5-10"><a class="heading-link" href="#c-5-10" data-copy-link>C.5.10 Authoring tools</a></h2>
-
 <h3 id="c-5-10-0"><a class="heading-link" href="#c-5-10-0" data-copy-link>C.5.10.0 General (informative)</a></h3>
 <p>Clause <a class="xref" href="clause-5-generic-requirements.html#5-10-0">5.10.0</a> is informative only and contains no testable requirements.</p>
-
 <h3 id="c-5-10-1"><a class="heading-link" href="#c-5-10-1" data-copy-link>C.5.10.1 Content technology</a></h3>
 <p><strong>Type of assessment:</strong> Inspection and Testing</p>
 <p><strong>Requirement:</strong> The ICT is or includes, authoring tool functionality.</p>
@@ -920,7 +849,6 @@ preference applies. */
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
 <div class="callout"><p><span class="callout__label">NOTE:</span> Where the output format of the authoring tool does not support certain types of information required for accessibility, conformance with requirements that relate to that type of information is not required.</p></div>
-
 <h3 id="c-5-10-2"><a class="heading-link" href="#c-5-10-2" data-copy-link>C.5.10.2 Accessible content creation</a></h3>
 <p><strong>Type of assessment:</strong> Inspection and Testing</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, authoring tool functionality.</p>
@@ -935,7 +863,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h3 id="c-5-10-3"><a class="heading-link" href="#c-5-10-3" data-copy-link>C.5.10.3 Preservation of accessibility information in transformations</a></h3>
 <p><strong>Type of assessment:</strong> Inspection and Testing</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, authoring tool functionality.</p>
@@ -956,7 +883,6 @@ preference applies. */
 <li>Fail: (Check 1 is false and check 2 is true) or (check 3 is false and check 4 is true)</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h3 id="c-5-10-4"><a class="heading-link" href="#c-5-10-4" data-copy-link>C.5.10.4 Repair assistance</a></h3>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, authoring tool functionality.</p>
@@ -974,7 +900,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h3 id="c-5-10-5"><a class="heading-link" href="#c-5-10-5" data-copy-link>C.5.10.5 Templates</a></h3>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, authoring tool functionality.</p>
@@ -994,24 +919,19 @@ preference applies. */
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
 <div class="callout"><p><span class="callout__label">NOTE:</span> The identification as conforming to the requirements of clause <a class="xref" href="clause-9-web.html">9</a>, or clause <a class="xref" href="clause-10-non-web-documents.html">10</a>, or clause <a class="xref" href="clause-11-non-web-software.html">11</a> (as applicable) described in check 2 may be described in terms such as &ldquo;Conformant to WCAG 2.2&rdquo;. Where the identification does not explicitly state that all of the requirements identified in clauses <a class="xref" href="clause-9-web.html">9</a>, or <a class="xref" href="clause-10-non-web-documents.html">10</a>, or <a class="xref" href="clause-11-non-web-software.html">11</a> (as appropriate) are covered, it may be necessary to use the template to create a website, or document, or software and then test that website, or document, or software according to the requirements of clauses <a class="xref" href="clause-9-web.html">9</a>, or <a class="xref" href="clause-10-non-web-documents.html">10</a>, or <a class="xref" href="clause-11-non-web-software.html">11</a> to provide full assurance that the template behaves as required.</p></div>
-
-    </div>
-    <nav class="page-pager" aria-label="Page navigation">
+</div>
+<nav class="page-pager" aria-label="Page navigation">
 <a class="page-pager__link page-pager__link--prev" href="annex-c-4-functional-performance.html"><span class="page-pager__direction">&larr; Previous</span><span class="page-pager__title">Annex C.4: Functional performance</span></a>
 <a class="page-pager__link page-pager__link--next" href="annex-c-6-real-time-communication.html"><span class="page-pager__direction">Next &rarr;</span><span class="page-pager__title">Annex C.6: Real-time communication</span></a>
 </nav>
-  </main>
+</main>
 </div>
-
 <a class="back-to-top" href="#top">&uarr; Back to top</a>
-
 <div id="status-live" class="visually-hidden" role="status" aria-live="polite"></div>
-
 <footer class="site-footer">
-  <div class="site-footer__inner">
-    <nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
-  </div>
+<div class="site-footer__inner">
+<nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
+</div>
 </footer>
-<script src="assets/js/site.js?v=7b43fc8f"></script>
 </body>
 </html>

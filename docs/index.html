@@ -8,36 +8,7 @@
 <meta id="theme-colour-light" name="theme-color" media="(prefers-color-scheme: light)" content="#14245a">
 <meta id="theme-colour-dark" name="theme-color" media="(prefers-color-scheme: dark)" content="#16191d">
 <link rel="canonical" href="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/">
-<script>/* Theme apply, deliberately placed before the stylesheet link and
-kept synchronous (scripts/test_build.py asserts both statically): an
-explicit Dark/Light choice is set on <html> before the stylesheet can
-first paint with the wrong tokens, preventing — or at worst minimising —
-a wrong-theme flash. Also keeps
-the browser-chrome theme-color in step with the RESOLVED theme — on an
-explicit choice both meta elements get the same value, so whichever
-media query the OS matches, the chrome colour agrees with the page.
-site.js reuses __syncThemeColour when the choice changes mid-session.
-The hex values are injected from build.py (THEME_CHROME_*), the single
-source the unit tests check the CSS and generated output against.
-Everything else about theming is CSS; without JavaScript the OS
-preference applies. */
-(function () {
-  var LIGHT = "#14245a", DARK = "#16191d";
-  window.__syncThemeColour = function (theme) {
-    var l = document.getElementById("theme-colour-light");
-    var d = document.getElementById("theme-colour-dark");
-    if (!l || !d) return;
-    l.content = theme === "dark" ? DARK : LIGHT;
-    d.content = theme === "light" ? LIGHT : DARK;
-  };
-  var theme = null;
-  try {
-    var p = JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));
-    if (p && (p.theme === "dark" || p.theme === "light")) theme = p.theme;
-  } catch (e) {}
-  if (theme) document.documentElement.setAttribute("data-theme", theme);
-  window.__syncThemeColour(theme || "auto");
-})();</script>
+<script>(function(){var L="#14245a",D="#16191d";window.__syncThemeColour=function(t){var l=document.getElementById("theme-colour-light"),d=document.getElementById("theme-colour-dark");if(l&&d){l.content=t==="dark"?D:L;d.content=t==="light"?L:D}};var t=null;try{var p=JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));if(p&&(p.theme==="dark"||p.theme==="light"))t=p.theme}catch(e){}if(t)document.documentElement.setAttribute("data-theme",t);window.__syncThemeColour(t||"auto")})();</script>
 <meta property="og:site_name" content="ETSI EN 301 549 V4.1.0 Online">
 <meta property="og:type" content="website">
 <meta property="og:title" content="EN 301 549 accessibility standard — HTML edition | ETSI EN 301 549 V4.1.0 Online">
@@ -45,84 +16,82 @@ preference applies. */
 <meta property="og:url" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/">
 <meta property="og:image" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/assets/img/apple-touch-icon.png">
 <meta name="twitter:card" content="summary">
-<link rel="stylesheet" href="assets/css/style.css?v=c5430ccf">
+<link rel="stylesheet" href="assets/css/style.18c586c2.css">
+<script defer src="assets/js/core.06591bb3.js"></script>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 </head>
-<body data-page-slug="index" data-page-title="EN 301 549 accessibility standard — HTML edition" data-page-group="">
+<body data-page-slug="index" data-page-title="EN 301 549 accessibility standard — HTML edition" data-page-group="" data-search-js="assets/js/search.3f91c211.js" data-reader-js="assets/js/reader-library.63836e18.js" data-suggest-index="search-suggestions.e295bad5.json">
 <a class="skip-link" id="top" href="#main-content">Skip to main content</a>
-
+<div class="top-sentinel" aria-hidden="true"></div>
 <header class="site-header">
-  <div class="site-header__inner">
-    <a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
-    <nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
-    <button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
-    </button>
-    <form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
-      <input type="search" name="q" aria-label="Search this standard" autocomplete="off">
-      <button type="submit">Search</button>
-    </form>
-  </div>
+<div class="site-header__inner">
+<a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
+<nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
+<button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
+</button>
+<form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
+<input type="search" name="q" aria-label="Search this standard" autocomplete="off">
+<button type="submit">Search</button>
+</form>
+</div>
 </header>
 <div class="accent-bar" aria-hidden="true"></div>
-
 <div class="doc-header">
-  <div class="doc-header__inner">
-    <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li aria-current="page">Home</li></ol></nav>
-    <div class="doc-header__top">
-      <div>
-        <h1>EN 301 549 accessibility standard — HTML edition</h1>
-      </div>
-    </div>
-    <div class="doc-toolbar">
-      <details class="page-tools">
-      <summary>Page tools</summary>
-      <div class="page-tools__panel">
-      <button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
-      <a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
-      <button type="button" class="page-tools__item" data-action="copy-link">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
-        <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
-      </button>
-
-      <details class="reader-tools">
-        <summary>Reading options</summary>
-        <div class="reader-tools__panel">
-          <fieldset>
-            <legend>Text width</legend>
-            <label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
-            <label><input type="radio" name="reading-width" value="wide"> Wide</label>
-          </fieldset>
-          <fieldset>
-            <legend>Colour theme</legend>
-            <label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
-            <label><input type="radio" name="colour-theme" value="light"> Light</label>
-            <label><input type="radio" name="colour-theme" value="dark"> Dark</label>
-          </fieldset>
-          <label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
-          <button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
-          <p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
-          <section class="reader-library" aria-labelledby="saved-pages-heading">
-            <h2 id="saved-pages-heading">Saved pages</h2>
-            <h3>Bookmarks</h3>
-            <ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
-            <h3>Recently viewed</h3>
-            <ul data-recent-list><li>No recently viewed pages yet.</li></ul>
-          </section>
-        </div>
-      </details>
-      </div>
-      </details>
-    </div>
-  </div>
+<div class="doc-header__inner">
+<nav class="breadcrumb" aria-label="Breadcrumb"><ol><li aria-current="page">Home</li></ol></nav>
+<div class="doc-header__top">
+<div>
+<h1>EN 301 549 accessibility standard — HTML edition</h1>
 </div>
-
+</div>
+<div class="doc-toolbar">
+<details class="page-tools">
+<summary>Page tools</summary>
+<div class="page-tools__panel">
+<button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
+<a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
+<button type="button" class="page-tools__item" data-action="copy-link">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
+<span class="doc-toolbar__btn-status" aria-hidden="true"></span>
+</button>
+<details class="reader-tools">
+<summary>Reading options</summary>
+<div class="reader-tools__panel">
+<fieldset>
+<legend>Text width</legend>
+<label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
+<label><input type="radio" name="reading-width" value="wide"> Wide</label>
+</fieldset>
+<fieldset>
+<legend>Colour theme</legend>
+<label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
+<label><input type="radio" name="colour-theme" value="light"> Light</label>
+<label><input type="radio" name="colour-theme" value="dark"> Dark</label>
+</fieldset>
+<label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
+<button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
+<p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
+<section class="reader-library" aria-labelledby="saved-pages-heading">
+<h2 id="saved-pages-heading">Saved pages</h2>
+<h3>Bookmarks</h3>
+<ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
+<h3>Recently viewed</h3>
+<ul data-recent-list><li>No recently viewed pages yet.</li></ul>
+</section>
+</div>
+</details>
+</div>
+</details>
+</div>
+</div>
+</div>
 <div class="page-shell">
-  <div class="page-sidebar">
-    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
-    <nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
+<div class="page-sidebar">
+<button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
+<nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
 <div class="site-nav__header">Contents</div>
 <p><a href="index.html" aria-current="page">Home</a></p>
 <p><a href="about.html">About</a></p>
@@ -201,10 +170,10 @@ preference applies. */
 </li>
 </ul></details>
 </nav>
-  </div>
-  <main id="main-content" tabindex="-1">
-    <div class="content">
-      <nav class="on-this-page" aria-labelledby="on-this-page-heading">
+</div>
+<main id="main-content" tabindex="-1">
+<div class="content">
+<nav class="on-this-page" aria-labelledby="on-this-page-heading">
 <h2 id="on-this-page-heading">On this page</h2>
 <ul>
 <li><a href="#start-reading">Choose where to start</a>
@@ -220,86 +189,75 @@ preference applies. */
 <p>This HTML edition is designed to make the standard easier to navigate, easier to read with assistive technology, and easier to link to directly &mdash; for example, to a single numbered requirement.</p>
 <p>The draft is still under approval and may change. The official ETSI PDF remains the source of record.</p>
 <p class="content-meta">Status last checked: 13 July 2026.</p>
-
 <h2 id="start-reading">Choose where to start</h2>
 <ul class="task-pathways">
-  <li>
-    <a href="about.html">Understand this HTML edition</a>
-    <p>What this website is, how it was made, and how it relates to the official ETSI document. Also explains what &lsquo;normative&rsquo; and &lsquo;informative&rsquo; mean.</p>
-  </li>
-  <li>
-    <a href="clause-9-web.html">Read the web requirements</a>
-    <p>Clause <a class="xref" href="clause-9-web.html">9</a>: requirements for web pages, based on WCAG 2.2.</p>
-  </li>
-  <li>
-    <a href="clause-10-non-web-documents.html">Read the document requirements</a>
-    <p>Clause <a class="xref" href="clause-10-non-web-documents.html">10</a>: requirements for documents that are not web pages, such as PDF files.</p>
-  </li>
-  <li>
-    <a href="clause-4-functional-performance.html">Understand functional performance</a>
-    <p>Clause <a class="xref" href="clause-4-functional-performance.html">4</a>: the user needs that the standard's technical requirements are designed to support.</p>
-  </li>
-  <li>
-    <a href="clause-14-conformance.html">Check conformance</a>
-    <p>Clause <a class="xref" href="clause-14-conformance.html">14</a>: what it means for a product or service to conform with the standard.</p>
-  </li>
-  <li>
-    <a href="#full-contents">Browse all clauses and annexes</a>
-    <p>The complete contents list below, covering every clause and annex in the standard.</p>
-  </li>
+<li>
+<a href="about.html">Understand this HTML edition</a>
+<p>What this website is, how it was made, and how it relates to the official ETSI document. Also explains what &lsquo;normative&rsquo; and &lsquo;informative&rsquo; mean.</p>
+</li>
+<li>
+<a href="clause-9-web.html">Read the web requirements</a>
+<p>Clause <a class="xref" href="clause-9-web.html">9</a>: requirements for web pages, based on WCAG 2.2.</p>
+</li>
+<li>
+<a href="clause-10-non-web-documents.html">Read the document requirements</a>
+<p>Clause <a class="xref" href="clause-10-non-web-documents.html">10</a>: requirements for documents that are not web pages, such as PDF files.</p>
+</li>
+<li>
+<a href="clause-4-functional-performance.html">Understand functional performance</a>
+<p>Clause <a class="xref" href="clause-4-functional-performance.html">4</a>: the user needs that the standard's technical requirements are designed to support.</p>
+</li>
+<li>
+<a href="clause-14-conformance.html">Check conformance</a>
+<p>Clause <a class="xref" href="clause-14-conformance.html">14</a>: what it means for a product or service to conform with the standard.</p>
+</li>
+<li>
+<a href="#full-contents">Browse all clauses and annexes</a>
+<p>The complete contents list below, covering every clause and annex in the standard.</p>
+</li>
 </ul>
-
 <h2 id="full-contents">Full contents</h2>
-
 <h3 id="contents-clauses">Clauses</h3>
 <ol class="contents-list">
-  <li><a href="clause-1-scope.html">1 Scope</a></li>
-  <li><a href="clause-2-references.html">2 References</a></li>
-  <li><a href="clause-3-definitions.html">3 Definition of terms, symbols and abbreviations</a></li>
-  <li><a href="clause-4-functional-performance.html">4 Functional performance</a></li>
-  <li><a href="clause-5-generic-requirements.html">5 Generic requirements</a></li>
-  <li><a href="clause-6-real-time-communication.html">6 ICT supporting real-time bidirectional communication</a></li>
-  <li><a href="clause-7-video-capabilities.html">7 ICT with video capabilities</a></li>
-  <li><a href="clause-8-hardware.html">8 Hardware</a></li>
-  <li><a href="clause-9-web.html">9 Web</a></li>
-  <li><a href="clause-10-non-web-documents.html">10 Non-web documents</a></li>
-  <li><a href="clause-11-non-web-software.html">11 Non-web software</a></li>
-  <li><a href="clause-12-information-products-services.html">12 Information about products and services</a></li>
-  <li><a href="clause-13-relay-emergency.html">13 ICT providing relay or emergency service access</a></li>
-  <li><a href="clause-14-conformance.html">14 Conformance</a></li>
+<li><a href="clause-1-scope.html">1 Scope</a></li>
+<li><a href="clause-2-references.html">2 References</a></li>
+<li><a href="clause-3-definitions.html">3 Definition of terms, symbols and abbreviations</a></li>
+<li><a href="clause-4-functional-performance.html">4 Functional performance</a></li>
+<li><a href="clause-5-generic-requirements.html">5 Generic requirements</a></li>
+<li><a href="clause-6-real-time-communication.html">6 ICT supporting real-time bidirectional communication</a></li>
+<li><a href="clause-7-video-capabilities.html">7 ICT with video capabilities</a></li>
+<li><a href="clause-8-hardware.html">8 Hardware</a></li>
+<li><a href="clause-9-web.html">9 Web</a></li>
+<li><a href="clause-10-non-web-documents.html">10 Non-web documents</a></li>
+<li><a href="clause-11-non-web-software.html">11 Non-web software</a></li>
+<li><a href="clause-12-information-products-services.html">12 Information about products and services</a></li>
+<li><a href="clause-13-relay-emergency.html">13 ICT providing relay or emergency service access</a></li>
+<li><a href="clause-14-conformance.html">14 Conformance</a></li>
 </ol>
-
 <h3 id="contents-annexes">Annexes</h3>
 <ul class="contents-list">
-  <li><a href="annex-a-conformance-evaluation.html">Annex A (informative): ICT conformance evaluation</a></li>
-  <li><a href="annex-b-functional-performance-relationship.html">Annex B (informative): Relationship between requirements and functional performance criteria</a></li>
-  <li><a href="annex-c-1-introduction.html">Annex C (normative): Determination of conformance</a>
-      <span class="contents-note">Split into C.1 and C.4&ndash;C.14, mirroring clauses <a class="xref" href="clause-4-functional-performance.html">4</a>&ndash;14.</span></li>
-  <li><a href="annex-d-cognitive-accessibility.html">Annex D (informative): Further resources for cognitive accessibility</a></li>
-  <li><a href="annex-e-guidance.html">Annex E (informative): Guidance and additional resources for users of the present document</a></li>
-  <li><a href="annex-za-directive-2016-2102.html">Annex ZA (informative): Relationship with Directive (EU) 2016/2102</a></li>
-  <li><a href="annex-zb-directive-2019-882.html">Annex ZB (informative): Relationship with Directive (EU) 2019/882</a></li>
-  <li><a href="annex-zc-other-directives.html">Annex ZC (informative): Relationship with other Directives</a></li>
-  <li><a href="annex-f-change-history.html">Annex F (informative): Change history</a></li>
+<li><a href="annex-a-conformance-evaluation.html">Annex A (informative): ICT conformance evaluation</a></li>
+<li><a href="annex-b-functional-performance-relationship.html">Annex B (informative): Relationship between requirements and functional performance criteria</a></li>
+<li><a href="annex-c-1-introduction.html">Annex C (normative): Determination of conformance</a>
+<span class="contents-note">Split into C.1 and C.4&ndash;C.14, mirroring clauses <a class="xref" href="clause-4-functional-performance.html">4</a>&ndash;14.</span></li>
+<li><a href="annex-d-cognitive-accessibility.html">Annex D (informative): Further resources for cognitive accessibility</a></li>
+<li><a href="annex-e-guidance.html">Annex E (informative): Guidance and additional resources for users of the present document</a></li>
+<li><a href="annex-za-directive-2016-2102.html">Annex ZA (informative): Relationship with Directive (EU) 2016/2102</a></li>
+<li><a href="annex-zb-directive-2019-882.html">Annex ZB (informative): Relationship with Directive (EU) 2019/882</a></li>
+<li><a href="annex-zc-other-directives.html">Annex ZC (informative): Relationship with other Directives</a></li>
+<li><a href="annex-f-change-history.html">Annex F (informative): Change history</a></li>
 </ul>
-
 <h2 id="downloads">Download the standard</h2>
 <p><a href="source/en_301549v040100va.pdf">Download the official ETSI standard (PDF, 4.2 MB)</a> &mdash; the original file, unchanged.</p>
-
-    </div>
-
-  </main>
 </div>
-
+</main>
+</div>
 <a class="back-to-top" href="#top">&uarr; Back to top</a>
-
 <div id="status-live" class="visually-hidden" role="status" aria-live="polite"></div>
-
 <footer class="site-footer">
-  <div class="site-footer__inner">
-    <nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html" aria-current="page">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
-  </div>
+<div class="site-footer__inner">
+<nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html" aria-current="page">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
+</div>
 </footer>
-<script src="assets/js/site.js?v=7b43fc8f"></script>
 </body>
 </html>

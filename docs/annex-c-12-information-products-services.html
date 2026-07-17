@@ -8,36 +8,7 @@
 <meta id="theme-colour-light" name="theme-color" media="(prefers-color-scheme: light)" content="#14245a">
 <meta id="theme-colour-dark" name="theme-color" media="(prefers-color-scheme: dark)" content="#16191d">
 <link rel="canonical" href="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/annex-c-12-information-products-services.html">
-<script>/* Theme apply, deliberately placed before the stylesheet link and
-kept synchronous (scripts/test_build.py asserts both statically): an
-explicit Dark/Light choice is set on <html> before the stylesheet can
-first paint with the wrong tokens, preventing — or at worst minimising —
-a wrong-theme flash. Also keeps
-the browser-chrome theme-color in step with the RESOLVED theme — on an
-explicit choice both meta elements get the same value, so whichever
-media query the OS matches, the chrome colour agrees with the page.
-site.js reuses __syncThemeColour when the choice changes mid-session.
-The hex values are injected from build.py (THEME_CHROME_*), the single
-source the unit tests check the CSS and generated output against.
-Everything else about theming is CSS; without JavaScript the OS
-preference applies. */
-(function () {
-  var LIGHT = "#14245a", DARK = "#16191d";
-  window.__syncThemeColour = function (theme) {
-    var l = document.getElementById("theme-colour-light");
-    var d = document.getElementById("theme-colour-dark");
-    if (!l || !d) return;
-    l.content = theme === "dark" ? DARK : LIGHT;
-    d.content = theme === "light" ? LIGHT : DARK;
-  };
-  var theme = null;
-  try {
-    var p = JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));
-    if (p && (p.theme === "dark" || p.theme === "light")) theme = p.theme;
-  } catch (e) {}
-  if (theme) document.documentElement.setAttribute("data-theme", theme);
-  window.__syncThemeColour(theme || "auto");
-})();</script>
+<script>(function(){var L="#14245a",D="#16191d";window.__syncThemeColour=function(t){var l=document.getElementById("theme-colour-light"),d=document.getElementById("theme-colour-dark");if(l&&d){l.content=t==="dark"?D:L;d.content=t==="light"?L:D}};var t=null;try{var p=JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));if(p&&(p.theme==="dark"||p.theme==="light"))t=p.theme}catch(e){}if(t)document.documentElement.setAttribute("data-theme",t);window.__syncThemeColour(t||"auto")})();</script>
 <meta property="og:site_name" content="ETSI EN 301 549 V4.1.0 Online">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Annex C.12 (normative): Information about products and services | ETSI EN 301 549 V4.1.0 Online">
@@ -45,84 +16,83 @@ preference applies. */
 <meta property="og:url" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/annex-c-12-information-products-services.html">
 <meta property="og:image" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/assets/img/apple-touch-icon.png">
 <meta name="twitter:card" content="summary">
-<link rel="stylesheet" href="assets/css/style.css?v=c5430ccf">
+<link rel="stylesheet" href="assets/css/style.18c586c2.css">
+<script defer src="assets/js/core.06591bb3.js"></script>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 </head>
-<body data-page-slug="annex-c-12-information-products-services" data-page-title="Annex C.12 (normative): Information about products and services" data-page-group="Annex C: Determination of conformance">
+<body data-page-slug="annex-c-12-information-products-services" data-page-title="Annex C.12 (normative): Information about products and services" data-page-group="Annex C: Determination of conformance" data-search-js="assets/js/search.3f91c211.js" data-reader-js="assets/js/reader-library.63836e18.js" data-suggest-index="search-suggestions.e295bad5.json">
 <a class="skip-link" id="top" href="#main-content">Skip to main content</a>
-
+<div class="top-sentinel" aria-hidden="true"></div>
 <header class="site-header">
-  <div class="site-header__inner">
-    <a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
-    <nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
-    <button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
-    </button>
-    <form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
-      <input type="search" name="q" aria-label="Search this standard" autocomplete="off">
-      <button type="submit">Search</button>
-    </form>
-  </div>
+<div class="site-header__inner">
+<a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
+<nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
+<button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
+</button>
+<form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
+<input type="search" name="q" aria-label="Search this standard" autocomplete="off">
+<button type="submit">Search</button>
+</form>
+</div>
 </header>
 <div class="accent-bar" aria-hidden="true"></div>
-
 <div class="doc-header">
-  <div class="doc-header__inner">
-    <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Annex C: Determination of conformance</li><li aria-current="page">Annex C.12: Information about products and services</li></ol></nav>
-    <div class="doc-header__top">
-      <div>
-        <h1>Annex C.12 (normative): Information about products and services</h1>
-      </div>
-    </div>
-    <div class="doc-toolbar">
-      <details class="page-tools">
-      <summary>Page tools</summary>
-      <div class="page-tools__panel">
-      <button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
-      <a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
-      <button type="button" class="page-tools__item" data-action="copy-link">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
-        <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
-      </button>
-      <button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="annex-c-12-information-products-services" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
-      <details class="reader-tools">
-        <summary>Reading options</summary>
-        <div class="reader-tools__panel">
-          <fieldset>
-            <legend>Text width</legend>
-            <label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
-            <label><input type="radio" name="reading-width" value="wide"> Wide</label>
-          </fieldset>
-          <fieldset>
-            <legend>Colour theme</legend>
-            <label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
-            <label><input type="radio" name="colour-theme" value="light"> Light</label>
-            <label><input type="radio" name="colour-theme" value="dark"> Dark</label>
-          </fieldset>
-          <label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
-          <button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
-          <p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
-          <section class="reader-library" aria-labelledby="saved-pages-heading">
-            <h2 id="saved-pages-heading">Saved pages</h2>
-            <h3>Bookmarks</h3>
-            <ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
-            <h3>Recently viewed</h3>
-            <ul data-recent-list><li>No recently viewed pages yet.</li></ul>
-          </section>
-        </div>
-      </details>
-      </div>
-      </details>
-    </div>
-  </div>
+<div class="doc-header__inner">
+<nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Annex C: Determination of conformance</li><li aria-current="page">Annex C.12: Information about products and services</li></ol></nav>
+<div class="doc-header__top">
+<div>
+<h1>Annex C.12 (normative): Information about products and services</h1>
 </div>
-
+</div>
+<div class="doc-toolbar">
+<details class="page-tools">
+<summary>Page tools</summary>
+<div class="page-tools__panel">
+<button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
+<a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
+<button type="button" class="page-tools__item" data-action="copy-link">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
+<span class="doc-toolbar__btn-status" aria-hidden="true"></span>
+</button>
+<button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="annex-c-12-information-products-services" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
+<details class="reader-tools">
+<summary>Reading options</summary>
+<div class="reader-tools__panel">
+<fieldset>
+<legend>Text width</legend>
+<label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
+<label><input type="radio" name="reading-width" value="wide"> Wide</label>
+</fieldset>
+<fieldset>
+<legend>Colour theme</legend>
+<label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
+<label><input type="radio" name="colour-theme" value="light"> Light</label>
+<label><input type="radio" name="colour-theme" value="dark"> Dark</label>
+</fieldset>
+<label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
+<button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
+<p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
+<section class="reader-library" aria-labelledby="saved-pages-heading">
+<h2 id="saved-pages-heading">Saved pages</h2>
+<h3>Bookmarks</h3>
+<ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
+<h3>Recently viewed</h3>
+<ul data-recent-list><li>No recently viewed pages yet.</li></ul>
+</section>
+</div>
+</details>
+</div>
+</details>
+</div>
+</div>
+</div>
 <div class="page-shell">
-  <div class="page-sidebar">
-    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
-    <nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
+<div class="page-sidebar">
+<button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
+<nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
 <div class="site-nav__header">Contents</div>
 <p><a href="index.html">Home</a></p>
 <p><a href="about.html">About</a></p>
@@ -213,10 +183,10 @@ preference applies. */
 </li>
 </ul></details>
 </nav>
-  </div>
-  <main id="main-content" tabindex="-1">
-    <div class="content">
-      <div class="clause-summary"><h2 id="about-this-page">About this annex</h2><p>Annex C.12 describes ways to determine whether the requirements in clause 12 (information about products and services) are met.</p><p>It is <a href="about.html#normative-and-informative">normative</a>, which means it forms part of the requirements of the standard.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div><nav class="on-this-page" aria-labelledby="on-this-page-heading">
+</div>
+<main id="main-content" tabindex="-1">
+<div class="content">
+<div class="clause-summary"><h2 id="about-this-page">About this annex</h2><p>Annex C.12 describes ways to determine whether the requirements in clause 12 (information about products and services) are met.</p><p>It is <a href="about.html#normative-and-informative">normative</a>, which means it forms part of the requirements of the standard.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div><nav class="on-this-page" aria-labelledby="on-this-page-heading">
 <h2 id="on-this-page-heading">On this page</h2>
 <ul>
 <li><a href="#c-12-1">C.12.1 Accessible information about products</a>
@@ -247,7 +217,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h2 id="c-12-2"><a class="heading-link" href="#c-12-2" data-copy-link>C.12.2 Accessible information about services</a></h2>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, information about a service.</p>
@@ -265,7 +234,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h2 id="c-12-3"><a class="heading-link" href="#c-12-3" data-copy-link>C.12.3 Accessibility and compatibility features</a></h2>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT has documentation about the use of the ICT on the ICT or there is an official webpage that provides documentation about the use of the ICT.</p>
@@ -280,7 +248,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h2 id="c-12-4"><a class="heading-link" href="#c-12-4" data-copy-link>C.12.4 Electronic program guides</a></h2>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is an Electronic Programme Guide (EPG).</p>
@@ -295,7 +262,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h2 id="c-12-5"><a class="heading-link" href="#c-12-5" data-copy-link>C.12.5 Electronic program guide display</a></h2>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is an Electronic Programme Guide (EPG) presenting media item(s).</p>
@@ -313,24 +279,19 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
-    </div>
-    <nav class="page-pager" aria-label="Page navigation">
+</div>
+<nav class="page-pager" aria-label="Page navigation">
 <a class="page-pager__link page-pager__link--prev" href="annex-c-11-software.html"><span class="page-pager__direction">&larr; Previous</span><span class="page-pager__title">Annex C.11: Software</span></a>
 <a class="page-pager__link page-pager__link--next" href="annex-c-13-relay-emergency.html"><span class="page-pager__direction">Next &rarr;</span><span class="page-pager__title">Annex C.13: Relay and emergency service access</span></a>
 </nav>
-  </main>
+</main>
 </div>
-
 <a class="back-to-top" href="#top">&uarr; Back to top</a>
-
 <div id="status-live" class="visually-hidden" role="status" aria-live="polite"></div>
-
 <footer class="site-footer">
-  <div class="site-footer__inner">
-    <nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
-  </div>
+<div class="site-footer__inner">
+<nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
+</div>
 </footer>
-<script src="assets/js/site.js?v=7b43fc8f"></script>
 </body>
 </html>

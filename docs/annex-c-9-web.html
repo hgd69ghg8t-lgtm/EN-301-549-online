@@ -8,36 +8,7 @@
 <meta id="theme-colour-light" name="theme-color" media="(prefers-color-scheme: light)" content="#14245a">
 <meta id="theme-colour-dark" name="theme-color" media="(prefers-color-scheme: dark)" content="#16191d">
 <link rel="canonical" href="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/annex-c-9-web.html">
-<script>/* Theme apply, deliberately placed before the stylesheet link and
-kept synchronous (scripts/test_build.py asserts both statically): an
-explicit Dark/Light choice is set on <html> before the stylesheet can
-first paint with the wrong tokens, preventing — or at worst minimising —
-a wrong-theme flash. Also keeps
-the browser-chrome theme-color in step with the RESOLVED theme — on an
-explicit choice both meta elements get the same value, so whichever
-media query the OS matches, the chrome colour agrees with the page.
-site.js reuses __syncThemeColour when the choice changes mid-session.
-The hex values are injected from build.py (THEME_CHROME_*), the single
-source the unit tests check the CSS and generated output against.
-Everything else about theming is CSS; without JavaScript the OS
-preference applies. */
-(function () {
-  var LIGHT = "#14245a", DARK = "#16191d";
-  window.__syncThemeColour = function (theme) {
-    var l = document.getElementById("theme-colour-light");
-    var d = document.getElementById("theme-colour-dark");
-    if (!l || !d) return;
-    l.content = theme === "dark" ? DARK : LIGHT;
-    d.content = theme === "light" ? LIGHT : DARK;
-  };
-  var theme = null;
-  try {
-    var p = JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));
-    if (p && (p.theme === "dark" || p.theme === "light")) theme = p.theme;
-  } catch (e) {}
-  if (theme) document.documentElement.setAttribute("data-theme", theme);
-  window.__syncThemeColour(theme || "auto");
-})();</script>
+<script>(function(){var L="#14245a",D="#16191d";window.__syncThemeColour=function(t){var l=document.getElementById("theme-colour-light"),d=document.getElementById("theme-colour-dark");if(l&&d){l.content=t==="dark"?D:L;d.content=t==="light"?L:D}};var t=null;try{var p=JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));if(p&&(p.theme==="dark"||p.theme==="light"))t=p.theme}catch(e){}if(t)document.documentElement.setAttribute("data-theme",t);window.__syncThemeColour(t||"auto")})();</script>
 <meta property="og:site_name" content="ETSI EN 301 549 V4.1.0 Online">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Annex C.9 (normative): Web | ETSI EN 301 549 V4.1.0 Online">
@@ -45,84 +16,83 @@ preference applies. */
 <meta property="og:url" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/annex-c-9-web.html">
 <meta property="og:image" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/assets/img/apple-touch-icon.png">
 <meta name="twitter:card" content="summary">
-<link rel="stylesheet" href="assets/css/style.css?v=c5430ccf">
+<link rel="stylesheet" href="assets/css/style.18c586c2.css">
+<script defer src="assets/js/core.06591bb3.js"></script>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 </head>
-<body data-page-slug="annex-c-9-web" data-page-title="Annex C.9 (normative): Web" data-page-group="Annex C: Determination of conformance">
+<body data-page-slug="annex-c-9-web" data-page-title="Annex C.9 (normative): Web" data-page-group="Annex C: Determination of conformance" data-search-js="assets/js/search.3f91c211.js" data-reader-js="assets/js/reader-library.63836e18.js" data-suggest-index="search-suggestions.e295bad5.json">
 <a class="skip-link" id="top" href="#main-content">Skip to main content</a>
-
+<div class="top-sentinel" aria-hidden="true"></div>
 <header class="site-header">
-  <div class="site-header__inner">
-    <a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
-    <nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
-    <button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
-    </button>
-    <form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
-      <input type="search" name="q" aria-label="Search this standard" autocomplete="off">
-      <button type="submit">Search</button>
-    </form>
-  </div>
+<div class="site-header__inner">
+<a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
+<nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
+<button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
+</button>
+<form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
+<input type="search" name="q" aria-label="Search this standard" autocomplete="off">
+<button type="submit">Search</button>
+</form>
+</div>
 </header>
 <div class="accent-bar" aria-hidden="true"></div>
-
 <div class="doc-header">
-  <div class="doc-header__inner">
-    <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Annex C: Determination of conformance</li><li aria-current="page">Annex C.9: Web</li></ol></nav>
-    <div class="doc-header__top">
-      <div>
-        <h1>Annex C.9 (normative): Web</h1>
-      </div>
-    </div>
-    <div class="doc-toolbar">
-      <details class="page-tools">
-      <summary>Page tools</summary>
-      <div class="page-tools__panel">
-      <button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
-      <a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
-      <button type="button" class="page-tools__item" data-action="copy-link">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
-        <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
-      </button>
-      <button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="annex-c-9-web" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
-      <details class="reader-tools">
-        <summary>Reading options</summary>
-        <div class="reader-tools__panel">
-          <fieldset>
-            <legend>Text width</legend>
-            <label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
-            <label><input type="radio" name="reading-width" value="wide"> Wide</label>
-          </fieldset>
-          <fieldset>
-            <legend>Colour theme</legend>
-            <label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
-            <label><input type="radio" name="colour-theme" value="light"> Light</label>
-            <label><input type="radio" name="colour-theme" value="dark"> Dark</label>
-          </fieldset>
-          <label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
-          <button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
-          <p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
-          <section class="reader-library" aria-labelledby="saved-pages-heading">
-            <h2 id="saved-pages-heading">Saved pages</h2>
-            <h3>Bookmarks</h3>
-            <ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
-            <h3>Recently viewed</h3>
-            <ul data-recent-list><li>No recently viewed pages yet.</li></ul>
-          </section>
-        </div>
-      </details>
-      </div>
-      </details>
-    </div>
-  </div>
+<div class="doc-header__inner">
+<nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Annex C: Determination of conformance</li><li aria-current="page">Annex C.9: Web</li></ol></nav>
+<div class="doc-header__top">
+<div>
+<h1>Annex C.9 (normative): Web</h1>
 </div>
-
+</div>
+<div class="doc-toolbar">
+<details class="page-tools">
+<summary>Page tools</summary>
+<div class="page-tools__panel">
+<button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
+<a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
+<button type="button" class="page-tools__item" data-action="copy-link">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
+<span class="doc-toolbar__btn-status" aria-hidden="true"></span>
+</button>
+<button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="annex-c-9-web" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
+<details class="reader-tools">
+<summary>Reading options</summary>
+<div class="reader-tools__panel">
+<fieldset>
+<legend>Text width</legend>
+<label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
+<label><input type="radio" name="reading-width" value="wide"> Wide</label>
+</fieldset>
+<fieldset>
+<legend>Colour theme</legend>
+<label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
+<label><input type="radio" name="colour-theme" value="light"> Light</label>
+<label><input type="radio" name="colour-theme" value="dark"> Dark</label>
+</fieldset>
+<label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
+<button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
+<p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
+<section class="reader-library" aria-labelledby="saved-pages-heading">
+<h2 id="saved-pages-heading">Saved pages</h2>
+<h3>Bookmarks</h3>
+<ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
+<h3>Recently viewed</h3>
+<ul data-recent-list><li>No recently viewed pages yet.</li></ul>
+</section>
+</div>
+</details>
+</div>
+</details>
+</div>
+</div>
+</div>
 <div class="page-shell">
-  <div class="page-sidebar">
-    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
-    <nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
+<div class="page-sidebar">
+<button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
+<nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
 <div class="site-nav__header">Contents</div>
 <p><a href="index.html">Home</a></p>
 <p><a href="about.html">About</a></p>
@@ -236,10 +206,10 @@ preference applies. */
 </li>
 </ul></details>
 </nav>
-  </div>
-  <main id="main-content" tabindex="-1">
-    <div class="content">
-      <div class="clause-summary"><h2 id="about-this-page">About this annex</h2><p>Annex C.9 describes ways to determine whether the requirements in clause 9 (web) are met.</p><p>It is <a href="about.html#normative-and-informative">normative</a>, which means it forms part of the requirements of the standard.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div><nav class="on-this-page" aria-labelledby="on-this-page-heading">
+</div>
+<main id="main-content" tabindex="-1">
+<div class="content">
+<div class="clause-summary"><h2 id="about-this-page">About this annex</h2><p>Annex C.9 describes ways to determine whether the requirements in clause 9 (web) are met.</p><p>It is <a href="about.html#normative-and-informative">normative</a>, which means it forms part of the requirements of the standard.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div><nav class="on-this-page" aria-labelledby="on-this-page-heading">
 <h2 id="on-this-page-heading">On this page</h2>
 <ul>
 <li><a href="#c-9-0">C.9.0 General (informative)</a>
@@ -278,11 +248,8 @@ preference applies. */
 </ul></nav>
 <h2 id="c-9-0"><a class="heading-link" href="#c-9-0" data-copy-link>C.9.0 General (informative)</a></h2>
 <p>Clause <a class="xref" href="clause-9-web.html#9-0">9.0</a> is informative only and contains no testable requirements.</p>
-
 <h2 id="c-9-1"><a class="heading-link" href="#c-9-1" data-copy-link>C.9.1 Perceivable</a></h2>
-
 <h3 id="c-9-1-1"><a class="heading-link" href="#c-9-1-1" data-copy-link>C.9.1.1 Text alternatives</a></h3>
-
 <h4 id="c-9-1-1-1"><a class="heading-link" href="#c-9-1-1-1" data-copy-link>C.9.1.1.1 Non-text content</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -295,9 +262,7 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.1.1 Non-text content (Do not need to meet or test.)</li>
 </ul>
-
 <h3 id="c-9-1-2"><a class="heading-link" href="#c-9-1-2" data-copy-link>C.9.1.2 Time-based media</a></h3>
-
 <h4 id="c-9-1-2-1"><a class="heading-link" href="#c-9-1-2-1" data-copy-link>C.9.1.2.1 Audio-only and video-only (pre-recorded)</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -310,7 +275,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.2.1 Audio-only and Video-only (Prerecorded) (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-1-2-2"><a class="heading-link" href="#c-9-1-2-2" data-copy-link>C.9.1.2.2 Subtitles (pre-recorded)</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -323,7 +287,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.2.2 Captions (Prerecorded) (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-1-2-3"><a class="heading-link" href="#c-9-1-2-3" data-copy-link>C.9.1.2.3 Audio description or media alternative (pre-recorded)</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -336,7 +299,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.2.3 Audio Description or Media Alternative (Prerecorded) (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-1-2-4"><a class="heading-link" href="#c-9-1-2-4" data-copy-link>C.9.1.2.4 Subtitles (live)</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -349,7 +311,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.2.4 Captions (Live) (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-1-2-5"><a class="heading-link" href="#c-9-1-2-5" data-copy-link>C.9.1.2.5 Audio description (pre-recorded)</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -362,9 +323,7 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.2.5 Audio Description (Prerecorded) (Do not need to meet or test.)</li>
 </ul>
-
 <h3 id="c-9-1-3"><a class="heading-link" href="#c-9-1-3" data-copy-link>C.9.1.3 Adaptable</a></h3>
-
 <h4 id="c-9-1-3-1"><a class="heading-link" href="#c-9-1-3-1" data-copy-link>C.9.1.3.1 Info and relationships</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -377,7 +336,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.3.1 Info and Relationships (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-1-3-2"><a class="heading-link" href="#c-9-1-3-2" data-copy-link>C.9.1.3.2 Meaningful sequence</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -390,7 +348,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.3.2 Meaningful Sequence (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-1-3-3"><a class="heading-link" href="#c-9-1-3-3" data-copy-link>C.9.1.3.3 Sensory characteristics</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -403,7 +360,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.3.3 Sensory Characteristics (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-1-3-4"><a class="heading-link" href="#c-9-1-3-4" data-copy-link>C.9.1.3.4 Orientation</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -416,7 +372,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.3.4 Orientation (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-1-3-5"><a class="heading-link" href="#c-9-1-3-5" data-copy-link>C.9.1.3.5 Identify input purpose</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -429,9 +384,7 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.3.5 Identify Input Purpose (Do not need to meet or test.)</li>
 </ul>
-
 <h3 id="c-9-1-4"><a class="heading-link" href="#c-9-1-4" data-copy-link>C.9.1.4 Distinguishable</a></h3>
-
 <h4 id="c-9-1-4-1"><a class="heading-link" href="#c-9-1-4-1" data-copy-link>C.9.1.4.1 Use of colour</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -444,7 +397,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.4.1 Use of Color (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-1-4-2"><a class="heading-link" href="#c-9-1-4-2" data-copy-link>C.9.1.4.2 Audio control</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -457,7 +409,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.4.2 Audio Control (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-1-4-3"><a class="heading-link" href="#c-9-1-4-3" data-copy-link>C.9.1.4.3 Contrast (minimum)</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -470,7 +421,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.4.3 Contrast (Minimum) (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-1-4-4"><a class="heading-link" href="#c-9-1-4-4" data-copy-link>C.9.1.4.4 Resize text</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -483,7 +433,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.4.4 Resize text (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-1-4-5"><a class="heading-link" href="#c-9-1-4-5" data-copy-link>C.9.1.4.5 Images of text</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -496,15 +445,10 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.4.5 Images of Text (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-1-4-6"><a class="heading-link" href="#c-9-1-4-6" data-copy-link>C.9.1.4.6 Void</a></h4>
-
 <h4 id="c-9-1-4-7"><a class="heading-link" href="#c-9-1-4-7" data-copy-link>C.9.1.4.7 Void</a></h4>
-
 <h4 id="c-9-1-4-8"><a class="heading-link" href="#c-9-1-4-8" data-copy-link>C.9.1.4.8 Void</a></h4>
-
 <h4 id="c-9-1-4-9"><a class="heading-link" href="#c-9-1-4-9" data-copy-link>C.9.1.4.9 Void</a></h4>
-
 <h4 id="c-9-1-4-10"><a class="heading-link" href="#c-9-1-4-10" data-copy-link>C.9.1.4.10 Reflow</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -517,7 +461,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.4.10 Reflow (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-1-4-11"><a class="heading-link" href="#c-9-1-4-11" data-copy-link>C.9.1.4.11 Non-text contrast</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -530,7 +473,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.4.11 Non-text Contrast (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-1-4-12"><a class="heading-link" href="#c-9-1-4-12" data-copy-link>C.9.1.4.12 Text spacing</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -543,7 +485,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.4.12 Text spacing (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-1-4-13"><a class="heading-link" href="#c-9-1-4-13" data-copy-link>C.9.1.4.13 Content on hover or focus</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -556,11 +497,8 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 1.4.13 Content on Hover or Focus (Do not need to meet or test.)</li>
 </ul>
-
 <h2 id="c-9-2"><a class="heading-link" href="#c-9-2" data-copy-link>C.9.2 Operable</a></h2>
-
 <h3 id="c-9-2-1"><a class="heading-link" href="#c-9-2-1" data-copy-link>C.9.2.1 Keyboard accessible</a></h3>
-
 <h4 id="c-9-2-1-1"><a class="heading-link" href="#c-9-2-1-1" data-copy-link>C.9.2.1.1 Keyboard</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -573,7 +511,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.1.1 Keyboard (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-2-1-2"><a class="heading-link" href="#c-9-2-1-2" data-copy-link>C.9.2.1.2 No keyboard trap</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -586,9 +523,7 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.1.2 No Keyboard Trap (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-2-1-3"><a class="heading-link" href="#c-9-2-1-3" data-copy-link>C.9.2.1.3 Void</a></h4>
-
 <h4 id="c-9-2-1-4"><a class="heading-link" href="#c-9-2-1-4" data-copy-link>C.9.2.1.4 Character key shortcuts</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -601,9 +536,7 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.1.4 Character Key Shortcuts (Do not need to meet or test.)</li>
 </ul>
-
 <h3 id="c-9-2-2"><a class="heading-link" href="#c-9-2-2" data-copy-link>C.9.2.2 Enough time</a></h3>
-
 <h4 id="c-9-2-2-1"><a class="heading-link" href="#c-9-2-2-1" data-copy-link>C.9.2.2.1 Timing adjustable</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -616,7 +549,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.2.1 Timing Adjustable (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-2-2-2"><a class="heading-link" href="#c-9-2-2-2" data-copy-link>C.9.2.2.2 Pause, stop, hide</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -629,9 +561,7 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.2.2 Pause, Stop, Hide (Do not need to meet or test.)</li>
 </ul>
-
 <h3 id="c-9-2-3"><a class="heading-link" href="#c-9-2-3" data-copy-link>C.9.2.3 Seizures and physical reactions</a></h3>
-
 <h4 id="c-9-2-3-1"><a class="heading-link" href="#c-9-2-3-1" data-copy-link>C.9.2.3.1 Three flashes or below threshold</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -644,9 +574,7 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.3.1 Three Flashes or Below Threshold (Do not need to meet or test.)</li>
 </ul>
-
 <h3 id="c-9-2-4"><a class="heading-link" href="#c-9-2-4" data-copy-link>C.9.2.4 Navigable</a></h3>
-
 <h4 id="c-9-2-4-1"><a class="heading-link" href="#c-9-2-4-1" data-copy-link>C.9.2.4.1 Bypass blocks</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -659,7 +587,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.4.1 Bypass Blocks (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-2-4-2"><a class="heading-link" href="#c-9-2-4-2" data-copy-link>C.9.2.4.2 Page titled</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -672,7 +599,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.4.2 Page Titled (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-2-4-3"><a class="heading-link" href="#c-9-2-4-3" data-copy-link>C.9.2.4.3 Focus order</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -685,7 +611,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.4.3 Focus Order (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-2-4-4"><a class="heading-link" href="#c-9-2-4-4" data-copy-link>C.9.2.4.4 Link purpose (in context)</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -698,7 +623,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.4.4 Link Purpose (In Context) (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-2-4-5"><a class="heading-link" href="#c-9-2-4-5" data-copy-link>C.9.2.4.5 Multiple ways</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -711,7 +635,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.4.5 Multiple Ways (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-2-4-6"><a class="heading-link" href="#c-9-2-4-6" data-copy-link>C.9.2.4.6 Headings and labels</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -724,7 +647,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.4.6 Headings and Labels (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-2-4-7"><a class="heading-link" href="#c-9-2-4-7" data-copy-link>C.9.2.4.7 Focus visible</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -737,13 +659,9 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.4.7 Focus Visible (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-2-4-8"><a class="heading-link" href="#c-9-2-4-8" data-copy-link>C.9.2.4.8 Void</a></h4>
-
 <h4 id="c-9-2-4-9"><a class="heading-link" href="#c-9-2-4-9" data-copy-link>C.9.2.4.9 Void</a></h4>
-
 <h4 id="c-9-2-4-10"><a class="heading-link" href="#c-9-2-4-10" data-copy-link>C.9.2.4.10 Void</a></h4>
-
 <h4 id="c-9-2-4-11"><a class="heading-link" href="#c-9-2-4-11" data-copy-link>C.9.2.4.11 Focus not obscured (minimum)</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -756,9 +674,7 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the non-web document does not contain content relevant to WCAG 2.2 Success Criterion 2.4.11 Focus Not Obscured (Minimum) (Do not need to meet or test.)</li>
 </ul>
-
 <h3 id="c-9-2-5"><a class="heading-link" href="#c-9-2-5" data-copy-link>C.9.2.5 Input modalities</a></h3>
-
 <h4 id="c-9-2-5-1"><a class="heading-link" href="#c-9-2-5-1" data-copy-link>C.9.2.5.1 Pointer gestures</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -771,7 +687,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.5.1 Pointer Gestures (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-2-5-2"><a class="heading-link" href="#c-9-2-5-2" data-copy-link>C.9.2.5.2 Pointer cancellation</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -784,7 +699,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.5.2 Pointer Cancellation (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-2-5-3"><a class="heading-link" href="#c-9-2-5-3" data-copy-link>C.9.2.5.3 Label in name</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -797,7 +711,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.5.3 Label in Name (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-2-5-4"><a class="heading-link" href="#c-9-2-5-4" data-copy-link>C.9.2.5.4 Motion actuation</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -810,11 +723,8 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.5.4 Motion Actuation (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-2-5-5"><a class="heading-link" href="#c-9-2-5-5" data-copy-link>C.9.2.5.5 Void</a></h4>
-
 <h4 id="c-9-2-5-6"><a class="heading-link" href="#c-9-2-5-6" data-copy-link>C.9.2.5.6 Void</a></h4>
-
 <h4 id="c-9-2-5-7"><a class="heading-link" href="#c-9-2-5-7" data-copy-link>C.9.2.5.7 Dragging movements</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -827,7 +737,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.5.7 Dragging movements (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-2-5-8"><a class="heading-link" href="#c-9-2-5-8" data-copy-link>C.9.2.5.8 Target size (minimum)</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -840,11 +749,8 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 2.5.8 Target size (minimum) (Do not need to meet or test.)</li>
 </ul>
-
 <h2 id="c-9-3"><a class="heading-link" href="#c-9-3" data-copy-link>C.9.3 Understandable</a></h2>
-
 <h3 id="c-9-3-1"><a class="heading-link" href="#c-9-3-1" data-copy-link>C.9.3.1 Readable</a></h3>
-
 <h4 id="c-9-3-1-1"><a class="heading-link" href="#c-9-3-1-1" data-copy-link>C.9.3.1.1 Language of page</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -857,7 +763,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.1.1 Language of Page (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-3-1-2"><a class="heading-link" href="#c-9-3-1-2" data-copy-link>C.9.3.1.2 Language of parts</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -870,9 +775,7 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.1.2 Language of Parts (Do not need to meet or test.)</li>
 </ul>
-
 <h3 id="c-9-3-2"><a class="heading-link" href="#c-9-3-2" data-copy-link>C.9.3.2 Predictable</a></h3>
-
 <h4 id="c-9-3-2-1"><a class="heading-link" href="#c-9-3-2-1" data-copy-link>C.9.3.2.1 On focus</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -885,7 +788,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.2.1 On Focus (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-3-2-2"><a class="heading-link" href="#c-9-3-2-2" data-copy-link>C.9.3.2.2 On input</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -898,7 +800,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.2.2 On Input (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-3-2-3"><a class="heading-link" href="#c-9-3-2-3" data-copy-link>C.9.3.2.3 Consistent navigation</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -911,7 +812,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.2.3 Consistent Navigation (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-3-2-4"><a class="heading-link" href="#c-9-3-2-4" data-copy-link>C.9.3.2.4 Consistent identification</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -924,9 +824,7 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.2.4 Consistent Identification (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-3-2-5"><a class="heading-link" href="#c-9-3-2-5" data-copy-link>C.9.3.2.5 Void</a></h4>
-
 <h4 id="c-9-3-2-6"><a class="heading-link" href="#c-9-3-2-6" data-copy-link>C.9.3.2.6 Consistent help</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -939,9 +837,7 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.2.6 Consistent Help (Do not need to meet or test.)</li>
 </ul>
-
 <h3 id="c-9-3-3"><a class="heading-link" href="#c-9-3-3" data-copy-link>C.9.3.3 Input assistance</a></h3>
-
 <h4 id="c-9-3-3-1"><a class="heading-link" href="#c-9-3-3-1" data-copy-link>C.9.3.3.1 Error identification</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -954,7 +850,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.3.1 Error Identification (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-3-3-2"><a class="heading-link" href="#c-9-3-3-2" data-copy-link>C.9.3.3.2 Labels or instructions</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -967,7 +862,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.3.2 Labels or Instructions (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-3-3-3"><a class="heading-link" href="#c-9-3-3-3" data-copy-link>C.9.3.3.3 Error suggestion</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -980,7 +874,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.3.3 Error Suggestion (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-3-3-4"><a class="heading-link" href="#c-9-3-3-4" data-copy-link>C.9.3.3.4 Error prevention (legal, financial, data)</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -993,11 +886,8 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.3.4 Error Prevention (Legal, Financial, Data) (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-3-3-5"><a class="heading-link" href="#c-9-3-3-5" data-copy-link>C.9.3.3.5 Void</a></h4>
-
 <h4 id="c-9-3-3-6"><a class="heading-link" href="#c-9-3-3-6" data-copy-link>C.9.3.3.6 Void</a></h4>
-
 <h4 id="c-9-3-3-7"><a class="heading-link" href="#c-9-3-3-7" data-copy-link>C.9.3.3.7 Redundant entry</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -1010,7 +900,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG.2 Success Criterion 3.3.7 Redundant Entry (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-3-3-8"><a class="heading-link" href="#c-9-3-3-8" data-copy-link>C.9.3.3.8 Accessible authentication (minimum)</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -1023,13 +912,9 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 3.3.8 Accessible Authentication (Minimum) (Do not need to meet or test.)</li>
 </ul>
-
 <h2 id="c-9-4"><a class="heading-link" href="#c-9-4" data-copy-link>C.9.4 Robust</a></h2>
-
 <h3 id="c-9-4-1"><a class="heading-link" href="#c-9-4-1" data-copy-link>C.9.4.1 Compatible</a></h3>
-
 <h4 id="c-9-4-1-1"><a class="heading-link" href="#c-9-4-1-1" data-copy-link>C.9.4.1.1 Void</a></h4>
-
 <h4 id="c-9-4-1-2"><a class="heading-link" href="#c-9-4-1-2" data-copy-link>C.9.4.1.2 Name, role, value</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -1042,7 +927,6 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 4.1.2 Name, Role, Value (Do not need to meet or test.)</li>
 </ul>
-
 <h4 id="c-9-4-1-3"><a class="heading-link" href="#c-9-4-1-3" data-copy-link>C.9.4.1.3 Status messages</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -1055,10 +939,8 @@ preference applies. */
 <li>Fail: Check 1 is false</li>
 <li>Not applicable: If any requirement precondition is false or the web page does not contain content relevant to WCAG 2.2 Success Criterion 4.1.3 Status Messages (Do not need to meet or test.)</li>
 </ul>
-
 <h2 id="c-9-5"><a class="heading-link" href="#c-9-5" data-copy-link>C.9.5 WCAG 2.2 AAA Success Criteria (informative)</a></h2>
 <p>Clause <a class="xref" href="clause-9-web.html#9-5">9.5</a> is informative only and contains no testable requirements.</p>
-
 <h2 id="c-9-6"><a class="heading-link" href="#c-9-6" data-copy-link>C.9.6 WCAG 2.2 conformance requirements</a></h2>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -1077,7 +959,6 @@ preference applies. */
 <li>Fail: Any check is false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h2 id="c-9-7"><a class="heading-link" href="#c-9-7" data-copy-link>C.9.7 User preferences for web pages</a></h2>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> The ICT is, or includes, a web page.</p>
@@ -1094,24 +975,19 @@ preference applies. */
 <li>Fail: Check 1 is false OR (check 2 is false AND check 3 is false)</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
-    </div>
-    <nav class="page-pager" aria-label="Page navigation">
+</div>
+<nav class="page-pager" aria-label="Page navigation">
 <a class="page-pager__link page-pager__link--prev" href="annex-c-8-hardware.html"><span class="page-pager__direction">&larr; Previous</span><span class="page-pager__title">Annex C.8: Hardware</span></a>
 <a class="page-pager__link page-pager__link--next" href="annex-c-10-non-web-documents.html"><span class="page-pager__direction">Next &rarr;</span><span class="page-pager__title">Annex C.10: Non-web documents</span></a>
 </nav>
-  </main>
+</main>
 </div>
-
 <a class="back-to-top" href="#top">&uarr; Back to top</a>
-
 <div id="status-live" class="visually-hidden" role="status" aria-live="polite"></div>
-
 <footer class="site-footer">
-  <div class="site-footer__inner">
-    <nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
-  </div>
+<div class="site-footer__inner">
+<nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
+</div>
 </footer>
-<script src="assets/js/site.js?v=7b43fc8f"></script>
 </body>
 </html>

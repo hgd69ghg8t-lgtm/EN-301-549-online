@@ -8,36 +8,7 @@
 <meta id="theme-colour-light" name="theme-color" media="(prefers-color-scheme: light)" content="#14245a">
 <meta id="theme-colour-dark" name="theme-color" media="(prefers-color-scheme: dark)" content="#16191d">
 <link rel="canonical" href="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/clause-11-non-web-software.html">
-<script>/* Theme apply, deliberately placed before the stylesheet link and
-kept synchronous (scripts/test_build.py asserts both statically): an
-explicit Dark/Light choice is set on <html> before the stylesheet can
-first paint with the wrong tokens, preventing — or at worst minimising —
-a wrong-theme flash. Also keeps
-the browser-chrome theme-color in step with the RESOLVED theme — on an
-explicit choice both meta elements get the same value, so whichever
-media query the OS matches, the chrome colour agrees with the page.
-site.js reuses __syncThemeColour when the choice changes mid-session.
-The hex values are injected from build.py (THEME_CHROME_*), the single
-source the unit tests check the CSS and generated output against.
-Everything else about theming is CSS; without JavaScript the OS
-preference applies. */
-(function () {
-  var LIGHT = "#14245a", DARK = "#16191d";
-  window.__syncThemeColour = function (theme) {
-    var l = document.getElementById("theme-colour-light");
-    var d = document.getElementById("theme-colour-dark");
-    if (!l || !d) return;
-    l.content = theme === "dark" ? DARK : LIGHT;
-    d.content = theme === "light" ? LIGHT : DARK;
-  };
-  var theme = null;
-  try {
-    var p = JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));
-    if (p && (p.theme === "dark" || p.theme === "light")) theme = p.theme;
-  } catch (e) {}
-  if (theme) document.documentElement.setAttribute("data-theme", theme);
-  window.__syncThemeColour(theme || "auto");
-})();</script>
+<script>(function(){var L="#14245a",D="#16191d";window.__syncThemeColour=function(t){var l=document.getElementById("theme-colour-light"),d=document.getElementById("theme-colour-dark");if(l&&d){l.content=t==="dark"?D:L;d.content=t==="light"?L:D}};var t=null;try{var p=JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));if(p&&(p.theme==="dark"||p.theme==="light"))t=p.theme}catch(e){}if(t)document.documentElement.setAttribute("data-theme",t);window.__syncThemeColour(t||"auto")})();</script>
 <meta property="og:site_name" content="ETSI EN 301 549 V4.1.0 Online">
 <meta property="og:type" content="website">
 <meta property="og:title" content="11 Non-web software | ETSI EN 301 549 V4.1.0 Online">
@@ -45,84 +16,84 @@ preference applies. */
 <meta property="og:url" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/clause-11-non-web-software.html">
 <meta property="og:image" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/assets/img/apple-touch-icon.png">
 <meta name="twitter:card" content="summary">
-<link rel="stylesheet" href="assets/css/style.css?v=c5430ccf">
+<link rel="stylesheet" href="assets/css/style.18c586c2.css">
+<script defer src="assets/js/core.06591bb3.js"></script>
+<script defer src="assets/js/tables.ce0866fd.js"></script>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 </head>
-<body data-page-slug="clause-11-non-web-software" data-page-title="11 Non-web software" data-page-group="Clauses">
+<body data-page-slug="clause-11-non-web-software" data-page-title="11 Non-web software" data-page-group="Clauses" data-search-js="assets/js/search.3f91c211.js" data-reader-js="assets/js/reader-library.63836e18.js" data-suggest-index="search-suggestions.e295bad5.json">
 <a class="skip-link" id="top" href="#main-content">Skip to main content</a>
-
+<div class="top-sentinel" aria-hidden="true"></div>
 <header class="site-header">
-  <div class="site-header__inner">
-    <a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
-    <nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
-    <button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
-    </button>
-    <form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
-      <input type="search" name="q" aria-label="Search this standard" autocomplete="off">
-      <button type="submit">Search</button>
-    </form>
-  </div>
+<div class="site-header__inner">
+<a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
+<nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
+<button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
+</button>
+<form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
+<input type="search" name="q" aria-label="Search this standard" autocomplete="off">
+<button type="submit">Search</button>
+</form>
+</div>
 </header>
 <div class="accent-bar" aria-hidden="true"></div>
-
 <div class="doc-header">
-  <div class="doc-header__inner">
-    <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Clauses</li><li aria-current="page">11 Non-web software</li></ol></nav>
-    <div class="doc-header__top">
-      <div>
-        <h1>11 Non-web software</h1>
-      </div>
-    </div>
-    <div class="doc-toolbar">
-      <details class="page-tools">
-      <summary>Page tools</summary>
-      <div class="page-tools__panel">
-      <button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
-      <a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
-      <button type="button" class="page-tools__item" data-action="copy-link">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
-        <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
-      </button>
-      <button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="clause-11-non-web-software" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
-      <details class="reader-tools">
-        <summary>Reading options</summary>
-        <div class="reader-tools__panel">
-          <fieldset>
-            <legend>Text width</legend>
-            <label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
-            <label><input type="radio" name="reading-width" value="wide"> Wide</label>
-          </fieldset>
-          <fieldset>
-            <legend>Colour theme</legend>
-            <label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
-            <label><input type="radio" name="colour-theme" value="light"> Light</label>
-            <label><input type="radio" name="colour-theme" value="dark"> Dark</label>
-          </fieldset>
-          <label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
-          <button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
-          <p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
-          <section class="reader-library" aria-labelledby="saved-pages-heading">
-            <h2 id="saved-pages-heading">Saved pages</h2>
-            <h3>Bookmarks</h3>
-            <ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
-            <h3>Recently viewed</h3>
-            <ul data-recent-list><li>No recently viewed pages yet.</li></ul>
-          </section>
-        </div>
-      </details>
-      </div>
-      </details>
-    </div>
-  </div>
+<div class="doc-header__inner">
+<nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Clauses</li><li aria-current="page">11 Non-web software</li></ol></nav>
+<div class="doc-header__top">
+<div>
+<h1>11 Non-web software</h1>
 </div>
-
+</div>
+<div class="doc-toolbar">
+<details class="page-tools">
+<summary>Page tools</summary>
+<div class="page-tools__panel">
+<button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
+<a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
+<button type="button" class="page-tools__item" data-action="copy-link">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
+<span class="doc-toolbar__btn-status" aria-hidden="true"></span>
+</button>
+<button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="clause-11-non-web-software" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
+<details class="reader-tools">
+<summary>Reading options</summary>
+<div class="reader-tools__panel">
+<fieldset>
+<legend>Text width</legend>
+<label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
+<label><input type="radio" name="reading-width" value="wide"> Wide</label>
+</fieldset>
+<fieldset>
+<legend>Colour theme</legend>
+<label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
+<label><input type="radio" name="colour-theme" value="light"> Light</label>
+<label><input type="radio" name="colour-theme" value="dark"> Dark</label>
+</fieldset>
+<label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
+<button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
+<p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
+<section class="reader-library" aria-labelledby="saved-pages-heading">
+<h2 id="saved-pages-heading">Saved pages</h2>
+<h3>Bookmarks</h3>
+<ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
+<h3>Recently viewed</h3>
+<ul data-recent-list><li>No recently viewed pages yet.</li></ul>
+</section>
+</div>
+</details>
+</div>
+</details>
+</div>
+</div>
+</div>
 <div class="page-shell">
-  <div class="page-sidebar">
-    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
-    <nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
+<div class="page-sidebar">
+<button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
+<nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
 <div class="site-nav__header">Contents</div>
 <p><a href="index.html">Home</a></p>
 <p><a href="about.html">About</a></p>
@@ -242,10 +213,10 @@ preference applies. */
 </li>
 </ul></details>
 </nav>
-  </div>
-  <main id="main-content" tabindex="-1">
-    <div class="content">
-      <div class="clause-summary"><h2 id="about-this-page">About this clause</h2><p>Clause 11 covers software that is not a web page, such as desktop or mobile applications. It sets out what makes this software accessible.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div><nav class="on-this-page" aria-labelledby="on-this-page-heading">
+</div>
+<main id="main-content" tabindex="-1">
+<div class="content">
+<div class="clause-summary"><h2 id="about-this-page">About this clause</h2><p>Clause 11 covers software that is not a web page, such as desktop or mobile applications. It sets out what makes this software accessible.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div><nav class="on-this-page" aria-labelledby="on-this-page-heading">
 <h2 id="on-this-page-heading">On this page</h2>
 <ul>
 <li><a href="#11-0">11.0 General (informative)</a>
@@ -316,50 +287,36 @@ preference applies. */
 <div class="callout"><p><span class="callout__label">NOTE 7:</span> Where the meaning of WCAG glossary terms when applied to non-web software is unclear, reference to the Glossary Items with Specific Guidance, in the W3C&reg; Working Group Note <a class="xref" href="clause-2-references.html#ref-i-25">[i.25]</a>, can help to clarify how they are to be understood.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 8:</span> Non-web software that provides a user interface includes its own content. Some examples of content in non-web software include: the controls and text displayed in a menu bar of a graphical user interface application, images that appear in a toolbar, prompts spoken in an auditory user interface, other user interaction controls, and other text, graphics or material that is not loaded from outside the software.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 9:</span> &ldquo;Void&rdquo; clauses have been inserted in order to maintain alignment of the numbering in clauses <a class="xref" href="clause-9-web.html">9</a>, <a class="xref" href="clause-10-non-web-documents.html">10</a> and 11.</p></div>
-
 <h2 id="11-1"><a class="heading-link" href="#11-1" data-copy-link>11.1 Perceivable</a></h2>
-
 <h3 id="11-1-1"><a class="heading-link" href="#11-1-1" data-copy-link>11.1.1 Text alternatives</a></h3>
-
 <h4 id="11-1-1-1"><a class="heading-link" href="#11-1-1-1" data-copy-link>11.1.1.1 Non-text content</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the non-web software includes functionality that is not closed to programmatic access of information by assistive technologies, the functionality that is not closed shall satisfy WCAG 2.2 Success Criterion 1.1.1 Non-text content.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> CAPTCHAs do not currently appear outside of the Web. However, if they do appear, this guidance is accurate.</p></div>
-
 <h3 id="11-1-2"><a class="heading-link" href="#11-1-2" data-copy-link>11.1.2 Time-based media</a></h3>
-
 <h4 id="11-1-2-1"><a class="heading-link" href="#11-1-2-1" data-copy-link>11.1.2.1 Audio-only and video-only (pre-recorded)</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the non-web software includes functionality that is not closed to programmatic access of information by assistive technologies, the functionality that is not closed shall satisfy the WCAG 2.2 Success Criterion 1.2.1 Audio-only and Video-only (Prerecorded).</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> The alternative can be provided directly in the non-web software - or provided in an alternate version that satisfies the success criterion.</p></div>
-
 <h4 id="11-1-2-2"><a class="heading-link" href="#11-1-2-2" data-copy-link>11.1.2.2 Subtitles (pre-recorded)</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web software shall satisfy the WCAG 2.2 Success Criterion 1.2.2 Captions (Prerecorded).</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> The WCAG 2.2 definition of &ldquo;captions&rdquo; notes that &ldquo;in some countries, captions are called subtitles&rdquo;. They are also sometimes referred to as &ldquo;subtitles for the hearing impaired&rdquo;. Per the definition in WCAG 2, to satisfy this success criterion, whether called captions or subtitles, they would have to provide &ldquo;synchronized visual and/or text alternative for both speech and non-speech audio information needed to understand the media content&rdquo; where non-speech information includes &ldquo;sound effects, music, laughter, speaker identification and location&rdquo;.</p></div>
-
 <h4 id="11-1-2-3"><a class="heading-link" href="#11-1-2-3" data-copy-link>11.1.2.3 Audio description or media alternative (pre-recorded)</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the non-web software includes functionality that is not closed to programmatic access of information by assistive technologies, the functionality that is not closed shall satisfy the WCAG 2.2 Success Criterion 1.2.3 Audio Description or Media Alternative (Prerecorded).</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Audio descriptions (also called &ldquo;video descriptions&rdquo;, &ldquo;descriptive narration&rdquo;, and &ldquo;described videos&rdquo;) add descriptive information of important visual information needed to understand the video content, including text displayed in the video. Where the main audio track of the video fully describes important visual information, audio descriptions would not be needed at all as the requirement would already be met. When audio descriptions are needed, one way to implement them is by providing a second audio track for the audio-video media.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> This clause corresponds to a WCAG success criterion at level A. Another clause (clause <a class="xref" href="#11-1-2-5">11.1.2.5</a>) addresses the same user need, but is based on a WCAG success criterion at the higher AA level of accessibility. ICT that satisfies the higher level of accessibility required by clause <a class="xref" href="#11-1-2-5">11.1.2.5</a> automatically satisfies this clause. Because of this, there is no need to test this clause if the ICT under test has passed a test for clause <a class="xref" href="#11-1-2-5">11.1.2.5</a>. But if it has failed clause <a class="xref" href="#11-1-2-5">11.1.2.5</a>, testing and meeting this clause is still meaningful, as it is better to pass this clause at level A, than to fail both.</p></div>
-
 <h4 id="11-1-2-4"><a class="heading-link" href="#11-1-2-4" data-copy-link>11.1.2.4 Subtitles (live)</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web software shall satisfy the WCAG 2.2 Success Criterion 1.2.4 Captions (Live).</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> The WCAG 2.2 definition of &ldquo;captions&rdquo; notes that &ldquo;in some countries, captions are called subtitles&rdquo;. They are also sometimes referred to as &ldquo;subtitles for the hearing impaired&rdquo;. Per the definition in WCAG 2, to satisfy this success criterion, whether called captions or subtitles, they would have to provide &ldquo;synchronized visual and/or text alternative for both speech and non-speech audio information needed to understand the media content&rdquo; where non-speech information includes &ldquo;sound effects, music, laughter, speaker identification and location&rdquo;.</p></div>
-
 <h4 id="11-1-2-5"><a class="heading-link" href="#11-1-2-5" data-copy-link>11.1.2.5 Audio description (pre-recorded)</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web software shall satisfy the WCAG 2.2 Success Criterion 1.2.5 Audio Description (Prerecorded).</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> Audio descriptions (also called &ldquo;video descriptions&rdquo;, &ldquo;descriptive narration&rdquo;, and &ldquo;described videos&rdquo;) add descriptive information of important visual information needed to understand the video content, including text displayed in the video. Where the main audio track of the video fully describes important visual information, audio descriptions would not be needed at all as the requirement would already be met. When audio descriptions are needed, one way to implement them is by providing a second audio track for the audio-video media.</p></div>
-
 <h3 id="11-1-3"><a class="heading-link" href="#11-1-3" data-copy-link>11.1.3 Adaptable</a></h3>
-
 <h4 id="11-1-3-1"><a class="heading-link" href="#11-1-3-1" data-copy-link>11.1.3.1 Info and relationships</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the non-web software includes functionality that is not closed to programmatic access of information by assistive technologies, the functionality that is not closed shall satisfy the WCAG 2.2 Success Criterion 1.3.1 Info and Relationships.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> In non-web software, programmatic determinability is best achieved through the use of accessibility services provided by platform software to enable interoperability between software and assistive technologies and accessibility features of software. (see clause <a class="xref" href="#11-5">11.5</a> Interoperability with keyboards and assistive technology).</p></div>
-
 <h4 id="11-1-3-2"><a class="heading-link" href="#11-1-3-2" data-copy-link>11.1.3.2 Meaningful sequence</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the non-web software includes functionality that is not closed to programmatic access of information by assistive technologies, the functionality that is not closed shall satisfy the WCAG 2.2 Success Criterion 1.3.2 Meaningful Sequence.</p>
-
 <h4 id="11-1-3-3"><a class="heading-link" href="#11-1-3-3" data-copy-link>11.1.3.3 Sensory characteristics</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web software shall satisfy the WCAG 2.2 Success Criterion 1.3.3 Sensory Characteristics.</p>
-
 <h4 id="11-1-3-4"><a class="heading-link" href="#11-1-3-4" data-copy-link>11.1.3.4 Orientation</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the non-web software is displayed on hardware that is designed to be reoriented in typical use, the non-web software shall satisfy the WCAG 2.2 Success Criterion 1.3.4 Orientation.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> Non-web software that is only used on hardware that supports a single display orientation, or where it is an application that is run only on hardware that is physically fixed in one orientation (e.g. a digital building directory) is excluded by the precondition and therefore does not need to provide support for orientation changes.</p></div>
@@ -371,17 +328,13 @@ preference applies. */
 <li>Building directory software written to ONLY be used on tablet devices bolted to the wall, all in the same orientation.</li>
 </ul>
 </div>
-
 <h4 id="11-1-3-5"><a class="heading-link" href="#11-1-3-5" data-copy-link>11.1.3.5 Identify input purpose</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the non-web software includes functionality that is not closed to programmatic access of information by assistive technologies, and where the technology used supports attributes to identify the meaning of form input data, the functionality that is not closed shall satisfy the WCAG 2.2 Success Criterion 1.3.5 Identify Input Purpose.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Non-web software technologies that do not provide attributes that support identifying the expected meaning for the form input data are not in scope for this success criterion.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> For non-web software that present input fields, the terms for the input purposes would be the equivalent terms to those listed in the WCAG 2.2 section Input Purposes for User Interface Components that are supported by the technology used.</p></div>
-
 <h3 id="11-1-4"><a class="heading-link" href="#11-1-4" data-copy-link>11.1.4 Distinguishable</a></h3>
-
 <h4 id="11-1-4-1"><a class="heading-link" href="#11-1-4-1" data-copy-link>11.1.4.1 Use of colour</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web software shall satisfy the WCAG 2.2 Success Criterion 1.4.1 Use of Color.</p>
-
 <h4 id="11-1-4-2"><a class="heading-link" href="#11-1-4-2" data-copy-link>11.1.4.2 Audio control</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web software shall satisfy the success criterion in Table 11.1.</p>
 <div class="table-wrap">
@@ -394,10 +347,8 @@ preference applies. */
 </tbody>
 </table>
 </div>
-
 <h4 id="11-1-4-3"><a class="heading-link" href="#11-1-4-3" data-copy-link>11.1.4.3 Contrast (minimum)</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web software shall satisfy the WCAG 2.2 Success Criterion 1.4.3 Contrast (Minimum).</p>
-
 <h4 id="11-1-4-4"><a class="heading-link" href="#11-1-4-4" data-copy-link>11.1.4.4 Resize text</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and is not closed to enlargement, the non-web software shall satisfy the success criterion in Table 11.2.</p>
 <div class="table-wrap">
@@ -413,18 +364,12 @@ preference applies. */
 </tbody>
 </table>
 </div>
-
 <h4 id="11-1-4-5"><a class="heading-link" href="#11-1-4-5" data-copy-link>11.1.4.5 Images of text</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the non-web software includes functionality that is not closed to programmatic access of information by assistive technologies, the functionality that is not closed shall satisfy the WCAG 2.2 Success Criterion 1.4.5 Images of Text.</p>
-
 <h4 id="11-1-4-6"><a class="heading-link" href="#11-1-4-6" data-copy-link>11.1.4.6 Void</a></h4>
-
 <h4 id="11-1-4-7"><a class="heading-link" href="#11-1-4-7" data-copy-link>11.1.4.7 Void</a></h4>
-
 <h4 id="11-1-4-8"><a class="heading-link" href="#11-1-4-8" data-copy-link>11.1.4.8 Void</a></h4>
-
 <h4 id="11-1-4-9"><a class="heading-link" href="#11-1-4-9" data-copy-link>11.1.4.9 Void</a></h4>
-
 <h4 id="11-1-4-10"><a class="heading-link" href="#11-1-4-10" data-copy-link>11.1.4.10 Reflow</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web software shall satisfy the success criterion in Table 11.3.</p>
 <div class="table-wrap">
@@ -455,16 +400,13 @@ preference applies. */
 </tbody>
 </table>
 </div>
-
 <h4 id="11-1-4-11"><a class="heading-link" href="#11-1-4-11" data-copy-link>11.1.4.11 Non-text contrast</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web software shall satisfy WCAG 2.2 Success Criterion 1.4.11 Non-text Contrast.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> An example of appearance modification by the author is content that sets the visual style of a control, such as a colour or border, to differ from the default style for the user agent or platform.</p></div>
-
 <h4 id="11-1-4-12"><a class="heading-link" href="#11-1-4-12" data-copy-link>11.1.4.12 Text spacing</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, that is implemented using markup languages that allow users to modify text spacing properties, the non-web software shall satisfy WCAG 2.2 Success Criterion 1.4.12 Text spacing.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> &ldquo;Content implemented using markup languages&rdquo; includes parts of software that use markup internally to define a user interface. Examples of markup languages that are used internally to define a software user interface include but are not limited to: HTML (e.g. in Electron applications or mobile software web views), XAML, XML (e.g. in mobile software application layouts), and XUL.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> There are several mechanisms that allow users to modify text spacing properties of content implemented in markup languages. For example, a software application may provide a &ldquo;user style sheet&rdquo; facility to modify the appearance of the software's own user interface. This success criterion does not mean that non-web software needs to implement their own mechanisms to allow users to set text spacing; however, when such a mechanism is available, the success criterion requires that content respond appropriately to it.</p></div>
-
 <h4 id="11-1-4-13"><a class="heading-link" href="#11-1-4-13" data-copy-link>11.1.4.13 Content on hover or focus</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and any visual presentation of the additional content caused by a hover or focus is not controlled by the user agent or platform software, or that visual presentation is modified by the non-web software, the non-web software shall satisfy the success criterion in Table 11.4.</p>
 <div class="table-wrap">
@@ -487,11 +429,8 @@ preference applies. */
 </tbody>
 </table>
 </div>
-
 <h2 id="11-2"><a class="heading-link" href="#11-2" data-copy-link>11.2 Operable</a></h2>
-
 <h3 id="11-2-1"><a class="heading-link" href="#11-2-1" data-copy-link>11.2.1 Keyboard accessible</a></h3>
-
 <h4 id="11-2-1-1"><a class="heading-link" href="#11-2-1-1" data-copy-link>11.2.1.1 Keyboard</a></h4>
 <p>Where ICT is, or includes, non-web software that can be run on a software platform that provides a device-independent keyboard interface service, the non-web software shall satisfy the WCAG 2.2 Success Criterion 2.1.1 Keyboard in accordance with the Intent from Understanding Success Criterion 2.1.1.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Keyboard interface does not refer to a physical device but to the service of platform software (e.g. operating system, browser, etc.) that provides software with keystrokes from any keyboard or keyboard substitute. When the non-web software supports such a device-independent service of the platform software, and the non-web software functionality is made fully operable through the service, then this success criterion would be satisfied.</p></div>
@@ -499,7 +438,6 @@ preference applies. */
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> Inclusion of an on-screen keyboard can be done as well but does not satisfy this requirement since it does not allow for the use of keyboard alternatives whereas support of input from the device-independent keyboard interface service does.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 4:</span> This success criterion does not imply that non-web software always needs to directly support a keyboard or &ldquo;keyboard interface&rdquo; if one is not provided by the platform software. But if one is provided, the software needs to make all functionality available through it - unless the exception applies.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 5:</span> The success criterion also does not imply that software always needs to provide its own virtual keyboard. But if it does, then the non-web software still needs to support keyboard input from any keyboard interface provided by platform software.</p></div>
-
 <h4 id="11-2-1-2"><a class="heading-link" href="#11-2-1-2" data-copy-link>11.2.1.2 No keyboard trap</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and that provides a keyboard or accepts input from a keyboard or keyboard interface, the non-web software shall satisfy the success criterion in Table 11.5.</p>
 <div class="table-wrap">
@@ -514,15 +452,11 @@ preference applies. */
 </tbody>
 </table>
 </div>
-
 <h4 id="11-2-1-3"><a class="heading-link" href="#11-2-1-3" data-copy-link>11.2.1.3 Void</a></h4>
-
 <h4 id="11-2-1-4"><a class="heading-link" href="#11-2-1-4" data-copy-link>11.2.1.4 Character key shortcuts</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and that provides a keyboard or accepts input from a keyboard or keyboard interface, the non-web software shall satisfy WCAG 2.2 Success Criterion 2.1.4 Character Key Shortcuts.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> A long press of a key (2 seconds or more) and other accessibility features provided by the platform do not meet the WCAG definition of a keyboard shortcut. See the keyboard shortcut definition for more details.</p></div>
-
 <h3 id="11-2-2"><a class="heading-link" href="#11-2-2" data-copy-link>11.2.2 Enough time</a></h3>
-
 <h4 id="11-2-2-1"><a class="heading-link" href="#11-2-2-1" data-copy-link>11.2.2.1 Timing adjustable</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web software shall satisfy the success criterion in Table 11.6.</p>
 <div class="table-wrap">
@@ -545,7 +479,6 @@ preference applies. */
 </tbody>
 </table>
 </div>
-
 <h4 id="11-2-2-2"><a class="heading-link" href="#11-2-2-2" data-copy-link>11.2.2.2 Pause, stop, hide</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web software shall satisfy the success criterion in Table 11.7.</p>
 <div class="table-wrap">
@@ -568,9 +501,7 @@ preference applies. */
 </tbody>
 </table>
 </div>
-
 <h3 id="11-2-3"><a class="heading-link" href="#11-2-3" data-copy-link>11.2.3 Seizures and physical reactions</a></h3>
-
 <h4 id="11-2-3-1"><a class="heading-link" href="#11-2-3-1" data-copy-link>11.2.3.1 Three flashes or below threshold</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web software shall satisfy the success criterion in Table 11.8.</p>
 <div class="table-wrap">
@@ -585,17 +516,13 @@ preference applies. */
 </tbody>
 </table>
 </div>
-
 <h3 id="11-2-4"><a class="heading-link" href="#11-2-4" data-copy-link>11.2.4 Navigable</a></h3>
-
 <h4 id="11-2-4-1"><a class="heading-link" href="#11-2-4-1" data-copy-link>11.2.4.1 Bypass blocks (Void)</a></h4>
 <p>Void.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> WCAG 2.2 Success Criterion 2.4.1 &ldquo;Bypass blocks&rdquo; does not apply to single non-web software programs, but to a specific definition of &ldquo;sets of non-web software programs&rdquo; that are extremely rare.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Although not a requirement, it is generally considered best practice, and to address user needs, to be able to bypass blocks of content that are repeated within non-web software.</p></div>
-
 <h4 id="11-2-4-2"><a class="heading-link" href="#11-2-4-2" data-copy-link>11.2.4.2 Non-web software titled</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, implemented on a platform that supports &ldquo;Title&rdquo; attributes for windows or screens, the non-web software shall provide titles that describe the name, topic or purpose of each window or screen.</p>
-
 <h4 id="11-2-4-3"><a class="heading-link" href="#11-2-4-3" data-copy-link>11.2.4.3 Focus order</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and that provides a keyboard or accepts input from a keyboard or keyboard interface, the non-web software shall satisfy the success criterion in Table 11.9.</p>
 <div class="table-wrap">
@@ -607,32 +534,22 @@ preference applies. */
 </tbody>
 </table>
 </div>
-
 <h4 id="11-2-4-4"><a class="heading-link" href="#11-2-4-4" data-copy-link>11.2.4.4 Link purpose (in context)</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web software shall satisfy WCAG 2.2 Success Criterion 2.4.4 Link Purpose (In Context).</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> In non-web software, a &ldquo;link&rdquo; is any user interface control that behaves like a hypertext link.</p></div>
-
 <h4 id="11-2-4-5"><a class="heading-link" href="#11-2-4-5" data-copy-link>11.2.4.5 Multiple ways (Void)</a></h4>
 <div class="callout"><p><span class="callout__label">NOTE:</span> WCAG 2.2 Success Criterion 2.4.5 &ldquo;Multiple ways&rdquo; applies to &ldquo;Sets&rdquo; of web pages. In non-web software, the equivalent to &ldquo;sets of web pages&rdquo; would be &ldquo;sets of non-web software&rdquo;, but these are extremely rare and an equivalent is not included in this clause on non-web software requirements.</p></div>
-
 <h4 id="11-2-4-6"><a class="heading-link" href="#11-2-4-6" data-copy-link>11.2.4.6 Headings and labels</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web software shall satisfy the WCAG 2.2 Success Criterion 2.4.6 Headings and Labels.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> In non-web software, headings and labels are used to describe sections of content and controls respectively. In some cases it may be unclear whether a piece of static text is a heading or a label. But whether treated as a label or a heading, the requirement is the same: that if they are present they describe the topic or purpose of the item(s) they are associated with.</p></div>
-
 <h4 id="11-2-4-7"><a class="heading-link" href="#11-2-4-7" data-copy-link>11.2.4.7 Focus visible</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and that provides a keyboard or accepts input from a keyboard or keyboard interface, the non-web software shall satisfy the WCAG 2.2 Success Criterion 2.4.7 Focus Visible.</p>
-
 <h4 id="11-2-4-8"><a class="heading-link" href="#11-2-4-8" data-copy-link>11.2.4.8 Void</a></h4>
-
 <h4 id="11-2-4-9"><a class="heading-link" href="#11-2-4-9" data-copy-link>11.2.4.9 Void</a></h4>
-
 <h4 id="11-2-4-10"><a class="heading-link" href="#11-2-4-10" data-copy-link>11.2.4.10 Void</a></h4>
-
 <h4 id="11-2-4-11"><a class="heading-link" href="#11-2-4-11" data-copy-link>11.2.4.11 Focus not obscured (minimum)</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and that provides a keyboard or accepts input from a keyboard or keyboard interface, the non-web software shall satisfy the WCAG 2.2 Success Criterion 2.4.11 Focus not obscured (minimum).</p>
-
 <h3 id="11-2-5"><a class="heading-link" href="#11-2-5" data-copy-link>11.2.5 Input modalities</a></h3>
-
 <h4 id="11-2-5-1"><a class="heading-link" href="#11-2-5-1" data-copy-link>11.2.5.1 Pointer gestures</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and that provides a pointing mechanism or accepts input from pointing devices, the non-web software shall satisfy the success criterion in Table 11.10.</p>
 <div class="table-wrap">
@@ -646,7 +563,6 @@ preference applies. */
 </tbody>
 </table>
 </div>
-
 <h4 id="11-2-5-2"><a class="heading-link" href="#11-2-5-2" data-copy-link>11.2.5.2 Pointer cancellation</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and that provides a pointing mechanism or accepts input from pointing devices, the non-web software shall satisfy the success criterion in Table 11.11.</p>
 <div class="table-wrap">
@@ -670,17 +586,12 @@ preference applies. */
 </tbody>
 </table>
 </div>
-
 <h4 id="11-2-5-3"><a class="heading-link" href="#11-2-5-3" data-copy-link>11.2.5.3 Label in name</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the non-web software includes functionality that is not closed to programmatic access of information by assistive technologies, the functionality that is not closed shall satisfy WCAG 2.2 Success Criterion 2.5.3 Label in Name.</p>
-
 <h4 id="11-2-5-4"><a class="heading-link" href="#11-2-5-4" data-copy-link>11.2.5.4 Motion actuation</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web software shall satisfy WCAG 2.2 Success Criterion 2.5.4 Motion Actuation.</p>
-
 <h4 id="11-2-5-5"><a class="heading-link" href="#11-2-5-5" data-copy-link>11.2.5.5 Void</a></h4>
-
 <h4 id="11-2-5-6"><a class="heading-link" href="#11-2-5-6" data-copy-link>11.2.5.6 Void</a></h4>
-
 <h4 id="11-2-5-7"><a class="heading-link" href="#11-2-5-7" data-copy-link>11.2.5.7 Dragging movements</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web software shall satisfy the success criterion in Table 11.12.</p>
 <div class="table-wrap">
@@ -694,7 +605,6 @@ preference applies. */
 </tbody>
 </table>
 </div>
-
 <h4 id="11-2-5-8"><a class="heading-link" href="#11-2-5-8" data-copy-link>11.2.5.8 Target size (minimum)</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web software shall satisfy the success criterion in Table 11.13.</p>
 <div class="table-wrap">
@@ -718,11 +628,8 @@ preference applies. */
 </tbody>
 </table>
 </div>
-
 <h2 id="11-3"><a class="heading-link" href="#11-3" data-copy-link>11.3 Understandable</a></h2>
-
 <h3 id="11-3-1"><a class="heading-link" href="#11-3-1" data-copy-link>11.3.1 Readable</a></h3>
-
 <h4 id="11-3-1-1"><a class="heading-link" href="#11-3-1-1" data-copy-link>11.3.1.1 Language of non-web software</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the non-web software includes functionality that is not closed to programmatic access of information by assistive technologies, the functionality that is not closed shall satisfy the success criterion in Table 11.14.</p>
 <div class="table-wrap">
@@ -735,43 +642,30 @@ preference applies. */
 </tbody>
 </table>
 </div>
-
 <h4 id="11-3-1-2"><a class="heading-link" href="#11-3-1-2" data-copy-link>11.3.1.2 Language of parts (Void)</a></h4>
 <div class="callout"><p><span class="callout__label">NOTE:</span> To apply WCAG 2.2 Success Criterion 3.1.2 &ldquo;Language of parts&rdquo; to non-web software would require the marking-up of all text in all locations within the non-web software. This would be impossible so an equivalent is not included in this clause on non-web software requirements.</p></div>
-
 <h3 id="11-3-2"><a class="heading-link" href="#11-3-2" data-copy-link>11.3.2 Predictable</a></h3>
-
 <h4 id="11-3-2-1"><a class="heading-link" href="#11-3-2-1" data-copy-link>11.3.2.1 On focus</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web software shall satisfy the WCAG 2.2 Success Criterion 3.2.1 On Focus.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> Some compound documents and their user agents are designed to provide significantly different viewing and editing functionality depending upon what portion of the compound document is being interacted with (e.g. a presentation that contains an embedded spreadsheet, where the menus and toolbars of the user agent change depending upon whether the user is interacting with the presentation content, or the embedded spreadsheet content). If the user uses a mechanism other than putting focus on that portion of the compound document with which they mean to interact (e.g. by a menu choice or special keyboard gesture), any resulting change of context would not be subject to this success criterion because it was not caused by a change of focus.</p></div>
-
 <h4 id="11-3-2-2"><a class="heading-link" href="#11-3-2-2" data-copy-link>11.3.2.2 On input</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web software shall satisfy the WCAG 2.2 Success Criterion 3.2.2 On Input.</p>
-
 <h4 id="11-3-2-3"><a class="heading-link" href="#11-3-2-3" data-copy-link>11.3.2.3 Consistent navigation (Void)</a></h4>
 <div class="callout"><p><span class="callout__label">NOTE:</span> WCAG 2.2 Success Criterion 3.2.3 &ldquo;Consistent navigation&rdquo; applies to &ldquo;Sets&rdquo; of web pages. While consistency within non-web software is desirable, &ldquo;sets of non-web software&rdquo; in the same sense as &ldquo;sets of web pages&rdquo;, are extremely rare and an equivalent is not included in this clause on non-web software requirements.</p></div>
-
 <h4 id="11-3-2-4"><a class="heading-link" href="#11-3-2-4" data-copy-link>11.3.2.4 Consistent identification</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, components that have the same functionality within the non-web software program shall be identified consistently, except where not doing so is essential to the function of the non-web software.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Consistent does not mean identical, but that the characteristics of the identifiers (such as text and look) are as similar as practical to reflect the fact that they identify the same functionality.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> This requirement is based on WCAG 2.2 3.2.4 &ldquo;Consistent identification&rdquo;, but replacing the scope from a &ldquo;set of web pages&rdquo; to &ldquo;a non-web software program&rdquo;, in order to make it more relevant for non-web software.</p></div>
-
 <h4 id="11-3-2-5"><a class="heading-link" href="#11-3-2-5" data-copy-link>11.3.2.5 Void</a></h4>
-
 <h4 id="11-3-2-6"><a class="heading-link" href="#11-3-2-6" data-copy-link>11.3.2.6 Consistent help (Void)</a></h4>
 <div class="callout"><p><span class="callout__label">NOTE:</span> WCAG 2.2 Success Criterion 3.2.6 for &ldquo;Consistent help&rdquo; applies to &ldquo;Sets&rdquo; of web pages. While consistency within non-web software is desirable, &ldquo;sets of non-web software&rdquo; in the same sense as &ldquo;sets of web pages&rdquo;, are extremely rare and an equivalent is not included in this clause on non-web software requirements.</p></div>
-
 <h3 id="11-3-3"><a class="heading-link" href="#11-3-3" data-copy-link>11.3.3 Input assistance</a></h3>
-
 <h4 id="11-3-3-1"><a class="heading-link" href="#11-3-3-1" data-copy-link>11.3.3.1 Error identification</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the non-web software includes functionality that is not closed to programmatic access of information by assistive technologies, the functionality that is not closed shall satisfy the WCAG 2.2 Success Criterion 3.3.1 Error Identification.</p>
-
 <h4 id="11-3-3-2"><a class="heading-link" href="#11-3-3-2" data-copy-link>11.3.3.2 Labels or instructions</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web software shall satisfy the WCAG 2.2 Success Criterion 3.3.2 Labels or Instructions.</p>
-
 <h4 id="11-3-3-3"><a class="heading-link" href="#11-3-3-3" data-copy-link>11.3.3.3 Error suggestion</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web software shall satisfy the WCAG 2.2 Success Criterion 3.3.3 Error Suggestion.</p>
-
 <h4 id="11-3-3-4"><a class="heading-link" href="#11-3-3-4" data-copy-link>11.3.3.4 Error prevention (legal, financial, data)</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web softwaree shall satisfy the success criterion in Table 11.15.</p>
 <div class="table-wrap">
@@ -790,14 +684,10 @@ preference applies. */
 </tbody>
 </table>
 </div>
-
 <h4 id="11-3-3-5"><a class="heading-link" href="#11-3-3-5" data-copy-link>11.3.3.5 Void</a></h4>
-
 <h4 id="11-3-3-6"><a class="heading-link" href="#11-3-3-6" data-copy-link>11.3.3.6 Void</a></h4>
-
 <h4 id="11-3-3-7"><a class="heading-link" href="#11-3-3-7" data-copy-link>11.3.3.7 Redundant entry</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web software shall satisfy WCAG 2.2 Success Criterion 3.3.7 Redundant Entry.</p>
-
 <h4 id="11-3-3-8"><a class="heading-link" href="#11-3-3-8" data-copy-link>11.3.3.8 Accessible authentication (minimum)</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, the non-web software shall satisfy the success criterion in Table 11.16.</p>
 <div class="table-wrap">
@@ -828,14 +718,10 @@ preference applies. */
 </tbody>
 </table>
 </div>
-
 <h2 id="11-4"><a class="heading-link" href="#11-4" data-copy-link>11.4 Robust</a></h2>
-
 <h3 id="11-4-1"><a class="heading-link" href="#11-4-1" data-copy-link>11.4.1 Compatible</a></h3>
-
 <h4 id="11-4-1-1"><a class="heading-link" href="#11-4-1-1" data-copy-link>11.4.1.1 Void</a></h4>
 <div class="callout"><p><span class="callout__label">NOTE:</span> Earlier versions of the present document referenced the 4.1.1 Parsing success criterion from WCAG 2.0 <a class="xref" href="clause-2-references.html#ref-i-41">[i.41]</a> and WCAG 2.1 <a class="xref" href="clause-2-references.html#ref-i-42">[i.42]</a>. In WCAG 2.2 <a class="xref" href="clause-2-references.html#ref-4">[4]</a>, this criterion has been removed, because the accessibility problems it was intended to prevent &ldquo;either no longer exist or are addressed by other criteria&rdquo;.</p></div>
-
 <h4 id="11-4-1-2"><a class="heading-link" href="#11-4-1-2" data-copy-link>11.4.1.2 Name, role, value</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the software includes functionality that is not closed to programmatic access of information by assistive technologies, the functionality that is not closed shall satisfy the success criterion in Table 11.17.</p>
 <div class="table-wrap">
@@ -849,110 +735,85 @@ preference applies. */
 </tbody>
 </table>
 </div>
-
 <h4 id="11-4-1-3"><a class="heading-link" href="#11-4-1-3" data-copy-link>11.4.1.3 Status messages</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the software includes functionality that is not closed to programmatic access of information by assistive technologies, and the functionality that is not closed supports status message notifications, status messages from the functionality that is not closed can be programmatically determined so that they can be presented to the user by assistive technologies without receiving focus.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> This clause is aligned with the Intent from Understanding Success Criterion 4.1.3. The WCAG success criterion is restricted to content implemented using markup languages, but the WCAG2ICT Task Force has concluded that even &ldquo;where status messages are not implemented using markup languages, there is still a user need to have status messages be programmatically exposed so that they can be presented to the user by assistive technologies without receiving focus. This is typically enabled through the use of accessibility services of the user agent or platform software&rdquo;.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> The term &ldquo;status messages&rdquo; is defined in WCAG 2.2.</p></div>
-
 <h2 id="11-5"><a class="heading-link" href="#11-5" data-copy-link>11.5 Interoperability with keyboards and assistive technology</a></h2>
-
 <h3 id="11-5-1"><a class="heading-link" href="#11-5-1" data-copy-link>11.5.1 Closed functionality (informative)</a></h3>
 <p>Some requirements in clauses <a class="xref" href="#11-1">11.1</a> to <a class="xref" href="#11-5">11.5</a> have a pre-condition that indicates that they do not apply to closed functionality, so these requirements only apply to the open functionality of the ICT.</p>
 <p>Requirements that do not have a closed functionality pre-condition apply to both the open and closed functionality of the ICT. The requirements under clause <a class="xref" href="clause-5-generic-requirements.html#5-1">5.1</a> apply to the closed functionality of the ICT.</p>
 <p>For non-web software that has functionality that is closed and other functionality that is not closed, the requirements in clause <a class="xref" href="#11-1">11.1</a> to <a class="xref" href="#11-5">11.5</a> will still need to be met for the functionality that is not closed.</p>
-
 <h3 id="11-5-2"><a class="heading-link" href="#11-5-2" data-copy-link>11.5.2 Accessibility services</a></h3>
-
 <h4 id="11-5-2-1"><a class="heading-link" href="#11-5-2-1" data-copy-link>11.5.2.1 Platform interoperability with assistive technologies</a></h4>
 <p>Where ICT is, or includes, platform software, the platform software shall provide a set of documented platform accessibility services that cover any user interface concept corresponding to clauses <a class="xref" href="#11-5-2-5">11.5.2.5</a> to <a class="xref" href="#11-5-2-17">11.5.2.17</a> supported within the platform software.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Depending on the platform, the documented platform accessibility services addressed in this clause may be referred to by different names, such as accessibility services or accessibility API.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Some platforms include services for user interface development that provide accessibility support by default (e.g. the service for creating a new user interface element provides role, state, boundary, name and description). These services are considered to be part of the services provided to meet this clause.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> To comply with this requirement, platform software can provide its own set of services or expose the services provided by its underlying platform layers, if those services meet this requirement.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 4:</span> The definition of platform in clause <a class="xref" href="clause-3-definitions.html#3-1">3.1</a> applies to software that provides services to other software, including but not limited to, operating systems, web browsers, virtual machines.</p></div>
-
 <h4 id="11-5-2-2"><a class="heading-link" href="#11-5-2-2" data-copy-link>11.5.2.2 Void</a></h4>
 <div class="callout"><p><span class="callout__label">NOTE:</span> This clause from previous versions of EN 301 549 has been merged in with clause <a class="xref" href="#11-5-2-1">11.5.2.1</a>.</p></div>
-
 <h4 id="11-5-2-3"><a class="heading-link" href="#11-5-2-3" data-copy-link>11.5.2.3 Use of accessibility services (recommendation)</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the software includes functionality that is not closed to programmatic access of information by assistive technologies, the functionality that is not closed should use the applicable documented platform accessibility services listed in clause <a class="xref" href="#11-5-2-1">11.5.2.1</a>. If the documented platform accessibility services do not allow the software to meet the applicable requirements of clauses <a class="xref" href="#11-5-2-5">11.5.2.5</a> to <a class="xref" href="#11-5-2-17">11.5.2.17</a>, then the functionality that is not closed should use other documented platform services to interoperate with assistive technology.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> It is best practice to develop software using toolkits that automatically implement the underlying platform accessibility services.</p></div>
-
 <h4 id="11-5-2-4"><a class="heading-link" href="#11-5-2-4" data-copy-link>11.5.2.4 Assistive technology</a></h4>
 <p>Where ICT is, or includes, non-web software that is assistive technology, the assistive technology shall use the documented platform accessibility services corresponding to clauses <a class="xref" href="#11-5-2-5">11.5.2.5</a> to <a class="xref" href="#11-5-2-17">11.5.2.17</a>.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> Assistive technology can also use other documented accessibility services.</p></div>
-
 <h4 id="11-5-2-5"><a class="heading-link" href="#11-5-2-5" data-copy-link>11.5.2.5 Object information</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the software includes functionality that is not closed to programmatic access of information by assistive technologies, the functionality that is not closed shall, by using the services as described in clause <a class="xref" href="#11-5-2-3">11.5.2.3</a>, make the user interface elements' role, state(s), boundary, name, and description programmatically determinable by assistive technologies for all functionality that is not closed to programmatic access of information by assistive technologies.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> See clause <a class="xref" href="clause-5-generic-requirements.html">5</a> for requirements on functionality that is closed.</p></div>
-
 <h4 id="11-5-2-6"><a class="heading-link" href="#11-5-2-6" data-copy-link>11.5.2.6 Row, column, and headers</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the software includes functionality that is not closed to programmatic access of information by assistive technologies, the functionality that is not closed shall, by using the services as described in clause <a class="xref" href="#11-5-2-3">11.5.2.3</a>, make the row and column of each cell in a data table, including headers of the row and column if present, programmatically determinable by assistive technologies for all functionality that is not closed to programmatic access of information by assistive technologies.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> See clause <a class="xref" href="clause-5-generic-requirements.html">5</a> for requirements on functionality that is closed.</p></div>
-
 <h4 id="11-5-2-7"><a class="heading-link" href="#11-5-2-7" data-copy-link>11.5.2.7 Values</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the software includes functionality that is not closed to programmatic access of information by assistive technologies, and there are user interface elements that can have values, the functionality that is not closed shall, by using the services as described in clause <a class="xref" href="#11-5-2-3">11.5.2.3</a>, make the current value of a user interface element and any minimum or maximum values of the range, if the user interface element conveys information about a range of values, programmatically determinable by assistive technologies for all functionality that is not closed to programmatic access of information by assistive technologies.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> See clause <a class="xref" href="clause-5-generic-requirements.html">5</a> for requirements on functionality that is closed.</p></div>
-
 <h4 id="11-5-2-8"><a class="heading-link" href="#11-5-2-8" data-copy-link>11.5.2.8 Label relationships</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the software includes functionality that is not closed to programmatic access of information by assistive technologies, and there are user interface elements that are labels of other user interface elements, the functionality that is not closed shall expose the relationship that a user interface element has as a label for another element, or of being labelled by another element, using the services as described in clause <a class="xref" href="#11-5-2-3">11.5.2.3</a>, so that this information is programmatically determinable by assistive technologies for all functionality that is not closed to programmatic access of information by assistive technologies.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> See clause <a class="xref" href="clause-5-generic-requirements.html">5</a> for requirements on functionality that is closed.</p></div>
-
 <h4 id="11-5-2-9"><a class="heading-link" href="#11-5-2-9" data-copy-link>11.5.2.9 Parent-child relationships</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the software includes functionality that is not closed to programmatic access of information by assistive technologies, and there are user interface elements that are parents of other user interface elements in a hierarchical structure, the functionality that is not closed shall, by using the services as described in clause <a class="xref" href="#11-5-2-3">11.5.2.3</a>, make the relationship between a user interface element and any parent or children elements programmatically determinable by assistive technologies for all functionality that is not closed to programmatic access of information by assistive technologies.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> See clause <a class="xref" href="clause-5-generic-requirements.html">5</a> for requirements on functionality that is closed.</p></div>
-
 <h4 id="11-5-2-10"><a class="heading-link" href="#11-5-2-10" data-copy-link>11.5.2.10 Text</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the software includes functionality that is not closed to programmatic access of information by assistive technologies, and renders text to a screen, the software shall, by using the services as described in clause <a class="xref" href="#11-5-2-3">11.5.2.3</a>, make the text contents, text attributes used or available for user generated content, and the boundary of text programmatically determinable by assistive technologies for all functionality that is not closed to programmatic access of information by assistive technologies.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> See clause <a class="xref" href="clause-5-generic-requirements.html">5</a> for requirements on functionality that is closed.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Depending on the software, the attributes of text may include but are not limited to different visual features, such as size and colour, and style aspects such as boldness and underlining.</p></div>
-
 <h4 id="11-5-2-11"><a class="heading-link" href="#11-5-2-11" data-copy-link>11.5.2.11 List of available actions</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the software includes functionality that is not closed to programmatic access of information by assistive technologies, the functionality that is not closed shall, by using the services as described in clause <a class="xref" href="#11-5-2-3">11.5.2.3</a>, make a list of available actions that can be executed on a user interface element, programmatically determinable by assistive technologies for all functionality that is not closed to programmatic access of information by assistive technologies.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> See clause <a class="xref" href="clause-5-generic-requirements.html">5</a> for requirements on functionality that is closed.</p></div>
-
 <h4 id="11-5-2-12"><a class="heading-link" href="#11-5-2-12" data-copy-link>11.5.2.12 Execution of available actions</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the software includes functionality that is not closed to programmatic access of information by assistive technologies, and there are user interface elements that have actions that can be executed by the user, the functionality that is not closed shall, by using the services as described in clause <a class="xref" href="#11-5-2-3">11.5.2.3</a>, allow the programmatic execution of the actions exposed according to clause <a class="xref" href="#11-5-2-11">11.5.2.11</a> by assistive technologies where permitted by security requirements for all functionality that is not closed to programmatic access of information by assistive technologies.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> See clause <a class="xref" href="clause-5-generic-requirements.html">5</a> for requirements on functionality that is closed.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> In some cases the security requirements imposed on a non-web software product may forbid external software from interfering with the ICT product and so this requirement would not apply. Examples of systems under strict security requirements are systems dealing with intelligence activities, cryptologic activities related to national security, command and control of military forces.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> Assistive technologies may be required to maintain the same level of security as the standard input mechanisms supported by the platform.</p></div>
-
 <h4 id="11-5-2-13"><a class="heading-link" href="#11-5-2-13" data-copy-link>11.5.2.13 Tracking of focus and selection attributes</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the software includes functionality that is not closed to programmatic access of information by assistive technologies, the functionality that is not closed shall, by using the services as described in clause <a class="xref" href="#11-5-2-3">11.5.2.3</a>, make information and mechanisms necessary to track focus, text insertion point, and selection attributes of user interface elements programmatically determinable by assistive technologies for all functionality that is not closed to programmatic access of information by assistive technologies.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> See clause <a class="xref" href="clause-5-generic-requirements.html">5</a> for requirements on functionality that is closed.</p></div>
-
 <h4 id="11-5-2-14"><a class="heading-link" href="#11-5-2-14" data-copy-link>11.5.2.14 Modification of focus and selection attributes</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the software includes functionality that is not closed to programmatic access of information by assistive technologies, and there are user interface elements that can receive focus or that enable text editing, the functionality that is not closed shall, by using the services as described in clause <a class="xref" href="#11-5-2-3">11.5.2.3</a>, allow assistive technologies to programmatically modify focus, text insertion point, and selection attributes of user interface elements where the user can modify these items where permitted by security requirements for all functionality that is not closed to programmatic access of information by assistive technologies.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> See clause <a class="xref" href="clause-5-generic-requirements.html">5</a> for requirements on functionality that is closed.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> In some cases the security requirements imposed on a non-web software product may forbid external software from interfering with the ICT product and so this requirement would not apply. Examples of systems under strict security requirements are systems dealing with intelligence activities, cryptologic activities related to national security, command and control of military forces.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> Assistive technologies may be required to maintain the same level of security as the standard input mechanisms supported by the platform.</p></div>
-
 <h4 id="11-5-2-15"><a class="heading-link" href="#11-5-2-15" data-copy-link>11.5.2.15 Change notification</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the software includes functionality that is not closed to programmatic access of information by assistive technologies, the functionality that is not closed shall, by using the services as described in clause <a class="xref" href="#11-5-2-3">11.5.2.3</a>, notify assistive technologies about changes in those programmatically determinable attributes of user interface elements that are referenced in requirements 11.5.2.5 to 11.5.2.11 and 11.5.2.13, for all functionality that is not closed to programmatic access of information by assistive technologies.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> See clause <a class="xref" href="clause-5-generic-requirements.html">5</a> for requirements on functionality that is closed.</p></div>
-
 <h4 id="11-5-2-16"><a class="heading-link" href="#11-5-2-16" data-copy-link>11.5.2.16 Modifications of states and properties</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the software includes functionality that is not closed to programmatic access of information by assistive technologies, and there are user interface elements whose state or properties can be modified by a user without the use of assistive technology, the functionality that is not closed shall, by using the services as described in clause <a class="xref" href="#11-5-2-3">11.5.2.3</a>, allow assistive technologies to programmatically modify states and properties of user interface elements, where the user can modify these items where permitted by security requirements for all functionality that is not closed to programmatic access of information by assistive technologies.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> See clause <a class="xref" href="clause-5-generic-requirements.html">5</a> for requirements on functionality that is closed.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> In some cases the security requirements imposed on a non-web software product may forbid external software from interfering with the ICT product and so this requirement would not apply. Examples of systems under strict security requirements are systems dealing with intelligence activities, cryptologic activities related to national security, command and control of military forces.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> Assistive technologies may be required to maintain the same level of security as the standard input mechanisms supported by the platform.</p></div>
-
 <h4 id="11-5-2-17"><a class="heading-link" href="#11-5-2-17" data-copy-link>11.5.2.17 Modifications of values and text</a></h4>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and the software includes functionality that is not closed to programmatic access of information by assistive technologies, and there are user interface elements whose values or text can be modified by a user without the use of assistive technology, the functionality that is not closed shall, by using the services as described in clause <a class="xref" href="#11-5-2-3">11.5.2.3</a>, allow assistive technologies to modify values and text of user interface elements using the input methods of the platform, where a user can modify these items without the use of assistive technology where permitted by security requirements for all functionality that is not closed to programmatic access of information by assistive technologies.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> See clause <a class="xref" href="clause-5-generic-requirements.html">5</a> for requirements on functionality that is closed.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> In some cases the security requirements imposed on a non-web software product may forbid external software from interfering with the ICT product and so this requirement would not apply. Examples of systems under strict security requirements are systems dealing with intelligence activities, cryptologic activities related to national security, command and control of military forces.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> Assistive technologies may be required to maintain the same level of security as the standard input mechanisms supported by the platform.</p></div>
-
 <h2 id="11-6"><a class="heading-link" href="#11-6" data-copy-link>11.6 Documented accessibility features</a></h2>
-
 <h3 id="11-6-1"><a class="heading-link" href="#11-6-1" data-copy-link>11.6.1 User control of accessibility features</a></h3>
 <p>Where ICT is, or includes, platform software, the platform software shall provide sufficient modes of operation for user control over documented platform accessibility features.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> Clause <a class="xref" href="clause-12-information-products-services.html#12-3">12.3</a> specifies that accessibility features of the ICT are to be documented either as part of the ICT or in a separate documentation.</p></div>
-
 <h3 id="11-6-2"><a class="heading-link" href="#11-6-2" data-copy-link>11.6.2 No disruption of accessibility features</a></h3>
 <p>Where ICT is, or includes, non-web software, the non-web software shall not disrupt documented platform accessibility features except when requested to do so by the user during the operation of the software.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> Clause <a class="xref" href="clause-12-information-products-services.html#12-3">12.3</a> specifies that accessibility features of the ICT are to be documented either as part of the ICT or in a separate documentation.</p></div>
-
 <h2 id="11-7"><a class="heading-link" href="#11-7" data-copy-link>11.7 User preferences</a></h2>
 <p>Where ICT is, or includes, non-web software that provides a user interface, and is not designed to be isolated from its platform, that user interface shall follow the values of the user preference settings for documented platform accessibility features unless it is essential to the function of the non-web software to not follow a user preference settings.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Clause <a class="xref" href="clause-12-information-products-services.html#12-3">12.3</a> specifies that accessibility features of the ICT are to be documented either as part of the ICT or in a separate documentation.</p></div>
@@ -961,24 +822,19 @@ preference applies. */
 <div class="callout"><p><span class="callout__label">NOTE 4:</span> When ICT is a user agent (such as a web browser or non-web document viewing software), this clause implies that at least one mode of operation is offered that enforces a rendering of the content that follows the values of the user preferences.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 5:</span> This does not preclude the non-web software from having additional values for a setting as long as there is one mode where the application will follow the system settings even if more restricted.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 6:</span> Features that might be documented as accessibility features for a platform include, but are not limited to colour filters, contrast, text size, pointer size, and text cursor.</p></div>
-
-    </div>
-    <nav class="page-pager" aria-label="Page navigation">
+</div>
+<nav class="page-pager" aria-label="Page navigation">
 <a class="page-pager__link page-pager__link--prev" href="clause-10-non-web-documents.html"><span class="page-pager__direction">&larr; Previous</span><span class="page-pager__title">10 Non-web documents</span></a>
 <a class="page-pager__link page-pager__link--next" href="clause-12-information-products-services.html"><span class="page-pager__direction">Next &rarr;</span><span class="page-pager__title">12 Information about products and services</span></a>
 </nav>
-  </main>
+</main>
 </div>
-
 <a class="back-to-top" href="#top">&uarr; Back to top</a>
-
 <div id="status-live" class="visually-hidden" role="status" aria-live="polite"></div>
-
 <footer class="site-footer">
-  <div class="site-footer__inner">
-    <nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
-  </div>
+<div class="site-footer__inner">
+<nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
+</div>
 </footer>
-<script src="assets/js/site.js?v=7b43fc8f"></script>
 </body>
 </html>

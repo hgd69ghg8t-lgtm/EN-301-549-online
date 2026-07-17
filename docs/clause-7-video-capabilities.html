@@ -8,36 +8,7 @@
 <meta id="theme-colour-light" name="theme-color" media="(prefers-color-scheme: light)" content="#14245a">
 <meta id="theme-colour-dark" name="theme-color" media="(prefers-color-scheme: dark)" content="#16191d">
 <link rel="canonical" href="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/clause-7-video-capabilities.html">
-<script>/* Theme apply, deliberately placed before the stylesheet link and
-kept synchronous (scripts/test_build.py asserts both statically): an
-explicit Dark/Light choice is set on <html> before the stylesheet can
-first paint with the wrong tokens, preventing — or at worst minimising —
-a wrong-theme flash. Also keeps
-the browser-chrome theme-color in step with the RESOLVED theme — on an
-explicit choice both meta elements get the same value, so whichever
-media query the OS matches, the chrome colour agrees with the page.
-site.js reuses __syncThemeColour when the choice changes mid-session.
-The hex values are injected from build.py (THEME_CHROME_*), the single
-source the unit tests check the CSS and generated output against.
-Everything else about theming is CSS; without JavaScript the OS
-preference applies. */
-(function () {
-  var LIGHT = "#14245a", DARK = "#16191d";
-  window.__syncThemeColour = function (theme) {
-    var l = document.getElementById("theme-colour-light");
-    var d = document.getElementById("theme-colour-dark");
-    if (!l || !d) return;
-    l.content = theme === "dark" ? DARK : LIGHT;
-    d.content = theme === "light" ? LIGHT : DARK;
-  };
-  var theme = null;
-  try {
-    var p = JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));
-    if (p && (p.theme === "dark" || p.theme === "light")) theme = p.theme;
-  } catch (e) {}
-  if (theme) document.documentElement.setAttribute("data-theme", theme);
-  window.__syncThemeColour(theme || "auto");
-})();</script>
+<script>(function(){var L="#14245a",D="#16191d";window.__syncThemeColour=function(t){var l=document.getElementById("theme-colour-light"),d=document.getElementById("theme-colour-dark");if(l&&d){l.content=t==="dark"?D:L;d.content=t==="light"?L:D}};var t=null;try{var p=JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));if(p&&(p.theme==="dark"||p.theme==="light"))t=p.theme}catch(e){}if(t)document.documentElement.setAttribute("data-theme",t);window.__syncThemeColour(t||"auto")})();</script>
 <meta property="og:site_name" content="ETSI EN 301 549 V4.1.0 Online">
 <meta property="og:type" content="website">
 <meta property="og:title" content="7 ICT with video capabilities | ETSI EN 301 549 V4.1.0 Online">
@@ -45,84 +16,83 @@ preference applies. */
 <meta property="og:url" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/clause-7-video-capabilities.html">
 <meta property="og:image" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/assets/img/apple-touch-icon.png">
 <meta name="twitter:card" content="summary">
-<link rel="stylesheet" href="assets/css/style.css?v=c5430ccf">
+<link rel="stylesheet" href="assets/css/style.18c586c2.css">
+<script defer src="assets/js/core.06591bb3.js"></script>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 </head>
-<body data-page-slug="clause-7-video-capabilities" data-page-title="7 ICT with video capabilities" data-page-group="Clauses">
+<body data-page-slug="clause-7-video-capabilities" data-page-title="7 ICT with video capabilities" data-page-group="Clauses" data-search-js="assets/js/search.3f91c211.js" data-reader-js="assets/js/reader-library.63836e18.js" data-suggest-index="search-suggestions.e295bad5.json">
 <a class="skip-link" id="top" href="#main-content">Skip to main content</a>
-
+<div class="top-sentinel" aria-hidden="true"></div>
 <header class="site-header">
-  <div class="site-header__inner">
-    <a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
-    <nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
-    <button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
-    </button>
-    <form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
-      <input type="search" name="q" aria-label="Search this standard" autocomplete="off">
-      <button type="submit">Search</button>
-    </form>
-  </div>
+<div class="site-header__inner">
+<a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
+<nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
+<button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
+</button>
+<form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
+<input type="search" name="q" aria-label="Search this standard" autocomplete="off">
+<button type="submit">Search</button>
+</form>
+</div>
 </header>
 <div class="accent-bar" aria-hidden="true"></div>
-
 <div class="doc-header">
-  <div class="doc-header__inner">
-    <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Clauses</li><li aria-current="page">7 Video capabilities</li></ol></nav>
-    <div class="doc-header__top">
-      <div>
-        <h1>7 ICT with video capabilities</h1>
-      </div>
-    </div>
-    <div class="doc-toolbar">
-      <details class="page-tools">
-      <summary>Page tools</summary>
-      <div class="page-tools__panel">
-      <button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
-      <a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
-      <button type="button" class="page-tools__item" data-action="copy-link">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
-        <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
-      </button>
-      <button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="clause-7-video-capabilities" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
-      <details class="reader-tools">
-        <summary>Reading options</summary>
-        <div class="reader-tools__panel">
-          <fieldset>
-            <legend>Text width</legend>
-            <label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
-            <label><input type="radio" name="reading-width" value="wide"> Wide</label>
-          </fieldset>
-          <fieldset>
-            <legend>Colour theme</legend>
-            <label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
-            <label><input type="radio" name="colour-theme" value="light"> Light</label>
-            <label><input type="radio" name="colour-theme" value="dark"> Dark</label>
-          </fieldset>
-          <label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
-          <button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
-          <p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
-          <section class="reader-library" aria-labelledby="saved-pages-heading">
-            <h2 id="saved-pages-heading">Saved pages</h2>
-            <h3>Bookmarks</h3>
-            <ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
-            <h3>Recently viewed</h3>
-            <ul data-recent-list><li>No recently viewed pages yet.</li></ul>
-          </section>
-        </div>
-      </details>
-      </div>
-      </details>
-    </div>
-  </div>
+<div class="doc-header__inner">
+<nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Clauses</li><li aria-current="page">7 Video capabilities</li></ol></nav>
+<div class="doc-header__top">
+<div>
+<h1>7 ICT with video capabilities</h1>
 </div>
-
+</div>
+<div class="doc-toolbar">
+<details class="page-tools">
+<summary>Page tools</summary>
+<div class="page-tools__panel">
+<button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
+<a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
+<button type="button" class="page-tools__item" data-action="copy-link">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
+<span class="doc-toolbar__btn-status" aria-hidden="true"></span>
+</button>
+<button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="clause-7-video-capabilities" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
+<details class="reader-tools">
+<summary>Reading options</summary>
+<div class="reader-tools__panel">
+<fieldset>
+<legend>Text width</legend>
+<label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
+<label><input type="radio" name="reading-width" value="wide"> Wide</label>
+</fieldset>
+<fieldset>
+<legend>Colour theme</legend>
+<label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
+<label><input type="radio" name="colour-theme" value="light"> Light</label>
+<label><input type="radio" name="colour-theme" value="dark"> Dark</label>
+</fieldset>
+<label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
+<button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
+<p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
+<section class="reader-library" aria-labelledby="saved-pages-heading">
+<h2 id="saved-pages-heading">Saved pages</h2>
+<h3>Bookmarks</h3>
+<ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
+<h3>Recently viewed</h3>
+<ul data-recent-list><li>No recently viewed pages yet.</li></ul>
+</section>
+</div>
+</details>
+</div>
+</details>
+</div>
+</div>
+</div>
 <div class="page-shell">
-  <div class="page-sidebar">
-    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
-    <nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
+<div class="page-sidebar">
+<button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
+<nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
 <div class="site-nav__header">Contents</div>
 <p><a href="index.html">Home</a></p>
 <p><a href="about.html">About</a></p>
@@ -219,10 +189,10 @@ preference applies. */
 </li>
 </ul></details>
 </nav>
-  </div>
-  <main id="main-content" tabindex="-1">
-    <div class="content">
-      <div class="clause-summary"><h2 id="about-this-page">About this clause</h2><p>Clause 7 covers ICT that plays video with synchronised audio. It sets out requirements for subtitle processing, audio description, and user control of these accessibility features.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div><nav class="on-this-page" aria-labelledby="on-this-page-heading">
+</div>
+<main id="main-content" tabindex="-1">
+<div class="content">
+<div class="clause-summary"><h2 id="about-this-page">About this clause</h2><p>Clause 7 covers ICT that plays video with synchronised audio. It sets out requirements for subtitle processing, audio description, and user control of these accessibility features.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div><nav class="on-this-page" aria-labelledby="on-this-page-heading">
 <h2 id="on-this-page-heading">On this page</h2>
 <ul>
 <li><a href="#7-1">7.1 Subtitle processing technology</a>
@@ -243,55 +213,38 @@ preference applies. */
 </li>
 </ul></nav>
 <h2 id="7-1"><a class="heading-link" href="#7-1" data-copy-link>7.1 Subtitle processing technology</a></h2>
-
 <h3 id="7-1-1"><a class="heading-link" href="#7-1-1" data-copy-link>7.1.1 Subtitle playback</a></h3>
 <p>Where ICT displays video with synchronized audio, the ICT shall have a mode of operation to display the available subtitles. Where closed subtitles are provided as part of the content, the ICT shall allow the user to choose to display the subtitles.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Subtitles may contain information about timing, colour and positioning. This subtitle data is necessary for subtitle users. Timing is used for subtitle synchronization. Colour can be used to convey additional information such as speaker identification, emotion or tone, or that the text represents music lyrics vs. dialog. Position can be used to avoid obscuring important information.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> If an assistive technology (such as a braille display, or large caption display) is connected to an ICT using a standard connection, identification, and data communication protocol for that type of device, it is best practice for the ICT to provide an option to display subtitles on the braille device.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> Clause <a class="xref" href="#7-1-1">7.1.1</a> refers to the ability of the player to display subtitles. Clauses <a class="xref" href="clause-9-web.html#9-1-2-2">9.1.2.2</a>, <a class="xref" href="clause-10-non-web-documents.html#10-1-2-2">10.1.2.2</a> and <a class="xref" href="clause-11-non-web-software.html#11-1-2-2">11.1.2.2</a> refer to the provision of subtitles for the content (the video).</p></div>
-
 <h3 id="7-1-2"><a class="heading-link" href="#7-1-2" data-copy-link>7.1.2 Subtitle synchronization</a></h3>
 <p>Where ICT displays video with synchronized audio, and displays subtitles, the ICT shall display subtitles within 100 ms of the timecode value attached to the subtitle.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> If subtitles without timecodes are to be displayed, the best practice is to display the subtitles as soon as they are received.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> It is good practice to display a subtitle within 20 ms of the respective timecode.</p></div>
-
 <h3 id="7-1-3"><a class="heading-link" href="#7-1-3" data-copy-link>7.1.3 Preservation of subtitles</a></h3>
 <p>Where ICT transmits, converts, or records video with synchronized audio, the ICT shall preserve subtitle data such that the subtitles can be displayed in a manner consistent with clause <a class="xref" href="#7-1-1">7.1.1</a>, including any data relating to presentational aspects such as screen position, text and background colours, text style and text fonts.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE:</span> Additional presentational aspects of the text such as screen position, text colours, text style and text fonts may convey meaning, based on regional conventions. Altering these presentational aspects could change the meaning and should be avoided wherever possible.</p></div>
-
 <h3 id="7-1-4"><a class="heading-link" href="#7-1-4" data-copy-link>7.1.4 Subtitle characteristics</a></h3>
 <p>Where ICT displays video with synchronized audio, and has control over the presentation of its subtitles, the ICT shall provide a way for the user to adapt the displayed characteristics of subtitles to their individual requirements, except where the subtitles are displayed as unmodifiable characters.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Defining the background and foreground colour of subtitles, font type, size, opacity of the background box of subtitles, and the contour or border of the fonts can contribute to meeting this requirement.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Subtitles that are bitmap images are examples of unmodifiable characters.</p></div>
-
 <h3 id="7-1-5"><a class="heading-link" href="#7-1-5" data-copy-link>7.1.5 Spoken subtitles</a></h3>
 <p>Where ICT displays video with synchronized audio, the ICT shall have a mode of operation to enable output of the available spoken subtitles.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Spoken subtitles are sometimes provided to accompany interlingual subtitles, so that users who are blind and partially sighted or cannot read can understand dialogue that is being spoken in a language different to their own. They are also sometimes provided to offer an understandable version of indistinct or otherwise unintelligible speech.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> This requirement does not mean that players generate spoken subtitles from available subtitles, but only that they play spoken subtitle audio if it is available.</p></div>
-
 <h2 id="7-2"><a class="heading-link" href="#7-2" data-copy-link>7.2 Audio description technology</a></h2>
-
 <h3 id="7-2-1"><a class="heading-link" href="#7-2-1" data-copy-link>7.2.1 Audio description playback</a></h3>
 <p>Where ICT displays video with synchronized audio, the ICT shall provide a mechanism to select and play available audio description to the default audio channel.</p>
 <p>Where video technologies do not have explicit and separate mechanisms for audio description, an ICT is deemed to satisfy this requirement if the ICT enables the user to select and play one of several audio tracks.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> In such cases, the video content can include the audio description as one of the available audio tracks.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Audio descriptions in digital media sometimes include information to allow descriptions that are longer than the gaps between dialogue. Support in digital media players for this &ldquo;extended audio description&rdquo; feature is useful, especially for digital media that is viewed personally.</p></div>
-
 <h3 id="7-2-2"><a class="heading-link" href="#7-2-2" data-copy-link>7.2.2 Audio description synchronization</a></h3>
 <p>Where ICT displays video with synchronized audio, and has a mechanism to play audio description, the ICT shall preserve the synchronization between the audio/visual content and the corresponding audio description.</p>
-
 <h3 id="7-2-3"><a class="heading-link" href="#7-2-3" data-copy-link>7.2.3 Preservation of audio description</a></h3>
 <p>Where ICT transmits, converts, or records video with synchronized audio, the ICT shall preserve audio description data such that the audio description can be played in a manner consistent with clauses <a class="xref" href="#7-2-1">7.2.1</a> and <a class="xref" href="#7-2-2">7.2.2</a>.</p>
-
 <h2 id="7-3"><a class="heading-link" href="#7-3" data-copy-link>7.3 User control of audiovisual accessibility features</a></h2>
 <p>Where ICT primarily displays video with synchronized audio, and has control over the activation of subtitles, audio description, and spoken subtitles, the ICT shall provide at least one mode of operation that allows the activation and deactivation of the user's choice of either subtitles, audio description, or spoken subtitles with a single user operation that is at the same level as the volume control and that meets the other accessibility requirements of the present document.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Media player software would meet the precondition of this requirement because its primary purpose is to play audiovisual materials, but a preview feature in a file utility that shows quick views of the contents of files as they are selected, (including playing a video file in a window or pane without controls) would not, because its primary function is file management, and the primary function of the preview function is to allow files to be identified by peeking into them, not to view audiovisual content.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> It is best practice to allow other accessibility features related to audiovisual content to also be chosen with a single user operation.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> It is best practice for ICT to include mechanisms to enable the user to select whether subtitles, or audio description, or spoken subtitles are turned on or off each time the ICT is used.</p></div>
@@ -299,24 +252,19 @@ preference applies. */
 <div class="callout"><p><span class="callout__label">NOTE 5:</span> The ability to use spoken commands is best practice to include because it makes it possible to have all accessibility functions available instantly, but since all speech control also requires a non-speech alternative (clause <a class="xref" href="clause-5-generic-requirements.html#5-1-7">5.1.7</a>) it cannot be the only method for meeting clause <a class="xref" href="#7-3">7.3</a>.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 6:</span> If the ICT is or includes a platform, on which other ICT can be implemented, it is not responsible to ensure that such other ICT meet the present clause. But it is responsible to meet clause <a class="xref" href="clause-11-non-web-software.html#11-5-2-1">11.5.2.1</a> Platform interoperability with assistive technologies, which should result in API methods that the other ICT could use to meet the present clause.</p></div>
 <div class="callout"><p><span class="callout__label">EXAMPLE:</span> One solution would be to have a single button at the volume control level, bring up a list of subtitles, audio description, spoken subtitles and (potentially) other accessibility features if it was held down for more than 2 seconds. The user could activate any accessibility feature from that menu &mdash; as well as chose an accessibility feature that would be turned on and off with a single short press of the same button that was used to bring up the menu with a long press. (If this was standardized across manufacturers it would facilitate dissemination of information about this feature and provide cross-manufacturer consistency). It is best practice to have a dedicated button for doing the above (providing single button to both chose and then later activate the single chosen function with a simple press), but a button that exists in a current design, like the mute button, could be repurposed for this where a remote has only a few buttons and a dedicated button cannot be provided.</p></div>
-
-    </div>
-    <nav class="page-pager" aria-label="Page navigation">
+</div>
+<nav class="page-pager" aria-label="Page navigation">
 <a class="page-pager__link page-pager__link--prev" href="clause-6-real-time-communication.html"><span class="page-pager__direction">&larr; Previous</span><span class="page-pager__title">6 Real-time communication</span></a>
 <a class="page-pager__link page-pager__link--next" href="clause-8-hardware.html"><span class="page-pager__direction">Next &rarr;</span><span class="page-pager__title">8 Hardware</span></a>
 </nav>
-  </main>
+</main>
 </div>
-
 <a class="back-to-top" href="#top">&uarr; Back to top</a>
-
 <div id="status-live" class="visually-hidden" role="status" aria-live="polite"></div>
-
 <footer class="site-footer">
-  <div class="site-footer__inner">
-    <nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
-  </div>
+<div class="site-footer__inner">
+<nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
+</div>
 </footer>
-<script src="assets/js/site.js?v=7b43fc8f"></script>
 </body>
 </html>

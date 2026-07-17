@@ -8,36 +8,7 @@
 <meta id="theme-colour-light" name="theme-color" media="(prefers-color-scheme: light)" content="#14245a">
 <meta id="theme-colour-dark" name="theme-color" media="(prefers-color-scheme: dark)" content="#16191d">
 <link rel="canonical" href="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/annex-c-6-real-time-communication.html">
-<script>/* Theme apply, deliberately placed before the stylesheet link and
-kept synchronous (scripts/test_build.py asserts both statically): an
-explicit Dark/Light choice is set on <html> before the stylesheet can
-first paint with the wrong tokens, preventing — or at worst minimising —
-a wrong-theme flash. Also keeps
-the browser-chrome theme-color in step with the RESOLVED theme — on an
-explicit choice both meta elements get the same value, so whichever
-media query the OS matches, the chrome colour agrees with the page.
-site.js reuses __syncThemeColour when the choice changes mid-session.
-The hex values are injected from build.py (THEME_CHROME_*), the single
-source the unit tests check the CSS and generated output against.
-Everything else about theming is CSS; without JavaScript the OS
-preference applies. */
-(function () {
-  var LIGHT = "#14245a", DARK = "#16191d";
-  window.__syncThemeColour = function (theme) {
-    var l = document.getElementById("theme-colour-light");
-    var d = document.getElementById("theme-colour-dark");
-    if (!l || !d) return;
-    l.content = theme === "dark" ? DARK : LIGHT;
-    d.content = theme === "light" ? LIGHT : DARK;
-  };
-  var theme = null;
-  try {
-    var p = JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));
-    if (p && (p.theme === "dark" || p.theme === "light")) theme = p.theme;
-  } catch (e) {}
-  if (theme) document.documentElement.setAttribute("data-theme", theme);
-  window.__syncThemeColour(theme || "auto");
-})();</script>
+<script>(function(){var L="#14245a",D="#16191d";window.__syncThemeColour=function(t){var l=document.getElementById("theme-colour-light"),d=document.getElementById("theme-colour-dark");if(l&&d){l.content=t==="dark"?D:L;d.content=t==="light"?L:D}};var t=null;try{var p=JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));if(p&&(p.theme==="dark"||p.theme==="light"))t=p.theme}catch(e){}if(t)document.documentElement.setAttribute("data-theme",t);window.__syncThemeColour(t||"auto")})();</script>
 <meta property="og:site_name" content="ETSI EN 301 549 V4.1.0 Online">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Annex C.6 (normative): ICT supporting real-time bidirectional communication | ETSI EN 301 549 V4.1.0 Online">
@@ -45,84 +16,83 @@ preference applies. */
 <meta property="og:url" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/annex-c-6-real-time-communication.html">
 <meta property="og:image" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/assets/img/apple-touch-icon.png">
 <meta name="twitter:card" content="summary">
-<link rel="stylesheet" href="assets/css/style.css?v=c5430ccf">
+<link rel="stylesheet" href="assets/css/style.18c586c2.css">
+<script defer src="assets/js/core.06591bb3.js"></script>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 </head>
-<body data-page-slug="annex-c-6-real-time-communication" data-page-title="Annex C.6 (normative): ICT supporting real-time bidirectional communication" data-page-group="Annex C: Determination of conformance">
+<body data-page-slug="annex-c-6-real-time-communication" data-page-title="Annex C.6 (normative): ICT supporting real-time bidirectional communication" data-page-group="Annex C: Determination of conformance" data-search-js="assets/js/search.3f91c211.js" data-reader-js="assets/js/reader-library.63836e18.js" data-suggest-index="search-suggestions.e295bad5.json">
 <a class="skip-link" id="top" href="#main-content">Skip to main content</a>
-
+<div class="top-sentinel" aria-hidden="true"></div>
 <header class="site-header">
-  <div class="site-header__inner">
-    <a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
-    <nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
-    <button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
-    </button>
-    <form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
-      <input type="search" name="q" aria-label="Search this standard" autocomplete="off">
-      <button type="submit">Search</button>
-    </form>
-  </div>
+<div class="site-header__inner">
+<a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
+<nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
+<button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
+</button>
+<form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
+<input type="search" name="q" aria-label="Search this standard" autocomplete="off">
+<button type="submit">Search</button>
+</form>
+</div>
 </header>
 <div class="accent-bar" aria-hidden="true"></div>
-
 <div class="doc-header">
-  <div class="doc-header__inner">
-    <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Annex C: Determination of conformance</li><li aria-current="page">Annex C.6: Real-time communication</li></ol></nav>
-    <div class="doc-header__top">
-      <div>
-        <h1>Annex C.6 (normative): ICT supporting real-time bidirectional communication</h1>
-      </div>
-    </div>
-    <div class="doc-toolbar">
-      <details class="page-tools">
-      <summary>Page tools</summary>
-      <div class="page-tools__panel">
-      <button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
-      <a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
-      <button type="button" class="page-tools__item" data-action="copy-link">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
-        <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
-      </button>
-      <button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="annex-c-6-real-time-communication" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
-      <details class="reader-tools">
-        <summary>Reading options</summary>
-        <div class="reader-tools__panel">
-          <fieldset>
-            <legend>Text width</legend>
-            <label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
-            <label><input type="radio" name="reading-width" value="wide"> Wide</label>
-          </fieldset>
-          <fieldset>
-            <legend>Colour theme</legend>
-            <label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
-            <label><input type="radio" name="colour-theme" value="light"> Light</label>
-            <label><input type="radio" name="colour-theme" value="dark"> Dark</label>
-          </fieldset>
-          <label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
-          <button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
-          <p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
-          <section class="reader-library" aria-labelledby="saved-pages-heading">
-            <h2 id="saved-pages-heading">Saved pages</h2>
-            <h3>Bookmarks</h3>
-            <ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
-            <h3>Recently viewed</h3>
-            <ul data-recent-list><li>No recently viewed pages yet.</li></ul>
-          </section>
-        </div>
-      </details>
-      </div>
-      </details>
-    </div>
-  </div>
+<div class="doc-header__inner">
+<nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Annex C: Determination of conformance</li><li aria-current="page">Annex C.6: Real-time communication</li></ol></nav>
+<div class="doc-header__top">
+<div>
+<h1>Annex C.6 (normative): ICT supporting real-time bidirectional communication</h1>
 </div>
-
+</div>
+<div class="doc-toolbar">
+<details class="page-tools">
+<summary>Page tools</summary>
+<div class="page-tools__panel">
+<button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
+<a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
+<button type="button" class="page-tools__item" data-action="copy-link">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
+<span class="doc-toolbar__btn-status" aria-hidden="true"></span>
+</button>
+<button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="annex-c-6-real-time-communication" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
+<details class="reader-tools">
+<summary>Reading options</summary>
+<div class="reader-tools__panel">
+<fieldset>
+<legend>Text width</legend>
+<label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
+<label><input type="radio" name="reading-width" value="wide"> Wide</label>
+</fieldset>
+<fieldset>
+<legend>Colour theme</legend>
+<label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
+<label><input type="radio" name="colour-theme" value="light"> Light</label>
+<label><input type="radio" name="colour-theme" value="dark"> Dark</label>
+</fieldset>
+<label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
+<button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
+<p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
+<section class="reader-library" aria-labelledby="saved-pages-heading">
+<h2 id="saved-pages-heading">Saved pages</h2>
+<h3>Bookmarks</h3>
+<ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
+<h3>Recently viewed</h3>
+<ul data-recent-list><li>No recently viewed pages yet.</li></ul>
+</section>
+</div>
+</details>
+</div>
+</details>
+</div>
+</div>
+</div>
 <div class="page-shell">
-  <div class="page-sidebar">
-    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
-    <nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
+<div class="page-sidebar">
+<button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
+<nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
 <div class="site-nav__header">Contents</div>
 <p><a href="index.html">Home</a></p>
 <p><a href="about.html">About</a></p>
@@ -255,10 +225,10 @@ preference applies. */
 </li>
 </ul></details>
 </nav>
-  </div>
-  <main id="main-content" tabindex="-1">
-    <div class="content">
-      <div class="clause-summary"><h2 id="about-this-page">About this annex</h2><p>Annex C.6 describes ways to determine whether the requirements in clause 6 (real-time communication) are met.</p><p>It is <a href="about.html#normative-and-informative">normative</a>, which means it forms part of the requirements of the standard.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div><nav class="on-this-page" aria-labelledby="on-this-page-heading">
+</div>
+<main id="main-content" tabindex="-1">
+<div class="content">
+<div class="clause-summary"><h2 id="about-this-page">About this annex</h2><p>Annex C.6 describes ways to determine whether the requirements in clause 6 (real-time communication) are met.</p><p>It is <a href="about.html#normative-and-informative">normative</a>, which means it forms part of the requirements of the standard.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div><nav class="on-this-page" aria-labelledby="on-this-page-heading">
 <h2 id="on-this-page-heading">On this page</h2>
 <ul>
 <li><a href="#c-6-0">C.6.0 Accessible real-time bidirectional communication operational scenarios</a>
@@ -315,11 +285,9 @@ preference applies. */
 </ul></li>
 </ul></nav>
 <h2 id="c-6-0"><a class="heading-link" href="#c-6-0" data-copy-link>C.6.0 Accessible real-time bidirectional communication operational scenarios</a></h2>
-
 <h3 id="c-6-0-1"><a class="heading-link" href="#c-6-0-1" data-copy-link>C.6.0.1 Rationale for scenarios (informative)</a></h3>
 <p>Clause <a class="xref" href="clause-6-real-time-communication.html#6-0-1">6.0.1</a> is informative only and contains no testable requirements.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> Clauses <a class="xref" href="#c-6-0-2">C.6.0.2</a> to <a class="xref" href="#c-6-0-9">C.6.0.9</a> are not tests &mdash; but are sets of pre-requisites that are to be applied as appropriate when carrying out testing of other Clause <a class="xref" href="clause-6-real-time-communication.html">6</a> requirements where specified in the requirement testing procedure.</p></div>
-
 <h3 id="c-6-0-2"><a class="heading-link" href="#c-6-0-2" data-copy-link>C.6.0.2 Communication client</a></h3>
 <p><strong>Scenario Preconditions:</strong> 1. The ICT under test is, or includes, a communication client, that supports real-time bidirectional voice communication with or within a communication system that supports real-time bidirectional voice communication.</p>
 <p><strong>Test assumptions:</strong></p>
@@ -335,7 +303,6 @@ preference applies. */
 </ol>
 <p><strong>Procedure:</strong> 2. Perform all applicable C.6.1-C.6.5 tests when C1 is communicating with the communication system.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> If the only communication system that is available that supports the feature under test has not yet been independently validated, it can still be useful to demonstrate that the client under test provides the functionality if a pass is achieved or to demonstrate the extent of support.</p></div>
-
 <h3 id="c-6-0-3"><a class="heading-link" href="#c-6-0-3" data-copy-link>C.6.0.3 Communication system</a></h3>
 <p><strong>Scenario Preconditions:</strong> 1. The ICT under test is, or includes, a communication system that supports real-time bidirectional voice communication with communication clients of the system.</p>
 <p><strong>Test assumptions:</strong></p>
@@ -345,7 +312,6 @@ preference applies. */
 </ol>
 <p><strong>Procedure:</strong> Perform all applicable C.6.1-C.6.5 tests when the communication system under test is communicating with the communication clients.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> If the only communication client that is available that supports the feature under test has not yet been independently validated, it can still be useful to demonstrate that the system under test provides the functionality if a pass is achieved or to demonstrate the extent of support.</p></div>
-
 <h3 id="c-6-0-4"><a class="heading-link" href="#c-6-0-4" data-copy-link>C.6.0.4 System connecting to another communication system</a></h3>
 <p><strong>Scenario Preconditions:</strong> 1. The ICT under test is, or includes, a communication system that supports real-time bidirectional voice communication with one or more other communication systems that support real-time bidirectional voice communication.</p>
 <p><strong>Test assumption:</strong></p>
@@ -356,7 +322,6 @@ preference applies. */
 </ol>
 <p><strong>Procedure:</strong> Perform all applicable C.6.1-C.6.5 tests when the communication system under test is communicating with the communication clients.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> If the only communication client that is available that supports the feature under test has not yet been independently validated, it can still be useful to demonstrate that the system under test provides the functionality if a pass is achieved or to demonstrate the extent of support.</p></div>
-
 <h3 id="c-6-0-5"><a class="heading-link" href="#c-6-0-5" data-copy-link>C.6.0.5 System with roaming visiting client</a></h3>
 <p><strong>Scenario Preconditions:</strong> 1. The ICT under test is, or includes, a communication system that supports real-time bidirectional voice communication.</p>
 <p><strong>Test assumption:</strong></p>
@@ -366,7 +331,6 @@ preference applies. */
 </ol>
 <p><strong>Procedure:</strong> Perform all applicable C.6.1-C.6.5 tests when the communication system under test is communicating with the visiting communication client C1.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> This scenario is intended to cover a roaming case. In roaming, which is specific to mobile networks, whenever ICT is brought out of the reach of the home network it connects to (roams on) a visited network.</p></div>
-
 <h3 id="c-6-0-6"><a class="heading-link" href="#c-6-0-6" data-copy-link>C.6.0.6 Client in emergency communications</a></h3>
 <p><strong>Scenario Preconditions:</strong></p>
 <ol>
@@ -386,7 +350,6 @@ preference applies. */
 <ol>
 <li>Perform all applicable C.6.1 and C6.3-C.6.5 tests when C1 under test is communicating with the communication system for emergency communication.</li>
 </ol>
-
 <h3 id="c-6-0-7"><a class="heading-link" href="#c-6-0-7" data-copy-link>C.6.0.7 Emergency communications</a></h3>
 <p><strong>Scenario Preconditions:</strong> 1. The ICT under test is, or includes, a communication system that supports real-time bidirectional voice communication and is specified to support emergency communications.</p>
 <p><strong>Test assumption:</strong></p>
@@ -395,7 +358,6 @@ preference applies. */
 <li>An agreement is in place for tests with the emergency communication PSAP or test PSAP to which test communications are expected to be routed. The PSAP is called C2.</li>
 </ol>
 <p><strong>Procedure:</strong> Perform all applicable C.6.1-C.6.5 tests when the communication system under test is communicating with the communication client C1 for emergency communications.</p>
-
 <h3 id="c-6-0-8"><a class="heading-link" href="#c-6-0-8" data-copy-link>C.6.0.8 System with roaming visiting client in an emergency</a></h3>
 <p><strong>Scenario Preconditions:</strong> 1. The ICT under test is, or includes, a communication system CS1 that supports real-time bidirectional voice communication and is specified to support emergency communications and roaming of communication clients from another communication system CS2.</p>
 <p><strong>Test assumptions:</strong></p>
@@ -405,7 +367,6 @@ preference applies. */
 </ol>
 <p><strong>Procedure:</strong> Perform all applicable C.6.1-C.6.5 tests for emergency communications when communication system CS1 is communicating with communication client C1 and the communication client C2.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> This scenario is intended to cover a roaming case. In roaming, which is specific to mobile networks, whenever ICT is brought out of the reach of the home network it connects to (roams on) a visited network.</p></div>
-
 <h3 id="c-6-0-9"><a class="heading-link" href="#c-6-0-9" data-copy-link>C.6.0.9 System with client in emergency visiting another country</a></h3>
 <p><strong>Scenario Preconditions:</strong> The ICT under test is, or includes, a communication system that supports real-time bidirectional voice communication and is specified to support emergency communications.</p>
 <p><strong>Test assumptions:</strong></p>
@@ -415,9 +376,7 @@ preference applies. */
 </ol>
 <p><strong>Procedure:</strong> Perform all applicable C.6.1-C.6.6 tests when communicating with the communication client C1 and a PSAP C2 in the visited country in emergency communications.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> For test with production PSAP the expected PSAP would be within the visited country or region.</p></div>
-
 <h2 id="c-6-1"><a class="heading-link" href="#c-6-1" data-copy-link>C.6.1 Real-time bidirectional voice communication</a></h2>
-
 <h3 id="c-6-1-1"><a class="heading-link" href="#c-6-1-1" data-copy-link>C.6.1.1 Voice communication interoperability</a></h3>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. The ICT under test provides functionality that allows real-time bidirectional voice communication, and connects to other ICT that allows real-time bidirectional voice communication.</p>
@@ -435,7 +394,6 @@ preference applies. */
 <li>Not applicable: If any requirement precondition false (Do not need to meet or test.)</li>
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
-
 <h3 id="c-6-1-2"><a class="heading-link" href="#c-6-1-2" data-copy-link>C.6.1.2 Audio bandwidth for capture and presentation for voice communication</a></h3>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. The ICT under test provides functionality that allows real-time bidirectional voice communication.</p>
@@ -464,17 +422,12 @@ preference applies. */
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
-
 <h3 id="c-6-1-3"><a class="heading-link" href="#c-6-1-3" data-copy-link>C.6.1.3 Audio presentation in attached listening devices for voice communication (recommendation)</a></h3>
 <p>Clause <a class="xref" href="clause-6-real-time-communication.html#6-1-3">6.1.3</a> only contains a recommendation and contains no testable requirements.</p>
-
 <h3 id="c-6-1-4"><a class="heading-link" href="#c-6-1-4" data-copy-link>C.6.1.4 Synchronization of subtitles (recommendation)</a></h3>
 <p>Clause <a class="xref" href="clause-6-real-time-communication.html#6-1-4">6.1.4</a> only contains a recommendation and contains no testable requirements.</p>
-
 <h2 id="c-6-2"><a class="heading-link" href="#c-6-2" data-copy-link>C.6.2 Real-Time Text (RTT)</a></h2>
-
 <h3 id="c-6-2-1"><a class="heading-link" href="#c-6-2-1" data-copy-link>C.6.2.1 RTT Provision</a></h3>
-
 <h4 id="c-6-2-1-1"><a class="heading-link" href="#c-6-2-1-1" data-copy-link>C.6.2.1.1 RTT Functionality</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. ICT under test provides functionality that allows real-time bidirectional voice communication.</p>
@@ -495,7 +448,6 @@ preference applies. */
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
-
 <h4 id="c-6-2-1-2"><a class="heading-link" href="#c-6-2-1-2" data-copy-link>C.6.2.1.2 Concurrent voice and text</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. ICT under test provides real-time bidirectional voice communication, and supports RTT.</p>
@@ -519,7 +471,6 @@ preference applies. */
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
-
 <h4 id="c-6-2-1-3"><a class="heading-link" href="#c-6-2-1-3" data-copy-link>C.6.2.1.3 Single user operations</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. ICT under test provides bidirectional voice communication, and ICT includes RTT capabilities.</p>
@@ -565,9 +516,7 @@ preference applies. */
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
-
 <h3 id="c-6-2-2"><a class="heading-link" href="#c-6-2-2" data-copy-link>C.6.2.2 Display of RTT</a></h3>
-
 <h4 id="c-6-2-2-1"><a class="heading-link" href="#c-6-2-2-1" data-copy-link>C.6.2.2.1 Distinguishable display</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. ICT supports real-time bidirectional voice communication, and includes RTT presentation capabilities.</p>
@@ -591,7 +540,6 @@ preference applies. */
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
-
 <h4 id="c-6-2-2-2"><a class="heading-link" href="#c-6-2-2-2" data-copy-link>C.6.2.2.2 Active communicator indication</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. The ICT under test supports real-time bidirectional voice communication.</p>
@@ -612,7 +560,6 @@ preference applies. */
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
-
 <h4 id="c-6-2-2-3"><a class="heading-link" href="#c-6-2-2-3" data-copy-link>C.6.2.2.3 Indicator of audio with RTT</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. ICT under test provides bidirectional voice communication, and supports RTT.</p>
@@ -633,7 +580,6 @@ preference applies. */
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
-
 <h4 id="c-6-2-2-4"><a class="heading-link" href="#c-6-2-2-4" data-copy-link>C.6.2.2.4 Presentation of relative time order</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. The ICT supports real-time bidirectional voice communication.</p>
@@ -654,7 +600,6 @@ preference applies. */
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
-
 <h4 id="c-6-2-2-5"><a class="heading-link" href="#c-6-2-2-5" data-copy-link>C.6.2.2.5 Review of RTT communication contents</a></h4>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. ICT under test supports real-time bidirectional voice communication, and has RTT presentation capabilities.</p>
@@ -680,7 +625,6 @@ preference applies. */
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
-
 <h3 id="c-6-2-3"><a class="heading-link" href="#c-6-2-3" data-copy-link>C.6.2.3 DTMF touch-tone generation during RTT operations</a></h3>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. ICT under test is, or includes, a communication client and provides functionality that allows real-time bidirectional voice communication.</p>
@@ -702,7 +646,6 @@ preference applies. */
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
-
 <h3 id="c-6-2-4"><a class="heading-link" href="#c-6-2-4" data-copy-link>C.6.2.4 RTT responsiveness</a></h3>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. ICT under test is, or includes, a communication client.</p>
@@ -736,7 +679,6 @@ preference applies. */
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> See clause <a class="xref" href="clause-6-real-time-communication.html#6-2-4">6.2.4</a> note 4 for motivation for Option 2 being sufficient for compliance.</p></div>
-
 <h3 id="c-6-2-5"><a class="heading-link" href="#c-6-2-5" data-copy-link>C.6.2.5 Adding and erasing of RTT input</a></h3>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. ICT under test supports real-time bidirectional voice communication.</p>
@@ -763,7 +705,6 @@ preference applies. */
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
-
 <h3 id="c-6-2-6"><a class="heading-link" href="#c-6-2-6" data-copy-link>C.6.2.6 Processing rate of RTT</a></h3>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. ICT under test supports real-time bidirectional voice communication.</p>
@@ -789,7 +730,6 @@ preference applies. */
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
-
 <h3 id="c-6-2-7"><a class="heading-link" href="#c-6-2-7" data-copy-link>C.6.2.7 Character representation</a></h3>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. ICT under test supports real-time bidirectional voice communication.</p>
@@ -830,7 +770,6 @@ preference applies. */
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
-
 <h3 id="c-6-2-8"><a class="heading-link" href="#c-6-2-8" data-copy-link>C.6.2.8 RTT Input Methods</a></h3>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. ICT is, or includes, a communication client.</p>
@@ -849,7 +788,6 @@ preference applies. */
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
-
 <h3 id="c-6-2-9"><a class="heading-link" href="#c-6-2-9" data-copy-link>C.6.2.9 RTT media establishment and use</a></h3>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. ICT under test supports real-time bidirectional voice communication.</p>
@@ -892,7 +830,6 @@ preference applies. */
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
-
 <h3 id="c-6-2-10"><a class="heading-link" href="#c-6-2-10" data-copy-link>C.6.2.10 RTT interoperability</a></h3>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. The ICT provides functionality that allows real-time bidirectional voice communication and connects to other ICT that allows real-time bidirectional voice communication.</p>
@@ -908,7 +845,6 @@ preference applies. */
 <li>Fail: Both Check 1 and Check 2 are false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
 <h2 id="c-6-3"><a class="heading-link" href="#c-6-3" data-copy-link>C.6.3 Caller ID</a></h2>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. The ICT provides caller identification, or other identification functions.</p>
@@ -926,7 +862,6 @@ preference applies. */
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
-
 <h2 id="c-6-4"><a class="heading-link" href="#c-6-4" data-copy-link>C.6.4 Alternatives to voice-based services</a></h2>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. The ICT provides voice mail, auto-attendant, or interactive voice response facilities.</p>
@@ -944,13 +879,10 @@ preference applies. */
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
-
 <h2 id="c-6-5"><a class="heading-link" href="#c-6-5" data-copy-link>C.6.5 Video communication</a></h2>
-
 <h3 id="c-6-5-1"><a class="heading-link" href="#c-6-5-1" data-copy-link>C.6.5.1 General (informative)</a></h3>
 <p>Clause <a class="xref" href="clause-6-real-time-communication.html#6-5-1">6.5.1</a> is informative only and contains no testable requirements.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> Practical test procedures are described in ETSI ES 204 009 <a class="xref" href="clause-2-references.html#ref-i-77">[i.77]</a>, Annex <a class="xref" href="annex-c-1-introduction.html">C</a>.</p></div>
-
 <h3 id="c-6-5-2"><a class="heading-link" href="#c-6-5-2" data-copy-link>C.6.5.2 Resolution</a></h3>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. The ICT under test provides real-time bidirectional voice communication.</p>
@@ -977,7 +909,6 @@ preference applies. */
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
 <div class="callout"><p><span class="callout__label">NOTE:</span> A practical test procedure is described in ETSI ES 204 009 <a class="xref" href="clause-2-references.html#ref-i-77">[i.77]</a>, clause C.3.1.</p></div>
-
 <h3 id="c-6-5-3"><a class="heading-link" href="#c-6-5-3" data-copy-link>C.6.5.3 Frame rate</a></h3>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. The ICT under test provides real-time bidirectional voice communication.</p>
@@ -1009,7 +940,6 @@ preference applies. */
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
 <div class="callout"><p><span class="callout__label">NOTE:</span> A practical test procedure is described in ETSI ES 204 009 <a class="xref" href="clause-2-references.html#ref-i-77">[i.77]</a>, clause C.3.2.</p></div>
-
 <h3 id="c-6-5-4"><a class="heading-link" href="#c-6-5-4" data-copy-link>C.6.5.4 Synchronization between audio and video</a></h3>
 <p><strong>Type of assessment:</strong> Measurement</p>
 <p><strong>Requirement:</strong> 1. The ICT under test provides real-time bidirectional voice communication.</p>
@@ -1041,7 +971,6 @@ preference applies. */
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
 <div class="callout"><p><span class="callout__label">NOTE:</span> A practical test procedure is described in ETSI ES 204 009 <a class="xref" href="clause-2-references.html#ref-i-77">[i.77]</a>, clause C.3.3.</p></div>
-
 <h3 id="c-6-5-5"><a class="heading-link" href="#c-6-5-5" data-copy-link>C.6.5.5 Indicator of audio with video</a></h3>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. ICT provides real-time bidirectional voice communication.</p>
@@ -1061,7 +990,6 @@ preference applies. */
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
 <div class="callout"><p><span class="callout__label">NOTE:</span> The indicator should pulse in real time in a way that reflects the audio activity.</p></div>
-
 <h3 id="c-6-5-6"><a class="heading-link" href="#c-6-5-6" data-copy-link>C.6.5.6 Indication of all active communication participants</a></h3>
 <p><strong>Type of assessment:</strong> Measurement</p>
 <p><strong>Requirement:</strong> 1. The ICT provides real-time bidirectional voice communication.</p>
@@ -1079,12 +1007,9 @@ preference applies. */
 <li>Not: If any requirement precondition is false (Do not need to meet or test.)</li>
 <li>Test approach cannot be used: If any test assumption is not true. Need to use a different test approach.</li>
 </ul>
-
 <h2 id="c-6-6"><a class="heading-link" href="#c-6-6" data-copy-link>C.6.6 Alternatives to video-based services (recommendation)</a></h2>
 <p>Clause <a class="xref" href="clause-6-real-time-communication.html#6-6">6.6</a> is a recommendation and contains no testable requirements.</p>
-
 <h2 id="c-6-7"><a class="heading-link" href="#c-6-7" data-copy-link>C.6.7 Total conversation</a></h2>
-
 <h3 id="c-6-7-1"><a class="heading-link" href="#c-6-7-1" data-copy-link>C.6.7.1 Total conversation provision</a></h3>
 <p><strong>Type of assessment:</strong> Check Inspection</p>
 <p><strong>Requirement:</strong> 1. The ICT provides real-time bidirectional voice communication.</p>
@@ -1101,7 +1026,6 @@ preference applies. */
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 <li>Test approach cannot be used: If any Test Assumption is not true. Need to use a different test approach.</li>
 </ul>
-
 <h3 id="c-6-7-2"><a class="heading-link" href="#c-6-7-2" data-copy-link>C.6.7.2 Total conversation interoperability</a></h3>
 <p><strong>Type of assessment:</strong> Inspection</p>
 <p><strong>Requirement:</strong> 1. The ICT provides functionality that allows real-time bidirectional voice communication, and includes real-time bidirectional video functionality, and connects to other ICT that allows real-time bidirectional voice communication, and includes real-time bidirectional video functionality.</p>
@@ -1117,24 +1041,19 @@ preference applies. */
 <li>Fail: Both Check 1 and Check 2 are false</li>
 <li>Not applicable: If any requirement precondition is false (Do not need to meet or test.)</li>
 </ul>
-
-    </div>
-    <nav class="page-pager" aria-label="Page navigation">
+</div>
+<nav class="page-pager" aria-label="Page navigation">
 <a class="page-pager__link page-pager__link--prev" href="annex-c-5-generic-requirements.html"><span class="page-pager__direction">&larr; Previous</span><span class="page-pager__title">Annex C.5: Generic requirements</span></a>
 <a class="page-pager__link page-pager__link--next" href="annex-c-7-video-capabilities.html"><span class="page-pager__direction">Next &rarr;</span><span class="page-pager__title">Annex C.7: Video capabilities</span></a>
 </nav>
-  </main>
+</main>
 </div>
-
 <a class="back-to-top" href="#top">&uarr; Back to top</a>
-
 <div id="status-live" class="visually-hidden" role="status" aria-live="polite"></div>
-
 <footer class="site-footer">
-  <div class="site-footer__inner">
-    <nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
-  </div>
+<div class="site-footer__inner">
+<nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
+</div>
 </footer>
-<script src="assets/js/site.js?v=7b43fc8f"></script>
 </body>
 </html>

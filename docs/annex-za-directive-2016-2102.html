@@ -8,36 +8,7 @@
 <meta id="theme-colour-light" name="theme-color" media="(prefers-color-scheme: light)" content="#14245a">
 <meta id="theme-colour-dark" name="theme-color" media="(prefers-color-scheme: dark)" content="#16191d">
 <link rel="canonical" href="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/annex-za-directive-2016-2102.html">
-<script>/* Theme apply, deliberately placed before the stylesheet link and
-kept synchronous (scripts/test_build.py asserts both statically): an
-explicit Dark/Light choice is set on <html> before the stylesheet can
-first paint with the wrong tokens, preventing — or at worst minimising —
-a wrong-theme flash. Also keeps
-the browser-chrome theme-color in step with the RESOLVED theme — on an
-explicit choice both meta elements get the same value, so whichever
-media query the OS matches, the chrome colour agrees with the page.
-site.js reuses __syncThemeColour when the choice changes mid-session.
-The hex values are injected from build.py (THEME_CHROME_*), the single
-source the unit tests check the CSS and generated output against.
-Everything else about theming is CSS; without JavaScript the OS
-preference applies. */
-(function () {
-  var LIGHT = "#14245a", DARK = "#16191d";
-  window.__syncThemeColour = function (theme) {
-    var l = document.getElementById("theme-colour-light");
-    var d = document.getElementById("theme-colour-dark");
-    if (!l || !d) return;
-    l.content = theme === "dark" ? DARK : LIGHT;
-    d.content = theme === "light" ? LIGHT : DARK;
-  };
-  var theme = null;
-  try {
-    var p = JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));
-    if (p && (p.theme === "dark" || p.theme === "light")) theme = p.theme;
-  } catch (e) {}
-  if (theme) document.documentElement.setAttribute("data-theme", theme);
-  window.__syncThemeColour(theme || "auto");
-})();</script>
+<script>(function(){var L="#14245a",D="#16191d";window.__syncThemeColour=function(t){var l=document.getElementById("theme-colour-light"),d=document.getElementById("theme-colour-dark");if(l&&d){l.content=t==="dark"?D:L;d.content=t==="light"?L:D}};var t=null;try{var p=JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));if(p&&(p.theme==="dark"||p.theme==="light"))t=p.theme}catch(e){}if(t)document.documentElement.setAttribute("data-theme",t);window.__syncThemeColour(t||"auto")})();</script>
 <meta property="og:site_name" content="ETSI EN 301 549 V4.1.0 Online">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Annex ZA (informative): Relationship between the present document and the essential requirements of Directive (EU) 2016/2102 | ETSI EN 301 549 V4.1.0 Online">
@@ -45,84 +16,84 @@ preference applies. */
 <meta property="og:url" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/annex-za-directive-2016-2102.html">
 <meta property="og:image" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/assets/img/apple-touch-icon.png">
 <meta name="twitter:card" content="summary">
-<link rel="stylesheet" href="assets/css/style.css?v=c5430ccf">
+<link rel="stylesheet" href="assets/css/style.18c586c2.css">
+<script defer src="assets/js/core.06591bb3.js"></script>
+<script defer src="assets/js/tables.ce0866fd.js"></script>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 </head>
-<body data-page-slug="annex-za-directive-2016-2102" data-page-title="Annex ZA (informative): Relationship between the present document and the essential requirements of Directive (EU) 2016/2102" data-page-group="Annexes">
+<body data-page-slug="annex-za-directive-2016-2102" data-page-title="Annex ZA (informative): Relationship between the present document and the essential requirements of Directive (EU) 2016/2102" data-page-group="Annexes" data-search-js="assets/js/search.3f91c211.js" data-reader-js="assets/js/reader-library.63836e18.js" data-suggest-index="search-suggestions.e295bad5.json">
 <a class="skip-link" id="top" href="#main-content">Skip to main content</a>
-
+<div class="top-sentinel" aria-hidden="true"></div>
 <header class="site-header">
-  <div class="site-header__inner">
-    <a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
-    <nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
-    <button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
-    </button>
-    <form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
-      <input type="search" name="q" aria-label="Search this standard" autocomplete="off">
-      <button type="submit">Search</button>
-    </form>
-  </div>
+<div class="site-header__inner">
+<a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
+<nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
+<button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
+</button>
+<form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
+<input type="search" name="q" aria-label="Search this standard" autocomplete="off">
+<button type="submit">Search</button>
+</form>
+</div>
 </header>
 <div class="accent-bar" aria-hidden="true"></div>
-
 <div class="doc-header">
-  <div class="doc-header__inner">
-    <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Annexes</li><li aria-current="page">Annex ZA: Directive (EU) 2016/2102</li></ol></nav>
-    <div class="doc-header__top">
-      <div>
-        <h1>Annex ZA (informative): Relationship between the present document and the essential requirements of Directive (EU) 2016/2102</h1>
-      </div>
-    </div>
-    <div class="doc-toolbar">
-      <details class="page-tools">
-      <summary>Page tools</summary>
-      <div class="page-tools__panel">
-      <button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
-      <a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
-      <button type="button" class="page-tools__item" data-action="copy-link">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
-        <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
-      </button>
-      <button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="annex-za-directive-2016-2102" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
-      <details class="reader-tools">
-        <summary>Reading options</summary>
-        <div class="reader-tools__panel">
-          <fieldset>
-            <legend>Text width</legend>
-            <label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
-            <label><input type="radio" name="reading-width" value="wide"> Wide</label>
-          </fieldset>
-          <fieldset>
-            <legend>Colour theme</legend>
-            <label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
-            <label><input type="radio" name="colour-theme" value="light"> Light</label>
-            <label><input type="radio" name="colour-theme" value="dark"> Dark</label>
-          </fieldset>
-          <label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
-          <button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
-          <p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
-          <section class="reader-library" aria-labelledby="saved-pages-heading">
-            <h2 id="saved-pages-heading">Saved pages</h2>
-            <h3>Bookmarks</h3>
-            <ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
-            <h3>Recently viewed</h3>
-            <ul data-recent-list><li>No recently viewed pages yet.</li></ul>
-          </section>
-        </div>
-      </details>
-      </div>
-      </details>
-    </div>
-  </div>
+<div class="doc-header__inner">
+<nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Annexes</li><li aria-current="page">Annex ZA: Directive (EU) 2016/2102</li></ol></nav>
+<div class="doc-header__top">
+<div>
+<h1>Annex ZA (informative): Relationship between the present document and the essential requirements of Directive (EU) 2016/2102</h1>
 </div>
-
+</div>
+<div class="doc-toolbar">
+<details class="page-tools">
+<summary>Page tools</summary>
+<div class="page-tools__panel">
+<button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
+<a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
+<button type="button" class="page-tools__item" data-action="copy-link">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
+<span class="doc-toolbar__btn-status" aria-hidden="true"></span>
+</button>
+<button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="annex-za-directive-2016-2102" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
+<details class="reader-tools">
+<summary>Reading options</summary>
+<div class="reader-tools__panel">
+<fieldset>
+<legend>Text width</legend>
+<label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
+<label><input type="radio" name="reading-width" value="wide"> Wide</label>
+</fieldset>
+<fieldset>
+<legend>Colour theme</legend>
+<label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
+<label><input type="radio" name="colour-theme" value="light"> Light</label>
+<label><input type="radio" name="colour-theme" value="dark"> Dark</label>
+</fieldset>
+<label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
+<button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
+<p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
+<section class="reader-library" aria-labelledby="saved-pages-heading">
+<h2 id="saved-pages-heading">Saved pages</h2>
+<h3>Bookmarks</h3>
+<ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
+<h3>Recently viewed</h3>
+<ul data-recent-list><li>No recently viewed pages yet.</li></ul>
+</section>
+</div>
+</details>
+</div>
+</details>
+</div>
+</div>
+</div>
 <div class="page-shell">
-  <div class="page-sidebar">
-    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
-    <nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
+<div class="page-sidebar">
+<button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
+<nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
 <div class="site-nav__header">Contents</div>
 <p><a href="index.html">Home</a></p>
 <p><a href="about.html">About</a></p>
@@ -205,13 +176,12 @@ preference applies. */
 </li>
 </ul></details>
 </nav>
-  </div>
-  <main id="main-content" tabindex="-1">
-    <div class="content">
-      <div class="clause-summary"><h2 id="about-this-page">About this annex</h2><p>Annex ZA sets out how this standard relates to the essential requirements of the Web Accessibility Directive (Directive (EU) 2016/2102), for websites and for mobile applications.</p><p>It is <a href="about.html#normative-and-informative">informative</a>, which means it provides guidance rather than setting new requirements.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div>
+</div>
+<main id="main-content" tabindex="-1">
+<div class="content">
+<div class="clause-summary"><h2 id="about-this-page">About this annex</h2><p>Annex ZA sets out how this standard relates to the essential requirements of the Web Accessibility Directive (Directive (EU) 2016/2102), for websites and for mobile applications.</p><p>It is <a href="about.html#normative-and-informative">informative</a>, which means it provides guidance rather than setting new requirements.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div>
 <p>The present document has been prepared under the Commission&rsquo;s standardisation request C(2017)2585 final <a class="xref" href="clause-2-references.html#ref-i-26">[i.26]</a> to provide one voluntary means of conforming to the essential requirements of Directive (EU) 2016/2102 on the accessibility of the websites and mobile applications of public sector bodies <a class="xref" href="clause-2-references.html#ref-i-27">[i.27]</a>.</p>
 <p>Once the present document is cited in the Official Journal of the European Union under that Directive, conformance with the normative clauses of the present document given in Tables ZA.1 and ZA.2 confers, within the limits of the scope of the present document, a presumption of conformity with the corresponding essential requirements of that Directive and associated EFTA regulations.</p>
-
 <p>The requirements listed in Table ZA.1 apply to:</p>
 <ul>
 <li>web pages (as defined in clause <a class="xref" href="clause-3-definitions.html#3-1">3.1</a>);</li>
@@ -221,21 +191,16 @@ preference applies. */
 <li>software that is a web page; or</li>
 <li>software that is embedded in web pages and that is used in the rendering or that is intended to be rendered together with the web page in which it is embedded.</li>
 </ul>
-
 <p>The requirements listed in Table ZA.2 apply to mobile applications that provide a user interface, including content (such as documents and forms) that is in the software or provided by the software.</p>
-
 <div class="callout">
 <p><span class="callout__label">NOTE 1:</span> According to Directive (EU) 2016/2102 <a class="xref" href="clause-2-references.html#ref-i-27">[i.27]</a>: &ldquo;Content of websites and mobile applications includes textual as well as non-textual information, downloadable documents and forms, and two-way interaction such as the processing of digital forms and the completion of authentication, identification and payment processes&rdquo;.</p>
 </div>
-
 <div class="callout">
 <p><span class="callout__label">NOTE 2:</span> Annex ZA is a required element in all Harmonised standards. Its purpose is to explain how the essential requirements of a Directive can be met. Tables ZA.1 and ZA.2 are therefore restricted to those elements that relate to the essential requirements of Directive (EU) 2016/2102 <a class="xref" href="clause-2-references.html#ref-i-27">[i.27]</a>.</p>
 </div>
-
 <div class="callout">
 <p><span class="callout__label">NOTE 3:</span> Annex ZA describes how the standard relates to the European Web Accessibility Directive. Apart from the minimum requirements in clauses <a class="xref" href="clause-9-web.html">9</a>, <a class="xref" href="clause-10-non-web-documents.html">10</a> and <a class="xref" href="clause-11-non-web-software.html">11</a>, some of the requirements in clauses <a class="xref" href="clause-5-generic-requirements.html">5</a>, <a class="xref" href="clause-6-real-time-communication.html">6</a>, <a class="xref" href="clause-7-video-capabilities.html">7</a> and <a class="xref" href="clause-12-information-products-services.html">12</a> can also be relevant to fulfil the Directive in specific situations. The tables in Annex ZA show which requirements are relevant.</p>
 </div>
-
 <div class="callout">
 <p><span class="callout__label">NOTE 4:</span> Because the Web Accessibility Directive (EU) 2016/2102 &ldquo;does not apply to live time-based media&rdquo;, the following requirements are not listed in Tables ZA.1 and ZA.2. They are, however, necessary requirements for making live streaming media accessible:</p>
 <ul>
@@ -244,9 +209,7 @@ preference applies. */
 <li>11.1.2.4 Subtitles (live).</li>
 </ul>
 </div>
-
 <h2 id="key-to-tables-za-1-and-za-2-columns">Key to Tables ZA.1 and ZA.2 columns:</h2>
-
 <dl>
 <dt id="def-clause-requirement" tabindex="-1">Clause + Requirement</dt>
 <dd><p>Clause number and title of clause(s) defining the requirement in the present document.</p></dd>
@@ -257,10 +220,8 @@ preference applies. */
 <dt id="def-assessment" tabindex="-1">Assessment</dt>
 <dd><p>Indicates the clause of the present document that contains the relevant assessment method.</p></dd>
 </dl>
-
 <p>Presumption of conformity stays valid only as long as a reference to the present document is maintained in the list published in the Official Journal of the European Union. Users of the present document should consult frequently the latest list published in the Official Journal of the European Union.</p>
 <p>Other Union legislation may be applicable to the product(s) falling within the scope of the present document.</p>
-
 <div class="table-wrap">
 <table>
 <caption>Table ZA.1: Web Content - relationship between the present document and the essential requirements of Directive (EU) 2016/2102/EU</caption>
@@ -277,7 +238,6 @@ preference applies. */
 </tr>
 </thead>
 <tbody>
-
 <tr>
 <th scope="row">5.2</th>
 <td>Activation of accessibility features</td>
@@ -2081,7 +2041,6 @@ preference applies. */
 </tbody>
 </table>
 </div>
-
 <div class="table-wrap">
 <table>
 <caption>Table ZA.2: Mobile Applications - relationship between the present document and the essential requirements of Directive (EU) 2016/2102/EU</caption>
@@ -2098,7 +2057,6 @@ preference applies. */
 </tr>
 </thead>
 <tbody>
-
 <tr>
 <th scope="row">5.1.2.1</th>
 <td>Closed functionality</td>
@@ -4812,24 +4770,19 @@ preference applies. */
 </tbody>
 </table>
 </div>
-
-    </div>
-    <nav class="page-pager" aria-label="Page navigation">
+</div>
+<nav class="page-pager" aria-label="Page navigation">
 <a class="page-pager__link page-pager__link--prev" href="annex-e-guidance.html"><span class="page-pager__direction">&larr; Previous</span><span class="page-pager__title">Annex E: Guidance and resources</span></a>
 <a class="page-pager__link page-pager__link--next" href="annex-zb-directive-2019-882.html"><span class="page-pager__direction">Next &rarr;</span><span class="page-pager__title">Annex ZB: Directive (EU) 2019/882</span></a>
 </nav>
-  </main>
+</main>
 </div>
-
 <a class="back-to-top" href="#top">&uarr; Back to top</a>
-
 <div id="status-live" class="visually-hidden" role="status" aria-live="polite"></div>
-
 <footer class="site-footer">
-  <div class="site-footer__inner">
-    <nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
-  </div>
+<div class="site-footer__inner">
+<nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
+</div>
 </footer>
-<script src="assets/js/site.js?v=7b43fc8f"></script>
 </body>
 </html>

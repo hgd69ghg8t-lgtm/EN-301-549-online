@@ -8,36 +8,7 @@
 <meta id="theme-colour-light" name="theme-color" media="(prefers-color-scheme: light)" content="#14245a">
 <meta id="theme-colour-dark" name="theme-color" media="(prefers-color-scheme: dark)" content="#16191d">
 <link rel="canonical" href="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/clause-8-hardware.html">
-<script>/* Theme apply, deliberately placed before the stylesheet link and
-kept synchronous (scripts/test_build.py asserts both statically): an
-explicit Dark/Light choice is set on <html> before the stylesheet can
-first paint with the wrong tokens, preventing — or at worst minimising —
-a wrong-theme flash. Also keeps
-the browser-chrome theme-color in step with the RESOLVED theme — on an
-explicit choice both meta elements get the same value, so whichever
-media query the OS matches, the chrome colour agrees with the page.
-site.js reuses __syncThemeColour when the choice changes mid-session.
-The hex values are injected from build.py (THEME_CHROME_*), the single
-source the unit tests check the CSS and generated output against.
-Everything else about theming is CSS; without JavaScript the OS
-preference applies. */
-(function () {
-  var LIGHT = "#14245a", DARK = "#16191d";
-  window.__syncThemeColour = function (theme) {
-    var l = document.getElementById("theme-colour-light");
-    var d = document.getElementById("theme-colour-dark");
-    if (!l || !d) return;
-    l.content = theme === "dark" ? DARK : LIGHT;
-    d.content = theme === "light" ? LIGHT : DARK;
-  };
-  var theme = null;
-  try {
-    var p = JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));
-    if (p && (p.theme === "dark" || p.theme === "light")) theme = p.theme;
-  } catch (e) {}
-  if (theme) document.documentElement.setAttribute("data-theme", theme);
-  window.__syncThemeColour(theme || "auto");
-})();</script>
+<script>(function(){var L="#14245a",D="#16191d";window.__syncThemeColour=function(t){var l=document.getElementById("theme-colour-light"),d=document.getElementById("theme-colour-dark");if(l&&d){l.content=t==="dark"?D:L;d.content=t==="light"?L:D}};var t=null;try{var p=JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));if(p&&(p.theme==="dark"||p.theme==="light"))t=p.theme}catch(e){}if(t)document.documentElement.setAttribute("data-theme",t);window.__syncThemeColour(t||"auto")})();</script>
 <meta property="og:site_name" content="ETSI EN 301 549 V4.1.0 Online">
 <meta property="og:type" content="website">
 <meta property="og:title" content="8 Hardware | ETSI EN 301 549 V4.1.0 Online">
@@ -45,84 +16,84 @@ preference applies. */
 <meta property="og:url" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/clause-8-hardware.html">
 <meta property="og:image" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/assets/img/apple-touch-icon.png">
 <meta name="twitter:card" content="summary">
-<link rel="stylesheet" href="assets/css/style.css?v=c5430ccf">
+<link rel="stylesheet" href="assets/css/style.18c586c2.css">
+<script defer src="assets/js/core.06591bb3.js"></script>
+<script defer src="assets/js/tables.ce0866fd.js"></script>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 </head>
-<body data-page-slug="clause-8-hardware" data-page-title="8 Hardware" data-page-group="Clauses">
+<body data-page-slug="clause-8-hardware" data-page-title="8 Hardware" data-page-group="Clauses" data-search-js="assets/js/search.3f91c211.js" data-reader-js="assets/js/reader-library.63836e18.js" data-suggest-index="search-suggestions.e295bad5.json">
 <a class="skip-link" id="top" href="#main-content">Skip to main content</a>
-
+<div class="top-sentinel" aria-hidden="true"></div>
 <header class="site-header">
-  <div class="site-header__inner">
-    <a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
-    <nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
-    <button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
-    </button>
-    <form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
-      <input type="search" name="q" aria-label="Search this standard" autocomplete="off">
-      <button type="submit">Search</button>
-    </form>
-  </div>
+<div class="site-header__inner">
+<a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
+<nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
+<button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
+</button>
+<form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
+<input type="search" name="q" aria-label="Search this standard" autocomplete="off">
+<button type="submit">Search</button>
+</form>
+</div>
 </header>
 <div class="accent-bar" aria-hidden="true"></div>
-
 <div class="doc-header">
-  <div class="doc-header__inner">
-    <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Clauses</li><li aria-current="page">8 Hardware</li></ol></nav>
-    <div class="doc-header__top">
-      <div>
-        <h1>8 Hardware</h1>
-      </div>
-    </div>
-    <div class="doc-toolbar">
-      <details class="page-tools">
-      <summary>Page tools</summary>
-      <div class="page-tools__panel">
-      <button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
-      <a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
-      <button type="button" class="page-tools__item" data-action="copy-link">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
-        <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
-      </button>
-      <button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="clause-8-hardware" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
-      <details class="reader-tools">
-        <summary>Reading options</summary>
-        <div class="reader-tools__panel">
-          <fieldset>
-            <legend>Text width</legend>
-            <label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
-            <label><input type="radio" name="reading-width" value="wide"> Wide</label>
-          </fieldset>
-          <fieldset>
-            <legend>Colour theme</legend>
-            <label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
-            <label><input type="radio" name="colour-theme" value="light"> Light</label>
-            <label><input type="radio" name="colour-theme" value="dark"> Dark</label>
-          </fieldset>
-          <label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
-          <button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
-          <p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
-          <section class="reader-library" aria-labelledby="saved-pages-heading">
-            <h2 id="saved-pages-heading">Saved pages</h2>
-            <h3>Bookmarks</h3>
-            <ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
-            <h3>Recently viewed</h3>
-            <ul data-recent-list><li>No recently viewed pages yet.</li></ul>
-          </section>
-        </div>
-      </details>
-      </div>
-      </details>
-    </div>
-  </div>
+<div class="doc-header__inner">
+<nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Clauses</li><li aria-current="page">8 Hardware</li></ol></nav>
+<div class="doc-header__top">
+<div>
+<h1>8 Hardware</h1>
 </div>
-
+</div>
+<div class="doc-toolbar">
+<details class="page-tools">
+<summary>Page tools</summary>
+<div class="page-tools__panel">
+<button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
+<a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
+<button type="button" class="page-tools__item" data-action="copy-link">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
+<span class="doc-toolbar__btn-status" aria-hidden="true"></span>
+</button>
+<button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="clause-8-hardware" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
+<details class="reader-tools">
+<summary>Reading options</summary>
+<div class="reader-tools__panel">
+<fieldset>
+<legend>Text width</legend>
+<label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
+<label><input type="radio" name="reading-width" value="wide"> Wide</label>
+</fieldset>
+<fieldset>
+<legend>Colour theme</legend>
+<label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
+<label><input type="radio" name="colour-theme" value="light"> Light</label>
+<label><input type="radio" name="colour-theme" value="dark"> Dark</label>
+</fieldset>
+<label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
+<button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
+<p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
+<section class="reader-library" aria-labelledby="saved-pages-heading">
+<h2 id="saved-pages-heading">Saved pages</h2>
+<h3>Bookmarks</h3>
+<ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
+<h3>Recently viewed</h3>
+<ul data-recent-list><li>No recently viewed pages yet.</li></ul>
+</section>
+</div>
+</details>
+</div>
+</details>
+</div>
+</div>
+</div>
 <div class="page-shell">
-  <div class="page-sidebar">
-    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
-    <nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
+<div class="page-sidebar">
+<button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
+<nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
 <div class="site-nav__header">Contents</div>
 <p><a href="index.html">Home</a></p>
 <p><a href="about.html">About</a></p>
@@ -241,10 +212,10 @@ preference applies. */
 </li>
 </ul></details>
 </nav>
-  </div>
-  <main id="main-content" tabindex="-1">
-    <div class="content">
-      <div class="clause-summary"><h2 id="about-this-page">About this clause</h2><p>Clause 8 covers physical products, including their controls, displays and connectors. It sets out what makes hardware accessible to use.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div><nav class="on-this-page" aria-labelledby="on-this-page-heading">
+</div>
+<main id="main-content" tabindex="-1">
+<div class="content">
+<div class="clause-summary"><h2 id="about-this-page">About this clause</h2><p>Clause 8 covers physical products, including their controls, displays and connectors. It sets out what makes hardware accessible to use.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div><nav class="on-this-page" aria-labelledby="on-this-page-heading">
 <h2 id="on-this-page-heading">On this page</h2>
 <ul>
 <li><a href="#8-1">8.1 General</a>
@@ -288,33 +259,24 @@ preference applies. */
 </ul></nav>
 <h2 id="8-1"><a class="heading-link" href="#8-1" data-copy-link>8.1 General</a></h2>
 <p>The &ldquo;generic requirements&rdquo; of clause <a class="xref" href="clause-5-generic-requirements.html">5</a> also apply to ICT that is hardware.</p>
-
 <h2 id="8-2"><a class="heading-link" href="#8-2" data-copy-link>8.2 Hardware products with speech output</a></h2>
-
 <h3 id="8-2-1"><a class="heading-link" href="#8-2-1" data-copy-link>8.2.1 Speech volume</a></h3>
-
 <h4 id="8-2-1-1"><a class="heading-link" href="#8-2-1-1" data-copy-link>8.2.1.1 Speech volume gain</a></h4>
 <p>Where ICT is, or includes, hardware, and has speech output, and is a device that is typically held to the ear, the ICT shall provide a means to adjust the speech output volume level to achieve at least 18 dB of conversational gain.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> ANSI/TIA-4965 <a class="xref" href="clause-2-references.html#ref-i-2">[i.2]</a> (for fixed-line handsets) and ANSI/TIA-5050 <a class="xref" href="clause-2-references.html#ref-i-3">[i.3]</a> (for mobile wireless handsets) require the option to enhance the SPL by at least 18 dB over the SPL level of speech for a conversation at a distance of 1 m which is 70 dB for monaural listening.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Fixed-line handsets and headsets fulfilling the requirements of ANSI/TIA-4965 <a class="xref" href="clause-2-references.html#ref-i-2">[i.2]</a> and mobile wireless handsets fulfilling the requirements of ANSI/TIA-5050 <a class="xref" href="clause-2-references.html#ref-i-3">[i.3]</a> are deemed to comply with this requirement.</p></div>
-
 <h4 id="8-2-1-2"><a class="heading-link" href="#8-2-1-2" data-copy-link>8.2.1.2 Incremental volume control</a></h4>
 <p>Where ICT is, or includes, hardware, and has speech output, and is a device that is typically held to the ear, and its volume control is incremental, the ICT shall provide at least one intermediate step of 12 dB gain above the lowest volume setting.</p>
-
 <h3 id="8-2-2"><a class="heading-link" href="#8-2-2" data-copy-link>8.2.2 Magnetic coupling</a></h3>
-
 <h4 id="8-2-2-1"><a class="heading-link" href="#8-2-2-1" data-copy-link>8.2.2.1 Fixed-line devices and handsets</a></h4>
 <p>Where ICT is, or includes, hardware, and has speech output, and is a fixed-line communication device or wired handset that is typically held to the ear, the ICT shall provide a means of magnetic coupling to hearing technologies which meets the requirements of ETSI ES 200 381-1 <a class="xref" href="clause-2-references.html#ref-2">[2]</a> and shall be marked as being compatible with magnetic coupling if the ICT is designed for public use.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> ICT fulfilling the magnetic coupling, interference, and labelling requirements of TIA-1083-B <a class="xref" href="clause-2-references.html#ref-i-23">[i.23]</a> is deemed to comply with the requirements of this clause.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Magnetic coupling is also known as inductive coupling for T-coil.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> Kiosks and other Information Transaction Machines (ITMs) sometimes have wired handsets that are held to the ear.</p></div>
-
 <h4 id="8-2-2-2"><a class="heading-link" href="#8-2-2-2" data-copy-link>8.2.2.2 Wireless communication devices</a></h4>
 <p>Where ICT is, or includes, hardware, and has speech output, and is a wireless communication device that is typically held to the ear, the ICT shall provide a means of magnetic coupling and reduced interference to hearing technologies which meets the requirements of ETSI ES 200 381-2 <a class="xref" href="clause-2-references.html#ref-3">[3]</a>.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> ICT fulfilling the requirements of ANSI/IEEE C63.19 <a class="xref" href="clause-2-references.html#ref-i-1">[i.1]</a> is deemed to comply with the requirements of this clause.</p></div>
-
 <h2 id="8-3"><a class="heading-link" href="#8-3" data-copy-link>8.3 Stationary ICT</a></h2>
-
 <h3 id="8-3-1"><a class="heading-link" href="#8-3-1" data-copy-link>8.3.1 General (informative)</a></h3>
 <p>The present document defines the requirements for the design of stationary ICT that can be placed in a built environment, but does not define the dimensions of the built environment. The current clause contains only those accessibility requirements that are caused by functional and design requirements of the ICT.</p>
 <p>The scope includes stationary ICT and includes ICT installed in closed spaces (typically kiosks and cabins).</p>
@@ -325,53 +287,40 @@ preference applies. */
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Stationary ICT which meets the requirements in Set 1 also meets the requirements in Set 2.</p></div>
 <p>If in a specified location several stationary ICT devices with identical functionality and purpose are installed, it may be possible to apply the requirements of this clause <a class="xref" href="#8-3">8.3</a> to only a limited number of these stationary ICT devices. This exception and how it may be handled is out of scope of this clause <a class="xref" href="#8-3">8.3</a>.</p>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> In the context of this exception, ICT that does not meet the requirements of Set 1, and which is installed based on this exception, is expected to meet the requirements in Set 2.</p></div>
-
 <h3 id="8-3-2"><a class="heading-link" href="#8-3-2" data-copy-link>8.3.2 Display screen location</a></h3>
 <p>Where ICT is stationary ICT, display screens which are part of the ICT shall be placed in a way that no part of the display extends below 800 mm above the floor of the access space.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> For ICT that is mounted on a wall or installed on a table, the required minimum height can be achieved by mounting the ICT at the appropriate height above the floor or the access space or by selecting a matching table height.</p></div>
-
 <h3 id="8-3-3"><a class="heading-link" href="#8-3-3" data-copy-link>8.3.3 Presentation of information necessary for the operation of stationary ICT</a></h3>
-
 <h4 id="8-3-3-1"><a class="heading-link" href="#8-3-3-1" data-copy-link>8.3.3.1 Presentation of information necessary for the operation of stationary ICT (no design restrictions)</a></h4>
 <p>Where ICT is stationary ICT and there are no functional or design requirements which do not allow to present necessary information below 1&nbsp;600 mm above the floor space, information necessary to operate the stationary ICT shall be placed not higher than 1&nbsp;600 mm above the floor of the access space.</p>
-
 <h4 id="8-3-3-2"><a class="heading-link" href="#8-3-3-2" data-copy-link>8.3.3.2 Presentation of information necessary for the operation of stationary ICT (with design restrictions)</a></h4>
 <p>Where ICT is stationary ICT and there are functional or design requirements which do not allow to present necessary information below 1&nbsp;600 mm above the floor space, information necessary to operate the stationary ICT shall be placed not higher than 2&nbsp;000 mm above the floor of the access space.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> Examples for stationary ICT for which it may not be possible to present all necessary information below 1&nbsp;600 mm above the floor level include, but are not limited to large refrigerators or other devices which need large door openings.</p></div>
-
 <h3 id="8-3-4"><a class="heading-link" href="#8-3-4" data-copy-link>8.3.4 Legibility of display screens (informative)</a></h3>
 <p>Where a display screen has closed functionality regarding text enlargement, clause <a class="xref" href="clause-5-generic-requirements.html#5-1-4">5.1.4</a> applies.</p>
 <p>Where a display screen is a touch screen, the requirements in clauses <a class="xref" href="#8-3-5">8.3.5</a> and <a class="xref" href="#8-3-6">8.3.6</a> apply.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> The legibility of information on display screens is dependent on different parameters such as font size, colour contrast, environment lighting, glare, parallax, privacy screen features etc.</p></div>
-
 <h3 id="8-3-5"><a class="heading-link" href="#8-3-5" data-copy-link>8.3.5 Control location (vertical)</a></h3>
-
 <h4 id="8-3-5-1"><a class="heading-link" href="#8-3-5-1" data-copy-link>8.3.5.1 Control location (vertical, no design restrictions)</a></h4>
 <p>Where ICT is stationary ICT and there are no functional or design requirements which do not allow to duplicate operable parts or locate them above 800 mm and below 1&nbsp;100 mm, at least one of each type of operable part shall be located in an elevation between 800 mm (minimum) and 1&nbsp;100 mm (maximum) above the floor of the floor space.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Keeping the minimum height of operable parts to 800 mm is intended to give better access for standing users and for wheelchair users with impaired upper body control.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> For controls of ICT that is mounted on a wall or installed on a table, the required minimum height can be achieved by mounting the ICT at the appropriate height above the floor or the access space or by selecting a matching table height.</p></div>
-
 <h4 id="8-3-5-2"><a class="heading-link" href="#8-3-5-2" data-copy-link>8.3.5.2 Control location (vertical, with design restrictions)</a></h4>
 <p>Where ICT is stationary ICT and there are functional or design requirements which do not allow duplication of operable parts or locate them above 800 mm and below 1&nbsp;100 mm, the minimum height of operable parts which cannot be duplicated shall be 380 mm, and the maximum height of operable parts which cannot be duplicated shall be 1&nbsp;220 mm, and access to operable parts which cannot be copied shall not be hindered by obstructions.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> Examples for stationary ICT for which it may not be possible to keep copies of all operable parts within the vertical control location limits required in clause <a class="xref" href="#8-3-5-1">8.3.5.1</a> include, but are not limited to coin sorting machines, Automated Teller Machines (ATMs), payment and ticketing terminals, food and drink dispensing machines, or supermarket checkout terminals.</p></div>
-
 <h3 id="8-3-6"><a class="heading-link" href="#8-3-6" data-copy-link>8.3.6 Control location (horizontal)</a></h3>
 <p>Where ICT is stationary ICT, at least one of each type of operable part shall be located in an area that has a maximum horizontal extent of 900 mm.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Keeping the maximum extent of the space available for controls limited ensures that users do not need to relocate to get access to all controls.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> The maximum horizontal extent is based on estimates provided in <a class="xref" href="clause-2-references.html#ref-i-69">[i.69]</a>.</p></div>
-
 <h3 id="8-3-7"><a class="heading-link" href="#8-3-7" data-copy-link>8.3.7 Reach depth</a></h3>
-
 <h4 id="8-3-7-1"><a class="heading-link" href="#8-3-7-1" data-copy-link>8.3.7.1 Reach depth (no design restrictions)</a></h4>
 <p>Where ICT is stationary ICT, and there are no functional or design requirements which do not allow duplication of operable parts or locating them in an area that has a maximum distance of 300 mm from the edge of the ICT at least one of each type of operable part shall be located in an area that has a maximum distance of 300 mm from the edge of the ICT which has the shortest distance to the user.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> The reach depth may also effect the maximum depth of obstructions if the position of operable parts is recessed from the edge of the stationary ICT.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> If the position of operable parts is recessed from the edge of the stationary ICT by x mm (x &lt; 300 mm) then the maximum depth of an obstruction is reduced by the same x mm.</p></div>
-
 <h4 id="8-3-7-2"><a class="heading-link" href="#8-3-7-2" data-copy-link>8.3.7.2 Reach depth (with design restrictions)</a></h4>
 <p>Where ICT is stationary ICT, and there are functional or design requirements which do not allow duplication of operable parts or locating them in an area that has a maximum distance of 300 mm from the edge of the ICT, at least one of each type of operable part shall be located in an area that has a maximum distance of 510 mm (for forward reach) and 610 mm (for side reach) from the edge of the ICT which has the shortest distance to the user.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> The reach depth also effects the maximum depth of obstructions if the position of operable parts is recessed from the edge of the stationary ICT.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> If the position of operable parts is recessed from the edge of the stationary ICT by x mm then the maximum depth of an obstruction is reduced by the same x mm.</p></div>
-
 <h3 id="8-3-8"><a class="heading-link" href="#8-3-8" data-copy-link>8.3.8 Forward or side reach (informative)</a></h3>
 <p>Stationary ICT may be designed to enable users of wheeled mobility devices to access the stationary ICT for forward reach or for side reach.</p>
 <div class="callout">
@@ -383,12 +332,9 @@ preference applies. */
 <li>For ICT devices which require the use of both hands for control and input, forward reach is necessary.</li>
 </ol>
 </div>
-
 <h3 id="8-3-9"><a class="heading-link" href="#8-3-9" data-copy-link>8.3.9 Forward reach</a></h3>
-
 <h4 id="8-3-9-1"><a class="heading-link" href="#8-3-9-1" data-copy-link>8.3.9.1 Unobstructed forward reach (informative)</a></h4>
 <p>For unobstructed forward reach clauses <a class="xref" href="#8-3-5">8.3.5</a> and <a class="xref" href="#8-3-6">8.3.6</a> define the correct positioning of controls.</p>
-
 <h4 id="8-3-9-2"><a class="heading-link" href="#8-3-9-2" data-copy-link>8.3.9.2 Obstructed forward reach (no design constraints)</a></h4>
 <p>Where ICT is stationary ICT, and has an obstruction that is an integral part of the ICT (this is called obstructed forward reach), and there are no functional or design constraints which require an obstruction deeper than 300 mm the ICT shall be designed so that:</p>
 <ol type="a">
@@ -396,7 +342,6 @@ preference applies. */
 <li>the maximum depth of the obstruction shall not exceed 300 mm.</li>
 </ol>
 <div class="callout"><p><span class="callout__label">NOTE:</span> The maximum depth of the obstruction will be further reduced by clause <a class="xref" href="#8-3-7-1">8.3.7.1</a> if the controls are recessed from the edge of the ICT.</p></div>
-
 <h4 id="8-3-9-3"><a class="heading-link" href="#8-3-9-3" data-copy-link>8.3.9.3 Obstructed forward reach (with design constraints)</a></h4>
 <p>Where ICT is stationary ICT, and has an obstruction that is an integral part of the ICT (this is called obstructed forward reach), and there are functional or design constraints which require an obstruction deeper than 300 mm the ICT shall be designed so that:</p>
 <ol type="a">
@@ -404,12 +349,9 @@ preference applies. */
 <li>the maximum depth of the obstruction shall not exceed 510 mm.</li>
 </ol>
 <div class="callout"><p><span class="callout__label">NOTE:</span> The maximum depth of the obstruction will be further reduced by clause <a class="xref" href="#8-3-7-2">8.3.7.2</a> if the controls are recessed from the edge of the ICT.</p></div>
-
 <h3 id="8-3-10"><a class="heading-link" href="#8-3-10" data-copy-link>8.3.10 Side reach</a></h3>
-
 <h4 id="8-3-10-1"><a class="heading-link" href="#8-3-10-1" data-copy-link>8.3.10.1 Unobstructed side reach (informative)</a></h4>
 <p>For unobstructed side reach clauses <a class="xref" href="#8-3-5">8.3.5</a> and <a class="xref" href="#8-3-6">8.3.6</a> define the correct positioning of controls.</p>
-
 <h4 id="8-3-10-2"><a class="heading-link" href="#8-3-10-2" data-copy-link>8.3.10.2 Obstructed side reach (no design constraints)</a></h4>
 <p>Where ICT is stationary ICT, and has an obstruction that is an integral part of the ICT (this is called obstructed side reach), and there are no functional or design constraints which require an obstruction deeper than 300 mm the ICT shall be designed so that:</p>
 <ol type="a">
@@ -418,7 +360,6 @@ preference applies. */
 </ol>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> The maximum depth of the obstruction will be further reduced by clause <a class="xref" href="#8-3-7-1">8.3.7.1</a> if the controls are recessed from the edge of the ICT.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> See Figure 8.1 and Table 8.1 for details on obstructed side reach.</p></div>
-
 <h4 id="8-3-10-3"><a class="heading-link" href="#8-3-10-3" data-copy-link>8.3.10.3 Obstructed side reach (with design constraints)</a></h4>
 <p>Where ICT is stationary ICT, and has an obstruction that is an integral part of the ICT (this is called obstructed side reach), and there are functional or design constraints which require an obstruction deeper than 300 mm the ICT shall be designed so that:</p>
 <ol type="a">
@@ -427,9 +368,7 @@ preference applies. */
 </ol>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> The maximum depth of the obstruction will be further reduced by clause <a class="xref" href="#8-3-7-2">8.3.7.2</a> if the controls are recessed from the edge of the ICT.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Examples for stationary ICT for which it may not be possible to keep the depth of an obstruction below 300 mm include, but are not limited to, supermarket checkout terminals or stationary copier or scanner devices.</p></div>
-
 <p><strong>Figure 8.1:</strong> Obstructed side reach (see Table 8.1 for explanations)</p>
-
 <div class="table-wrap">
 <table>
 <caption>Table 8.1: Values for the size of obstructions for side reach</caption>
@@ -444,14 +383,10 @@ preference applies. */
 </table>
 </div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> The values listed in the column &ldquo;Values for stationary ICT which complies with clause <a class="xref" href="#8-3-10-3">8.3.10.3</a>&rdquo; are compliant with the ADA-based requirements <a class="xref" href="clause-2-references.html#ref-i-78">[i.78]</a>.</p></div>
-
 <h3 id="8-3-11"><a class="heading-link" href="#8-3-11" data-copy-link>8.3.11 Free space underneath stationary ICT with or without an obstruction</a></h3>
-
 <h4 id="8-3-11-1"><a class="heading-link" href="#8-3-11-1" data-copy-link>8.3.11.1 Free space underneath stationary ICT with or without an obstruction (no design constraints)</a></h4>
 <p>Where ICT is stationary ICT and there are no functional or design constraints which prevent the provision of a free space underneath the ICT or restrict the size of that free space, the stationary ICT shall provide an open space (knee and toe clearance) with the dimensions listed in Table 8.2, column &ldquo;Values for stationary ICT which complies with clause <a class="xref" href="#8-3-11-1">8.3.11.1</a>&rdquo; (see Figure 8.2).</p>
-
 <p><strong>Figure 8.2:</strong> Knee and toe clearance underneath an obstruction (see Table 8.2 for explanations)</p>
-
 <div class="table-wrap">
 <table>
 <caption>Table 8.2: Values for obstructions and knee and toe space below obstructions</caption>
@@ -473,7 +408,6 @@ preference applies. */
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> The depth reduction of the knee clearance (from (c) to (d) in Table 8.2 and Figure 8.2) should be avoided if possible, leading to a minimal depth of the knee clearance (c) with the value of (d) underneath an obstruction.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> Stationary ICT that can be used with side reach and forward reach may not need free space underneath an obstruction.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 4:</span> The values listed in the column &ldquo;Values for stationary ICT which complies with clause <a class="xref" href="#8-3-11-2">8.3.11.2</a>&rdquo; are compliant with the ADA-based requirements <a class="xref" href="clause-2-references.html#ref-i-78">[i.78]</a>.</p></div>
-
 <h4 id="8-3-11-2"><a class="heading-link" href="#8-3-11-2" data-copy-link>8.3.11.2 Free space underneath stationary ICT with or without an obstruction (with design constraints)</a></h4>
 <p>Where ICT is stationary ICT and there are no functional or design constraints which prevent the provision of a free space underneath the ICT, but there are functional or design requirements restricting the size of an open space below the ICT, the stationary ICT shall provide an open space (knee and toe clearance) with the dimensions listed in Table 8.2, column &ldquo;Values for stationary ICT which complies with clause <a class="xref" href="#8-3-11-2">8.3.11.2</a>&rdquo; (see Figure 8.2).</p>
 <div class="callout">
@@ -486,75 +420,57 @@ preference applies. */
 <li>There may be legal requirements or national standards which restrict the design of stationary ICT to exclude the provision of free space underneath such stationary ICT.</li>
 </ul>
 </div>
-
 <h3 id="8-3-12"><a class="heading-link" href="#8-3-12" data-copy-link>8.3.12 Floor characteristics (informative)</a></h3>
 <p>All floor characteristics including floor level changes, clear floor requirements, and the dimensions of necessary manoeuvring spaces are not caused by functional or design requirements of the stationary ICT and are therefore not in scope of this clause.</p>
 <p>Advice and requirements related to the floor characteristics can be found in ISO 21542 <a class="xref" href="clause-2-references.html#ref-i-35">[i.35]</a> and <a class="xref" href="clause-2-references.html#ref-i-63">[i.63]</a>.</p>
 <p>There should be no change in floor level inside a kiosk, cabin or other closed space in which stationary ICT is installed.</p>
-
 <h3 id="8-3-13"><a class="heading-link" href="#8-3-13" data-copy-link>8.3.13 Approach (informative)</a></h3>
 <p>The dimensions of the space required in front of stationary ICT for approaching the stationary ICT are not derived from functional or design requirements of the stationary ICT and are therefore not in scope of this clause.</p>
 <p>Advice and requirements related to access and manoeuvring spaces can be found in <a class="xref" href="clause-2-references.html#ref-i-35">[i.35]</a> and <a class="xref" href="clause-2-references.html#ref-i-64">[i.64]</a>.</p>
-
 <h3 id="8-3-14"><a class="heading-link" href="#8-3-14" data-copy-link>8.3.14 Installation instructions</a></h3>
 <p>Where ICT is stationary ICT, installation instructions shall be made available, that give guidance on how to install the stationary ICT in compliance with the applicable requirements of clause <a class="xref" href="#8-3">8.3</a> of the present document and take into account applicable requirements for accessibility of the built environment as they apply to the installation of the ICT.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> EN 17210 <a class="xref" href="clause-2-references.html#ref-i-64">[i.64]</a> is the European standard that defines applicable requirements for accessibility of the built environment in Europe. Other applicable requirements may be found in ISO 21542 <a class="xref" href="clause-2-references.html#ref-i-35">[i.35]</a>.</p></div>
-
 <h2 id="8-4"><a class="heading-link" href="#8-4" data-copy-link>8.4 Operable parts</a></h2>
-
 <h3 id="8-4-1"><a class="heading-link" href="#8-4-1" data-copy-link>8.4.1 Numeric keys</a></h3>
 <p>Where ICT is, or includes, hardware, and has physical numeric keys arranged in a rectangular keypad layout, the number five key shall be tactilely distinct from the other keys of the keypad.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> Recommendation ITU-T E.161 <a class="xref" href="clause-2-references.html#ref-i-19">[i.19]</a> describes the 12-key telephone keypad layout and provides further details of the form of tactile markers.</p></div>
-
 <h3 id="8-4-2"><a class="heading-link" href="#8-4-2" data-copy-link>8.4.2 Operation of operable parts</a></h3>
-
 <h4 id="8-4-2-1"><a class="heading-link" href="#8-4-2-1" data-copy-link>8.4.2.1 Means of operation</a></h4>
 <p>Where ICT is, or includes, hardware, and has operable parts that require grasping, pinching, or twisting of the wrist to operate, the ICT shall provide at least one mode of operation that does not require these actions.</p>
-
 <h4 id="8-4-2-2"><a class="heading-link" href="#8-4-2-2" data-copy-link>8.4.2.2 Force of operation of operable parts</a></h4>
 <p>Where ICT is, or includes, hardware, and has a control that requires a force greater than 22,2 N to operate it, the ICT shall provide a means of operation that does not requires a force greater than 22,2 N.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> ISO 21542:2021 <a class="xref" href="clause-2-references.html#ref-i-35">[i.35]</a> recommends a value between 2,5 and 5 N.</p></div>
-
 <h3 id="8-4-3"><a class="heading-link" href="#8-4-3" data-copy-link>8.4.3 Keys, tickets and cards</a></h3>
 <p>Where ICT is, or includes, hardware, and has keys, tickets or cards, and the orientation of the keys, tickets or cards is important for further use, the keys, tickets or cards shall each have an orientation that is tactilely discernible.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> ETSI ETS 300 767 <a class="xref" href="clause-2-references.html#ref-i-7">[i.7]</a> defines suitable tactile indications for plastic cards.</p></div>
-
 <h2 id="8-5"><a class="heading-link" href="#8-5" data-copy-link>8.5 Tactile indication of speech mode</a></h2>
 <p>Where ICT is, or includes, hardware, and the ICT is intended for public shared use, and speech output is available, a tactile indication of the means to initiate the speech mode of operation shall be provided.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> The tactile indication could include braille instructions.</p></div>
-
 <h2 id="8-6"><a class="heading-link" href="#8-6" data-copy-link>8.6 Standard connections</a></h2>
 <p>Where ICT is, or includes, hardware, and provides input or output device connection points, the ICT shall provide at least one input and/or output connection that conforms to an industry standard non-proprietary format, directly or through the use of commercially available adapters.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> The intent of this requirement is to ensure compatibility with assistive technologies by requiring the use of standard connections on ICT.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> The word connection applies to both physical and wireless connections.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> Current examples of industry standard non-proprietary connections are USB, Bluetooth&reg;.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 4:</span> For cables that have the same connector for two functions (data + charging and charging only), it is helpful for charging only to be marked in a manner detectable without vision or colour vision.</p></div>
-
 <h2 id="8-7"><a class="heading-link" href="#8-7" data-copy-link>8.7 Colour on hardware</a></h2>
 <p>Where ICT is, or includes, hardware, and colour is used on the hardware to convey information, colour shall not be used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element.</p>
-
 <h2 id="8-8"><a class="heading-link" href="#8-8" data-copy-link>8.8 Contrast on hardware</a></h2>
 <p>Where ICT is, or includes, hardware, non-digitally displayed characters or symbols required for use, or hardware operable parts without labels on them that are not tactilely discernible, shall contrast visually from their background as either light on a dark background or dark on a light background.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Logos are not considered required for use.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> A common approach is to use a Michelson contrast formula with a contrast of at least 0,7 for the display of information consisting of characters and pictorial symbols and a contrast of at least 0,4 for the identification of operating elements without characters and pictograms.</p></div>
-
-    </div>
-    <nav class="page-pager" aria-label="Page navigation">
+</div>
+<nav class="page-pager" aria-label="Page navigation">
 <a class="page-pager__link page-pager__link--prev" href="clause-7-video-capabilities.html"><span class="page-pager__direction">&larr; Previous</span><span class="page-pager__title">7 Video capabilities</span></a>
 <a class="page-pager__link page-pager__link--next" href="clause-9-web.html"><span class="page-pager__direction">Next &rarr;</span><span class="page-pager__title">9 Web</span></a>
 </nav>
-  </main>
+</main>
 </div>
-
 <a class="back-to-top" href="#top">&uarr; Back to top</a>
-
 <div id="status-live" class="visually-hidden" role="status" aria-live="polite"></div>
-
 <footer class="site-footer">
-  <div class="site-footer__inner">
-    <nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
-  </div>
+<div class="site-footer__inner">
+<nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
+</div>
 </footer>
-<script src="assets/js/site.js?v=7b43fc8f"></script>
 </body>
 </html>

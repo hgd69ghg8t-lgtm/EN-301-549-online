@@ -20,6 +20,7 @@ validate a change before committing it.
 import json
 import re
 import html
+import subprocess
 import sys
 import calendar
 import datetime
@@ -118,24 +119,92 @@ def human_date(iso):
     return iso
 
 
-CSS_PATH = DOCS_DIR / "assets" / "css" / "style.css"
-JS_PATH = DOCS_DIR / "assets" / "js" / "site.js"
+# ---------------------------------------------------------------------
+# Production assets: minified, content-hashed CSS/JS from scripts/source/
+# ---------------------------------------------------------------------
+#
+# The readable, documented source for every stylesheet and script lives
+# in scripts/source/. At build time scripts/minify-assets.mjs (terser +
+# csso, both mature minifiers pinned via package-lock.json) produces the
+# minified text, and this module writes it under docs/assets/ with a
+# content-hashed filename (style.<hash>.css, core.<hash>.js, ...).
+#
+# Content-hashed names — rather than the previous style.css?v=<hash>
+# query strings — mean every asset URL changes exactly when its bytes
+# change, so shared assets can be cached "forever" (immutable) by any
+# host or CDN, while an asset change still rolls out atomically across
+# every page in the same build. Hashes are derived from the final
+# production bytes, so a rebuild from unchanged source produces
+# byte-identical output with identical filenames (the reproducibility
+# guarantee in the README holds). Stale hashed files from earlier builds
+# are deleted, and the build fails if a page references an asset that
+# does not exist or an unreferenced hashed asset remains.
+
+SOURCE_ASSETS_DIR = ROOT / "scripts" / "source"
+CSS_OUT_DIR = DOCS_DIR / "assets" / "css"
+JS_OUT_DIR = DOCS_DIR / "assets" / "js"
+MINIFIER_PATH = ROOT / "scripts" / "minify-assets.mjs"
+
+# Source files that must exist and be minified into production assets.
+EXPECTED_ASSET_SOURCES = (
+    "style.css", "core.js", "search.js", "tables.js",
+    "reader-library.js", "search-worker.js",
+)
 
 
-def asset_version(path):
-    """Short content hash appended as ?v=... to the shared CSS/JS URLs.
-    GitHub Pages caches assets for ~10 minutes, so without this a style
-    change rolls out unevenly — pages loaded at different moments mix old
-    and new styling until every visitor's cache expires. With it, any
-    change to the file changes every page's asset URL in the same build,
-    so all pages pick up the new styles together. Content-derived, so a
-    rebuild from unchanged source still produces byte-identical output
-    (the reproducibility guarantee in the README holds). Note these two
-    files are hand-authored source that happens to live under docs/
-    (see README) — this does not read any *generated* output."""
-    if not path.exists():
-        return "0"
-    return hashlib.sha256(path.read_bytes()).hexdigest()[:8]
+def content_hash(data):
+    """Short content hash used in production filenames. Derived from the
+    final (minified) bytes, so the name changes exactly when the served
+    bytes change and never otherwise."""
+    if isinstance(data, str):
+        data = data.encode("utf-8")
+    return hashlib.sha256(data).hexdigest()[:8]
+
+
+def minify_assets(errors):
+    """Run the node minifier over scripts/source/ and return
+    {source filename: minified text}. Node is a build-time dependency
+    only (npm ci installs the pinned terser/csso); nothing at view time
+    depends on it."""
+    try:
+        proc = subprocess.run(
+            ["node", str(MINIFIER_PATH)],
+            capture_output=True, text=True, cwd=ROOT)
+    except FileNotFoundError:
+        errors.add("scripts/minify-assets.mjs", "minifier-node-missing",
+                   "node is not available, so production CSS/JS cannot be minified.",
+                   "Install Node.js and run `npm ci` (terser and csso are devDependencies).")
+        return None
+    if proc.returncode != 0:
+        errors.add("scripts/minify-assets.mjs", "minifier-failed",
+                   f"Asset minification failed: {proc.stderr.strip() or proc.stdout.strip()}",
+                   "Fix the reported syntax problem in scripts/source/, or run "
+                   "`npm ci` if terser/csso are missing.")
+        return None
+    try:
+        minified = json.loads(proc.stdout)
+    except json.JSONDecodeError as exc:
+        errors.add("scripts/minify-assets.mjs", "minifier-bad-output",
+                   f"The minifier's output was not valid JSON: {exc}",
+                   "Check scripts/minify-assets.mjs prints exactly one JSON object to stdout.")
+        return None
+    missing = [name for name in EXPECTED_ASSET_SOURCES if name not in minified]
+    if missing:
+        errors.add("scripts/source/", "asset-source-missing",
+                   f"Missing expected asset source file(s): {', '.join(missing)}",
+                   "Restore the file(s) under scripts/source/.")
+        return None
+    return minified
+
+
+def hashed_asset_names(minified):
+    """{source filename: production filename} with content hashes, e.g.
+    'core.js' -> 'core.1a2b3c4d.js'."""
+    names = {}
+    for source_name, text in minified.items():
+        stem, ext = source_name.rsplit(".", 1)
+        names[source_name] = f"{stem}.{content_hash(text)}.{ext}"
+    return names
 
 
 def source_pdf_size(errors=None):
@@ -798,35 +867,66 @@ def link_cross_references(fragment, current_slug, xrefs):
 
 
 # ---------------------------------------------------------------------
-# Search index (docs/search-index.json)
+# Search indexes (docs/search-index.<hash>.json + suggestions index)
 # ---------------------------------------------------------------------
 #
-# A static, build-time search index — no search service, no third-party
-# library. One JSON entry per heading section (h2-h4), per glossary term,
-# and per page intro: {"u": url, "p": page name, "t": title, "b": body
-# text}. docs/assets/js/site.js fetches it on the search page and filters
-# it in the browser. Deterministic (same source always produces the same
-# bytes), so the repository's reproducible-build guarantee holds.
+# Static, build-time search indexes — no search service, no third-party
+# library. Two are generated, both content-hashed like the other assets:
+#
+#   search-index.<hash>.json        one entry per heading section (h2-h4),
+#                                   glossary term and page intro:
+#                                   {"u": url, "p": page name, "t": title,
+#                                   "b": body text}. Fetched only on
+#                                   search.html (inside a Web Worker) —
+#                                   never on ordinary pages.
+#   search-suggestions.<hash>.json  the same entries minus all body text,
+#                                   plus the clause number ("n") and an
+#                                   entry type. A fraction of the size, it
+#                                   powers the header autocomplete on
+#                                   every page without pulling the full
+#                                   index down.
+#
+# Deterministic (same source always produces the same bytes), so the
+# repository's reproducible-build guarantee holds.
 
-SEARCH_INDEX_PATH = DOCS_DIR / "search-index.json"
-# Long sections (e.g. clause 3's whole "3.1 Terms" block, whose individual
-# definitions are indexed separately anyway) are capped so the index stays
-# a reasonable download; the cap is generous enough that genuine
-# requirement sections are never truncated.
-SEARCH_BODY_MAX_CHARS = 4000
+# Body excerpt cap per entry. Measured 2026-07 against caps of 1000/1500/
+# 2000/4000 over 26 representative queries: at 2000 every query's first
+# result is identical to the uncapped index and ~94% of all hits are
+# retained (the losses are matches deep inside the longest sections);
+# at 1500 and 1000 the losses accelerate (54 and 91 lost hits, and at
+# 1000 a first result changes) for little extra byte saving. 2000 is the
+# smallest cap that preserves useful results.
+SEARCH_BODY_MAX_CHARS = 2000
 
 
 def _squash(text):
     return " ".join(strip_tags(text).split())
 
 
-def build_search_index(metadata):
-    """Assembles the index from the same processed fragments the pages are
-    rendered from. Runs its own pass with a throwaway error collector —
-    any real content problems were already reported during rendering, and
-    reporting them twice would just be noise."""
+def build_search_indexes(metadata):
+    """Assembles both indexes in one pass from the same processed
+    fragments the pages are rendered from, returning (full_entries,
+    suggestion_entries). Runs its own pass with a throwaway error
+    collector — any real content problems were already reported during
+    rendering, and reporting them twice would just be noise.
+
+    Suggestion entries carry no body text at all — only what header
+    autocomplete needs: url, title, page name, the clause number where
+    the entry has one (for exact clause-number lookup), and a type
+    ("page" intro, "section" h2/h3, "requirement" h4, "term" glossary)."""
     scratch = Errors()
     entries = []
+    suggestions = []
+
+    def add(url, page_name, title, body, entry_type, number=None):
+        entries.append({"u": url, "p": page_name,
+                        "t": title, "b": body[:SEARCH_BODY_MAX_CHARS]})
+        suggestion = {"u": url, "t": title, "p": page_name}
+        if number:
+            suggestion["n"] = number
+        suggestion["type"] = entry_type
+        suggestions.append(suggestion)
+
     for page in SITEMAP:
         slug = page["slug"]
         if slug == "search":
@@ -842,16 +942,15 @@ def build_search_index(metadata):
 
         intro = _squash(fragment[:headings[0].start] if headings else fragment)
         if intro:
-            entries.append({"u": f"{slug}.html", "p": page_name,
-                            "t": page["title"], "b": intro[:SEARCH_BODY_MAX_CHARS]})
+            add(f"{slug}.html", page_name, page["title"], intro, "page")
 
         for i, h in enumerate(headings):
             if h.level not in (2, 3, 4) or not h.id:
                 continue
             end = headings[i + 1].start if i + 1 < len(headings) else len(fragment)
             body = _squash(fragment[h.close_end:end])
-            entries.append({"u": f"{slug}.html#{h.id}", "p": page_name,
-                            "t": h.text, "b": body[:SEARCH_BODY_MAX_CHARS]})
+            add(f"{slug}.html#{h.id}", page_name, h.text, body,
+                "requirement" if h.level == 4 else "section", h.number or None)
 
         # Glossary/abbreviation terms get their own entries, pointing at
         # the stable per-term ids assign_term_ids() created.
@@ -863,9 +962,13 @@ def build_search_index(metadata):
             next_start = terms[i + 1].start if i + 1 < len(terms) else len(fragment)
             end = min(x for x in (dl_end, next_start) if x != -1)
             body = _squash(fragment[term.close_end:end])
-            entries.append({"u": f"{slug}.html#{term.id}", "p": page_name,
-                            "t": term.text, "b": body[:SEARCH_BODY_MAX_CHARS]})
-    return entries
+            add(f"{slug}.html#{term.id}", page_name, term.text, body, "term")
+    return entries, suggestions
+
+
+def serialize_index(entries):
+    """Compact, deterministic JSON bytes for an index file."""
+    return (json.dumps(entries, ensure_ascii=False, separators=(",", ":")) + "\n").encode("utf-8")
 
 
 # ---------------------------------------------------------------------
@@ -1242,6 +1345,41 @@ def build_footer_nav(current_slug):
     return f'<nav class="site-footer__nav" aria-label="Footer"><ul>{items}</ul></nav>'
 
 
+# The pre-paint theme script, emitted inline in every page's <head>,
+# BEFORE the stylesheet, and kept synchronous (scripts/test_build.py
+# asserts both statically). Why it exists and why it is placed there:
+# an explicit Dark/Light choice stored in localStorage is set on <html>
+# before the stylesheet can first paint with the wrong tokens,
+# preventing — or at worst minimising — a wrong-theme flash. It also
+# keeps the browser-chrome theme-color metas in step with the RESOLVED
+# theme: on an explicit choice both meta elements get the same value, so
+# whichever media query the OS matches, the chrome colour agrees with
+# the page. core.js reuses window.__syncThemeColour when the choice
+# changes mid-session. Malformed storage can never break rendering: the
+# read/parse sits in a try/catch and anything but a literal "dark" or
+# "light" is ignored. Everything else about theming is CSS; without
+# JavaScript the OS preference applies.
+#
+# The script is emitted pre-minified (it is 38 pages × every visit, so
+# the long explanation you are reading lives here in build.py — and in
+# README.md — instead of being repeated in every generated page). The
+# hex values are injected from THEME_CHROME_*, the single source the
+# unit tests check the CSS and generated output against. @LIGHT@/@DARK@
+# placeholders avoid brace-escaping headaches inside str.format.
+THEME_SCRIPT = (
+    '(function(){var L="@LIGHT@",D="@DARK@";'
+    'window.__syncThemeColour=function(t){'
+    'var l=document.getElementById("theme-colour-light"),'
+    'd=document.getElementById("theme-colour-dark");'
+    'if(l&&d){l.content=t==="dark"?D:L;d.content=t==="light"?L:D}};'
+    'var t=null;'
+    'try{var p=JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));'
+    'if(p&&(p.theme==="dark"||p.theme==="light"))t=p.theme}catch(e){}'
+    'if(t)document.documentElement.setAttribute("data-theme",t);'
+    'window.__syncThemeColour(t||"auto")})();'
+)
+
+
 PAGE_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1252,36 +1390,7 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <meta id="theme-colour-light" name="theme-color" media="(prefers-color-scheme: light)" content="{theme_chrome_light}">
 <meta id="theme-colour-dark" name="theme-color" media="(prefers-color-scheme: dark)" content="{theme_chrome_dark}">
 <link rel="canonical" href="{canonical_url}">
-<script>/* Theme apply, deliberately placed before the stylesheet link and
-kept synchronous (scripts/test_build.py asserts both statically): an
-explicit Dark/Light choice is set on <html> before the stylesheet can
-first paint with the wrong tokens, preventing — or at worst minimising —
-a wrong-theme flash. Also keeps
-the browser-chrome theme-color in step with the RESOLVED theme — on an
-explicit choice both meta elements get the same value, so whichever
-media query the OS matches, the chrome colour agrees with the page.
-site.js reuses __syncThemeColour when the choice changes mid-session.
-The hex values are injected from build.py (THEME_CHROME_*), the single
-source the unit tests check the CSS and generated output against.
-Everything else about theming is CSS; without JavaScript the OS
-preference applies. */
-(function () {{
-  var LIGHT = "{theme_chrome_light}", DARK = "{theme_chrome_dark}";
-  window.__syncThemeColour = function (theme) {{
-    var l = document.getElementById("theme-colour-light");
-    var d = document.getElementById("theme-colour-dark");
-    if (!l || !d) return;
-    l.content = theme === "dark" ? DARK : LIGHT;
-    d.content = theme === "light" ? LIGHT : DARK;
-  }};
-  var theme = null;
-  try {{
-    var p = JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));
-    if (p && (p.theme === "dark" || p.theme === "light")) theme = p.theme;
-  }} catch (e) {{}}
-  if (theme) document.documentElement.setAttribute("data-theme", theme);
-  window.__syncThemeColour(theme || "auto");
-}})();</script>
+<script>{theme_script}</script>
 <meta property="og:site_name" content="{doc_label} Online">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{title} | {doc_label} Online">
@@ -1289,13 +1398,15 @@ preference applies. */
 <meta property="og:url" content="{canonical_url}">
 <meta property="og:image" content="{og_image_url}">
 <meta name="twitter:card" content="summary">
-<link rel="stylesheet" href="{asset_prefix}assets/css/style.css?v={css_version}">
+<link rel="stylesheet" href="{asset_prefix}assets/css/{css_name}">
+<script defer src="{asset_prefix}assets/js/{core_name}"></script>{extra_scripts}
 <link rel="icon" href="{asset_prefix}assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="{asset_prefix}assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="{asset_prefix}assets/img/apple-touch-icon.png">
 </head>
-<body data-page-slug="{page_slug}" data-page-title="{page_title}" data-page-group="{page_group}">
+<body data-page-slug="{page_slug}" data-page-title="{page_title}" data-page-group="{page_group}"{asset_data_attrs}>
 <a class="skip-link" id="top" href="#main-content">Skip to main content</a>
+<div class="top-sentinel" aria-hidden="true"></div>
 
 <header class="site-header">
   <div class="site-header__inner">
@@ -1336,7 +1447,6 @@ preference applies. */
     {footer_nav}
   </div>
 </footer>
-<script src="{asset_prefix}assets/js/site.js?v={js_version}"></script>
 </body>
 </html>
 """
@@ -1736,7 +1846,7 @@ def apply_glossary_terms(fragment, errors, label):
     return out
 
 
-def render_page(index, page, metadata, summaries, guidance, errors, xrefs=None):
+def render_page(index, page, metadata, summaries, guidance, errors, xrefs=None, assets=None):
     slug = page["slug"]
     is_index = slug == "index"
     fragment_path = CONTENT_DIR / f"{slug}.html"
@@ -1775,6 +1885,32 @@ def render_page(index, page, metadata, summaries, guidance, errors, xrefs=None):
         fragment_html = link_cross_references(fragment_html, slug, xrefs)
     content_html = clause_summary + companion + on_this_page + fragment_html
 
+    # Per-page scripts and asset data attributes. core.js goes on every
+    # page; search.js is emitted eagerly only on search.html (elsewhere
+    # core.js injects it on first search intent); tables.js only on pages
+    # whose content actually contains a scrollable-table wrapper. The
+    # data attributes give the scripts the content-hashed URLs of the
+    # optional modules and indexes, so no script hardcodes a hash — and
+    # ordinary pages never even name the full search index, which only
+    # the search page's worker downloads.
+    extra_scripts = ""
+    data_attrs = ""
+    if assets:
+        if slug == "search":
+            extra_scripts = f'\n<script defer src="assets/js/{assets["search.js"]}"></script>'
+        if 'class="table-wrap' in content_html:
+            extra_scripts += f'\n<script defer src="assets/js/{assets["tables.js"]}"></script>'
+        data_attrs = (
+            f' data-search-js="assets/js/{assets["search.js"]}"'
+            f' data-reader-js="assets/js/{assets["reader-library.js"]}"'
+            f' data-suggest-index="{assets["suggestions-index"]}"'
+        )
+        if slug == "search":
+            data_attrs += (
+                f' data-search-index="{assets["search-index"]}"'
+                f' data-search-worker="assets/js/{assets["search-worker.js"]}"'
+            )
+
     html_out = PAGE_TEMPLATE.format(
         title=html.escape(page["title"]),
         doc_label=DOC_LABEL,
@@ -1782,6 +1918,7 @@ def render_page(index, page, metadata, summaries, guidance, errors, xrefs=None):
         canonical_url=html.escape(SITE_BASE_URL if slug == "index" else f"{SITE_BASE_URL}{slug}.html"),
         theme_chrome_light=THEME_CHROME_LIGHT,
         theme_chrome_dark=THEME_CHROME_DARK,
+        theme_script=THEME_SCRIPT.replace("@LIGHT@", THEME_CHROME_LIGHT).replace("@DARK@", THEME_CHROME_DARK),
         og_image_url=html.escape(f"{SITE_BASE_URL}assets/img/apple-touch-icon.png"),
         asset_prefix="",
         site_title=build_site_title(""),
@@ -1790,8 +1927,10 @@ def render_page(index, page, metadata, summaries, guidance, errors, xrefs=None):
         content=content_html,
         pager="" if slug in ("index", "search") else build_pager(index),
         source_pdf=SOURCE_PDF_NAME,
-        css_version=asset_version(CSS_PATH),
-        js_version=asset_version(JS_PATH),
+        css_name=assets["style.css"] if assets else "style.css",
+        core_name=assets["core.js"] if assets else "core.js",
+        extra_scripts=extra_scripts,
+        asset_data_attrs=data_attrs,
         header_nav=build_header_nav(slug),
         footer_nav=build_footer_nav(slug),
         page_slug=html.escape(slug),
@@ -1938,6 +2077,124 @@ def validate_rendered_page(slug, html_out, all_slugs, errors):
 
 
 # ---------------------------------------------------------------------
+# Conservative production HTML minification
+# ---------------------------------------------------------------------
+#
+# The source fragments in content/ stay readable and untouched; only the
+# final rendered page text is compacted, and only in ways that cannot
+# change what a browser renders or what assistive technology announces:
+# leading indentation is stripped and blank lines dropped (a newline
+# alone collapses to the same single space as a newline plus
+# indentation), while anything inside <pre>/<textarea> — where
+# whitespace IS content — passes through byte-for-byte. No text-node
+# content, attribute, tag or entity is ever rewritten. The build then
+# proves that on every page: minify_page_html() callers assert the
+# whitespace-canonicalised visible text is identical before and after
+# (the same canonicalisation the ETSI wording-integrity baseline uses),
+# so a future change to this function cannot silently alter wording.
+
+_PRE_OPEN_RE = re.compile(r'<(?:pre|textarea)\b', re.IGNORECASE)
+_PRE_CLOSE_RE = re.compile(r'</(?:pre|textarea)>', re.IGNORECASE)
+
+
+def minify_page_html(html_out):
+    out = []
+    preformatted_depth = 0
+    for line in html_out.split("\n"):
+        if preformatted_depth == 0:
+            stripped = line.strip()
+            if stripped:
+                out.append(stripped)
+        else:
+            out.append(line)
+        preformatted_depth += len(_PRE_OPEN_RE.findall(line))
+        preformatted_depth -= len(_PRE_CLOSE_RE.findall(line))
+        preformatted_depth = max(0, preformatted_depth)
+    return "\n".join(out) + "\n"
+
+
+# ---------------------------------------------------------------------
+# Production asset writing, stale-file cleanup and reference checking
+# ---------------------------------------------------------------------
+
+def write_production_assets(minified, names, index_bytes, index_name,
+                            suggest_bytes, suggest_name):
+    """Write every hashed production asset and delete stale hashed files
+    left over from earlier builds, so docs/ only ever contains exactly
+    the assets the current pages reference."""
+    CSS_OUT_DIR.mkdir(parents=True, exist_ok=True)
+    JS_OUT_DIR.mkdir(parents=True, exist_ok=True)
+    expected_css = set()
+    expected_js = set()
+    for source_name, text in minified.items():
+        production_name = names[source_name]
+        if source_name.endswith(".css"):
+            (CSS_OUT_DIR / production_name).write_text(text, encoding="utf-8")
+            expected_css.add(production_name)
+        else:
+            (JS_OUT_DIR / production_name).write_text(text, encoding="utf-8")
+            expected_js.add(production_name)
+    for existing in CSS_OUT_DIR.glob("*.css"):
+        if existing.name not in expected_css:
+            existing.unlink()
+    for existing in JS_OUT_DIR.glob("*.js"):
+        if existing.name not in expected_js:
+            existing.unlink()
+
+    (DOCS_DIR / index_name).write_bytes(index_bytes)
+    (DOCS_DIR / suggest_name).write_bytes(suggest_bytes)
+    for existing in list(DOCS_DIR.glob("search-index*.json")) + list(DOCS_DIR.glob("search-suggestions*.json")):
+        if existing.name not in (index_name, suggest_name):
+            existing.unlink()
+
+
+# Local asset references a generated page can carry: ordinary href/src
+# plus the data attributes that hand module/index URLs to the scripts.
+ASSET_REF_RE = re.compile(
+    r'(?:src|href|data-search-js|data-reader-js|data-suggest-index|'
+    r'data-search-index|data-search-worker)="([^"]+)"')
+_ASSET_EXTENSIONS = (".css", ".js", ".json", ".svg", ".png", ".woff2")
+
+
+def collect_asset_refs(html_out):
+    refs = set()
+    for ref in ASSET_REF_RE.findall(html_out):
+        if ref.startswith(("http://", "https://", "mailto:", "#", "data:")):
+            continue
+        path = ref.split("#")[0].split("?")[0]
+        if path.endswith(_ASSET_EXTENSIONS):
+            refs.add(path)
+    return refs
+
+
+def validate_production_assets(rendered, errors):
+    """Every asset a page references must exist, and every hashed asset
+    on disk must be referenced by at least one page — a stale or orphaned
+    file in docs/ fails the build instead of shipping."""
+    referenced = set()
+    for slug, html_out in rendered.items():
+        for ref in collect_asset_refs(html_out):
+            referenced.add(ref)
+            if not (DOCS_DIR / ref).exists():
+                errors.add(f"docs/{slug}.html", "missing-asset",
+                           f'This page references "{ref}", which does not exist in docs/.',
+                           "Check the asset pipeline in scripts/build.py wrote the file "
+                           "the template references.")
+    on_disk = set()
+    for directory, pattern in ((CSS_OUT_DIR, "*.css"), (JS_OUT_DIR, "*.js")):
+        for f in directory.glob(pattern):
+            on_disk.add(str(f.relative_to(DOCS_DIR)).replace("\\", "/"))
+    for f in list(DOCS_DIR.glob("search-index*.json")) + list(DOCS_DIR.glob("search-suggestions*.json")):
+        on_disk.add(f.name)
+    stale = on_disk - referenced
+    for name in sorted(stale):
+        errors.add(f"docs/{name}", "stale-production-asset",
+                   "This production asset exists but no generated page references it.",
+                   "Delete the stale file (a clean rebuild should have removed it) or fix "
+                   "the reference that should point at it.")
+
+
+# ---------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------
 
@@ -1963,9 +2220,25 @@ def main():
     if errors:
         errors.report_and_exit()
 
+    # Production assets: minify the readable sources, then derive every
+    # content-hashed filename (assets and search indexes) before any page
+    # renders, since the pages embed those names.
+    minified = minify_assets(errors)
+    if errors:
+        errors.report_and_exit()
+    asset_names = hashed_asset_names(minified)
+    index_entries, suggestion_entries = build_search_indexes(metadata)
+    index_bytes = serialize_index(index_entries)
+    suggest_bytes = serialize_index(suggestion_entries)
+    index_name = f"search-index.{content_hash(index_bytes)}.json"
+    suggest_name = f"search-suggestions.{content_hash(suggest_bytes)}.json"
+    assets = dict(asset_names)
+    assets["search-index"] = index_name
+    assets["suggestions-index"] = suggest_name
+
     rendered = {}
     for i, page in enumerate(SITEMAP):
-        html_out = render_page(i, page, metadata, summaries, guidance, errors, xrefs)
+        html_out = render_page(i, page, metadata, summaries, guidance, errors, xrefs, assets)
         if html_out is not None:
             rendered[page["slug"]] = html_out
 
@@ -1989,6 +2262,21 @@ def main():
                            f'href="{href}" points at an id that does not exist on {m.group(1)}.html.',
                            "Fix the href, or add the missing id to the target page.")
 
+    # Conservative production minification, each page proven lossless for
+    # visible text before anything is written: the whitespace-collapsed
+    # text (the same canonicalisation the ETSI wording-integrity baseline
+    # uses) must be identical before and after.
+    minified_pages = {}
+    for slug, html_out in rendered.items():
+        compact = minify_page_html(html_out)
+        if canonical_etsi_text(compact) != canonical_etsi_text(html_out):
+            errors.add(f"docs/{slug}.html", "minify-changed-text",
+                       "Production HTML minification altered this page's visible text.",
+                       "Fix minify_page_html() in scripts/build.py — it may only remove "
+                       "indentation and blank lines outside preformatted content.")
+        else:
+            minified_pages[slug] = compact
+
     if errors:
         errors.report_and_exit()
 
@@ -2002,13 +2290,14 @@ def main():
         return
 
     DOCS_DIR.mkdir(exist_ok=True)
-    for slug, html_out in rendered.items():
+    write_production_assets(minified, asset_names, index_bytes, index_name,
+                            suggest_bytes, suggest_name)
+    for slug, html_out in minified_pages.items():
         (DOCS_DIR / f"{slug}.html").write_text(html_out, encoding="utf-8")
 
-    index_entries = build_search_index(metadata)
-    SEARCH_INDEX_PATH.write_text(
-        json.dumps(index_entries, ensure_ascii=False, separators=(",", ":")) + "\n",
-        encoding="utf-8")
+    validate_production_assets(rendered, errors)
+    if errors:
+        errors.report_and_exit()
 
     # sitemap.xml and robots.txt for search engines and link previews.
     # Deterministic (URL list comes straight from the sitemap, no
@@ -2044,7 +2333,8 @@ def main():
         "</body>\n</html>\n",
         encoding="utf-8")
 
-    print(f"Built {len(rendered)} pages and a {len(index_entries)}-entry search index into {DOCS_DIR}")
+    print(f"Built {len(rendered)} pages, a {len(index_entries)}-entry search index and a "
+          f"{len(suggestion_entries)}-entry suggestions index into {DOCS_DIR}")
 
 
 if __name__ == "__main__":

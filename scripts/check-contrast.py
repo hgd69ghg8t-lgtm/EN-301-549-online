@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 """Verify WCAG contrast for the site's light and dark themes.
 
-The palettes are parsed straight from docs/assets/css/style.css (and the
-favicon's from docs/assets/img/favicon.svg), so this checker cannot drift
-from the values actually shipped. It fails when:
+The palettes are parsed straight from the readable CSS source at
+scripts/source/style.css — the file the build minifies byte-for-byte
+into the shipped stylesheet — and the favicon's from
+docs/assets/img/favicon.svg, so this checker cannot drift from the
+values actually shipped. It fails when:
 
   * a required token is missing or not a 6-digit hex colour,
   * the OS dark palette (inside the prefers-color-scheme media query) and
@@ -21,7 +23,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-CSS_PATH = ROOT / "docs" / "assets" / "css" / "style.css"
+CSS_PATH = ROOT / "scripts" / "source" / "style.css"
 FAVICON_PATH = ROOT / "docs" / "assets" / "img" / "favicon.svg"
 
 HEX_RE = re.compile(r"^#[0-9a-fA-F]{6}$")

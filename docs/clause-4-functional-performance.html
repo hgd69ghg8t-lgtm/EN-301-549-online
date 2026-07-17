@@ -8,36 +8,7 @@
 <meta id="theme-colour-light" name="theme-color" media="(prefers-color-scheme: light)" content="#14245a">
 <meta id="theme-colour-dark" name="theme-color" media="(prefers-color-scheme: dark)" content="#16191d">
 <link rel="canonical" href="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/clause-4-functional-performance.html">
-<script>/* Theme apply, deliberately placed before the stylesheet link and
-kept synchronous (scripts/test_build.py asserts both statically): an
-explicit Dark/Light choice is set on <html> before the stylesheet can
-first paint with the wrong tokens, preventing — or at worst minimising —
-a wrong-theme flash. Also keeps
-the browser-chrome theme-color in step with the RESOLVED theme — on an
-explicit choice both meta elements get the same value, so whichever
-media query the OS matches, the chrome colour agrees with the page.
-site.js reuses __syncThemeColour when the choice changes mid-session.
-The hex values are injected from build.py (THEME_CHROME_*), the single
-source the unit tests check the CSS and generated output against.
-Everything else about theming is CSS; without JavaScript the OS
-preference applies. */
-(function () {
-  var LIGHT = "#14245a", DARK = "#16191d";
-  window.__syncThemeColour = function (theme) {
-    var l = document.getElementById("theme-colour-light");
-    var d = document.getElementById("theme-colour-dark");
-    if (!l || !d) return;
-    l.content = theme === "dark" ? DARK : LIGHT;
-    d.content = theme === "light" ? LIGHT : DARK;
-  };
-  var theme = null;
-  try {
-    var p = JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));
-    if (p && (p.theme === "dark" || p.theme === "light")) theme = p.theme;
-  } catch (e) {}
-  if (theme) document.documentElement.setAttribute("data-theme", theme);
-  window.__syncThemeColour(theme || "auto");
-})();</script>
+<script>(function(){var L="#14245a",D="#16191d";window.__syncThemeColour=function(t){var l=document.getElementById("theme-colour-light"),d=document.getElementById("theme-colour-dark");if(l&&d){l.content=t==="dark"?D:L;d.content=t==="light"?L:D}};var t=null;try{var p=JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));if(p&&(p.theme==="dark"||p.theme==="light"))t=p.theme}catch(e){}if(t)document.documentElement.setAttribute("data-theme",t);window.__syncThemeColour(t||"auto")})();</script>
 <meta property="og:site_name" content="ETSI EN 301 549 V4.1.0 Online">
 <meta property="og:type" content="website">
 <meta property="og:title" content="4 Functional performance | ETSI EN 301 549 V4.1.0 Online">
@@ -45,84 +16,83 @@ preference applies. */
 <meta property="og:url" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/clause-4-functional-performance.html">
 <meta property="og:image" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/assets/img/apple-touch-icon.png">
 <meta name="twitter:card" content="summary">
-<link rel="stylesheet" href="assets/css/style.css?v=c5430ccf">
+<link rel="stylesheet" href="assets/css/style.18c586c2.css">
+<script defer src="assets/js/core.06591bb3.js"></script>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 </head>
-<body data-page-slug="clause-4-functional-performance" data-page-title="4 Functional performance" data-page-group="Clauses">
+<body data-page-slug="clause-4-functional-performance" data-page-title="4 Functional performance" data-page-group="Clauses" data-search-js="assets/js/search.3f91c211.js" data-reader-js="assets/js/reader-library.63836e18.js" data-suggest-index="search-suggestions.e295bad5.json">
 <a class="skip-link" id="top" href="#main-content">Skip to main content</a>
-
+<div class="top-sentinel" aria-hidden="true"></div>
 <header class="site-header">
-  <div class="site-header__inner">
-    <a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
-    <nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
-    <button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
-    </button>
-    <form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
-      <input type="search" name="q" aria-label="Search this standard" autocomplete="off">
-      <button type="submit">Search</button>
-    </form>
-  </div>
+<div class="site-header__inner">
+<a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
+<nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
+<button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
+</button>
+<form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
+<input type="search" name="q" aria-label="Search this standard" autocomplete="off">
+<button type="submit">Search</button>
+</form>
+</div>
 </header>
 <div class="accent-bar" aria-hidden="true"></div>
-
 <div class="doc-header">
-  <div class="doc-header__inner">
-    <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Clauses</li><li aria-current="page">4 Functional performance</li></ol></nav>
-    <div class="doc-header__top">
-      <div>
-        <h1>4 Functional performance</h1>
-      </div>
-    </div>
-    <div class="doc-toolbar">
-      <details class="page-tools">
-      <summary>Page tools</summary>
-      <div class="page-tools__panel">
-      <button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
-      <a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
-      <button type="button" class="page-tools__item" data-action="copy-link">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
-        <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
-      </button>
-      <button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="clause-4-functional-performance" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
-      <details class="reader-tools">
-        <summary>Reading options</summary>
-        <div class="reader-tools__panel">
-          <fieldset>
-            <legend>Text width</legend>
-            <label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
-            <label><input type="radio" name="reading-width" value="wide"> Wide</label>
-          </fieldset>
-          <fieldset>
-            <legend>Colour theme</legend>
-            <label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
-            <label><input type="radio" name="colour-theme" value="light"> Light</label>
-            <label><input type="radio" name="colour-theme" value="dark"> Dark</label>
-          </fieldset>
-          <label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
-          <button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
-          <p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
-          <section class="reader-library" aria-labelledby="saved-pages-heading">
-            <h2 id="saved-pages-heading">Saved pages</h2>
-            <h3>Bookmarks</h3>
-            <ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
-            <h3>Recently viewed</h3>
-            <ul data-recent-list><li>No recently viewed pages yet.</li></ul>
-          </section>
-        </div>
-      </details>
-      </div>
-      </details>
-    </div>
-  </div>
+<div class="doc-header__inner">
+<nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Clauses</li><li aria-current="page">4 Functional performance</li></ol></nav>
+<div class="doc-header__top">
+<div>
+<h1>4 Functional performance</h1>
 </div>
-
+</div>
+<div class="doc-toolbar">
+<details class="page-tools">
+<summary>Page tools</summary>
+<div class="page-tools__panel">
+<button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
+<a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
+<button type="button" class="page-tools__item" data-action="copy-link">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
+<span class="doc-toolbar__btn-status" aria-hidden="true"></span>
+</button>
+<button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="clause-4-functional-performance" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
+<details class="reader-tools">
+<summary>Reading options</summary>
+<div class="reader-tools__panel">
+<fieldset>
+<legend>Text width</legend>
+<label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
+<label><input type="radio" name="reading-width" value="wide"> Wide</label>
+</fieldset>
+<fieldset>
+<legend>Colour theme</legend>
+<label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
+<label><input type="radio" name="colour-theme" value="light"> Light</label>
+<label><input type="radio" name="colour-theme" value="dark"> Dark</label>
+</fieldset>
+<label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
+<button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
+<p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
+<section class="reader-library" aria-labelledby="saved-pages-heading">
+<h2 id="saved-pages-heading">Saved pages</h2>
+<h3>Bookmarks</h3>
+<ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
+<h3>Recently viewed</h3>
+<ul data-recent-list><li>No recently viewed pages yet.</li></ul>
+</section>
+</div>
+</details>
+</div>
+</details>
+</div>
+</div>
+</div>
 <div class="page-shell">
-  <div class="page-sidebar">
-    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
-    <nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
+<div class="page-sidebar">
+<button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
+<nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
 <div class="site-nav__header">Contents</div>
 <p><a href="index.html">Home</a></p>
 <p><a href="about.html">About</a></p>
@@ -219,10 +189,10 @@ preference applies. */
 </li>
 </ul></details>
 </nav>
-  </div>
-  <main id="main-content" tabindex="-1">
-    <div class="content">
-      <div class="clause-summary"><h2 id="about-this-page">About this clause</h2><p>Clause 4 sets out the functional performance criteria used throughout the standard. These describe what people need to be able to do — for example, see, hear or operate a control — rather than how a product must be built. Later clauses refer back to these criteria.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div><nav class="on-this-page" aria-labelledby="on-this-page-heading">
+</div>
+<main id="main-content" tabindex="-1">
+<div class="content">
+<div class="clause-summary"><h2 id="about-this-page">About this clause</h2><p>Clause 4 sets out the functional performance criteria used throughout the standard. These describe what people need to be able to do — for example, see, hear or operate a control — rather than how a product must be built. Later clauses refer back to these criteria.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div><nav class="on-this-page" aria-labelledby="on-this-page-heading">
 <h2 id="on-this-page-heading">On this page</h2>
 <ul>
 <li><a href="#4-1">4.1 Meeting Functional Performance Criteria</a>
@@ -244,20 +214,16 @@ preference applies. */
 </ul></nav>
 <h2 id="4-1"><a class="heading-link" href="#4-1" data-copy-link>4.1 Meeting Functional Performance Criteria</a></h2>
 <p>The criteria set out in clause <a class="xref" href="#4-2">4.2</a> are intended to describe the functional performance of ICT ensuring equivalent functionality and enabling people to locate, identify, and operate ICT functions, and to access the information provided, regardless of physical, cognitive or sensory abilities. Any differences in ability may be permanent, temporary or situational. The requirements in clauses <a class="xref" href="clause-5-generic-requirements.html">5</a> to <a class="xref" href="clause-13-relay-emergency.html">13</a> provide specific testable criteria for accessible ICT, corresponding to the Functional Performance Criteria reflected in clause <a class="xref" href="#4-2">4.2</a>.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> The relationship between the requirements from clauses <a class="xref" href="clause-5-generic-requirements.html">5</a> to <a class="xref" href="clause-13-relay-emergency.html">13</a> and the Functional Performance Criteria is set out in Annex <a class="xref" href="annex-b-functional-performance-relationship.html">B</a>.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> The intent of clause <a class="xref" href="#4-2">4.2</a> is to describe the ICT performance in enabling users to access the full functionality and documentation of the product or the service with or without the use of assistive technologies.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> The methods of meeting the accessibility needs of users with multiple accessibility needs will depend on the specific combination of needs. Meeting these user accessibility needs may be addressed by considering multiple clauses in clause <a class="xref" href="#4-2">4.2</a>.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 4:</span> Several users' accessibility needs rely on ICT providing specific modes of operation. If a user is to activate, engage or switch to the mode that complies with his or her user accessibility needs, the method for activating, engaging or switching to that mode would need to comply with the same user accessibility needs.</p></div>
-
 <h2 id="4-2"><a class="heading-link" href="#4-2" data-copy-link>4.2 Functional Performance Criteria</a></h2>
-
 <h3 id="4-2-1"><a class="heading-link" href="#4-2-1" data-copy-link>4.2.1 Usage without vision</a></h3>
 <p>Where ICT provides visual modes of operation, the ICT shall provide at least one mode of operation that does not require vision.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> This is essential for users without vision and benefits many more users in different situations.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> A web page or application with a well formed semantic structure can allow users without vision to identify, navigate and interact with a visual user interface.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> Audio and tactile user interfaces may contribute towards meeting this clause.</p></div>
-
 <h3 id="4-2-2"><a class="heading-link" href="#4-2-2" data-copy-link>4.2.2 Usage with limited vision</a></h3>
 <p>Where ICT provides visual modes of operation, the ICT shall provide features that enable users to make better use of their limited vision.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> This is essential for users with limited vision and benefits many more users in different situations.</p></div>
@@ -267,49 +233,41 @@ preference applies. */
 <div class="callout"><p><span class="callout__label">NOTE 5:</span> The formula for calculating the physical x-height (in mm) from the x-height (in CSSpx) and the distance D (in mm) from the eye to the display is x-height (mm) = D (mm) &times; x-height (CSSpx) / 2&nbsp;688.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 6:</span> For handheld devices D should be assumed as 400 mm.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 7:</span> Users with limited vision may also benefit from non-visual access (see clause <a class="xref" href="#4-2-1">4.2.1</a>).</p></div>
-
 <h3 id="4-2-3"><a class="heading-link" href="#4-2-3" data-copy-link>4.2.3 Usage without perception of colour</a></h3>
 <p>Where ICT provides visual modes of operation, the ICT shall provide a visual mode of operation that does not require user perception of colour.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> This is essential for users with limited colour perception and benefits many more users in different situations.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Where significant features of the user interface are colour-coded, the provision of additional methods of distinguishing between the features may contribute towards meeting this clause.</p></div>
-
 <h3 id="4-2-4"><a class="heading-link" href="#4-2-4" data-copy-link>4.2.4 Usage without hearing</a></h3>
 <p>Where ICT provides auditory modes of operation, the ICT shall provide at least one mode of operation that does not require hearing.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> This is essential for users without hearing and benefits many more users in different situations.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Visual and tactile user interfaces, including those based on text and sign language, may contribute towards meeting this clause.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> Sign language content that accompanies audiovisual content and that has a resolution and frame rate that is consistent with the requirements in clauses <a class="xref" href="clause-6-real-time-communication.html#6-5-2">6.5.2</a> and <a class="xref" href="clause-6-real-time-communication.html#6-5-3">6.5.3</a>, and that is well synchronized with the spoken content may contribute to meeting this clause.</p></div>
-
 <h3 id="4-2-5"><a class="heading-link" href="#4-2-5" data-copy-link>4.2.5 Usage with limited hearing</a></h3>
 <p>Where ICT provides auditory modes of operation, the ICT shall provide enhanced audio features.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> This is essential for users with limited hearing and benefits many more users in different situations.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Enhancement of the audio clarity, reduction of background noise, providing a joint monaural option, adjustment of balance of both audio channels, increased range of volume and greater volume in the higher frequency range can contribute towards meeting this clause.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> Allowing the use of Assistive Listening Devices by providing a way to connect audio for example via headphone jacks, Bluetooth&reg;, USB or WLAN can contribute to meeting this clause.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 4:</span> Users with limited hearing may also benefit from non-hearing access (see clause <a class="xref" href="#4-2-4">4.2.4</a>).</p></div>
-
 <h3 id="4-2-6"><a class="heading-link" href="#4-2-6" data-copy-link>4.2.6 Usage with no or limited vocal capability</a></h3>
 <p>Where ICT requires vocal input from users, the ICT shall provide at least one mode of operation that does not require them to generate vocal output.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> This is essential for users with no or limited vocal capability and benefits many more users in different situations.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Vocal output includes speech and other orally generated sounds, such as whistles and clicks.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> Keyboard, pen or touch user interfaces may contribute towards meeting this clause.</p></div>
-
 <h3 id="4-2-7"><a class="heading-link" href="#4-2-7" data-copy-link>4.2.7 Usage with limited manipulation or strength</a></h3>
 <p>Where ICT requires manual actions, the ICT shall provide features that enable users to make use of the ICT through alternative actions not requiring manipulation, simultaneous action or hand strength.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> This is essential for users with limited manipulation or strength and benefits many more users in different situations.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Examples of operations that users may not be able to perform include those that require fine motor control, path dependant gestures, pinching, twisting of the wrist, tight grasping, or simultaneous manual actions.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> One-handed operation, sequential key entry and speech user interfaces may contribute towards meeting this clause.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 4:</span> Some users have limited hand strength and may not be able to achieve the level of strength to perform an operation. Alternative user interface solutions that do not require hand strength may contribute towards meeting this clause.</p></div>
-
 <h3 id="4-2-8"><a class="heading-link" href="#4-2-8" data-copy-link>4.2.8 Usage with limited reach</a></h3>
 <p>Where ICT is stationary, free-standing or installed, all the elements required for operation shall be within reach of all users.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> This is essential for users with limited reach and benefits many more users in different situations.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Considering the needs of wheelchair users and the range of user statures in the placing of operational elements of the user interface may contribute towards meeting this clause.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> Having a remote input capability can help satisfy this requirements.</p></div>
-
 <h3 id="4-2-9"><a class="heading-link" href="#4-2-9" data-copy-link>4.2.9 Minimize photosensitive seizure triggers</a></h3>
 <p>Where ICT provides visual modes of operation, the ICT shall provide at least one mode of operation, that is the default mode, that minimizes the potential for triggering photosensitive seizures or optionally, for audiovisual material, a warning in advance that such triggers might be present.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> This is essential for users with photosensitive seizure triggers.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Limiting the area and number of flashes per second may contribute towards meeting this clause.</p></div>
-
 <h3 id="4-2-10"><a class="heading-link" href="#4-2-10" data-copy-link>4.2.10 Usage with limited cognition, language or learning</a></h3>
 <p>Where ICT provides information or requires user interaction, the ICT shall provide features and/or presentation that makes it simpler and easier to understand, operate and use.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> This is essential for users with limited cognition, language or learning, and benefits many more users in different situations.</p></div>
@@ -318,28 +276,22 @@ preference applies. */
 <div class="callout"><p><span class="callout__label">NOTE 4:</span> Providing spelling aid and word prediction of the text is an example of providing support for people with limited writing abilities.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 5:</span> Interaction with content can be made easier, and less prone to errors, by presenting tasks in steps that are easy to follow.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 6:</span> For a reference to requirements supporting the functional performance criteria 4.2.10, check Table B.2 in Annex <a class="xref" href="annex-b-functional-performance-relationship.html">B</a>. All lines having &ldquo;P&rdquo; or &ldquo;S&rdquo; in column &ldquo;LC&rdquo; of Table B.2 may have an impact on usage with limited cognition, language or learning.</p></div>
-
 <h3 id="4-2-11"><a class="heading-link" href="#4-2-11" data-copy-link>4.2.11 Privacy</a></h3>
 <p>Where ICT provides features for accessibility, the ICT shall ensure that the privacy of the users of the ICT is maintained irrespective of the use of these features for accessibility.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> Enabling the connection of personal headsets for private listening, not providing a spoken version of characters being masked and enabling user control of legal, financial and personal data are examples of design features that may contribute towards meeting this clause.</p></div>
-
-    </div>
-    <nav class="page-pager" aria-label="Page navigation">
+</div>
+<nav class="page-pager" aria-label="Page navigation">
 <a class="page-pager__link page-pager__link--prev" href="clause-3-definitions.html"><span class="page-pager__direction">&larr; Previous</span><span class="page-pager__title">3 Definitions</span></a>
 <a class="page-pager__link page-pager__link--next" href="clause-5-generic-requirements.html"><span class="page-pager__direction">Next &rarr;</span><span class="page-pager__title">5 Generic requirements</span></a>
 </nav>
-  </main>
+</main>
 </div>
-
 <a class="back-to-top" href="#top">&uarr; Back to top</a>
-
 <div id="status-live" class="visually-hidden" role="status" aria-live="polite"></div>
-
 <footer class="site-footer">
-  <div class="site-footer__inner">
-    <nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
-  </div>
+<div class="site-footer__inner">
+<nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
+</div>
 </footer>
-<script src="assets/js/site.js?v=7b43fc8f"></script>
 </body>
 </html>

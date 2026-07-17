@@ -8,36 +8,7 @@
 <meta id="theme-colour-light" name="theme-color" media="(prefers-color-scheme: light)" content="#14245a">
 <meta id="theme-colour-dark" name="theme-color" media="(prefers-color-scheme: dark)" content="#16191d">
 <link rel="canonical" href="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/annex-e-guidance.html">
-<script>/* Theme apply, deliberately placed before the stylesheet link and
-kept synchronous (scripts/test_build.py asserts both statically): an
-explicit Dark/Light choice is set on <html> before the stylesheet can
-first paint with the wrong tokens, preventing — or at worst minimising —
-a wrong-theme flash. Also keeps
-the browser-chrome theme-color in step with the RESOLVED theme — on an
-explicit choice both meta elements get the same value, so whichever
-media query the OS matches, the chrome colour agrees with the page.
-site.js reuses __syncThemeColour when the choice changes mid-session.
-The hex values are injected from build.py (THEME_CHROME_*), the single
-source the unit tests check the CSS and generated output against.
-Everything else about theming is CSS; without JavaScript the OS
-preference applies. */
-(function () {
-  var LIGHT = "#14245a", DARK = "#16191d";
-  window.__syncThemeColour = function (theme) {
-    var l = document.getElementById("theme-colour-light");
-    var d = document.getElementById("theme-colour-dark");
-    if (!l || !d) return;
-    l.content = theme === "dark" ? DARK : LIGHT;
-    d.content = theme === "light" ? LIGHT : DARK;
-  };
-  var theme = null;
-  try {
-    var p = JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));
-    if (p && (p.theme === "dark" || p.theme === "light")) theme = p.theme;
-  } catch (e) {}
-  if (theme) document.documentElement.setAttribute("data-theme", theme);
-  window.__syncThemeColour(theme || "auto");
-})();</script>
+<script>(function(){var L="#14245a",D="#16191d";window.__syncThemeColour=function(t){var l=document.getElementById("theme-colour-light"),d=document.getElementById("theme-colour-dark");if(l&&d){l.content=t==="dark"?D:L;d.content=t==="light"?L:D}};var t=null;try{var p=JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));if(p&&(p.theme==="dark"||p.theme==="light"))t=p.theme}catch(e){}if(t)document.documentElement.setAttribute("data-theme",t);window.__syncThemeColour(t||"auto")})();</script>
 <meta property="og:site_name" content="ETSI EN 301 549 V4.1.0 Online">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Annex E (informative): Guidance and additional resources for users of the present document | ETSI EN 301 549 V4.1.0 Online">
@@ -45,84 +16,83 @@ preference applies. */
 <meta property="og:url" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/annex-e-guidance.html">
 <meta property="og:image" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/assets/img/apple-touch-icon.png">
 <meta name="twitter:card" content="summary">
-<link rel="stylesheet" href="assets/css/style.css?v=c5430ccf">
+<link rel="stylesheet" href="assets/css/style.18c586c2.css">
+<script defer src="assets/js/core.06591bb3.js"></script>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 </head>
-<body data-page-slug="annex-e-guidance" data-page-title="Annex E (informative): Guidance and additional resources for users of the present document" data-page-group="Annexes">
+<body data-page-slug="annex-e-guidance" data-page-title="Annex E (informative): Guidance and additional resources for users of the present document" data-page-group="Annexes" data-search-js="assets/js/search.3f91c211.js" data-reader-js="assets/js/reader-library.63836e18.js" data-suggest-index="search-suggestions.e295bad5.json">
 <a class="skip-link" id="top" href="#main-content">Skip to main content</a>
-
+<div class="top-sentinel" aria-hidden="true"></div>
 <header class="site-header">
-  <div class="site-header__inner">
-    <a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
-    <nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
-    <button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
-    </button>
-    <form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
-      <input type="search" name="q" aria-label="Search this standard" autocomplete="off">
-      <button type="submit">Search</button>
-    </form>
-  </div>
+<div class="site-header__inner">
+<a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
+<nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
+<button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
+</button>
+<form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
+<input type="search" name="q" aria-label="Search this standard" autocomplete="off">
+<button type="submit">Search</button>
+</form>
+</div>
 </header>
 <div class="accent-bar" aria-hidden="true"></div>
-
 <div class="doc-header">
-  <div class="doc-header__inner">
-    <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Annexes</li><li aria-current="page">Annex E: Guidance and resources</li></ol></nav>
-    <div class="doc-header__top">
-      <div>
-        <h1>Annex E (informative): Guidance and additional resources for users of the present document</h1>
-      </div>
-    </div>
-    <div class="doc-toolbar">
-      <details class="page-tools">
-      <summary>Page tools</summary>
-      <div class="page-tools__panel">
-      <button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
-      <a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
-      <button type="button" class="page-tools__item" data-action="copy-link">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
-        <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
-      </button>
-      <button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="annex-e-guidance" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
-      <details class="reader-tools">
-        <summary>Reading options</summary>
-        <div class="reader-tools__panel">
-          <fieldset>
-            <legend>Text width</legend>
-            <label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
-            <label><input type="radio" name="reading-width" value="wide"> Wide</label>
-          </fieldset>
-          <fieldset>
-            <legend>Colour theme</legend>
-            <label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
-            <label><input type="radio" name="colour-theme" value="light"> Light</label>
-            <label><input type="radio" name="colour-theme" value="dark"> Dark</label>
-          </fieldset>
-          <label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
-          <button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
-          <p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
-          <section class="reader-library" aria-labelledby="saved-pages-heading">
-            <h2 id="saved-pages-heading">Saved pages</h2>
-            <h3>Bookmarks</h3>
-            <ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
-            <h3>Recently viewed</h3>
-            <ul data-recent-list><li>No recently viewed pages yet.</li></ul>
-          </section>
-        </div>
-      </details>
-      </div>
-      </details>
-    </div>
-  </div>
+<div class="doc-header__inner">
+<nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Annexes</li><li aria-current="page">Annex E: Guidance and resources</li></ol></nav>
+<div class="doc-header__top">
+<div>
+<h1>Annex E (informative): Guidance and additional resources for users of the present document</h1>
 </div>
-
+</div>
+<div class="doc-toolbar">
+<details class="page-tools">
+<summary>Page tools</summary>
+<div class="page-tools__panel">
+<button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
+<a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
+<button type="button" class="page-tools__item" data-action="copy-link">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
+<span class="doc-toolbar__btn-status" aria-hidden="true"></span>
+</button>
+<button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="annex-e-guidance" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
+<details class="reader-tools">
+<summary>Reading options</summary>
+<div class="reader-tools__panel">
+<fieldset>
+<legend>Text width</legend>
+<label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
+<label><input type="radio" name="reading-width" value="wide"> Wide</label>
+</fieldset>
+<fieldset>
+<legend>Colour theme</legend>
+<label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
+<label><input type="radio" name="colour-theme" value="light"> Light</label>
+<label><input type="radio" name="colour-theme" value="dark"> Dark</label>
+</fieldset>
+<label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
+<button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
+<p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
+<section class="reader-library" aria-labelledby="saved-pages-heading">
+<h2 id="saved-pages-heading">Saved pages</h2>
+<h3>Bookmarks</h3>
+<ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
+<h3>Recently viewed</h3>
+<ul data-recent-list><li>No recently viewed pages yet.</li></ul>
+</section>
+</div>
+</details>
+</div>
+</details>
+</div>
+</div>
+</div>
 <div class="page-shell">
-  <div class="page-sidebar">
-    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
-    <nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
+<div class="page-sidebar">
+<button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
+<nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
 <div class="site-nav__header">Contents</div>
 <p><a href="index.html">Home</a></p>
 <p><a href="about.html">About</a></p>
@@ -223,10 +193,10 @@ preference applies. */
 </li>
 </ul></details>
 </nav>
-  </div>
-  <main id="main-content" tabindex="-1">
-    <div class="content">
-      <div class="clause-summary"><h2 id="about-this-page">About this annex</h2><p>Annex E explains how to use the standard: what each clause covers, how to work out which requirements apply to a specific product or service, and where to start.</p><p>It is <a href="about.html#normative-and-informative">informative</a>, which means it provides guidance rather than setting new requirements.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div><nav class="on-this-page" aria-labelledby="on-this-page-heading">
+</div>
+<main id="main-content" tabindex="-1">
+<div class="content">
+<div class="clause-summary"><h2 id="about-this-page">About this annex</h2><p>Annex E explains how to use the standard: what each clause covers, how to work out which requirements apply to a specific product or service, and where to start.</p><p>It is <a href="about.html#normative-and-informative">informative</a>, which means it provides guidance rather than setting new requirements.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div><nav class="on-this-page" aria-labelledby="on-this-page-heading">
 <h2 id="on-this-page-heading">On this page</h2>
 <ul>
 <li><a href="#e-1">E.1 Introduction</a>
@@ -256,7 +226,6 @@ preference applies. */
 <p>EN 301 549 contains a wide range of requirements to cover a variety of ICT solutions. There are for example requirements on function, physical characteristics and software. No matter if you are responsible for procuring, testing, planning, manufacturing, maintaining or reporting on accessibility, it is necessary to understand which requirements are relevant for a specific product or service in a specific situation or context.</p>
 <p>Testing for accessibility requirements does not always result in a yes or no. Sometimes, you end up in a grey zone where it is equally important to understand the prerequisites and potential alternatives for different end user groups. Remember that accessibility has to do with humans.</p>
 <p>The examples mentioned in this annex are only inspirational and the standard can of course be used in many different ways and settings.</p>
-
 <h2 id="e-2"><a class="heading-link" href="#e-2" data-copy-link>E.2 Overview</a></h2>
 <p>The present document consists of fourteen clauses (equivalent to chapters in a book) and six annexes.</p>
 <p>Clauses 0 to <a class="xref" href="clause-3-definitions.html">3</a> contain background information, the scope of the standard, links to references, definitions of terminology and explanations of abbreviations. These clauses have a lot of valuable information, but it can be hard to read the standard from A to Z.</p>
@@ -271,16 +240,13 @@ preference applies. */
 <p>Annex <a class="xref" href="annex-d-cognitive-accessibility.html">D</a> provides a link to further resources for cognitive accessibility.</p>
 <p>Annex E is what you are reading right now.</p>
 <p>Annex <a class="xref" href="annex-f-change-history.html">F</a> provides a change history table.</p>
-
 <h2 id="e-3"><a class="heading-link" href="#e-3" data-copy-link>E.3 Clause 4</a></h2>
 <p>Clause <a class="xref" href="clause-4-functional-performance.html">4</a> is in a sense the heart of the standard. The end users, with their different needs, are the reason accessibility matters. The user needs behind each functional performance criterion are also the reason for each of the requirements in the present document.</p>
 <p>Clause <a class="xref" href="clause-4-functional-performance.html">4</a> does not include technical requirements, only functional performance requirements to meet user needs. This may make it seem less important but, in reality, it is the other way around. The aim of the whole standard is to ensure that end users with the varying abilities described in this clause can use products and services.</p>
 <p>In this clause, ten functional performance criteria based on variations of impairments are described, plus privacy. The impairments can be permanent, temporary or situational. End users with multiple impairments might need specific combinations of accessibility solutions. Therefore, it is necessary to consider all different functional performance criteria as well as a combination of them.</p>
 <p>The concept behind the standard is to let technology help compensate the challenges that end users can have. You can also look at accessibility as alternative ways to use technology. For example: if the end user cannot see, technology can provide sound. If the end user cannot hear, the technology can provide text. This is what clause <a class="xref" href="clause-4-functional-performance.html">4</a> is describing for each user group, in detail.</p>
 <p>After reading clause <a class="xref" href="clause-4-functional-performance.html">4</a>, you will understand the logic of the requirements in the standard much better.</p>
-
 <h2 id="e-4"><a class="heading-link" href="#e-4" data-copy-link>E.4 How to use the standard</a></h2>
-
 <h3 id="e-4-1"><a class="heading-link" href="#e-4-1" data-copy-link>E.4.1 Self scoping requirements</a></h3>
 <p>The requirements in the present document are called self-scoping. This means that they consist of two parts; the first part is a precondition for the second part, which holds the actual requirement. If the first part is true, you need to meet the second part of the requirement. If the first part is not true, this means that the requirement is not applicable.</p>
 <p>For example, a requirement saying &ldquo;Where ICT hardware has speech output, it shall provide [&hellip;]&rdquo; can be met in two ways:</p>
@@ -290,7 +256,6 @@ preference applies. */
 </ul>
 <p>To meet the standard means that all applicable requirements in the standard are met.</p>
 <p>To get an overview of the requirements in scope of your product or service, you can focus on the requirements with the same scoping statements. There are online tools that can help you filter out requirements that are automatically met.</p>
-
 <h3 id="e-4-2"><a class="heading-link" href="#e-4-2" data-copy-link>E.4.2 Connection between requirements and functional performance criteria</a></h3>
 <p>Table B.2 in Annex <a class="xref" href="annex-b-functional-performance-relationship.html">B</a> helps you understand the connection between the technical requirements and the functional performance criteria. There is an instruction on how to use the table given in clause <a class="xref" href="annex-b-functional-performance-relationship.html#b-2">B.2</a>.</p>
 <p>Before making a decision about the most suitable solution, you also need to think about the context. Here are some examples:</p>
@@ -301,7 +266,6 @@ preference applies. */
 <li>Will the failed requirements be possible to fix in the next version of the solution?</li>
 </ul>
 <p>The documentation of a product or service may show how the product or service addresses the functional performance criteria in clause <a class="xref" href="clause-4-functional-performance.html">4</a> in addition to meeting the technical requirements in clauses <a class="xref" href="clause-5-generic-requirements.html">5</a> to <a class="xref" href="clause-13-relay-emergency.html">13</a>. This can help the choice of which product or service is most suitable.</p>
-
 <h2 id="e-5"><a class="heading-link" href="#e-5" data-copy-link>E.5 The European Web Accessibility Directive</a></h2>
 <p>The European Web Accessibility Directive (Directive (EU) 2016/2102 <a class="xref" href="clause-2-references.html#ref-i-27">[i.27]</a>) is a minimum harmonisation Directive. This means that all EU member states and EFTA countries are required to at least comply with the minimum requirements referred to in the Directive. Each country can choose to go beyond these requirements in their national legislation when it comes to both requirements and scope.</p>
 <p>The Directive covers, as a minimum, public sector bodies and some government owned, funded or led organizations.</p>
@@ -316,35 +280,26 @@ preference applies. */
 <p>Most of the requirements that relate to the European Web Accessibility Directive are found in clauses <a class="xref" href="clause-9-web.html">9</a>, <a class="xref" href="clause-10-non-web-documents.html">10</a> and <a class="xref" href="clause-11-non-web-software.html">11</a>, which cover websites, documents and software. The complete list of requirements are listed in the tables in Annex <a class="xref" href="annex-a-conformance-evaluation.html">A</a>. The Directive also covers intranets and extranets, which are to meet the requirements of clause <a class="xref" href="clause-9-web.html">9</a> for web content and clause <a class="xref" href="clause-10-non-web-documents.html">10</a> for documents.</p>
 <p>There are different grace periods for different kinds of content and there are also exceptions to what content is covered by the Directive. For example, live video is not covered by the Directive. This means that requirements 9.1.2.4 for websites, 10.1.2.4 for documents and 11.1.2.4 for apps are not relevant to meeting the requirements of the Directive.</p>
 <p>There are also other requirements in the Directive, for example on monitoring and accessibility statements. These are not covered in EN 301 549.</p>
-
 <h2 id="e-6"><a class="heading-link" href="#e-6" data-copy-link>E.6 Annex D: Further resources for cognitive accessibility</a></h2>
 <p>Annex <a class="xref" href="annex-d-cognitive-accessibility.html">D</a> provides a link to W3C&reg; resources that can be used as guidance to improve the inclusion of accessibility for people with limited cognitive, language and learning abilities when using ICT products and services.</p>
-
 <h2 id="e-7"><a class="heading-link" href="#e-7" data-copy-link>E.7 Additional resources applicable to specific product and service categories</a></h2>
-
 <h3 id="e-7-1"><a class="heading-link" href="#e-7-1" data-copy-link>E.7.1 Web technologies</a></h3>
 <p>There is some very comprehensive guidance on the intent, benefits, examples, and techniques related to the use of WCAG 2.2 Success Criteria provided by W3C in its WCAG 2.2 &ldquo;Understanding Docs&rdquo;. This is valuable in the context of the present document as clause <a class="xref" href="clause-9-web.html">9</a> of the present document WCAG 2.2 is entirely compatible with WCAG 2.2 and both clauses <a class="xref" href="clause-10-non-web-documents.html">10</a> on non-web documents and clause <a class="xref" href="clause-11-non-web-software.html">11</a> on non-web software are both very strongly related to WCAG 2.2.</p>
-
 <h3 id="e-7-2"><a class="heading-link" href="#e-7-2" data-copy-link>E.7.2 Digital television-related ICT</a></h3>
 <p>ETSI TR 104 060 <a class="xref" href="clause-2-references.html#ref-i-66">[i.66]</a> has been developed with the involvement of companies with a diverse range of involvement in the digital television sector. It is targeted at manufacturers and providers of digital television products, and intended to clarify and explain how EN 301 549 accessibility requirements should be applied for televisions and to provide consistency of interpretation.</p>
-
-    </div>
-    <nav class="page-pager" aria-label="Page navigation">
+</div>
+<nav class="page-pager" aria-label="Page navigation">
 <a class="page-pager__link page-pager__link--prev" href="annex-d-cognitive-accessibility.html"><span class="page-pager__direction">&larr; Previous</span><span class="page-pager__title">Annex D: Cognitive accessibility resources</span></a>
 <a class="page-pager__link page-pager__link--next" href="annex-za-directive-2016-2102.html"><span class="page-pager__direction">Next &rarr;</span><span class="page-pager__title">Annex ZA: Directive (EU) 2016/2102</span></a>
 </nav>
-  </main>
+</main>
 </div>
-
 <a class="back-to-top" href="#top">&uarr; Back to top</a>
-
 <div id="status-live" class="visually-hidden" role="status" aria-live="polite"></div>
-
 <footer class="site-footer">
-  <div class="site-footer__inner">
-    <nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
-  </div>
+<div class="site-footer__inner">
+<nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
+</div>
 </footer>
-<script src="assets/js/site.js?v=7b43fc8f"></script>
 </body>
 </html>

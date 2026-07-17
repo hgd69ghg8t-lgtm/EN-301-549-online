@@ -8,36 +8,7 @@
 <meta id="theme-colour-light" name="theme-color" media="(prefers-color-scheme: light)" content="#14245a">
 <meta id="theme-colour-dark" name="theme-color" media="(prefers-color-scheme: dark)" content="#16191d">
 <link rel="canonical" href="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/clause-5-generic-requirements.html">
-<script>/* Theme apply, deliberately placed before the stylesheet link and
-kept synchronous (scripts/test_build.py asserts both statically): an
-explicit Dark/Light choice is set on <html> before the stylesheet can
-first paint with the wrong tokens, preventing — or at worst minimising —
-a wrong-theme flash. Also keeps
-the browser-chrome theme-color in step with the RESOLVED theme — on an
-explicit choice both meta elements get the same value, so whichever
-media query the OS matches, the chrome colour agrees with the page.
-site.js reuses __syncThemeColour when the choice changes mid-session.
-The hex values are injected from build.py (THEME_CHROME_*), the single
-source the unit tests check the CSS and generated output against.
-Everything else about theming is CSS; without JavaScript the OS
-preference applies. */
-(function () {
-  var LIGHT = "#14245a", DARK = "#16191d";
-  window.__syncThemeColour = function (theme) {
-    var l = document.getElementById("theme-colour-light");
-    var d = document.getElementById("theme-colour-dark");
-    if (!l || !d) return;
-    l.content = theme === "dark" ? DARK : LIGHT;
-    d.content = theme === "light" ? LIGHT : DARK;
-  };
-  var theme = null;
-  try {
-    var p = JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));
-    if (p && (p.theme === "dark" || p.theme === "light")) theme = p.theme;
-  } catch (e) {}
-  if (theme) document.documentElement.setAttribute("data-theme", theme);
-  window.__syncThemeColour(theme || "auto");
-})();</script>
+<script>(function(){var L="#14245a",D="#16191d";window.__syncThemeColour=function(t){var l=document.getElementById("theme-colour-light"),d=document.getElementById("theme-colour-dark");if(l&&d){l.content=t==="dark"?D:L;d.content=t==="light"?L:D}};var t=null;try{var p=JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));if(p&&(p.theme==="dark"||p.theme==="light"))t=p.theme}catch(e){}if(t)document.documentElement.setAttribute("data-theme",t);window.__syncThemeColour(t||"auto")})();</script>
 <meta property="og:site_name" content="ETSI EN 301 549 V4.1.0 Online">
 <meta property="og:type" content="website">
 <meta property="og:title" content="5 Generic requirements | ETSI EN 301 549 V4.1.0 Online">
@@ -45,84 +16,84 @@ preference applies. */
 <meta property="og:url" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/clause-5-generic-requirements.html">
 <meta property="og:image" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/assets/img/apple-touch-icon.png">
 <meta name="twitter:card" content="summary">
-<link rel="stylesheet" href="assets/css/style.css?v=c5430ccf">
+<link rel="stylesheet" href="assets/css/style.18c586c2.css">
+<script defer src="assets/js/core.06591bb3.js"></script>
+<script defer src="assets/js/tables.ce0866fd.js"></script>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 </head>
-<body data-page-slug="clause-5-generic-requirements" data-page-title="5 Generic requirements" data-page-group="Clauses">
+<body data-page-slug="clause-5-generic-requirements" data-page-title="5 Generic requirements" data-page-group="Clauses" data-search-js="assets/js/search.3f91c211.js" data-reader-js="assets/js/reader-library.63836e18.js" data-suggest-index="search-suggestions.e295bad5.json">
 <a class="skip-link" id="top" href="#main-content">Skip to main content</a>
-
+<div class="top-sentinel" aria-hidden="true"></div>
 <header class="site-header">
-  <div class="site-header__inner">
-    <a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
-    <nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
-    <button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
-    </button>
-    <form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
-      <input type="search" name="q" aria-label="Search this standard" autocomplete="off">
-      <button type="submit">Search</button>
-    </form>
-  </div>
+<div class="site-header__inner">
+<a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
+<nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
+<button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
+</button>
+<form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
+<input type="search" name="q" aria-label="Search this standard" autocomplete="off">
+<button type="submit">Search</button>
+</form>
+</div>
 </header>
 <div class="accent-bar" aria-hidden="true"></div>
-
 <div class="doc-header">
-  <div class="doc-header__inner">
-    <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Clauses</li><li aria-current="page">5 Generic requirements</li></ol></nav>
-    <div class="doc-header__top">
-      <div>
-        <h1>5 Generic requirements</h1>
-      </div>
-    </div>
-    <div class="doc-toolbar">
-      <details class="page-tools">
-      <summary>Page tools</summary>
-      <div class="page-tools__panel">
-      <button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
-      <a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
-      <button type="button" class="page-tools__item" data-action="copy-link">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
-        <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
-      </button>
-      <button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="clause-5-generic-requirements" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
-      <details class="reader-tools">
-        <summary>Reading options</summary>
-        <div class="reader-tools__panel">
-          <fieldset>
-            <legend>Text width</legend>
-            <label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
-            <label><input type="radio" name="reading-width" value="wide"> Wide</label>
-          </fieldset>
-          <fieldset>
-            <legend>Colour theme</legend>
-            <label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
-            <label><input type="radio" name="colour-theme" value="light"> Light</label>
-            <label><input type="radio" name="colour-theme" value="dark"> Dark</label>
-          </fieldset>
-          <label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
-          <button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
-          <p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
-          <section class="reader-library" aria-labelledby="saved-pages-heading">
-            <h2 id="saved-pages-heading">Saved pages</h2>
-            <h3>Bookmarks</h3>
-            <ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
-            <h3>Recently viewed</h3>
-            <ul data-recent-list><li>No recently viewed pages yet.</li></ul>
-          </section>
-        </div>
-      </details>
-      </div>
-      </details>
-    </div>
-  </div>
+<div class="doc-header__inner">
+<nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Clauses</li><li aria-current="page">5 Generic requirements</li></ol></nav>
+<div class="doc-header__top">
+<div>
+<h1>5 Generic requirements</h1>
 </div>
-
+</div>
+<div class="doc-toolbar">
+<details class="page-tools">
+<summary>Page tools</summary>
+<div class="page-tools__panel">
+<button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
+<a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
+<button type="button" class="page-tools__item" data-action="copy-link">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
+<span class="doc-toolbar__btn-status" aria-hidden="true"></span>
+</button>
+<button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="clause-5-generic-requirements" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
+<details class="reader-tools">
+<summary>Reading options</summary>
+<div class="reader-tools__panel">
+<fieldset>
+<legend>Text width</legend>
+<label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
+<label><input type="radio" name="reading-width" value="wide"> Wide</label>
+</fieldset>
+<fieldset>
+<legend>Colour theme</legend>
+<label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
+<label><input type="radio" name="colour-theme" value="light"> Light</label>
+<label><input type="radio" name="colour-theme" value="dark"> Dark</label>
+</fieldset>
+<label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
+<button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
+<p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
+<section class="reader-library" aria-labelledby="saved-pages-heading">
+<h2 id="saved-pages-heading">Saved pages</h2>
+<h3>Bookmarks</h3>
+<ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
+<h3>Recently viewed</h3>
+<ul data-recent-list><li>No recently viewed pages yet.</li></ul>
+</section>
+</div>
+</details>
+</div>
+</details>
+</div>
+</div>
+</div>
 <div class="page-shell">
-  <div class="page-sidebar">
-    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
-    <nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
+<div class="page-sidebar">
+<button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
+<nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
 <div class="site-nav__header">Contents</div>
 <p><a href="index.html">Home</a></p>
 <p><a href="about.html">About</a></p>
@@ -242,10 +213,10 @@ preference applies. */
 </li>
 </ul></details>
 </nav>
-  </div>
-  <main id="main-content" tabindex="-1">
-    <div class="content">
-      <div class="clause-summary"><h2 id="about-this-page">About this clause</h2><p>Clause 5 contains requirements that apply across many kinds of ICT. It covers closed functionality (where a product prevents people from attaching or using their own assistive technology), activation of accessibility features, biometrics, tactile controls, and locking or toggle controls.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div><aside class="companion-guidance" aria-label="Companion guidance"><details class="companion-guidance__accordion"><summary><span class="companion-guidance__label">Website-authored guidance</span><span class="companion-guidance__title">Companion guidance</span></summary><div class="companion-guidance__content"><p class="companion-guidance__disclaimer"><strong>Not part of EN 301 549.</strong> This orientation does not replace the wording below.</p><p>This clause contains requirements that can apply across several kinds of ICT rather than to only web, documents, software or hardware.</p><h3>Who this may help</h3><ul><li>Designers</li><li>Developers</li><li>Accessibility evaluators</li></ul><section aria-labelledby="guidance-clause-5-generic-requirements-1"><h3 id="guidance-clause-5-generic-requirements-1">Relationship to later clauses</h3><p>Read this clause alongside the product-specific requirements in clauses 6 to 13.</p><ul><li>Do not assume a later product-specific clause replaces applicable generic requirements.</li></ul></section><h3>Related parts</h3><ul><li><a href="clause-4-functional-performance.html">Clause 4: Functional performance</a></li><li><a href="clause-14-conformance.html">Clause 14: Conformance</a></li></ul></div></details></aside><nav class="on-this-page" aria-labelledby="on-this-page-heading">
+</div>
+<main id="main-content" tabindex="-1">
+<div class="content">
+<div class="clause-summary"><h2 id="about-this-page">About this clause</h2><p>Clause 5 contains requirements that apply across many kinds of ICT. It covers closed functionality (where a product prevents people from attaching or using their own assistive technology), activation of accessibility features, biometrics, tactile controls, and locking or toggle controls.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div><aside class="companion-guidance" aria-label="Companion guidance"><details class="companion-guidance__accordion"><summary><span class="companion-guidance__label">Website-authored guidance</span><span class="companion-guidance__title">Companion guidance</span></summary><div class="companion-guidance__content"><p class="companion-guidance__disclaimer"><strong>Not part of EN 301 549.</strong> This orientation does not replace the wording below.</p><p>This clause contains requirements that can apply across several kinds of ICT rather than to only web, documents, software or hardware.</p><h3>Who this may help</h3><ul><li>Designers</li><li>Developers</li><li>Accessibility evaluators</li></ul><section aria-labelledby="guidance-clause-5-generic-requirements-1"><h3 id="guidance-clause-5-generic-requirements-1">Relationship to later clauses</h3><p>Read this clause alongside the product-specific requirements in clauses 6 to 13.</p><ul><li>Do not assume a later product-specific clause replaces applicable generic requirements.</li></ul></section><h3>Related parts</h3><ul><li><a href="clause-4-functional-performance.html">Clause 4: Functional performance</a></li><li><a href="clause-14-conformance.html">Clause 14: Conformance</a></li></ul></div></details></aside><nav class="on-this-page" aria-labelledby="on-this-page-heading">
 <h2 id="on-this-page-heading">On this page</h2>
 <ul>
 <li><a href="#5-1">5.1 Closed functionality</a>
@@ -289,32 +260,25 @@ preference applies. */
 </ul></li>
 </ul></nav>
 <h2 id="5-1"><a class="heading-link" href="#5-1" data-copy-link>5.1 Closed functionality</a></h2>
-
 <h3 id="5-1-1"><a class="heading-link" href="#5-1-1" data-copy-link>5.1.1 Introduction (informative)</a></h3>
 <p>ICT has closed functionality for many reasons, including design or policy. Some of the functionality of products can be closed because the product is self-contained and users are precluded from adding peripherals or software in order to access that functionality.</p>
 <p>ICT may have closed functionality in practice even though the ICT was not designed, developed or supplied to be closed.</p>
 <p>Computers that do not allow end-users to adjust settings or install software are functionally closed.</p>
-
 <h3 id="5-1-2"><a class="heading-link" href="#5-1-2" data-copy-link>5.1.2 General</a></h3>
-
 <h4 id="5-1-2-1"><a class="heading-link" href="#5-1-2-1" data-copy-link>5.1.2.1 Closed functionality</a></h4>
 <p>Where ICT includes closed functionality,</p>
 <p>the closed functionality shall meet 5.1. For the non-closed functionality the applicable requirements set out in clauses <a class="xref" href="#5-2">5.2</a> to <a class="xref" href="clause-13-relay-emergency.html">13</a> shall be met.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> ICT may close some, but not all, of its functionalities. Only the closed functionalities have to meet the requirements of clause <a class="xref" href="#5-1">5.1</a>.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> The requirements within this clause replace those in clauses <a class="xref" href="#5-2">5.2</a> to <a class="xref" href="clause-13-relay-emergency.html">13</a> that specifically state that they do not apply to closed functionality. This may be because they relate to compatibility with assistive technology or to the ability for the user to adjust system accessibility settings in products with closed functionality (e.g. products that prevent access to the system settings control panel).</p></div>
-
 <h4 id="5-1-2-2"><a class="heading-link" href="#5-1-2-2" data-copy-link>5.1.2.2 Assistive technology and closed functionality</a></h4>
 <p>Where ICT includes closed functionality,</p>
 <p>that closed functionality shall be operable without requiring the user to attach, connect or install assistive technology and meet the generic requirements of clauses <a class="xref" href="#5-1-3">5.1.3</a> to <a class="xref" href="#5-1-6">5.1.6</a> as applicable. Personal headsets and personal induction loops are not classed as assistive technology for the purpose of this clause.</p>
-
 <h3 id="5-1-3"><a class="heading-link" href="#5-1-3" data-copy-link>5.1.3 Non-visual access</a></h3>
-
 <h4 id="5-1-3-1"><a class="heading-link" href="#5-1-3-1" data-copy-link>5.1.3.1 Auditory output of visual information</a></h4>
 <p>Where ICT includes closed functionality, and visual information is needed to enable the use of the closed functionality of the ICT,</p>
 <p>the closed functionality shall be provided through one or more non-visual means that includes auditory output to enable the use of those functions.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Non-visual access may also include a tactile form such as braille in addition to audio. This is particularly useful for some individuals who are deaf-blind.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> The visual information needed to enable use of some functions may include operating instructions and orientation, transaction prompts, user input verification, error messages and non-text content.</p></div>
-
 <h4 id="5-1-3-2"><a class="heading-link" href="#5-1-3-2" data-copy-link>5.1.3.2 Auditory output delivery including speech</a></h4>
 <p>Where ICT includes closed functionality, and auditory output is provided as non-visual access to closed functionality,</p>
 <p>the auditory output shall be delivered through one of the following:</p>
@@ -329,43 +293,36 @@ preference applies. */
 <div class="callout"><p><span class="callout__label">NOTE 4:</span> If auditory output is delivered by a connection for personal headphones, it is best practice, where space permits, to provide both visual and tactile information to indicate that it is possible to connect personal headphones to the ICT device. This can be done, for example, by using a tactile symbol representing headphones.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 5:</span> Any jack (mono, stereo, or microphone enabled) is sufficient to meet this requirement since all will provide audio output and will work interchangeably with headphones/earbuds to provide audio output.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 6:</span> In a publicly shared device industry standard audio connections including but not limited to audio USB standards and Bluetooth&reg; may be provided in addition to a 3,5 mm audio jack.</p></div>
-
 <h4 id="5-1-3-3"><a class="heading-link" href="#5-1-3-3" data-copy-link>5.1.3.3 Auditory output correlation</a></h4>
 <p>Where ICT includes closed functionality, and auditory output is provided as non-visual access to closed functionality, and information that is under the control of the ICT is displayed on the screen,</p>
 <p>the ICT shall provide auditory information that includes all the non-decorative information displayed on the current screen.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Many people who are blind and partially sighted still have visual ability, and use aspects of the visual display even if it cannot be fully comprehended. An audio alternative that is both complete and complementary includes all visual information such as focus or highlighting, so that the audio can be correlated with information that is visible on the screen at any point in time.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> The auditory information is intended to allow the user to perform the task(s) currently on the screen.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> Examples of auditory information that allows the user to correlate the audio with the information displayed on the screen include structure and relationships conveyed through presentation.</p></div>
-
 <h4 id="5-1-3-4"><a class="heading-link" href="#5-1-3-4" data-copy-link>5.1.3.4 Speech output user control</a></h4>
 <p>Where ICT includes closed functionality, and speech output is provided as non-visual access to closed functionality,</p>
 <p>the speech output shall be capable of being interrupted and repeated when requested by the user, where permitted by security requirements.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Moving the speaking cursor away from an item is a common technique for interrupting the speech and is particularly important when moving from one item and to a different one causing that the new item will be read immediately. Moving off and back to an item can be used to cause it to re-read.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> It is best practice to allow the user to pause speech output rather than just allowing them to interrupt it when the speech output is longer than 5 seconds.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> It is best practice to allow the user to repeat only the most recent portion rather than requiring play to start from the beginning when the speech output is longer than 5 seconds.</p></div>
-
 <h4 id="5-1-3-5"><a class="heading-link" href="#5-1-3-5" data-copy-link>5.1.3.5 Speech output automatic interruption</a></h4>
 <p>Where ICT includes closed functionality, and speech output is provided as non-visual access to closed functionality, and the speech output is generated to provide feedback on user interface choices and user actions,</p>
 <p>the ICT shall interrupt current speech output when a user action occurs and when new speech output begins.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> This requirement applies to the speech output provided for non-visual access as feedback for user interface choices and actions, not to any other speech being played by the device. If audio is already playing, including audio description as part of playing AV material, it is common to mute or &lsquo;duck&rsquo; the audio (greatly reduce the relative volume of the audio) to allow the accessibility audio to be clearly heard.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Where it is essential that the user hears the entire message, e.g. a safety instruction or warning, the ICT may need to block all user action so that speech is not interrupted.</p></div>
-
 <h4 id="5-1-3-6"><a class="heading-link" href="#5-1-3-6" data-copy-link>5.1.3.6 Auditory output for non-text content</a></h4>
 <p>Where ICT includes closed functionality that presents non-text content other than video,</p>
 <p>any alternative for non-text content shall be presented to users via auditory output, including speech, unless the non-text content is pure decoration or is used only for visual formatting.</p>
-
 <h4 id="5-1-3-7"><a class="heading-link" href="#5-1-3-7" data-copy-link>5.1.3.7 Auditory output for video information</a></h4>
 <p>Where ICT includes closed functionality, and pre-recorded video content is needed to enable the use of closed functionality of the ICT,</p>
 <p>an auditory equivalent shall be provided for the pre-recorded video content originating from the ICT, and, if provided from another source along with video content, it is also made available by the ICT.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> This speech output can take the form of an audio description or, where there is a transcript of the video, a spoken version of the transcript content.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> ICT is not required to create an auditory equivalent for content not originating from the ICT.</p></div>
-
 <h4 id="5-1-3-8"><a class="heading-link" href="#5-1-3-8" data-copy-link>5.1.3.8 Masked entry</a></h4>
 <p>Where ICT includes closed functionality, and auditory output is provided as non-visual access to closed functionality, and the characters displayed are masking characters,</p>
 <p>the auditory output shall not be a spoken version of the characters entered unless the auditory output is known to be delivered only to a mechanism for private listening, or if the option exists and the user explicitly chooses to allow non-private auditory output.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Masking characters are usually displayed for security purposes and include, but are not limited to asterisks representing personal identification numbers.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Unmasked character output might be preferred when closed functionality is used, for example, in the privacy of the user's home. A warning highlighting privacy concerns might be appropriate to ensure that the user has made an informed choice.</p></div>
-
 <h4 id="5-1-3-9"><a class="heading-link" href="#5-1-3-9" data-copy-link>5.1.3.9 Private access to personal data</a></h4>
 <p>Where ICT includes closed functionality, and the ICT is intended for public shared use, and auditory output is provided by that ICT as non-visual access to closed functionality, and that output contains data that is considered to be private according to the applicable privacy policy,</p>
 <p>the corresponding auditory output shall only be delivered through a mechanism for private listening that can be connected without requiring the use of vision, or through any other mechanism explicitly chosen by the user.</p>
@@ -374,24 +331,19 @@ preference applies. */
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> Non-private output might be preferred when closed functionality is used, for example, in the privacy of the user's home. A warning highlighting privacy concerns might be appropriate to ensure that the user has made an informed choice.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 4:</span> An example of a privacy policy in Europe is the GDPR <a class="xref" href="clause-2-references.html#ref-i-82">[i.82]</a>.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 5:</span> Even if there are no privacy policies that cover the exact context in which the ICT is being used, it is best practice to not announce via a speaker a person's name, phone number, address, financial information (account numbers, amount of withdrawal) or other information that could be used to identify a person or track them later or to target them for robbery etc.</p></div>
-
 <h4 id="5-1-3-10"><a class="heading-link" href="#5-1-3-10" data-copy-link>5.1.3.10 Non-interfering audio output</a></h4>
 <p>Where ICT includes closed functionality, and auditory output is provided as non-visual access to closed functionality,</p>
 <p>the ICT shall not automatically play, at the same time, any interfering audible output that lasts longer than three seconds.</p>
-
 <h4 id="5-1-3-11"><a class="heading-link" href="#5-1-3-11" data-copy-link>5.1.3.11 Private listening volume</a></h4>
 <p>Where ICT includes closed functionality, and auditory output is provided as non-visual access to closed functionality, and the auditory output is delivered through a mechanism for private listening,</p>
 <p>the ICT shall provide at least one non-visual mode of operation for controlling the volume.</p>
-
 <h4 id="5-1-3-12"><a class="heading-link" href="#5-1-3-12" data-copy-link>5.1.3.12 Speaker volume</a></h4>
 <p>Where ICT includes closed functionality, and auditory output is provided as non-visual access to closed functionality, and is delivered through speakers on the ICT,</p>
 <p>a non-visual incremental volume control shall be provided with output amplification up to a level of at least 65 dBA (-29 dBPaA).</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> For noisy environments, 65 dBA may not be sufficient.</p></div>
-
 <h4 id="5-1-3-13"><a class="heading-link" href="#5-1-3-13" data-copy-link>5.1.3.13 Volume reset</a></h4>
 <p>Where ICT includes closed functionality, and the ICT is intended for public shared use, and auditory output is provided as non-visual access to closed functionality through a mechanism for private listening,</p>
 <p>a function that resets the volume to be at a level of 65 dBA or less after every use, shall be provided.</p>
-
 <h4 id="5-1-3-14"><a class="heading-link" href="#5-1-3-14" data-copy-link>5.1.3.14 Spoken languages</a></h4>
 <p>Where ICT includes closed functionality, and speech output is provided as non-visual access to closed functionality,</p>
 <p>the speech output shall be in the same human language as the displayed content provided, except:</p>
@@ -401,16 +353,13 @@ preference applies. */
 <li>for displayed languages that cannot be selected using non-visual access;</li>
 <li>where the user explicitly selects a speech language that is different from the language of the displayed content.</li>
 </ol>
-
 <h4 id="5-1-3-15"><a class="heading-link" href="#5-1-3-15" data-copy-link>5.1.3.15 Non-visual error identification</a></h4>
 <p>Where ICT includes closed functionality, and speech output is provided as non-visual access to closed functionality, and an input error is automatically detected, and the error is indicated visually via text and/or other visual means,</p>
 <p>the speech output shall present equivalent error information.</p>
-
 <h4 id="5-1-3-16"><a class="heading-link" href="#5-1-3-16" data-copy-link>5.1.3.16 Receipts, tickets, and transactional outputs</a></h4>
 <p>Where ICT includes closed functionality, and provides physical receipts, tickets or other outputs as a result of a self-service transaction,</p>
 <p>output that provides all information necessary to complete or verify the transaction shall be provided through one or more non-visual means that includes auditory output, except information that is printed and that is not needed to complete the transaction, such as receipts, itineraries, maps, etc.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> The speech output may be provided by any element of the total ICT system.</p></div>
-
 <h3 id="5-1-4"><a class="heading-link" href="#5-1-4" data-copy-link>5.1.4 Functionality closed to text enlargement</a></h3>
 <p>Where ICT includes closed functionality, and any functionality of the ICT is closed to the text enlargement features of its platform or assistive technology,</p>
 <p>the ICT shall provide a mode of operation where the text and images of text necessary for all functionality is displayed in such a way that the x-height of the text is at least 16 CSS px.</p>
@@ -439,55 +388,43 @@ preference applies. */
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> This is the smallest font size - not the recommended font size for body text which should be larger.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> For handheld devices D should be assumed as 400 mm.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 4:</span> For detailed information about x-height, CSSpx, etc., see section 4.3.2 of <a class="xref" href="clause-2-references.html#ref-i-70">[i.70]</a>.</p></div>
-
 <h3 id="5-1-5"><a class="heading-link" href="#5-1-5" data-copy-link>5.1.5 Visual output for auditory information</a></h3>
 <p>Where ICT includes closed functionality, and auditory output is needed to enable the use of closed functionality of the ICT,</p>
 <p>the ICT shall provide visual information that is equivalent to the auditory information.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> This visual information can take the form of subtitles or text transcripts.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Sign language interpretation can also be provided as best practice, but this is not sufficient to meet this requirement by itself.</p></div>
-
 <h3 id="5-1-6"><a class="heading-link" href="#5-1-6" data-copy-link>5.1.6 Operation without keyboard interface</a></h3>
-
 <h4 id="5-1-6-1"><a class="heading-link" href="#5-1-6-1" data-copy-link>5.1.6.1 Functionality closed to keyboards</a></h4>
 <p>Where ICT includes closed functionality, and the functionality is closed to keyboards or keyboard interfaces,</p>
 <p>the functionality closed to keyboards or keyboard interfaces shall be operable without vision as required by clause <a class="xref" href="#5-1-3">5.1.3</a>.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> A soft keyboard (an onscreen keyboard) would meet this requirement if it is operable without vision as required by clause <a class="xref" href="#5-1-3">5.1.3</a>.</p></div>
-
 <h4 id="5-1-6-2"><a class="heading-link" href="#5-1-6-2" data-copy-link>5.1.6.2 Input focus</a></h4>
 <p>Where ICT includes closed functionality, and the functionality is closed to keyboards or keyboard interfaces, and where input focus can be moved to a user interface element,</p>
 <p>it shall be possible to move the input focus away from that element using the same mechanism, in order to avoid trapping the input focus.</p>
-
 <h3 id="5-1-7"><a class="heading-link" href="#5-1-7" data-copy-link>5.1.7 Access without speech</a></h3>
 <p>Where ICT includes closed functionality, and speech is needed to operate closed functionality of the ICT,</p>
 <p>the ICT shall provide at least one mode of operation using an alternative input mechanism that does not require speech.</p>
-
 <h3 id="5-1-8"><a class="heading-link" href="#5-1-8" data-copy-link>5.1.8 Identify input purpose (closed functionality)</a></h3>
 <p>Where ICT includes closed functionality, and input field(s) collecting information about the user are needed to enable the use of the closed functionality of the ICT, and the input field(s) serve a purpose identified in the WCAG 2.2 Input Purposes for User Interface Components section <a class="xref" href="clause-2-references.html#ref-4">[4]</a>,</p>
 <p>in at least one mode of operation the ICT shall present to the user, in an audio form, the purpose of each of these input fields.</p>
-
 <h2 id="5-2"><a class="heading-link" href="#5-2" data-copy-link>5.2 Activation of accessibility features</a></h2>
 <p>Where ICT includes documented accessibility features,</p>
 <p>it shall be possible to activate those documented accessibility features that are required to meet a specific need without relying on a method that does not support that need.</p>
-
 <h2 id="5-3"><a class="heading-link" href="#5-3" data-copy-link>5.3 Biometrics</a></h2>
 <p>Where ICT uses biological characteristics,</p>
 <p>the ICT shall not rely on the use of a biological characteristic as the only means of user identification or for control of the ICT.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> Some examples of biological characteristics are fingerprints, eye retinal patterns, voice, and face.</p></div>
-
 <h2 id="5-4"><a class="heading-link" href="#5-4" data-copy-link>5.4 Preservation of accessibility information during conversion</a></h2>
 <p>Where ICT converts information or communication,</p>
 <p>the ICT shall preserve all documented non-proprietary information that is provided for accessibility to the extent that such information can be contained in or supported by the destination format.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Any transmission that is not lossless would involve conversion and would be covered by this requirement.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> When transporting or displaying video, any loss of fidelity, synchronization, or quality would constitute a conversion and if the reduced fidelity, synchronization, or quality results in a loss of accessibility of, for example, the sign language portion of it, then it would constitute a violation of this requirement.</p></div>
-
 <h2 id="5-5"><a class="heading-link" href="#5-5" data-copy-link>5.5 Tactilely discernible operable parts</a></h2>
 <p>Where ICT includes functionality that requires manual operation and control,</p>
 <p>the ICT shall provide a mode of operation that allows all the functionality of the ICT that requires manual operation and control to be controlled without requiring vision using only tactilely discernible operable parts.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> As noted in the definition of tactilely discernible operable part, a touchscreen or touchpad that can be tactilely discerned, or a part of a touchscreen that is located adjacent to a tactilely discernible edge, corner, or tactile markings on a screen frame is a tactilely discernible operable part.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Where physical buttons are arranged in small functional groups, or on-screen buttons are positioned in fixed positions adjacent to tactilely discernible boundaries (such as screen edges or surrounds), their position can be tactilely discerned.</p></div>
-
 <h2 id="5-6"><a class="heading-link" href="#5-6" data-copy-link>5.6 Locking or toggle controls</a></h2>
-
 <h3 id="5-6-1"><a class="heading-link" href="#5-6-1" data-copy-link>5.6.1 Tactile or auditory status</a></h3>
 <p>Where ICT includes a locking or toggle control,</p>
 <p>the ICT shall provide at least one mode of operation where the status of the control can be determined either through touch or sound without operating the control.</p>
@@ -496,78 +433,62 @@ preference applies. */
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> For example, on some devices Power On/Off and Input Selection are physical toggle controls where the status can be felt. Tones can be used to indicate a change in different states such as a low-high tone for on and high-low tone for off. Or if speech output is enabled and the user invokes an action, feedback can be by speech at user option. However, the last two are not useful if the action is not a reversable one without consequence (e.g. power off/on that causes loss of information if done).</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 4:</span> Even though all the above examples relate to hardware toggle controls, this clause also applies to graphical controls in software.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 5:</span> For graphical software controls in functionality that is not closed, this clause will usually be satisfied if the control conforms with the complementary WCAG success criteria 1.3.1 (Information and relationships) and 4.1.2 (Name, Role, Value), corresponding to clauses <a class="xref" href="clause-9-web.html#9-1-3-1">9.1.3.1</a> and <a class="xref" href="clause-9-web.html#9-4-1-2">9.4.1.2</a> (for web content), 10.1.3.1 and 10.4.1.2 (for non-web documents) and 11.1.3.1 and 11.4.1.2 (for non-web software). When state information is rendered in text or otherwise programmatically determinable it is possible to render it in an audible or tactile form.</p></div>
-
 <h3 id="5-6-2"><a class="heading-link" href="#5-6-2" data-copy-link>5.6.2 Visual status</a></h3>
 <p>Where ICT includes a locking or toggle control,</p>
 <p>the ICT shall provide at least one mode of operation where the status of the control can be visually determined when the control is presented.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Locking or toggle controls are those controls that can only have two or three states and that keep their state while being used.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> An example of a locking or toggle control is the &ldquo;Caps Lock&rdquo; key found on most keyboards. An example of making the status of a control determinable is a visual status indicator on a keyboard.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> A visual status can be a change on the screen or a flash of an LED after the user invokes an action. Where appropriate, adopting a pattern for example, a short flash for &ldquo;off&rdquo; and a longer or double flash for &ldquo;on&rdquo; can be considered as a good practice.</p></div>
-
 <h2 id="5-7"><a class="heading-link" href="#5-7" data-copy-link>5.7 Key repeat</a></h2>
 <p>Where ICT includes a keyboard or keypad, and a key repeat function that cannot be turned off, and that key repeat will result in the generation of multiple entries of the same alphanumeric data into input fields or into documents:</p>
 <ol type="a">
 <li>the delay before the key repeat shall be adjustable to at least 2 seconds; and</li>
 <li>the key repeat rate shall be adjustable down to one character per 2 seconds.</li>
 </ol>
-
 <h2 id="5-8"><a class="heading-link" href="#5-8" data-copy-link>5.8 Double-strike key acceptance</a></h2>
 <p>Where ICT includes a device-independent keyboard interface service, keyboard, or keypad, and includes a capability to adjust the time before the same key can be accepted again,</p>
 <p>the delay after any keystroke, during which the same key-press will not be accepted, shall be adjustable up to at least 0,5 seconds.</p>
-
 <h2 id="5-9"><a class="heading-link" href="#5-9" data-copy-link>5.9 Simultaneous user actions</a></h2>
 <p>Where ICT includes a mode of operation requiring simultaneous user actions for its operation,</p>
 <p>the ICT shall provide at least one mode of operation that does not require simultaneous user actions to operate the ICT.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> Having to use both hands to open the lid of a laptop, having to press two or more keys at the same time or having to touch a surface with more than one finger are examples of simultaneous user actions.</p></div>
-
 <h2 id="5-10"><a class="heading-link" href="#5-10" data-copy-link>5.10 Authoring tools</a></h2>
-
 <h3 id="5-10-0"><a class="heading-link" href="#5-10-0" data-copy-link>5.10.0 General (informative)</a></h3>
 <p>For those creating web content authoring tools, ATAG 2.0 <a class="xref" href="clause-2-references.html#ref-i-33">[i.33]</a> provides information that can be of interest to those who want to go beyond these requirements.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> This is applicable both to standalone and to web based authoring tools.</p></div>
-
 <h3 id="5-10-1"><a class="heading-link" href="#5-10-1" data-copy-link>5.10.1 Content technology</a></h3>
 <p>Where ICT is, or includes, authoring tool functionality,</p>
 <p>the authoring tool shall meet clauses <a class="xref" href="#5-10-2">5.10.2</a> to <a class="xref" href="#5-10-5">5.10.5</a> to the extent that information required for accessibility is supported by the format used for the output of the authoring tool.</p>
-
 <h3 id="5-10-2"><a class="heading-link" href="#5-10-2" data-copy-link>5.10.2 Accessible content creation</a></h3>
 <p>Where ICT is, or includes, authoring tool functionality,</p>
 <p>the authoring tool shall enable and guide the production of content that conforms to clause <a class="xref" href="clause-9-web.html">9</a> (web), or clause <a class="xref" href="clause-10-non-web-documents.html">10</a> (Non-web documents), or clause <a class="xref" href="clause-11-non-web-software.html">11</a> (Non-web software) as applicable.</p>
 <div class="callout"><p><span class="callout__label">NOTE:</span> Authoring tools may rely on additional tools where conformance with specific requirements is not achievable by a single tool. For example, a video editing tool may enable the creation of video files for distribution via broadcast television and the web, but authoring of subtitle files for multiple formats may be provided by a different tool.</p></div>
-
 <h3 id="5-10-3"><a class="heading-link" href="#5-10-3" data-copy-link>5.10.3 Preservation of accessibility information in transformations</a></h3>
 <p>Where ICT is, or includes, authoring tool functionality, and provides restructuring transformations or re-coding transformations,</p>
 <p>accessibility information shall be preserved in the output if equivalent mechanisms exist in the content technology of the output.</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Restructuring transformations are transformations in which the content technology stays the same, but the structural features of the content are changed (e.g. linearizing tables, splitting a document into pages).</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Re-coding transformations are transformations in which the technology used to encode the content is changed.</p></div>
-
 <h3 id="5-10-4"><a class="heading-link" href="#5-10-4" data-copy-link>5.10.4 Repair assistance</a></h3>
 <p>Where ICT is, or includes, authoring tool functionality, and is capable of detecting that content does not meet a requirement of clause <a class="xref" href="clause-9-web.html">9</a> (Web), or clause <a class="xref" href="clause-10-non-web-documents.html">10</a> (Non-web document), or clause <a class="xref" href="clause-11-non-web-software.html">11</a> (Non-web software) as applicable,</p>
 <p>the authoring tool shall provide repair suggestion(s).</p>
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Automatic detection of failure to meet some requirements may be very challenging, but there are other types of failure that can be very easy to automatically detect. It is best practice that failure detection of at least the easily detected failures should be implemented.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> This does not preclude automated and semi-automated repair which is possible (and encouraged with author review) for many types of content accessibility problems.</p></div>
-
 <h3 id="5-10-5"><a class="heading-link" href="#5-10-5" data-copy-link>5.10.5 Templates</a></h3>
 <p>Where ICT is, or includes, authoring tool functionality, and provides templates,</p>
 <p>at least one template that supports the creation of content that conforms to the requirements of clause <a class="xref" href="clause-9-web.html">9</a> (Web) or clause <a class="xref" href="clause-10-non-web-documents.html">10</a> (Non-web document). or clause <a class="xref" href="clause-11-non-web-software.html">11</a> (Non-web software) as applicable shall be available and identified as such.</p>
-
-    </div>
-    <nav class="page-pager" aria-label="Page navigation">
+</div>
+<nav class="page-pager" aria-label="Page navigation">
 <a class="page-pager__link page-pager__link--prev" href="clause-4-functional-performance.html"><span class="page-pager__direction">&larr; Previous</span><span class="page-pager__title">4 Functional performance</span></a>
 <a class="page-pager__link page-pager__link--next" href="clause-6-real-time-communication.html"><span class="page-pager__direction">Next &rarr;</span><span class="page-pager__title">6 Real-time communication</span></a>
 </nav>
-  </main>
+</main>
 </div>
-
 <a class="back-to-top" href="#top">&uarr; Back to top</a>
-
 <div id="status-live" class="visually-hidden" role="status" aria-live="polite"></div>
-
 <footer class="site-footer">
-  <div class="site-footer__inner">
-    <nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
-  </div>
+<div class="site-footer__inner">
+<nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
+</div>
 </footer>
-<script src="assets/js/site.js?v=7b43fc8f"></script>
 </body>
 </html>

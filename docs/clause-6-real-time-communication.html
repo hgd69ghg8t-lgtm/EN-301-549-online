@@ -8,36 +8,7 @@
 <meta id="theme-colour-light" name="theme-color" media="(prefers-color-scheme: light)" content="#14245a">
 <meta id="theme-colour-dark" name="theme-color" media="(prefers-color-scheme: dark)" content="#16191d">
 <link rel="canonical" href="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/clause-6-real-time-communication.html">
-<script>/* Theme apply, deliberately placed before the stylesheet link and
-kept synchronous (scripts/test_build.py asserts both statically): an
-explicit Dark/Light choice is set on <html> before the stylesheet can
-first paint with the wrong tokens, preventing — or at worst minimising —
-a wrong-theme flash. Also keeps
-the browser-chrome theme-color in step with the RESOLVED theme — on an
-explicit choice both meta elements get the same value, so whichever
-media query the OS matches, the chrome colour agrees with the page.
-site.js reuses __syncThemeColour when the choice changes mid-session.
-The hex values are injected from build.py (THEME_CHROME_*), the single
-source the unit tests check the CSS and generated output against.
-Everything else about theming is CSS; without JavaScript the OS
-preference applies. */
-(function () {
-  var LIGHT = "#14245a", DARK = "#16191d";
-  window.__syncThemeColour = function (theme) {
-    var l = document.getElementById("theme-colour-light");
-    var d = document.getElementById("theme-colour-dark");
-    if (!l || !d) return;
-    l.content = theme === "dark" ? DARK : LIGHT;
-    d.content = theme === "light" ? LIGHT : DARK;
-  };
-  var theme = null;
-  try {
-    var p = JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));
-    if (p && (p.theme === "dark" || p.theme === "light")) theme = p.theme;
-  } catch (e) {}
-  if (theme) document.documentElement.setAttribute("data-theme", theme);
-  window.__syncThemeColour(theme || "auto");
-})();</script>
+<script>(function(){var L="#14245a",D="#16191d";window.__syncThemeColour=function(t){var l=document.getElementById("theme-colour-light"),d=document.getElementById("theme-colour-dark");if(l&&d){l.content=t==="dark"?D:L;d.content=t==="light"?L:D}};var t=null;try{var p=JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));if(p&&(p.theme==="dark"||p.theme==="light"))t=p.theme}catch(e){}if(t)document.documentElement.setAttribute("data-theme",t);window.__syncThemeColour(t||"auto")})();</script>
 <meta property="og:site_name" content="ETSI EN 301 549 V4.1.0 Online">
 <meta property="og:type" content="website">
 <meta property="og:title" content="6 ICT supporting real-time bidirectional communication | ETSI EN 301 549 V4.1.0 Online">
@@ -45,84 +16,83 @@ preference applies. */
 <meta property="og:url" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/clause-6-real-time-communication.html">
 <meta property="og:image" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/assets/img/apple-touch-icon.png">
 <meta name="twitter:card" content="summary">
-<link rel="stylesheet" href="assets/css/style.css?v=c5430ccf">
+<link rel="stylesheet" href="assets/css/style.18c586c2.css">
+<script defer src="assets/js/core.06591bb3.js"></script>
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
 </head>
-<body data-page-slug="clause-6-real-time-communication" data-page-title="6 ICT supporting real-time bidirectional communication" data-page-group="Clauses">
+<body data-page-slug="clause-6-real-time-communication" data-page-title="6 ICT supporting real-time bidirectional communication" data-page-group="Clauses" data-search-js="assets/js/search.3f91c211.js" data-reader-js="assets/js/reader-library.63836e18.js" data-suggest-index="search-suggestions.e295bad5.json">
 <a class="skip-link" id="top" href="#main-content">Skip to main content</a>
-
+<div class="top-sentinel" aria-hidden="true"></div>
 <header class="site-header">
-  <div class="site-header__inner">
-    <a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
-    <nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
-    <button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
-    </button>
-    <form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
-      <input type="search" name="q" aria-label="Search this standard" autocomplete="off">
-      <button type="submit">Search</button>
-    </form>
-  </div>
+<div class="site-header__inner">
+<a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
+<nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
+<button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
+</button>
+<form class="site-search" id="site-search-form" role="search" aria-label="Site search" action="search.html">
+<input type="search" name="q" aria-label="Search this standard" autocomplete="off">
+<button type="submit">Search</button>
+</form>
+</div>
 </header>
 <div class="accent-bar" aria-hidden="true"></div>
-
 <div class="doc-header">
-  <div class="doc-header__inner">
-    <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Clauses</li><li aria-current="page">6 Real-time communication</li></ol></nav>
-    <div class="doc-header__top">
-      <div>
-        <h1>6 ICT supporting real-time bidirectional communication</h1>
-      </div>
-    </div>
-    <div class="doc-toolbar">
-      <details class="page-tools">
-      <summary>Page tools</summary>
-      <div class="page-tools__panel">
-      <button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
-      <a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
-      <button type="button" class="page-tools__item" data-action="copy-link">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
-        <span class="doc-toolbar__btn-status" aria-hidden="true"></span>
-      </button>
-      <button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="clause-6-real-time-communication" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
-      <details class="reader-tools">
-        <summary>Reading options</summary>
-        <div class="reader-tools__panel">
-          <fieldset>
-            <legend>Text width</legend>
-            <label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
-            <label><input type="radio" name="reading-width" value="wide"> Wide</label>
-          </fieldset>
-          <fieldset>
-            <legend>Colour theme</legend>
-            <label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
-            <label><input type="radio" name="colour-theme" value="light"> Light</label>
-            <label><input type="radio" name="colour-theme" value="dark"> Dark</label>
-          </fieldset>
-          <label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
-          <button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
-          <p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
-          <section class="reader-library" aria-labelledby="saved-pages-heading">
-            <h2 id="saved-pages-heading">Saved pages</h2>
-            <h3>Bookmarks</h3>
-            <ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
-            <h3>Recently viewed</h3>
-            <ul data-recent-list><li>No recently viewed pages yet.</li></ul>
-          </section>
-        </div>
-      </details>
-      </div>
-      </details>
-    </div>
-  </div>
+<div class="doc-header__inner">
+<nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="index.html">Home</a></li><li>Clauses</li><li aria-current="page">6 Real-time communication</li></ol></nav>
+<div class="doc-header__top">
+<div>
+<h1>6 ICT supporting real-time bidirectional communication</h1>
 </div>
-
+</div>
+<div class="doc-toolbar">
+<details class="page-tools">
+<summary>Page tools</summary>
+<div class="page-tools__panel">
+<button type="button" class="page-tools__item" data-action="print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></svg>Print this page</button>
+<a class="page-tools__item" href="source/en_301549v040100va.pdf" aria-label="Download the official ETSI standard as a PDF"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 21h16"/></svg>Download PDF</a>
+<button type="button" class="page-tools__item" data-action="copy-link">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M10 14a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5M14 10a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7L12.5 19"/></svg><span class="doc-toolbar__btn-label">Copy link to this page</span>
+<span class="doc-toolbar__btn-status" aria-hidden="true"></span>
+</button>
+<button type="button" class="page-tools__item" data-action="bookmark" data-page-slug="clause-6-real-time-communication" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false"><path d="M6 3h12v18l-6-4-6 4z"/></svg><span class="bookmark-label">Bookmark page</span></button>
+<details class="reader-tools">
+<summary>Reading options</summary>
+<div class="reader-tools__panel">
+<fieldset>
+<legend>Text width</legend>
+<label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
+<label><input type="radio" name="reading-width" value="wide"> Wide</label>
+</fieldset>
+<fieldset>
+<legend>Colour theme</legend>
+<label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
+<label><input type="radio" name="colour-theme" value="light"> Light</label>
+<label><input type="radio" name="colour-theme" value="dark"> Dark</label>
+</fieldset>
+<label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
+<button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
+<p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
+<section class="reader-library" aria-labelledby="saved-pages-heading">
+<h2 id="saved-pages-heading">Saved pages</h2>
+<h3>Bookmarks</h3>
+<ul data-bookmarks-list><li>No bookmarks yet.</li></ul>
+<h3>Recently viewed</h3>
+<ul data-recent-list><li>No recently viewed pages yet.</li></ul>
+</section>
+</div>
+</details>
+</div>
+</details>
+</div>
+</div>
+</div>
 <div class="page-shell">
-  <div class="page-sidebar">
-    <button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
-    <nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
+<div class="page-sidebar">
+<button type="button" class="toc-toggle" aria-expanded="false" aria-controls="site-nav-panel">Contents</button>
+<nav id="site-nav-panel" class="site-nav" aria-label="Site contents">
 <div class="site-nav__header">Contents</div>
 <p><a href="index.html">Home</a></p>
 <p><a href="about.html">About</a></p>
@@ -255,10 +225,10 @@ preference applies. */
 </li>
 </ul></details>
 </nav>
-  </div>
-  <main id="main-content" tabindex="-1">
-    <div class="content">
-      <div class="clause-summary"><h2 id="about-this-page">About this clause</h2><p>Clause 6 covers ICT that provides real-time two-way communication. It includes requirements for voice communication, Real-Time Text (RTT), caller ID, alternatives to voice-based services, and video communication.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div><nav class="on-this-page" aria-labelledby="on-this-page-heading">
+</div>
+<main id="main-content" tabindex="-1">
+<div class="content">
+<div class="clause-summary"><h2 id="about-this-page">About this clause</h2><p>Clause 6 covers ICT that provides real-time two-way communication. It includes requirements for voice communication, Real-Time Text (RTT), caller ID, alternatives to voice-based services, and video communication.</p><p>The wording below is reproduced from the ETSI draft and has not been simplified or changed.</p></div><nav class="on-this-page" aria-labelledby="on-this-page-heading">
 <h2 id="on-this-page-heading">On this page</h2>
 <ul>
 <li><a href="#6-0">6.0 Accessible real-time bidirectional communication operational scenarios</a>
@@ -315,315 +285,231 @@ preference applies. */
 </ul></li>
 </ul></nav>
 <h2 id="6-0"><a class="heading-link" href="#6-0" data-copy-link>6.0 Accessible real-time bidirectional communication operational scenarios</a></h2>
-
 <h3 id="6-0-1"><a class="heading-link" href="#6-0-1" data-copy-link>6.0.1 Rationale for scenarios (informative)</a></h3>
 <p>Clauses <a class="xref" href="#6-0-2">6.0.2</a> to <a class="xref" href="#6-0-5">6.0.5</a> specify a minimum set of operational scenarios in which real-time bidirectional communication typically takes place. To deliver the goal of accessible communications it is necessary to ensure that applicable accessibility requirements defined in clauses <a class="xref" href="#6-1">6.1</a> to <a class="xref" href="#6-6">6.6</a> are met in all applicable scenarios for the communication described by the scenarios.</p>
 <p>Clauses <a class="xref" href="#6-0-6">6.0.6</a> to <a class="xref" href="#6-0-9">6.0.9</a> specify a minimum set of operational scenarios in which ICT is expected to deliver emergency communications. To ensure that emergency communications are accessible, it is necessary to ensure that ICT meets the applicable accessibility requirements defined in clauses <a class="xref" href="#6-1">6.1</a> to <a class="xref" href="#6-6">6.6</a> of the present document in all applicable scenarios for the emergency communications described by the scenarios.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> The scenarios add preconditions to each of the tests in clauses <a class="xref" href="annex-c-6-real-time-communication.html#c-6-1">C.6.1</a> to <a class="xref" href="annex-c-6-real-time-communication.html#c-6-6">C.6.6</a> to make sure that testing is done in a way that is both effective and practical for each of the different scenarios.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> For emergency communication aspects, the present document concerns the general accessibility aspects of ICT that is expected to provide access to emergency communications. The detailed aspects of how to ensure accessibility of emergency communications are covered in ETSI EN 303 919 <a class="xref" href="clause-2-references.html#ref-i-56">[i.56]</a> and are not further elaborated in the present document. These aspects include but are not limited to addressing, routing, location information provision, provision of emergency communication specific contextual information, details of invocation of relay services in emergency communications and invocation of other support services in the emergency communication.</p></div>
-
 <h3 id="6-0-2"><a class="heading-link" href="#6-0-2" data-copy-link>6.0.2 Communication client</a></h3>
 <p>Where ICT is, or includes, a communication client that supports real-time bidirectional voice communication with or within a communication system that provides real-time bidirectional voice communication, the communication client shall meet all applicable 6.1 and 6.3 to 6.6 requirements, when communicating with or within the communication system, and, where the communication client is part of a terminal with text handling capabilities, all applicable 6.2 requirements.</p>
-
 <h3 id="6-0-3"><a class="heading-link" href="#6-0-3" data-copy-link>6.0.3 Communication system</a></h3>
 <p>Where ICT is, or includes, or is a part of, a communication system that provides real-time bidirectional voice communication with communication clients of the system, the system shall meet all applicable 6.1 to 6.6 requirements when communicating with communication clients.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE:</span> ICT that are component parts of a communication system can be tested by ensuring that that ICT is included in a communication system during testing.</p></div>
 <div class="callout"><p><span class="callout__label">EXAMPLE:</span> The suitability of a home/office internet router for correctly handling RTT communication can be evaluated by ensuring that this router is part of the local ICT that is used to perform a test of RTT communication routed through the real-time bidirectional voice communication system.</p></div>
-
 <h3 id="6-0-4"><a class="heading-link" href="#6-0-4" data-copy-link>6.0.4 System connecting to another communication system</a></h3>
 <p>Where ICT is, or includes, a communication system that provides real-time bidirectional voice communication with one or more other communication systems that support real-time bidirectional voice communication, the system shall meet all applicable 6.1 to 6.6 requirements when communicating with the other communication systems.</p>
-
 <h3 id="6-0-5"><a class="heading-link" href="#6-0-5" data-copy-link>6.0.5 System with roaming visiting client</a></h3>
 <p>Where ICT is, or includes, a communication system that provides real-time bidirectional voice communication, and a communication client that supports real-time bidirectional voice communication with another compatible communication system, visits and connects to the communication system, the system shall meet all applicable 6.1 to 6.6 requirements when communicating with the visiting communication client.</p>
-
 <h3 id="6-0-6"><a class="heading-link" href="#6-0-6" data-copy-link>6.0.6 Client in emergency communications</a></h3>
 <p>Where ICT is required to provide, or otherwise provides, emergency communications, and is, or includes, a communication client that supports real-time bidirectional voice communication with or within a communication system that provides real-time bidirectional voice emergency communication, the communication client shall meet applicable 6.1 and 6.3 to 6.6 requirements, when performing the emergency communication, and, where the communication client is part of a terminal with text handling capabilities, all applicable 6.2 requirements.</p>
-
 <h3 id="6-0-7"><a class="heading-link" href="#6-0-7" data-copy-link>6.0.7 Emergency communications</a></h3>
 <p>Where ICT is, or includes, a communication system that provides real-time bidirectional voice communication in emergency communications with PSAPs, the communication system shall meet all applicable 6.1 to 6.6 requirements, when performing the emergency communication.</p>
-
 <h3 id="6-0-8"><a class="heading-link" href="#6-0-8" data-copy-link>6.0.8 System with roaming visiting client in an emergency</a></h3>
 <p>Where ICT is, or includes, a (first) communication system that provides real-time bidirectional voice communication in emergency communications with PSAPs, and a communication client that supports real-time bidirectional voice communication with another communication system that provides real-time bidirectional voice communication, visits and connects to the (first) communication system, the (first) communication system shall meet all applicable 6.1 to 6.6 requirements, when communicating with the visiting communication client and a PSAP in emergency communications.</p>
-
 <h3 id="6-0-9"><a class="heading-link" href="#6-0-9" data-copy-link>6.0.9 System with client in emergency visiting another country</a></h3>
 <p>Where ICT is, or includes, a communication system that provides real-time bidirectional voice communication in emergency communications with PSAPs, and a communication client of the ICT that supports real-time bidirectional voice communication, visits another country than the home country, the communication system shall meet applicable 6.1 to 6.6 requirements when communicating with the communication client and a PSAP in the visited country in emergency communications.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE:</span> This scenario is intended for systems which in contrast to the systems of clause <a class="xref" href="#6-0-8">6.0.8</a> of the present document do not use any roaming technology on call control level. Typical communication systems using the approach of the present clause are VoIP based systems using IP communications in the Internet or other IP networks, carried by mobile, Wi-Fi&reg; or fixed technologies.</p></div>
-
 <h2 id="6-1"><a class="heading-link" href="#6-1" data-copy-link>6.1 Real-time bidirectional voice communication</a></h2>
-
 <h3 id="6-1-1"><a class="heading-link" href="#6-1-1" data-copy-link>6.1.1 Voice communication interoperability</a></h3>
 <p>Where ICT provides functionality that allows real-time bidirectional voice communication, and connects to other ICT that allows real-time bidirectional voice communication, the ICT's documentation shall contain information on the main specifications by which voice is implemented in a manner that allows the voice on the ICT to interoperate with the other ICT, providing electronic communication covering audio frequencies at least down to 100 Hz and at least up to 7 000 Hz using one of the following options:</p>
-
 <ol type="a">
-  <li>Any set of specifications for voice communication that would fulfil the voice communications requirements in the present document that is mutually agreed to be used between the ICT and any other ICT with which the ICT interoperates for real-time bidirectional voice communication.</li>
-  <li>Recommendation ITU-T G.722 <a class="xref" href="clause-2-references.html#ref-i-20">[i.20]</a>.</li>
+<li>Any set of specifications for voice communication that would fulfil the voice communications requirements in the present document that is mutually agreed to be used between the ICT and any other ICT with which the ICT interoperates for real-time bidirectional voice communication.</li>
+<li>Recommendation ITU-T G.722 <a class="xref" href="clause-2-references.html#ref-i-20">[i.20]</a>.</li>
 </ol>
-
 <div class="callout">
 <p><span class="callout__label">NOTE 1:</span> Specifications for audio codec implementations that support the 100 Hz to 7 000 Hz frequency range are provided for a number of technologies. The following list provides an overview of the situation at the time of authoring the present document. It is presented here as a guide for achieving interoperability and suitable quality. It should be noted that most audio codecs can be used with varying parameter settings resulting in varying quality. They are listed here on the assumption that they are used with settings that allow them to provide sufficient quality to meet the requirements in the present clause. All audio codecs for the technologies listed are using IETF RFC 3550 <a class="xref" href="clause-2-references.html#ref-i-51">[i.51]</a> RTP <a class="xref" href="clause-2-references.html#ref-i-51">[i.51]</a> for media transport:</p>
 <ol type="a">
-  <li>General VoIP and Multimedia communication: IETF, providing standards for Voice Over IP (VOIP) and Multimedia communications over IP based on the Session Initiation Protocol (SIP) IETF RFC 3261 <a class="xref" href="clause-2-references.html#ref-i-50">[i.50]</a>. In this technology, the following audio codecs capable of delivering sufficient quality are commonly used: Recommendation ITU-T G.722 <a class="xref" href="clause-2-references.html#ref-i-20">[i.20]</a>, Recommendation ITU-T G.722.2 <a class="xref" href="clause-2-references.html#ref-i-21">[i.21]</a> also called AMR-WB. IETF RFC 6716 <a class="xref" href="clause-2-references.html#ref-i-83">[i.83]</a> updated by IETF RFC 8251 <a class="xref" href="clause-2-references.html#ref-i-86">[i.86]</a> called OPUS.</li>
-  <li>IP Multimedia Sub-System (IMS): 3GPP, that provides standards for mobile communication systems, including IP Multimedia Sub-System (IMS) has standardized the Multimedia Telephony concept, for communications with voice, video and RTT using the set of protocols specified in ETSI TS 126 114 <a class="xref" href="clause-2-references.html#ref-i-11">[i.11]</a> (= ETSI TS 126 114 <a class="xref" href="clause-2-references.html#ref-i-11">[i.11]</a>). Multimedia Telephony is specified to use Recommendation ITU-T G.722.2 <a class="xref" href="clause-2-references.html#ref-i-23">[i.23]</a>, also called AMR-WB for wide band audio, and also EVS specified in ETSI TS 126 441 <a class="xref" href="clause-2-references.html#ref-i-88">[i.88]</a>. For interoperability with other systems, Recommendation ITU-T G.722 <a class="xref" href="clause-2-references.html#ref-i-20">[i.20]</a> is specified.</li>
-  <li>GSMA, that provides selected profiles of standards for implementing globally interoperating mobile communications services, has in GSMA PRD IR.92 <a class="xref" href="clause-2-references.html#ref-i-45">[i.45]</a> specified how to apply ETSI TS 126 114 <a class="xref" href="clause-2-references.html#ref-i-11">[i.11]</a> to implement RTT and Voice over LTE (VoLTE) and, in GSMA PRD IR.94 <a class="xref" href="clause-2-references.html#ref-i-46">[i.46]</a>, Video over LTE (ViLTE) in 4G mobile systems. A similar document is published for RTT, voice and video over 5G in GSMA NG.114 <a class="xref" href="clause-2-references.html#ref-i-46">[i.46]</a>. Wide band audio is specified in these documents to use the same audio codecs as under b).</li>
-  <li>Web technologies: For communication in web technologies, W3C&reg; and IETF have created the WebRTC concept specified in IETF RFC 8825 <a class="xref" href="clause-2-references.html#ref-i-87">[i.87]</a> where the mandatory audio codecs with wide band audio capabilities are specified in IETF RFC 7874 <a class="xref" href="clause-2-references.html#ref-i-84">[i.84]</a> to be Opus, while Recommendation ITU-T G.722 <a class="xref" href="clause-2-references.html#ref-i-20">[i.20]</a> is also recommended by IETF RFC 7875 <a class="xref" href="clause-2-references.html#ref-i-85">[i.85]</a> and is usually provided in implementations.</li>
-  <li>Emergency communications: An interface to IP based emergency communications is specified in ETSI TS 103 479 <a class="xref" href="clause-2-references.html#ref-i-48">[i.48]</a>. It makes use of Recommendation ITU-T G.722.2 <a class="xref" href="clause-2-references.html#ref-i-21">[i.21]</a> AMR-WB, IETF RFC 6716 <a class="xref" href="clause-2-references.html#ref-i-83">[i.83]</a> updated by IETF RFC 8251 <a class="xref" href="clause-2-references.html#ref-i-86">[i.86]</a> OPUS, and Recommendation ITU-T G.722 <a class="xref" href="clause-2-references.html#ref-i-20">[i.20]</a>. for wide-band audio. A corresponding standard exists for North America. For emergency apps, ETSI TS 103 478 <a class="xref" href="clause-2-references.html#ref-i-47">[i.47]</a> is specified in ETSI TS 103 945 <a class="xref" href="clause-2-references.html#ref-i-89">[i.89]</a> to implement wide band audio by use of Opus IETF RFC 6716 <a class="xref" href="clause-2-references.html#ref-i-83">[i.83]</a> updated by IETF RFC 8251 <a class="xref" href="clause-2-references.html#ref-i-86">[i.86]</a>. The use of these standards for accessible and interoperable emergency communications is specified in ETSI EN 303 919 <a class="xref" href="clause-2-references.html#ref-i-56">[i.56]</a>.</li>
-  <li>Relay services: ETSI ES 202 975 <a class="xref" href="clause-2-references.html#ref-i-6">[i.6]</a> specifies in its clause <a class="xref" href="#6-1">6.1</a> interfaces to relay services, referring to the present document for specific technologies.</li>
+<li>General VoIP and Multimedia communication: IETF, providing standards for Voice Over IP (VOIP) and Multimedia communications over IP based on the Session Initiation Protocol (SIP) IETF RFC 3261 <a class="xref" href="clause-2-references.html#ref-i-50">[i.50]</a>. In this technology, the following audio codecs capable of delivering sufficient quality are commonly used: Recommendation ITU-T G.722 <a class="xref" href="clause-2-references.html#ref-i-20">[i.20]</a>, Recommendation ITU-T G.722.2 <a class="xref" href="clause-2-references.html#ref-i-21">[i.21]</a> also called AMR-WB. IETF RFC 6716 <a class="xref" href="clause-2-references.html#ref-i-83">[i.83]</a> updated by IETF RFC 8251 <a class="xref" href="clause-2-references.html#ref-i-86">[i.86]</a> called OPUS.</li>
+<li>IP Multimedia Sub-System (IMS): 3GPP, that provides standards for mobile communication systems, including IP Multimedia Sub-System (IMS) has standardized the Multimedia Telephony concept, for communications with voice, video and RTT using the set of protocols specified in ETSI TS 126 114 <a class="xref" href="clause-2-references.html#ref-i-11">[i.11]</a> (= ETSI TS 126 114 <a class="xref" href="clause-2-references.html#ref-i-11">[i.11]</a>). Multimedia Telephony is specified to use Recommendation ITU-T G.722.2 <a class="xref" href="clause-2-references.html#ref-i-23">[i.23]</a>, also called AMR-WB for wide band audio, and also EVS specified in ETSI TS 126 441 <a class="xref" href="clause-2-references.html#ref-i-88">[i.88]</a>. For interoperability with other systems, Recommendation ITU-T G.722 <a class="xref" href="clause-2-references.html#ref-i-20">[i.20]</a> is specified.</li>
+<li>GSMA, that provides selected profiles of standards for implementing globally interoperating mobile communications services, has in GSMA PRD IR.92 <a class="xref" href="clause-2-references.html#ref-i-45">[i.45]</a> specified how to apply ETSI TS 126 114 <a class="xref" href="clause-2-references.html#ref-i-11">[i.11]</a> to implement RTT and Voice over LTE (VoLTE) and, in GSMA PRD IR.94 <a class="xref" href="clause-2-references.html#ref-i-46">[i.46]</a>, Video over LTE (ViLTE) in 4G mobile systems. A similar document is published for RTT, voice and video over 5G in GSMA NG.114 <a class="xref" href="clause-2-references.html#ref-i-46">[i.46]</a>. Wide band audio is specified in these documents to use the same audio codecs as under b).</li>
+<li>Web technologies: For communication in web technologies, W3C&reg; and IETF have created the WebRTC concept specified in IETF RFC 8825 <a class="xref" href="clause-2-references.html#ref-i-87">[i.87]</a> where the mandatory audio codecs with wide band audio capabilities are specified in IETF RFC 7874 <a class="xref" href="clause-2-references.html#ref-i-84">[i.84]</a> to be Opus, while Recommendation ITU-T G.722 <a class="xref" href="clause-2-references.html#ref-i-20">[i.20]</a> is also recommended by IETF RFC 7875 <a class="xref" href="clause-2-references.html#ref-i-85">[i.85]</a> and is usually provided in implementations.</li>
+<li>Emergency communications: An interface to IP based emergency communications is specified in ETSI TS 103 479 <a class="xref" href="clause-2-references.html#ref-i-48">[i.48]</a>. It makes use of Recommendation ITU-T G.722.2 <a class="xref" href="clause-2-references.html#ref-i-21">[i.21]</a> AMR-WB, IETF RFC 6716 <a class="xref" href="clause-2-references.html#ref-i-83">[i.83]</a> updated by IETF RFC 8251 <a class="xref" href="clause-2-references.html#ref-i-86">[i.86]</a> OPUS, and Recommendation ITU-T G.722 <a class="xref" href="clause-2-references.html#ref-i-20">[i.20]</a>. for wide-band audio. A corresponding standard exists for North America. For emergency apps, ETSI TS 103 478 <a class="xref" href="clause-2-references.html#ref-i-47">[i.47]</a> is specified in ETSI TS 103 945 <a class="xref" href="clause-2-references.html#ref-i-89">[i.89]</a> to implement wide band audio by use of Opus IETF RFC 6716 <a class="xref" href="clause-2-references.html#ref-i-83">[i.83]</a> updated by IETF RFC 8251 <a class="xref" href="clause-2-references.html#ref-i-86">[i.86]</a>. The use of these standards for accessible and interoperable emergency communications is specified in ETSI EN 303 919 <a class="xref" href="clause-2-references.html#ref-i-56">[i.56]</a>.</li>
+<li>Relay services: ETSI ES 202 975 <a class="xref" href="clause-2-references.html#ref-i-6">[i.6]</a> specifies in its clause <a class="xref" href="#6-1">6.1</a> interfaces to relay services, referring to the present document for specific technologies.</li>
 </ol>
 </div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Frequencies between 250 Hz and 7 000 Hz are essential for good speech perception.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> Frequencies between 100 Hz and 250 Hz provide extra information for person recognition.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 4:</span> Background information and detailed guidance about accessible voice communication is available in ETSI ES 204 009 <a class="xref" href="clause-2-references.html#ref-i-77">[i.77]</a>.</p></div>
-
 <h3 id="6-1-2"><a class="heading-link" href="#6-1-2" data-copy-link>6.1.2 Audio bandwidth for capture and presentation for voice communication</a></h3>
 <p>Where ICT provides functionality that allows real-time bidirectional voice communication, and has a user interface for real-time bidirectional voice communication, the ICT shall be able to capture, communicate and present voice communication with a frequency range of at least down to 250 Hz and up to at least 7 000 Hz.</p>
-
 <h3 id="6-1-3"><a class="heading-link" href="#6-1-3" data-copy-link>6.1.3 Audio presentation in attached listening devices for voice communication (recommendation)</a></h3>
 <p>Where ICT provides functionality that allows real-time bidirectional voice communication, and has an interface for external presentation of voice communication, the ICT should be able to present audio with a frequency range of at least down to 100 Hz and up to at least 7 000 Hz.</p>
-
 <h3 id="6-1-4"><a class="heading-link" href="#6-1-4" data-copy-link>6.1.4 Synchronization of subtitles (recommendation)</a></h3>
 <p>Where ICT provides subtitles for real-time bidirectional voice communication, the delay of provided subtitles in relation to the speech should not exceed 2 seconds.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE:</span> The delay is measured from when a word is completely spoken until the first character of the word is presented.</p></div>
-
 <h2 id="6-2"><a class="heading-link" href="#6-2" data-copy-link>6.2 Real-Time Text (RTT)</a></h2>
-
 <h3 id="6-2-1"><a class="heading-link" href="#6-2-1" data-copy-link>6.2.1 RTT provision</a></h3>
-
 <h4 id="6-2-1-1"><a class="heading-link" href="#6-2-1-1" data-copy-link>6.2.1.1 RTT functionality</a></h4>
 <p>Where ICT provides functionality that allows real-time bidirectional voice communication, the ICT shall provide functionality that allows real-time bidirectional RTT communication.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> The above requirement implicitly requires that ICT that interoperates with other ICT for real-time bidirectional voice communication would interoperate for RTT as well.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> This requirement includes those products which do not have physical display or text entry capabilities but have the capability to connect to devices that do have such capabilities. It also includes intermediate ICT between the endpoints of the communication.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> The precondition of the present clause implies multi-party RTT support where multi-party voice is supported.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 4:</span> Background reading about RTT and a comprehensive reference list is available in ETSI TR 103 708 <a class="xref" href="clause-2-references.html#ref-i-59">[i.59]</a>. Additional detailed guidance is provided in ETSI ES 204 009 <a class="xref" href="clause-2-references.html#ref-i-77">[i.77]</a>.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 5:</span> Many other clauses than 6.2 of the present document are valid for RTT implementation.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 6:</span> Clause <a class="xref" href="clause-11-non-web-software.html#11-5">11.5</a> of the present document presents considerations about use of assistive technology which are also considerations for RTT implementations. In the RTT case, best practice is that new text input can arrive anytime while the user is reading earlier received text and the user is made aware that new text is available while not disturbing the reading of earlier received text.</p></div>
-
 <h4 id="6-2-1-2"><a class="heading-link" href="#6-2-1-2" data-copy-link>6.2.1.2 Concurrent voice and RTT</a></h4>
 <p>Where ICT provides real-time bidirectional voice communication, and supports RTT, the ICT shall allow concurrent voice and RTT.</p>
-
 <h4 id="6-2-1-3"><a class="heading-link" href="#6-2-1-3" data-copy-link>6.2.1.3 Single user action</a></h4>
 <p>Where ICT provides real-time bidirectional voice communication, and includes RTT capabilities, the ICT shall allow single user operations to act on all requested or already established media, during requests to establish media, answering requests to establish media, modifications during the communication, and disconnections.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Modification includes transfer, hold, and other changes to communications or participants.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> For a communication client, the single user operation may result in multiple media requests to answer or establish voice and RTT and optionally other media.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> A single user operation may request the establishment of a communication that involves media that are not available at both ends. In these cases, automatic retries, with a reduced number of media, may be used to complete the establishment of a session using only the media available at both ends.</p></div>
-
 <h3 id="6-2-2"><a class="heading-link" href="#6-2-2" data-copy-link>6.2.2 Display of RTT</a></h3>
-
 <h4 id="6-2-2-1"><a class="heading-link" href="#6-2-2-1" data-copy-link>6.2.2.1 Distinguishable display</a></h4>
 <p>Where ICT provides real-time bidirectional voice communication, and includes RTT presentation capabilities, displayed text that originates from different sources, as well as the text that is sent, shall be displayed with their sources indicated and differentiated.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> The ability of the user to choose between different layouts of the text that is sent, and the text received from the different sources, would allow users to display RTT in a form that works best for them, while still fulfilling the requirement of clause <a class="xref" href="#6-2-2">6.2.2</a>.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Users relying on AT with small displays (e.g. deafblind users) may benefit from accessing the locally produced text and one other source side-by side to facilitate easy reading.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> The source indication does not require more than a unique identifier, not necessarily a real identity (e.g. Speaker 1 or Speaker 2 would be sufficient if nothing better is known).</p></div>
-
 <h4 id="6-2-2-2"><a class="heading-link" href="#6-2-2-2" data-copy-link>6.2.2.2 Active communicator indication</a></h4>
 <p>Where ICT provides real-time bidirectional voice communication, and includes RTT send and receive capabilities, and provides speaker indication for voice, the ICT shall provide indication of all active communicators including those using RTT.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE:</span> This is necessary to enable all parties to know who or what is currently communicating, whether it be in RTT or voice.</p></div>
-
 <h4 id="6-2-2-3"><a class="heading-link" href="#6-2-2-3" data-copy-link>6.2.2.3 Indication of audio with RTT</a></h4>
 <p>Where ICT provides real-time bidirectional voice communication, and supports RTT, the ICT shall provide a real-time indicator of non-local audio activity on the display.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> The indicator may be a simple character position on the display that flickers on and off to reflect the varied strength of the audio activity, or presentation of the information in another way that can be both visible to sighted users and presented to deaf-blind users.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Without this indication a person who lacks the ability to hear does not know when someone is talking.</p></div>
-
 <h4 id="6-2-2-4"><a class="heading-link" href="#6-2-2-4" data-copy-link>6.2.2.4 Presentation of relative time order of text</a></h4>
 <p>Where ICT provides real-time bidirectional voice communication, and includes RTT presentation capabilities, the ICT shall present the text from each source, including the local source, as blocks of text that are arranged in order based on the point in time that each block of text is terminated by any sentence-terminating punctuation character followed by a space, or a line separator character is entered or received, or 5 seconds passes without a new character being entered or received. Editing of text in a block causes the entire block's termination time to change to the time of the last edited character.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Text blocks from the same source are presented contiguously, forming a single block, unless an intervening text block from a different source is received. For example, the phrases &lsquo;J.D. Clampett is here! But no one else is.&rsquo; will appear as one continuous text presentation when no other sources are sending concurrently. If, however, another source sends text at the same time, then within a single column view, the blocks are presented in chronological order, with text blocks from different sources interleaved but kept distinct.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> This requirement aims to establish an approximate chronological order for displaying text from different sources, while maintaining text blocks together for readability. Precise timing between texts from different sources received concurrently is unnecessary and would reduce readability in most layouts.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> Presentation aspects of RTT are presented in ETSI TR 103 708 <a class="xref" href="clause-2-references.html#ref-i-59">[i.59]</a> clause <a class="xref" href="clause-7-video-capabilities.html#7-2">7.2</a>.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 4:</span> The events terminating a block of text in the present clause is the minimum set. For smooth presentation other events can be added to a product, such as end of phrase or reasons found by linguistic analysis in languages not using explicit delimiter characters.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 5:</span> See clause <a class="xref" href="#6-2-5">6.2.5</a> of the present document for additional information regarding adding and erasing of text.</p></div>
-
 <h4 id="6-2-2-5"><a class="heading-link" href="#6-2-2-5" data-copy-link>6.2.2.5 Review of RTT communication contents</a></h4>
 <p>Where ICT provides real-time bidirectional voice communication, and includes RTT presentation capabilities, the ICT shall provide the ability to review the whole RTT content of the communication during the communication and, if the communication is recorded, after the communication has ended.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE:</span> Best practice is to have the text view scroll with the arrival of new text, but only when the view is fully scrolled to the end of the text display.</p></div>
-
 <h3 id="6-2-3"><a class="heading-link" href="#6-2-3" data-copy-link>6.2.3 DTMF touch-tone generation during RTT operations</a></h3>
 <p>Where ICT is, or includes, a communication client, and provides functionality that allows real-time bidirectional voice communication, and supports the generation and transmission of touch-tone signals on voice calls, the client shall provide a method for generation and transmission of touch-tone signals for touch-tone characters (0-9,*,#,A,B,C,D) that is distinct from the method for generating RTT for those same characters, and is compatible with the standard method for sending touch-tones during voice calls.</p>
-
 <h3 id="6-2-4"><a class="heading-link" href="#6-2-4" data-copy-link>6.2.4 RTT responsiveness</a></h3>
 <p>Where ICT is, or includes, a communication client, and supports real-time bidirectional voice communication, and supports RTT, RTT input shall be transmitted to the ICT network on which the ICT runs within 500 ms of the time that the smallest reliably composed unit of text entry is available to the ICT for transmission where delays due to network performance are not included in the 500 ms limit.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> The &ldquo;smallest reliably composed unit of text entry&rdquo; varies depending on how text is being generated. When typing individual characters, the &ldquo;smallest reliably composed unit of text entry&rdquo; would be a character, even if it is composed by multiple keystrokes. For word prediction, it would be a word. For some voice recognition systems - the text may not exit the recognition software until an entire word (or phrase) has been spoken, in which case, the smallest reliably composed unit of text entry available to the ICT would be the word (or phrase). Also, other operations, such as copy-paste, may occasionally cause the unit of text entry to be more than one character.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> The 500 ms limit allows buffering of characters for this period before transmission so character by character transmission is not required unless the characters are generated more slowly than 1 ms per 500 ms.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> A delay of 300 ms, or less, produces a better impression of flow to the user.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 4:</span> If there is less than 1-second delay between when a key is pressed and when the character appears on another communication client included in the same communication, this requirement can be deemed as met because that is the user requirement behind this requirement as specified in Recommendation ITU-T F.703 <a class="xref" href="clause-2-references.html#ref-i-38">[i.38]</a>, and the at least 500 ms time left for the packet with the character to reach the destination is sufficient in network conditions where voice communication show satisfying performance. (see testing C.6.2.4).</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 5:</span> Synchronization of RTT with audio and video is achieved when all three media are presented within their respective latency requirements.</p></div>
-
 <h3 id="6-2-5"><a class="heading-link" href="#6-2-5" data-copy-link>6.2.5 Adding and erasing of RTT input</a></h3>
 <p>Where ICT provides real-time bidirectional voice communication, and includes RTT capabilities, and supports RTT user input, the RTT user interface shall provide the functionality to enter new text and to erase text entered in an ongoing communication where the erasure is done from the current end of text without being limited by any new line or other delimiter in the earlier text.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Each erase-previous-character operation erases a complete delimiter or text element (whether 1 or 2 characters) so that local and remote presentation is kept synchronized.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> The intention of this requirement is to enable entry of text and to allow corrections, which may include just erasure or erasure and entry of replacing text.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> &ldquo;Functionality to erase text&rdquo; includes both manual erasure, enabling replacement with corrected text, as well as automatic correction mechanisms such as automatic spelling correction or corrections done by speech-to-text and other such text-generating mechanisms that might perform auto-correction.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 4:</span> It is best practice to mark sections where the text has changed.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 5:</span> See clause <a class="xref" href="#6-2-2-4">6.2.2.4</a> of the present document about presentation aspects of adding and erasing text.</p></div>
-
 <h3 id="6-2-6"><a class="heading-link" href="#6-2-6" data-copy-link>6.2.6 Processing rate of RTT</a></h3>
 <p>Where ICT provides real-time bidirectional voice communication, and supports multiparty communication, and includes RTT capabilities, the ICT shall have the capacity to receive and process RTT at a total rate of 90 characters per second coming from a minimum of 3 simultaneous sources sending 30 characters per second each.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE:</span> The requirement may have implications depending on the role of the ICT. For example, for a communications client, it means presenting, for a router it means transferring, and for a multi-party bridge it means mixing and distributing or just distributing.</p></div>
-
 <h3 id="6-2-7"><a class="heading-link" href="#6-2-7" data-copy-link>6.2.7 Character representation</a></h3>
 <p>Where ICT provides real-time bidirectional voice communication, and includes RTT capabilities, the ICT shall be capable of handling at least a subset of ISO/IEC 10646 <a class="xref" href="clause-2-references.html#ref-i-53">[i.53]</a> that includes at least:</p>
-
 <ul>
-  <li>the Latin-1 part;</li>
-  <li>the writing direction(s) and the characters for the languages of the regions in which the ICT is intended to be used;</li>
-  <li>any emoji characters supported by the underlying platform;</li>
-  <li>the ISO/IEC 10646 <a class="xref" href="clause-2-references.html#ref-i-53">[i.53]</a> &ldquo;replacement character&rdquo; (HEX:FFFD) used for indication of unsupported and lost characters, including emojis; and</li>
-  <li>any characters used by the presentation protocol.</li>
+<li>the Latin-1 part;</li>
+<li>the writing direction(s) and the characters for the languages of the regions in which the ICT is intended to be used;</li>
+<li>any emoji characters supported by the underlying platform;</li>
+<li>the ISO/IEC 10646 <a class="xref" href="clause-2-references.html#ref-i-53">[i.53]</a> &ldquo;replacement character&rdquo; (HEX:FFFD) used for indication of unsupported and lost characters, including emojis; and</li>
+<li>any characters used by the presentation protocol.</li>
 </ul>
-
 <h3 id="6-2-8"><a class="heading-link" href="#6-2-8" data-copy-link>6.2.8 RTT input methods</a></h3>
 <p>Where ICT is, or includes, a communication client, and supports real-time bidirectional voice communication, and supports RTT, the client shall provide RTT input methods in all ways available for general text input by the ICT.</p>
-
 <h3 id="6-2-9"><a class="heading-link" href="#6-2-9" data-copy-link>6.2.9 RTT media establishment and use</a></h3>
 <p>Where ICT provides real-time bidirectional voice communication, and includes RTT capabilities, all of the following shall be true for the ICT regardless of any system or client settings:</p>
-
 <ul>
-  <li>it is possible to request establishment of a communication with RTT media;</li>
-  <li>it is possible to answer a request for a communication and get RTT media included regardless of whether it was included in the original request;</li>
-  <li>it is possible to upgrade an existing communication by any party to include RTT media.</li>
+<li>it is possible to request establishment of a communication with RTT media;</li>
+<li>it is possible to answer a request for a communication and get RTT media included regardless of whether it was included in the original request;</li>
+<li>it is possible to upgrade an existing communication by any party to include RTT media.</li>
 </ul>
-
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> The establishment of the RTT media could be requested and answered by a user, an automatic procedure in a user terminal, a non-human process, or a setting in a conference session.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> The present clause implies that ICT with RTT capabilities has the RTT functionality ready for RTT media establishment and use when voice functionality is ready for media establishment and use.</p></div>
-
 <h3 id="6-2-10"><a class="heading-link" href="#6-2-10" data-copy-link>6.2.10 RTT interoperability</a></h3>
 <p>Where ICT provides functionality that allows real-time bidirectional voice communication, and connects to other ICT that allows real-time bidirectional voice communication, the ICT's documentation shall contain information on the main specifications by which RTT is implemented in a manner that allows the RTT on the ICT to interoperate with the other ICT that the ICT interoperates with for voice, using one of the following options:</p>
-
 <ol type="a">
-  <li>Any set of specifications for RTT communication that would fulfil the RTT requirements in the present document that is mutually agreed to be used between the ICT and any other ICT with which the ICT interoperates for real-time bidirectional voice communication.</li>
-  <li>Recommendation ITU-T T.140 <a class="xref" href="clause-2-references.html#ref-i-37">[i.37]</a> for functions including coding and presentation and IETF RFC 4103 <a class="xref" href="clause-2-references.html#ref-i-13">[i.13]</a> updated by IETF RFC 9071 <a class="xref" href="clause-2-references.html#ref-i-52">[i.52]</a> for other aspects of RTT communication.</li>
+<li>Any set of specifications for RTT communication that would fulfil the RTT requirements in the present document that is mutually agreed to be used between the ICT and any other ICT with which the ICT interoperates for real-time bidirectional voice communication.</li>
+<li>Recommendation ITU-T T.140 <a class="xref" href="clause-2-references.html#ref-i-37">[i.37]</a> for functions including coding and presentation and IETF RFC 4103 <a class="xref" href="clause-2-references.html#ref-i-13">[i.13]</a> updated by IETF RFC 9071 <a class="xref" href="clause-2-references.html#ref-i-52">[i.52]</a> for other aspects of RTT communication.</li>
 </ol>
-
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> If there is no agreement to use some other standard, then clause <a class="xref" href="#6-2-10">6.2.10</a> allows any ICT to fulfil clause <a class="xref" href="#6-2-10">6.2.10</a> by implementing option b). This is the fallback option to use when no other method has been agreed on, and it might serve as a &lsquo;safe harbour&rsquo; for conforming to clause <a class="xref" href="#6-2-10">6.2.10</a> when no agreement can be reached.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> ICT that provides Emergency communications with real-time bidirectional voice is an important case of an operational scenario where communication systems are required to interoperate. See clause <a class="xref" href="clause-13-relay-emergency.html#13-3">13.3</a>.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> A number of other factors are important to also be agreed automatically or by external means in the communication system interface for RTT interoperability to work, such as security mechanisms, addressing, NAT-traversal mechanisms, transport method for session control, etc.</p></div>
 <div class="callout">
 <p><span class="callout__label">NOTE 4:</span> Specifications for RTT implementation are provided for a number of technologies. The following list provides an overview of the situation at the time of authoring the present document. It is presented here as a guide for achieving interoperability. Almost all of these specifications make use of Recommendation ITU-T T.140 <a class="xref" href="clause-2-references.html#ref-i-37">[i.37]</a> for functions including coding and presentation:</p>
 <ol type="a">
-  <li>General VoIP and Multimedia communication: IETF, providing standards for Voice Over IP (VOIP) and Multimedia communications over IP based on the Session Initiation Protocol (SIP) IETF RFC 3261 <a class="xref" href="clause-2-references.html#ref-i-50">[i.50]</a>, has published IETF RFC 4103 <a class="xref" href="clause-2-references.html#ref-i-13">[i.13]</a> for session establishment and transport of RTT over RTP IETF RFC 3550 <a class="xref" href="clause-2-references.html#ref-i-51">[i.51]</a> and its update IETF RFC 9071 <a class="xref" href="clause-2-references.html#ref-i-52">[i.52]</a> for multiparty use.</li>
-  <li>IP Multimedia Sub-System (IMS): 3GPP, providing standards for mobile communication systems, including IP Multimedia Sub-System (IMS) has standardized the Multimedia Telephony concept, for communications with voice, video and RTT using the set of protocols specified in ETSI TS 126 114 <a class="xref" href="clause-2-references.html#ref-i-11">[i.11]</a> (= ETSI TS 126 114 <a class="xref" href="clause-2-references.html#ref-i-11">[i.11]</a>) to create the services including RTT and Total Conversation services specified in ETSI TS 122 173 <a class="xref" href="clause-2-references.html#ref-i-12">[i.12]</a> (= ETSI TS 122 173 <a class="xref" href="clause-2-references.html#ref-i-12">[i.12]</a>). Multimedia Telephony is specified to use IETF RFC 4103 <a class="xref" href="clause-2-references.html#ref-i-13">[i.13]</a> updated by IETF RFC 9071 <a class="xref" href="clause-2-references.html#ref-i-52">[i.52]</a> for session establishment and transport of RTT over RTP or the RTT based on WebRTC Data Channel Technologies. Details of the use of these variants can be found in ETSI TR 126 982 <a class="xref" href="clause-2-references.html#ref-i-43">[i.43]</a>. It should be noted that 3GPP and GSMA use the following varying terms for RTT: GTT, Global Text Telephony, GTT-IP, RTT, real time text, and text.</li>
-  <li>GSMA, providing selected profiles of standards for implementing globally interoperating mobile communication services has in GSMA PRD IR.92 <a class="xref" href="clause-2-references.html#ref-i-44">[i.44]</a> specified how to apply ETSI TS 126 114 <a class="xref" href="clause-2-references.html#ref-i-11">[i.11]</a> to implement RTT and Voice over LTE (VoLTE) and in GSMA PRD IR.94 <a class="xref" href="clause-2-references.html#ref-i-45">[i.45]</a> Video over LTE (ViLTE) in 4G mobile systems. A similar document is published for RTT, voice and video over 5G in GSMA NG.114 <a class="xref" href="clause-2-references.html#ref-i-46">[i.46]</a>. RTT is specified in these documents in clause <a class="xref" href="annex-b-functional-performance-relationship.html#b-2">B.2</a> to use ETSI TS 126 114 <a class="xref" href="clause-2-references.html#ref-i-11">[i.11]</a> for session establishment and transport of RTT.</li>
-  <li>Web technologies: For communication in web technologies, W3C and IETF have created the WebRTC concept where the Reliable WebRTC Data channel concept IETF RFC 8831 <a class="xref" href="clause-2-references.html#ref-i-57">[i.57]</a> in its section 3.2 use case U-C 5 is recommended to be used for RTT. The use of WebRTC Data Channels in web pages and apps is specified in W3C WebRTC: Real-Time Communication in Browsers <a class="xref" href="clause-2-references.html#ref-i-58">[i.58]</a>.</li>
-  <li>Emergency communications: An interface to IP based emergency communications is specified in ETSI TS 103 479 <a class="xref" href="clause-2-references.html#ref-i-48">[i.48]</a>, making use of IETF RFC 4103 <a class="xref" href="clause-2-references.html#ref-i-13">[i.13]</a> updated by IETF RFC 9071 <a class="xref" href="clause-2-references.html#ref-i-52">[i.52]</a> for RTT. A corresponding standard exists for North America. For emergency apps, ETSI TS 103 478 <a class="xref" href="clause-2-references.html#ref-i-47">[i.47]</a> is specified to implement RTT as specified in ETSI TS 103 871 <a class="xref" href="clause-2-references.html#ref-i-49">[i.49]</a>. The use of these standards for accessible and interoperable emergency communications including the use of RTT is specified in ETSI EN 303 919 <a class="xref" href="clause-2-references.html#ref-i-56">[i.56]</a>.</li>
-  <li>Relay services: ETSI ES 202 975 <a class="xref" href="clause-2-references.html#ref-i-6">[i.6]</a> specifies in its Annexes <a class="xref" href="annex-a-conformance-evaluation.html">A</a> and <a class="xref" href="annex-b-functional-performance-relationship.html">B</a> interfaces to relay services, referring to the present document for specific technologies.</li>
+<li>General VoIP and Multimedia communication: IETF, providing standards for Voice Over IP (VOIP) and Multimedia communications over IP based on the Session Initiation Protocol (SIP) IETF RFC 3261 <a class="xref" href="clause-2-references.html#ref-i-50">[i.50]</a>, has published IETF RFC 4103 <a class="xref" href="clause-2-references.html#ref-i-13">[i.13]</a> for session establishment and transport of RTT over RTP IETF RFC 3550 <a class="xref" href="clause-2-references.html#ref-i-51">[i.51]</a> and its update IETF RFC 9071 <a class="xref" href="clause-2-references.html#ref-i-52">[i.52]</a> for multiparty use.</li>
+<li>IP Multimedia Sub-System (IMS): 3GPP, providing standards for mobile communication systems, including IP Multimedia Sub-System (IMS) has standardized the Multimedia Telephony concept, for communications with voice, video and RTT using the set of protocols specified in ETSI TS 126 114 <a class="xref" href="clause-2-references.html#ref-i-11">[i.11]</a> (= ETSI TS 126 114 <a class="xref" href="clause-2-references.html#ref-i-11">[i.11]</a>) to create the services including RTT and Total Conversation services specified in ETSI TS 122 173 <a class="xref" href="clause-2-references.html#ref-i-12">[i.12]</a> (= ETSI TS 122 173 <a class="xref" href="clause-2-references.html#ref-i-12">[i.12]</a>). Multimedia Telephony is specified to use IETF RFC 4103 <a class="xref" href="clause-2-references.html#ref-i-13">[i.13]</a> updated by IETF RFC 9071 <a class="xref" href="clause-2-references.html#ref-i-52">[i.52]</a> for session establishment and transport of RTT over RTP or the RTT based on WebRTC Data Channel Technologies. Details of the use of these variants can be found in ETSI TR 126 982 <a class="xref" href="clause-2-references.html#ref-i-43">[i.43]</a>. It should be noted that 3GPP and GSMA use the following varying terms for RTT: GTT, Global Text Telephony, GTT-IP, RTT, real time text, and text.</li>
+<li>GSMA, providing selected profiles of standards for implementing globally interoperating mobile communication services has in GSMA PRD IR.92 <a class="xref" href="clause-2-references.html#ref-i-44">[i.44]</a> specified how to apply ETSI TS 126 114 <a class="xref" href="clause-2-references.html#ref-i-11">[i.11]</a> to implement RTT and Voice over LTE (VoLTE) and in GSMA PRD IR.94 <a class="xref" href="clause-2-references.html#ref-i-45">[i.45]</a> Video over LTE (ViLTE) in 4G mobile systems. A similar document is published for RTT, voice and video over 5G in GSMA NG.114 <a class="xref" href="clause-2-references.html#ref-i-46">[i.46]</a>. RTT is specified in these documents in clause <a class="xref" href="annex-b-functional-performance-relationship.html#b-2">B.2</a> to use ETSI TS 126 114 <a class="xref" href="clause-2-references.html#ref-i-11">[i.11]</a> for session establishment and transport of RTT.</li>
+<li>Web technologies: For communication in web technologies, W3C and IETF have created the WebRTC concept where the Reliable WebRTC Data channel concept IETF RFC 8831 <a class="xref" href="clause-2-references.html#ref-i-57">[i.57]</a> in its section 3.2 use case U-C 5 is recommended to be used for RTT. The use of WebRTC Data Channels in web pages and apps is specified in W3C WebRTC: Real-Time Communication in Browsers <a class="xref" href="clause-2-references.html#ref-i-58">[i.58]</a>.</li>
+<li>Emergency communications: An interface to IP based emergency communications is specified in ETSI TS 103 479 <a class="xref" href="clause-2-references.html#ref-i-48">[i.48]</a>, making use of IETF RFC 4103 <a class="xref" href="clause-2-references.html#ref-i-13">[i.13]</a> updated by IETF RFC 9071 <a class="xref" href="clause-2-references.html#ref-i-52">[i.52]</a> for RTT. A corresponding standard exists for North America. For emergency apps, ETSI TS 103 478 <a class="xref" href="clause-2-references.html#ref-i-47">[i.47]</a> is specified to implement RTT as specified in ETSI TS 103 871 <a class="xref" href="clause-2-references.html#ref-i-49">[i.49]</a>. The use of these standards for accessible and interoperable emergency communications including the use of RTT is specified in ETSI EN 303 919 <a class="xref" href="clause-2-references.html#ref-i-56">[i.56]</a>.</li>
+<li>Relay services: ETSI ES 202 975 <a class="xref" href="clause-2-references.html#ref-i-6">[i.6]</a> specifies in its Annexes <a class="xref" href="annex-a-conformance-evaluation.html">A</a> and <a class="xref" href="annex-b-functional-performance-relationship.html">B</a> interfaces to relay services, referring to the present document for specific technologies.</li>
 </ol>
 </div>
 <div class="callout"><p><span class="callout__label">NOTE 5:</span> Analogue Text telephony is a legacy text communication concept providing functionality to some degree similar to RTT in circuit-switched fixed and mobile technologies. There are 6 variants for fixed lines, collected in Recommendation ITU-T V.18 <a class="xref" href="clause-2-references.html#ref-i-22">[i.22]</a>, and one for circuit-switched 2G and 3G mobile technologies specified in ETSI TS 126 226 <a class="xref" href="clause-2-references.html#ref-i-55">[i.55]</a>. Interworking between these technologies and RTT can be achieved to some degree but with severe functional limitations such as no support for multiparty text communication, need for gateways for character conversion and buffering the much faster RTT text input to accommodate the slower rate of analog technologies, clashes due to lack of bi-directional support, and no possibility to use voice while text is transmitted. The differences can also cause confusion to users unaware of the differences. Details about the limitations can be found in the references in the present note and in IETF RFC 5194 <a class="xref" href="clause-2-references.html#ref-i-62">[i.62]</a>, section 6.2.5. Considering these limitations, Analogue Text telephony does not provide a working (additional) sensory channel.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 6:</span> For applying option b) it can be emphasized that the fallback method for multiparty mixing and presentation of RTT in multi-party unaware clients specified in IETF RFC 9071 <a class="xref" href="clause-2-references.html#ref-i-52">[i.52]</a>, sections 2.2 and 4.2 does not provide a satisfactory user experience and is discouraged from regular use.</p></div>
-
 <h2 id="6-3"><a class="heading-link" href="#6-3" data-copy-link>6.3 Caller ID</a></h2>
 <p>Where ICT provides caller identification or other identification functions, the caller identification and other identification functions shall be available in text form as well as being programmatically determinable, for all functionality that is not closed to programmatic access of information by assistive technologies.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE:</span> See clause <a class="xref" href="clause-5-generic-requirements.html">5</a> for requirements on functionality that is closed.</p></div>
-
 <h2 id="6-4"><a class="heading-link" href="#6-4" data-copy-link>6.4 Alternatives to voice-based services</a></h2>
 <p>Where ICT provides voice mail, auto-attendant, or interactive voice response facilities, the ICT shall offer users a means to access the information and carry out the tasks provided by the ICT without the use of hearing or speech.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Tasks that involve both operating the interface and perceiving the information would require that both the interface and information be accessible without use of speech or hearing.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Solutions capable of handling audio, RTT and video media could satisfy the above requirement.</p></div>
-
 <h2 id="6-5"><a class="heading-link" href="#6-5" data-copy-link>6.5 Video communication</a></h2>
-
 <h3 id="6-5-1"><a class="heading-link" href="#6-5-1" data-copy-link>6.5.1 General (informative)</a></h3>
 <p>Clause <a class="xref" href="#6-5">6.5</a> (Video communication) provides performance requirements that support users who communicate using sign language and lip-reading. For these users, good usability is achieved with a resolution of at least Quarter Video Graphics Array (QVGA, 320 &times; 240), a frame rate of 20 frames per second and over, with a time difference between speech audio and video that does not exceed 100 ms.</p>
 <p>Increasing the resolution and frame rate further improves both sign language (especially finger spelling) and lipreading, with frame rate being more important than resolution.</p>
 <p>Time differences between audio and video (asynchronicity) can have a great impact on lip-reading - with video that lags behind audio having greater negative effect.</p>
 <p>End-to-end latency can be a problem in video (sign) communication. Overall delay values below 400 ms are preferred, with an increase in preference down to 100 ms. Overall delay depends on multiple factors, including e.g. network delay and video processing. For this reason a testable requirement on minimum values for overall delay cannot be produced.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> Recommendation ITU-T F.703 <a class="xref" href="clause-2-references.html#ref-i-38">[i.38]</a> defines and gives requirements for Total Conversation that relate to the integration of audio, RTT and video in a combined real-time bidirectional communication.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> The delays are specified in Recommendation ITU-T P.1305 <a class="xref" href="clause-2-references.html#ref-i-61">[i.61]</a>.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 3:</span> For the purposes of interoperability and sufficient quality, support of Recommendation ITU-T H.264 <a class="xref" href="clause-2-references.html#ref-i-74">[i.74]</a> at least version 10 and at least constrained baseline level 3 is widely used for this purpose.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 4:</span> Where codec negotiation is implemented, other standardized codecs such as Recommendation ITU-T H.265 <a class="xref" href="clause-2-references.html#ref-i-75">[i.75]</a> and IETF RFC 6386 <a class="xref" href="clause-2-references.html#ref-i-76">[i.76]</a> VP8 <a class="xref" href="clause-2-references.html#ref-i-76">[i.76]</a> are commonly used with proper settings are suitable so as to avoid transcoding.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 5:</span> Background reading and detailed guidance about accessible video communication is provided in ETSI ES 204 009 <a class="xref" href="clause-2-references.html#ref-i-77">[i.77]</a>.</p></div>
-
 <h3 id="6-5-2"><a class="heading-link" href="#6-5-2" data-copy-link>6.5.2 Resolution</a></h3>
 <p>Where ICT provides real-time bidirectional voice communication, and includes real-time bidirectional video communication, the ICT:</p>
-
 <ol type="a">
-  <li>shall support at least QVGA resolution;</li>
-  <li>should preferably support at least VGA resolution.</li>
+<li>shall support at least QVGA resolution;</li>
+<li>should preferably support at least VGA resolution.</li>
 </ol>
-
 <h3 id="6-5-3"><a class="heading-link" href="#6-5-3" data-copy-link>6.5.3 Frame rate</a></h3>
 <p>Where ICT provides real-time bidirectional voice communication, and includes real-time bidirectional video communication, the ICT:</p>
-
 <ol type="a">
-  <li>shall support a frame rate of at least 20 Frames Per Second (FPS);</li>
-  <li>should preferably support a frame rate of at least 30 Frames Per Second (FPS) with or without sign language in the video stream.</li>
+<li>shall support a frame rate of at least 20 Frames Per Second (FPS);</li>
+<li>should preferably support a frame rate of at least 30 Frames Per Second (FPS) with or without sign language in the video stream.</li>
 </ol>
-
 <h3 id="6-5-4"><a class="heading-link" href="#6-5-4" data-copy-link>6.5.4 Synchronization between audio and video</a></h3>
 <p>Where ICT provides real-time bidirectional voice communication, and includes real-time bidirectional video communication, the ICT shall ensure that voice is received by the user not earlier than 100 ms before and not later than 100 ms after the corresponding video is presented to the user.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE:</span> Verification material and methods are described in Recommendation ITU-T H.Sup1 <a class="xref" href="clause-2-references.html#ref-i-65">[i.65]</a>, clause 6.</p></div>
-
 <h3 id="6-5-5"><a class="heading-link" href="#6-5-5" data-copy-link>6.5.5 Indicator of audio with video</a></h3>
 <p>Where ICT provides real-time bidirectional voice communication, and includes real-time bidirectional video communication, the ICT shall provide a real-time indicator of audio activity.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> The indicator may be a simple visual dot, or other type of on/off indicator, that flickers to reflect audio activity.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> Without this indication a person who lacks the ability to hear does not know when someone is talking.</p></div>
-
 <h3 id="6-5-6"><a class="heading-link" href="#6-5-6" data-copy-link>6.5.6 Indication of all active communication participants</a></h3>
 <p>Where ICT provides real-time bidirectional voice communication, includes real-time bidirectional video communication, and provides speaker indication for voice users, the ICT shall provide indication of all active communicators including those signing.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE 1:</span> The indication of all active communicators can be in the same location as the speaker identification for voice users in multiparty communication sessions.</p></div>
 <div class="callout"><p><span class="callout__label">NOTE 2:</span> This mechanism might be triggered manually by a user, or automatically where this is technically achievable.</p></div>
-
 <h2 id="6-6"><a class="heading-link" href="#6-6" data-copy-link>6.6 Alternatives to video-based services (recommendation)</a></h2>
 <p>Where ICT provides real-time bidirectional voice communication, and includes real-time bidirectional video communication, and provides answering machine, auto attendant or interactive response facilities, the ICT should offer users a means to access the information and carry out the tasks related to these facilities:</p>
-
 <ol type="a">
-  <li>for audible information, without the use of hearing;</li>
-  <li>for spoken commands, without the use of speech;</li>
-  <li>for visual information, without the use of vision.</li>
+<li>for audible information, without the use of hearing;</li>
+<li>for spoken commands, without the use of speech;</li>
+<li>for visual information, without the use of vision.</li>
 </ol>
-
 <div class="callout"><p><span class="callout__label">NOTE:</span> Solutions capable of generating real-time subtitles or handling RTT could satisfy the above requirement.</p></div>
-
 <h2 id="6-7"><a class="heading-link" href="#6-7" data-copy-link>6.7 Total conversation</a></h2>
-
 <h3 id="6-7-1"><a class="heading-link" href="#6-7-1" data-copy-link>6.7.1 Total conversation provision</a></h3>
 <p>Where ICT provides real-time bidirectional voice communication, and includes real-time bidirectional video functionality, the ICT shall provide total conversation by also including RTT capability that conforms to the requirements of clause <a class="xref" href="#6-2">6.2</a>, voice that conforms to clause <a class="xref" href="#6-1">6.1</a>, and video that conforms to clause <a class="xref" href="#6-5">6.5</a>, conforming also to clauses <a class="xref" href="#6-3">6.3</a> and <a class="xref" href="#6-4">6.4</a>.</p>
-
 <div class="callout"><p><span class="callout__label">NOTE:</span> ETSI ES 204 009 <a class="xref" href="clause-2-references.html#ref-i-77">[i.77]</a> provides background information and detailed guidance on many aspects of total conversation, its media components, interoperability and use, including synchronization and multiparty aspects.</p></div>
-
 <h3 id="6-7-2"><a class="heading-link" href="#6-7-2" data-copy-link>6.7.2 Total conversation interoperability</a></h3>
 <p>Where ICT provides functionality that allows real-time bidirectional voice communication, and includes real-time bidirectional video functionality, and connects to other ICT that allows real-time bidirectional voice communication, including real-time bidirectional video functionality, the ICT's documentation shall contain information on the main specifications by which video is implemented in a manner that allows the video on the ICT to interoperate with other ICT that the ICT interoperates with for voice and video, using one of the following options:</p>
-
 <ol type="a">
-  <li>Any set of specifications for video communication that would fulfil the total conversation requirements in the present document that is mutually agreed to be used between the ICT and any other ICT with which the ICT interoperates for real-time bidirectional voice and video communication.</li>
-  <li>Recommendation ITU-T H.264 <a class="xref" href="clause-2-references.html#ref-i-74">[i.74]</a> at least version 10 and at least constrained baseline level 3 for functions including coding and presentation, and/or, where codec negotiation is implemented, Recommendation ITU-T H.265 <a class="xref" href="clause-2-references.html#ref-i-75">[i.75]</a> and IETF RFC 6386 VP8 <a class="xref" href="clause-2-references.html#ref-i-76">[i.76]</a> to avoid transcoding.</li>
+<li>Any set of specifications for video communication that would fulfil the total conversation requirements in the present document that is mutually agreed to be used between the ICT and any other ICT with which the ICT interoperates for real-time bidirectional voice and video communication.</li>
+<li>Recommendation ITU-T H.264 <a class="xref" href="clause-2-references.html#ref-i-74">[i.74]</a> at least version 10 and at least constrained baseline level 3 for functions including coding and presentation, and/or, where codec negotiation is implemented, Recommendation ITU-T H.265 <a class="xref" href="clause-2-references.html#ref-i-75">[i.75]</a> and IETF RFC 6386 VP8 <a class="xref" href="clause-2-references.html#ref-i-76">[i.76]</a> to avoid transcoding.</li>
 </ol>
-
-    </div>
-    <nav class="page-pager" aria-label="Page navigation">
+</div>
+<nav class="page-pager" aria-label="Page navigation">
 <a class="page-pager__link page-pager__link--prev" href="clause-5-generic-requirements.html"><span class="page-pager__direction">&larr; Previous</span><span class="page-pager__title">5 Generic requirements</span></a>
 <a class="page-pager__link page-pager__link--next" href="clause-7-video-capabilities.html"><span class="page-pager__direction">Next &rarr;</span><span class="page-pager__title">7 Video capabilities</span></a>
 </nav>
-  </main>
+</main>
 </div>
-
 <a class="back-to-top" href="#top">&uarr; Back to top</a>
-
 <div id="status-live" class="visually-hidden" role="status" aria-live="polite"></div>
-
 <footer class="site-footer">
-  <div class="site-footer__inner">
-    <nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
-  </div>
+<div class="site-footer__inner">
+<nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
+</div>
 </footer>
-<script src="assets/js/site.js?v=7b43fc8f"></script>
 </body>
 </html>
