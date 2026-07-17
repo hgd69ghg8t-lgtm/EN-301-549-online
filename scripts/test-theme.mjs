@@ -13,8 +13,11 @@ const DOCS_DIR = path.resolve("docs");
 const MIME = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png", ".woff2": "font/woff2" };
 const LIGHT_BG = "rgb(255, 255, 255)";
 const DARK_BG = "rgb(22, 25, 29)";
-const LIGHT_CHROME = "#14245a";
-const DARK_CHROME = "#16191d";
+// The expected browser-chrome colours are read from the generated page's
+// own metas (in auto mode they carry the build's per-scheme defaults), so
+// this test cannot drift in lockstep with a broken implementation the way
+// a re-hardcoded pair could.
+let LIGHT_CHROME, DARK_CHROME;
 
 function startServer() {
   return new Promise((resolve) => {
@@ -53,6 +56,20 @@ async function openThemeControls(page) {
   await page.click(".reader-tools > summary");
 }
 
+// ---- 0. Read the build's chrome colours from a fresh page ----
+{
+  const ctx = await browser.newContext({ colorScheme: "light" });
+  const page = await ctx.newPage();
+  await page.goto(`${base}/index.html`);
+  ({ LIGHT_CHROME, DARK_CHROME } = await page.evaluate(() => ({
+    LIGHT_CHROME: document.getElementById("theme-colour-light").content,
+    DARK_CHROME: document.getElementById("theme-colour-dark").content,
+  })));
+  check(/^#[0-9a-f]{6}$/i.test(LIGHT_CHROME) && /^#[0-9a-f]{6}$/i.test(DARK_CHROME) && LIGHT_CHROME !== DARK_CHROME,
+    `chrome colours read from the page are two distinct hex values (${LIGHT_CHROME}, ${DARK_CHROME})`);
+  await ctx.close();
+}
+
 // ---- 1. Automatic themes (no stored preference) ----
 for (const [scheme, wantBg] of [["light", LIGHT_BG], ["dark", DARK_BG]]) {
   const ctx = await browser.newContext({ colorScheme: scheme });
@@ -89,7 +106,8 @@ for (const [scheme, wantBg] of [["light", LIGHT_BG], ["dark", DARK_BG]]) {
   // survives navigation, applied pre-paint (attribute present at domcontentloaded)
   await page.goto(`${base}/clause-4-functional-performance.html`, { waitUntil: "domcontentloaded" });
   const early = await page.evaluate(() => document.documentElement.dataset.theme || null);
-  check(early === "dark", "explicit theme present at domcontentloaded on the next page (pre-paint)");
+  check(early === "dark", "explicit theme is already present by DOMContentLoaded on the next page "
+    + "(synchronous head-script ordering is asserted statically in scripts/test_build.py)");
   await page.waitForLoadState("load");
   s = await state(page);
   check(s.bg === DARK_BG && s.metaLight === DARK_CHROME, "explicit Dark persists across navigation with synced theme-color");
@@ -157,51 +175,112 @@ for (const [scheme, wantBg] of [["light", LIGHT_BG], ["dark", DARK_BG]]) {
 }
 
 // ---- 4. Print is always ink on paper, whatever the screen theme ----
+// Computed styles of the actual child elements, not just inherited
+// parents: the h1 and current breadcrumb carry their own fixed white for
+// the screen's blue band and previously stayed white in print.
 {
   const ctx = await browser.newContext({ colorScheme: "dark" });
   const page = await ctx.newPage();
+  const BLACK = "rgb(0, 0, 0)";
   await page.goto(`${base}/clause-8-hardware.html`);
   await page.emulateMedia({ media: "print", colorScheme: "dark" });
-  const p = await page.evaluate(() => {
-    const th = document.querySelector(".content thead th");
-    const para = document.querySelector(".content p");
+  const p8 = await page.evaluate(() => {
+    const style = (sel) => {
+      const el = document.querySelector(sel);
+      return el ? { color: getComputedStyle(el).color, bg: getComputedStyle(el).backgroundColor } : null;
+    };
     return {
-      bodyColor: getComputedStyle(document.body).color,
-      bodyBg: getComputedStyle(document.body).backgroundColor,
-      paraColor: getComputedStyle(para).color,
-      thColor: getComputedStyle(th).color,
-      thBg: getComputedStyle(th).backgroundColor,
+      body: style("body"),
+      para: style(".content p"),
+      h1: style(".doc-header h1"),
+      crumbCurrent: style('.breadcrumb li[aria-current="page"]'),
+      crumbLink: style(".breadcrumb a"),
+      th: style(".content thead th"),
     };
   });
-  check(p.bodyColor === "rgb(0, 0, 0)" && p.bodyBg === LIGHT_BG, `print body is black on white in dark mode (got ${p.bodyColor} on ${p.bodyBg})`);
-  check(p.paraColor === "rgb(0, 0, 0)", "print paragraphs are black in dark mode");
-  check(p.thColor === "rgb(0, 0, 0)" && p.thBg === LIGHT_BG, "print table headers are black on white");
+  check(p8.body.color === BLACK && p8.body.bg === LIGHT_BG, `print body is black on white in dark mode (got ${p8.body.color} on ${p8.body.bg})`);
+  check(p8.para.color === BLACK, "print paragraphs are black in dark mode");
+  check(p8.h1.color === BLACK, `print page title (h1) is black (got ${p8.h1.color})`);
+  check(p8.crumbCurrent.color === BLACK, `print current breadcrumb is black (got ${p8.crumbCurrent.color})`);
+  check(p8.crumbLink.color === BLACK, "print breadcrumb links are black");
+  check(p8.th.color === BLACK && p8.th.bg === LIGHT_BG, "print table headers are black on white");
+  // callout text (clause 2 has reproduced NOTE callouts)
+  await page.goto(`${base}/clause-2-references.html`);
+  await page.emulateMedia({ media: "print", colorScheme: "dark" });
+  const callout = await page.evaluate(() => getComputedStyle(document.querySelector(".callout p")).color);
+  check(callout === BLACK, `print callout text is black (got ${callout})`);
+  // companion guidance (clause 5 carries one)
+  await page.goto(`${base}/clause-5-generic-requirements.html`);
+  await page.emulateMedia({ media: "print", colorScheme: "dark" });
+  const guidance = await page.evaluate(() => {
+    const el = document.querySelector(".companion-guidance p");
+    return { color: getComputedStyle(el).color, bg: getComputedStyle(document.querySelector(".companion-guidance")).backgroundColor };
+  });
+  check(guidance.color === BLACK && guidance.bg === LIGHT_BG, `print companion guidance is black on white (got ${guidance.color} on ${guidance.bg})`);
   await ctx.close();
 }
 
 // ---- 5. Forced colours (Windows high contrast) stays usable ----
+// Mobile: the Contents disclosure must remain discoverable and operable.
 {
-  const ctx = await browser.newContext({ forcedColors: "active", colorScheme: "dark" });
+  const ctx = await browser.newContext({ forcedColors: "active", colorScheme: "dark", viewport: { width: 375, height: 812 } });
   const page = await ctx.newPage();
   await page.goto(`${base}/clause-9-web.html`);
-  const f = await page.evaluate(() => {
-    const para = document.querySelector(".content p");
-    const bar = document.querySelector(".toc-toggle");
-    return {
-      paraVisible: para.getClientRects().length > 0 && getComputedStyle(para).visibility === "visible",
-      barVisible: bar ? getComputedStyle(bar).display !== "none" || true : true,
-      guidanceVisible: Boolean(document.querySelector(".companion-guidance summary")?.getClientRects().length),
-    };
-  });
-  check(f.paraVisible, "forced colours: content remains visible");
-  check(f.guidanceVisible, "forced colours: companion guidance remains identifiable");
-  await page.focus(".site-search input");
-  const outline = await page.evaluate(() => getComputedStyle(document.querySelector(".site-search input")).outlineStyle);
-  check(outline !== "none", "forced colours: focus indicator remains");
-  await openThemeControls(page);
+  const bar = page.locator(".toc-toggle");
+  check(await bar.isVisible(), "forced colours mobile: Contents toggle is displayed");
+  const name = await page.evaluate(() => document.querySelector(".toc-toggle").textContent.trim());
+  check(name === "Contents", `forced colours mobile: toggle has an accessible name ("${name}")`);
+  await bar.focus();
+  const barOutline = await page.evaluate(() => getComputedStyle(document.querySelector(".toc-toggle")).outlineStyle);
+  check(barOutline !== "none", "forced colours mobile: focused toggle keeps a visible outline");
+  await bar.click();
+  const opened = await page.evaluate(() => ({
+    expanded: document.querySelector(".toc-toggle").getAttribute("aria-expanded"),
+    navVisible: getComputedStyle(document.querySelector(".site-nav")).display !== "none",
+  }));
+  check(opened.expanded === "true" && opened.navVisible, "forced colours mobile: activating the toggle opens the contents panel");
+  const firstLink = page.locator(".site-nav a").first();
+  check(await firstLink.isVisible(), "forced colours mobile: contents links remain visible");
+  await firstLink.focus();
+  const linkFocused = await page.evaluate(() => document.activeElement.closest(".site-nav") !== null);
+  check(linkFocused, "forced colours mobile: first contents link can receive focus");
+  await bar.click();
+  const closed = await page.evaluate(() => getComputedStyle(document.querySelector(".site-nav")).display === "none");
+  check(closed, "forced colours mobile: the panel collapses again");
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
+  check(!overflow, "forced colours mobile: no page-level horizontal overflow");
+  await ctx.close();
+}
+// Desktop: sidebar, Page tools, Reading options and search stay usable.
+{
+  const ctx = await browser.newContext({ forcedColors: "active", colorScheme: "dark", viewport: { width: 1280, height: 800 } });
+  const page = await ctx.newPage();
+  await page.goto(`${base}/clause-5-generic-requirements.html`);
+  check(await page.locator(".site-nav").isVisible(), "forced colours desktop: sidebar is visible");
+  const toggleHidden = await page.evaluate(() => getComputedStyle(document.querySelector(".toc-toggle")).display === "none");
+  check(toggleHidden, "forced colours desktop: mobile Contents toggle is not displayed");
+  const sideLink = page.locator(".site-nav a").first();
+  check(await sideLink.isVisible(), "forced colours desktop: sidebar links are visible");
+  await sideLink.focus();
+  check(await page.evaluate(() => document.activeElement.closest(".site-nav") !== null), "forced colours desktop: sidebar links are focusable");
+  await page.click(".page-tools > summary");
+  check(await page.locator(".page-tools__panel").isVisible(), "forced colours desktop: Page tools opens");
+  await page.click(".reader-tools > summary");
+  check(await page.locator(".reader-tools__panel").isVisible(), "forced colours desktop: Reading options opens");
+  const radios = await page.locator("input[name='colour-theme']").count();
+  check(radios === 3, "forced colours desktop: theme radios are present and identifiable");
   await page.check("input[name='colour-theme'][value='dark']");
-  const themed = await page.evaluate(() => document.documentElement.dataset.theme);
-  check(themed === "dark", "forced colours: theme radios remain operable");
+  check(await page.evaluate(() => document.documentElement.dataset.theme === "dark"), "forced colours desktop: theme radios remain operable");
+  check(await page.locator(".companion-guidance summary").isVisible(), "forced colours desktop: companion guidance remains visible");
+  check(await page.locator(".site-search input").isVisible(), "forced colours desktop: search input remains visible");
+  await page.focus(".site-search input");
+  const inputOutline = await page.evaluate(() => getComputedStyle(document.querySelector(".site-search input")).outlineStyle);
+  check(inputOutline !== "none", "forced colours desktop: focus indicator remains on the search input");
+  const paraVisible = await page.evaluate(() => {
+    const para = document.querySelector(".content p");
+    return para.getClientRects().length > 0 && getComputedStyle(para).visibility === "visible";
+  });
+  check(paraVisible, "forced colours desktop: content remains visible");
   await ctx.close();
 }
 

@@ -1355,6 +1355,10 @@ main { min-width: 0; }
   /* Heading links print as plain heading text. */
   .heading-link { color: inherit; text-decoration: none; }
   .doc-header { background: none; color: #000; }
+  /* These carry their own fixed white for the screen's blue band, so the
+     parent-level reset above does not reach them. */
+  .doc-header h1,
+  .breadcrumb li[aria-current="page"] { color: #000000; }
   .breadcrumb a, .breadcrumb li { color: #000; }
   .page-shell { display: block; padding: 0; }
   main { border-left: 0; padding: 0; }

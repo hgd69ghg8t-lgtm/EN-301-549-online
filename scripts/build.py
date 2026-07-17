@@ -47,6 +47,14 @@ DOC_LABEL = "ETSI EN 301 549 V4.1.0"
 # this is the one place to update.
 SITE_BASE_URL = "https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/"
 
+# Browser-chrome theme colours (the theme-color metas and the pre-paint
+# script's sync values). Single source: the template takes these as
+# fields, and scripts/test_build.py asserts they match the CSS tokens
+# they mirror (light = the brand navy, dark = the dark page background)
+# and that the generated pages carry exactly these values.
+THEME_CHROME_LIGHT = "#14245a"
+THEME_CHROME_DARK = "#16191d"
+
 # Website-authored pages, as opposed to reproduced-standard pages. These
 # are outside the ETSI wording-integrity baseline, are the pages
 # data/content-ownership.json may describe, and (index/search aside) are
@@ -1241,19 +1249,24 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title} | {doc_label} Online</title>
 <meta name="description" content="{description}">
-<meta id="theme-colour-light" name="theme-color" media="(prefers-color-scheme: light)" content="#14245a">
-<meta id="theme-colour-dark" name="theme-color" media="(prefers-color-scheme: dark)" content="#16191d">
+<meta id="theme-colour-light" name="theme-color" media="(prefers-color-scheme: light)" content="{theme_chrome_light}">
+<meta id="theme-colour-dark" name="theme-color" media="(prefers-color-scheme: dark)" content="{theme_chrome_dark}">
 <link rel="canonical" href="{canonical_url}">
-<script>/* Pre-paint theme apply: reads the saved Reading-options theme so a
-Dark/Light choice takes effect before first paint (no flash), and keeps
+<script>/* Theme apply, deliberately placed before the stylesheet link and
+kept synchronous (scripts/test_build.py asserts both statically): an
+explicit Dark/Light choice is set on <html> before the stylesheet can
+first paint with the wrong tokens, preventing — or at worst minimising —
+a wrong-theme flash. Also keeps
 the browser-chrome theme-color in step with the RESOLVED theme — on an
 explicit choice both meta elements get the same value, so whichever
 media query the OS matches, the chrome colour agrees with the page.
 site.js reuses __syncThemeColour when the choice changes mid-session.
+The hex values are injected from build.py (THEME_CHROME_*), the single
+source the unit tests check the CSS and generated output against.
 Everything else about theming is CSS; without JavaScript the OS
 preference applies. */
 (function () {{
-  var LIGHT = "#14245a", DARK = "#16191d";
+  var LIGHT = "{theme_chrome_light}", DARK = "{theme_chrome_dark}";
   window.__syncThemeColour = function (theme) {{
     var l = document.getElementById("theme-colour-light");
     var d = document.getElementById("theme-colour-dark");
@@ -1767,6 +1780,8 @@ def render_page(index, page, metadata, summaries, guidance, errors, xrefs=None):
         doc_label=DOC_LABEL,
         description=html.escape(f'{page["title"]} — {DOC_LABEL} accessible HTML edition (final draft, under approval).'),
         canonical_url=html.escape(SITE_BASE_URL if slug == "index" else f"{SITE_BASE_URL}{slug}.html"),
+        theme_chrome_light=THEME_CHROME_LIGHT,
+        theme_chrome_dark=THEME_CHROME_DARK,
         og_image_url=html.escape(f"{SITE_BASE_URL}assets/img/apple-touch-icon.png"),
         asset_prefix="",
         site_title=build_site_title(""),

@@ -8,12 +8,17 @@
 <meta id="theme-colour-light" name="theme-color" media="(prefers-color-scheme: light)" content="#14245a">
 <meta id="theme-colour-dark" name="theme-color" media="(prefers-color-scheme: dark)" content="#16191d">
 <link rel="canonical" href="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/annex-c-13-relay-emergency.html">
-<script>/* Pre-paint theme apply: reads the saved Reading-options theme so a
-Dark/Light choice takes effect before first paint (no flash), and keeps
+<script>/* Theme apply, deliberately placed before the stylesheet link and
+kept synchronous (scripts/test_build.py asserts both statically): an
+explicit Dark/Light choice is set on <html> before the stylesheet can
+first paint with the wrong tokens, preventing — or at worst minimising —
+a wrong-theme flash. Also keeps
 the browser-chrome theme-color in step with the RESOLVED theme — on an
 explicit choice both meta elements get the same value, so whichever
 media query the OS matches, the chrome colour agrees with the page.
 site.js reuses __syncThemeColour when the choice changes mid-session.
+The hex values are injected from build.py (THEME_CHROME_*), the single
+source the unit tests check the CSS and generated output against.
 Everything else about theming is CSS; without JavaScript the OS
 preference applies. */
 (function () {
@@ -40,7 +45,7 @@ preference applies. */
 <meta property="og:url" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/annex-c-13-relay-emergency.html">
 <meta property="og:image" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/assets/img/apple-touch-icon.png">
 <meta name="twitter:card" content="summary">
-<link rel="stylesheet" href="assets/css/style.css?v=540cc19d">
+<link rel="stylesheet" href="assets/css/style.css?v=c5430ccf">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">

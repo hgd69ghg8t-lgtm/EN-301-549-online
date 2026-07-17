@@ -166,7 +166,7 @@ brew install poppler            # macOS
 The site has light and dark themes:
 
 - **Automatic vs explicit:** the OS preference applies automatically (`prefers-color-scheme`); Reading options offers Match device setting / Light / Dark. An explicit choice sets `data-theme` on `<html>` and always beats the OS setting.
-- **Persistence and first paint:** the choice is stored with the other reader preferences in `localStorage` and applied by a small inline script in the page head before first paint, which also keeps the browser-chrome `theme-color` in step with the *resolved* theme. Each preference is validated independently on load, so malformed or pre-dark-mode stored data never discards the others.
+- **Persistence and early application:** the choice is stored with the other reader preferences in `localStorage` and applied by a synchronous inline script deliberately placed before the stylesheet in the page head — which prevents (or at worst minimises) a wrong-theme flash, and also keeps the browser-chrome `theme-color` in step with the *resolved* theme. Unit tests assert the script's ordering and synchronous application statically; actual flash behaviour is still worth an occasional manual look in real browsers. Each preference is validated independently on load, so malformed or pre-dark-mode stored data never discards the others.
 - **Without JavaScript** the OS preference still applies (the themes are pure CSS); only the explicit override needs script.
 - **Print** always forces a black-on-white palette regardless of the screen theme, including table headers, callouts and companion guidance.
 - **Token-level only:** the dark palette redefines the custom properties in `docs/assets/css/style.css` (in two deliberately identical blocks — one for the media query, one for the explicit attribute), and fixed white-text surfaces (the blue title band, navigation highlights, buttons) keep their colours in both themes.
@@ -177,13 +177,14 @@ The site has light and dark themes:
 ```
 npm install
 npm run build          # python3 scripts/build.py
-npm test               # build + structural/content validation (no network, no browser)
-npm run test:a11y      # axe-core against every generated page (requires a Chromium install)
+npm test               # unit tests + theme contrast + build + structural/content validation + html-validate (no network, no browser)
+npm run test:a11y      # axe-core against every page in both themes, plus explicit-override runs (requires a Chromium install)
 npm run test:layout    # responsive layout assertions at 320-1920px (requires a Chromium install)
 npm run test:search    # site-search end-to-end checks (requires a Chromium install)
+npm run test:theme     # theme behaviour: persistence, pre-paint ordering, theme-color sync, print palette, forced colours (requires a Chromium install)
 ```
 
-`npm test` is pure Python + Node, no browser required, and is what should run on every commit. `npm run test:a11y` and `npm run test:layout` additionally need a Chromium binary; run `npx playwright install --with-deps chromium` once before the first local run. The layout test checks, on representative pages at seven viewport widths (320-1920px): no page-level horizontal overflow, no sidebar/content overlap, the content column actually growing on wider screens, table wrappers only scrolling when the table's measured minimum width genuinely exceeds the space, and the mobile contents disclosure still working. See [`.github/workflows/ci.yml`](.github/workflows/ci.yml) for exactly what runs in CI and why these tools specifically — see the comment at the top of that file.
+`npm test` is the non-browser validation — pure Python + Node, and what should run on every commit. The four Playwright suites (`test:a11y`, `test:layout`, `test:search`, `test:theme`) additionally need a Chromium binary; run `npx playwright install --with-deps chromium` once before the first local run. CI runs all of them. Manual browser, screen-reader and Windows high-contrast checks are still required before claiming conformance — see `docs-for-maintainers/accessibility-testing.md`. The layout test checks, on representative pages at seven viewport widths (320-1920px): no page-level horizontal overflow, no sidebar/content overlap, the content column actually growing on wider screens, table wrappers only scrolling when the table's measured minimum width genuinely exceeds the space, and the mobile contents disclosure still working. See [`.github/workflows/ci.yml`](.github/workflows/ci.yml) for exactly what runs in CI and why these tools specifically — see the comment at the top of that file.
 
 ## Maintenance
 
@@ -230,7 +231,7 @@ Do not treat this site as ready for public release until every item below is eit
 
 - [ ] **Reproduction rights confirmed** — see "The core open question" and "ETSI reproduction permission" above. *(Required — this is the one item on this list that is a precondition for every other item mattering.)*
 - [ ] A licence has been chosen and recorded for this site's own code/design (see above), and it is clear anywhere that licence is stated (a `LICENSE` file, this README) that it does not extend to the reproduced ETSI text or to the trademarks named in it.
-- [ ] `npm test` and `npm run test:a11y` both pass on the commit being published.
+- [ ] `npm test` and all four Playwright suites (`test:a11y`, `test:layout`, `test:search`, `test:theme`) pass on the commit being published.
 - [ ] `python3 scripts/build.py && git diff --exit-code -- docs/` is clean (committed `docs/` matches a fresh rebuild).
 - [x] The accessibility statement has a real reporting route (currently a GitHub issues link — replace with a dedicated contact address if/when one exists).
 - [ ] The accessibility statement's "Review history" section has at least one real, completed review recorded.
