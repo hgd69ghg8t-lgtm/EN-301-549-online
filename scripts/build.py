@@ -1277,7 +1277,6 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <footer class="site-footer">
   <div class="site-footer__inner">
     {footer_nav}
-    <p>Unofficial HTML edition of the {source_month_year} final draft. Standard text &copy; ETSI 2026. <a href="{asset_prefix}about.html">Read how this edition was produced</a>.</p>
   </div>
 </footer>
 <script src="{asset_prefix}assets/js/site.js?v={js_version}"></script>
@@ -1728,7 +1727,6 @@ def render_page(index, page, metadata, summaries, guidance, errors, xrefs=None):
         asset_prefix="",
         site_title=build_site_title(""),
         doc_header=build_doc_header(page),
-        source_month_year=human_date(metadata["sourcePdfPublicationDate"]) if metadata else "",
         site_nav=build_site_nav(slug, headings),
         content=content_html,
         pager="" if slug in ("index", "search") else build_pager(index),
