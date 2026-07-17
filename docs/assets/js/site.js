@@ -289,40 +289,73 @@
     });
   });
 
-  // ---------- Site search (search.html) ----------
+  // ---------- Shared search machinery ----------
   // Entirely static: the build writes docs/search-index.json (one entry
-  // per heading section, glossary term, and page intro), and this filters
-  // it in the browser. No search service, no third-party library. The
-  // header's search form is a plain GET form to search.html, so reaching
-  // this page needs no JavaScript — only the filtering itself does, and
-  // the page says so when JS is unavailable (see .search-nojs).
+  // per heading section, glossary term, and page intro). Used by both the
+  // search page's result list and the header box's suggestions; the index
+  // is fetched at most once per page, and only when something searches.
+  var searchIndexPromise = null;
+  function loadSearchIndex() {
+    if (!searchIndexPromise) {
+      searchIndexPromise = fetch("search-index.json").then(function (r) { return r.json(); });
+    }
+    return searchIndexPromise;
+  }
+
+  function searchTokens(q) {
+    return q.toLowerCase().split(/\s+/).filter(Boolean);
+  }
+
+  function scoreSearchEntry(entry, toks, q) {
+    var t = entry.t.toLowerCase();
+    var b = entry.b.toLowerCase();
+    var score = 0;
+    for (var i = 0; i < toks.length; i++) {
+      var inTitle = t.indexOf(toks[i]) !== -1;
+      var inBody = b.indexOf(toks[i]) !== -1;
+      if (!inTitle && !inBody) return 0; // every word must match somewhere
+      score += inTitle ? 3 : 1;
+    }
+    // A query that looks like a clause number ("9.1.4.4") should surface
+    // that exact heading first.
+    if (t.indexOf(q) === 0) score += 10;
+    else if (t.indexOf(q) !== -1) score += 4;
+    return score;
+  }
+
+  function searchHits(index, q) {
+    var toks = searchTokens(q);
+    var ql = q.toLowerCase();
+    var hits = [];
+    for (var i = 0; i < index.length; i++) {
+      var s = scoreSearchEntry(index[i], toks, ql);
+      if (s > 0) hits.push({ s: s, e: index[i] });
+    }
+    hits.sort(function (a, b) { return b.s - a.s; });
+    return hits;
+  }
+
+  // Result links carry the query as ?h=…, so the destination page can
+  // highlight the matched words on arrival (see the highlight block
+  // below). Purely client-side presentation — the page's markup on disk
+  // never changes.
+  function withHighlightParam(u, q) {
+    var hashAt = u.indexOf("#");
+    var base = hashAt === -1 ? u : u.slice(0, hashAt);
+    var hash = hashAt === -1 ? "" : u.slice(hashAt);
+    return base + (base.indexOf("?") === -1 ? "?" : "&") + "h=" + encodeURIComponent(q) + hash;
+  }
+
+  // ---------- Site search (search.html) ----------
+  // The header's search form is a plain GET form to search.html, so
+  // reaching this page needs no JavaScript — only the filtering itself
+  // does, and the page says so when JS is unavailable (see .search-nojs).
   var searchInput = document.getElementById("search-input");
   var searchResults = document.getElementById("search-results");
   var searchCount = document.getElementById("search-count");
   if (searchInput && searchResults) {
     var SEARCH_LIMIT = 50;
     var index = null;
-
-    function tokens(q) {
-      return q.toLowerCase().split(/\s+/).filter(Boolean);
-    }
-
-    function scoreEntry(entry, toks, q) {
-      var t = entry.t.toLowerCase();
-      var b = entry.b.toLowerCase();
-      var score = 0;
-      for (var i = 0; i < toks.length; i++) {
-        var inTitle = t.indexOf(toks[i]) !== -1;
-        var inBody = b.indexOf(toks[i]) !== -1;
-        if (!inTitle && !inBody) return 0; // every word must match somewhere
-        score += inTitle ? 3 : 1;
-      }
-      // A query that looks like a clause number ("9.1.4.4") should surface
-      // that exact heading first.
-      if (t.indexOf(q) === 0) score += 10;
-      else if (t.indexOf(q) !== -1) score += 4;
-      return score;
-    }
 
     // Builds "…text <mark>match</mark> text…" safely via DOM nodes.
     function snippetFor(entry, toks) {
@@ -366,14 +399,8 @@
       q = q.trim();
       searchResults.textContent = "";
       if (!q) { searchCount.textContent = ""; return; }
-      var toks = tokens(q);
-      var ql = q.toLowerCase();
-      var hits = [];
-      for (var i = 0; i < index.length; i++) {
-        var s = scoreEntry(index[i], toks, ql);
-        if (s > 0) hits.push({ s: s, e: index[i] });
-      }
-      hits.sort(function (a, b) { return b.s - a.s; });
+      var toks = searchTokens(q);
+      var hits = searchHits(index, q);
       var shown = hits.slice(0, SEARCH_LIMIT);
       searchCount.textContent = hits.length === 0
         ? "No results for “" + q + "”. Try fewer or different words, or a clause number."
@@ -383,7 +410,7 @@
       shown.forEach(function (hit) {
         var li = document.createElement("li");
         var a = document.createElement("a");
-        a.href = hit.e.u;
+        a.href = withHighlightParam(hit.e.u, q);
         a.textContent = hit.e.t;
         var where = document.createElement("span");
         where.className = "search-result__page";
@@ -401,7 +428,7 @@
     var initialQ = new URLSearchParams(window.location.search).get("q") || "";
     searchInput.value = initialQ;
 
-    fetch("search-index.json").then(function (r) { return r.json(); }).then(function (data) {
+    loadSearchIndex().then(function (data) {
       index = data;
       if (initialQ) runSearch(initialQ);
       var timer = null;
@@ -422,6 +449,162 @@
     }).catch(function () {
       searchCount.textContent = "Search couldn’t load its index. Reload the page to try again.";
     });
+  }
+
+  // ---------- Header search suggestions ----------
+  // Progressive enhancement over the header's plain GET form: typing
+  // shows the top matches as a listbox so a reader can jump straight to
+  // a clause without the results page. Without JavaScript the form
+  // submits to search.html exactly as before. ARIA combobox pattern:
+  // arrow keys move through options, Enter follows the active one (or
+  // submits the form when none is active), Escape closes.
+  var headerForm = document.querySelector(".site-search");
+  var headerInput = headerForm && headerForm.querySelector("input[type='search']");
+  if (headerForm && headerInput && !document.getElementById("search-input")) {
+    var SUGGEST_LIMIT = 7;
+    var suggestList = document.createElement("ul");
+    suggestList.id = "search-suggestions";
+    suggestList.className = "search-suggest";
+    suggestList.setAttribute("role", "listbox");
+    suggestList.setAttribute("aria-label", "Search suggestions");
+    suggestList.hidden = true;
+    headerForm.appendChild(suggestList);
+    headerInput.setAttribute("role", "combobox");
+    headerInput.setAttribute("aria-expanded", "false");
+    headerInput.setAttribute("aria-controls", "search-suggestions");
+    headerInput.setAttribute("aria-autocomplete", "list");
+    var activeIndex = -1;
+
+    function closeSuggest() {
+      suggestList.hidden = true;
+      suggestList.textContent = "";
+      headerInput.setAttribute("aria-expanded", "false");
+      headerInput.removeAttribute("aria-activedescendant");
+      activeIndex = -1;
+    }
+
+    function setActive(next) {
+      var options = suggestList.children;
+      if (!options.length) return;
+      if (activeIndex >= 0) options[activeIndex].removeAttribute("aria-selected");
+      activeIndex = (next + options.length) % options.length;
+      var opt = options[activeIndex];
+      opt.setAttribute("aria-selected", "true");
+      headerInput.setAttribute("aria-activedescendant", opt.id);
+    }
+
+    function renderSuggestions(q) {
+      loadSearchIndex().then(function (data) {
+        if (headerInput.value.trim() !== q) return; // stale response
+        var shown = searchHits(data, q).slice(0, SUGGEST_LIMIT);
+        closeSuggest();
+        if (!shown.length) return;
+        shown.forEach(function (hit, i) {
+          var li = document.createElement("li");
+          li.id = "search-suggestion-" + i;
+          li.setAttribute("role", "option");
+          li.dataset.href = withHighlightParam(hit.e.u, q);
+          var title = document.createElement("span");
+          title.className = "search-suggest__title";
+          title.textContent = hit.e.t;
+          var where = document.createElement("span");
+          where.className = "search-suggest__page";
+          where.textContent = hit.e.p;
+          li.appendChild(title);
+          li.appendChild(where);
+          // mousedown, not click: click fires after the input's blur has
+          // already closed and emptied the list.
+          li.addEventListener("mousedown", function (e) {
+            e.preventDefault();
+            window.location.href = li.dataset.href;
+          });
+          suggestList.appendChild(li);
+        });
+        suggestList.hidden = false;
+        headerInput.setAttribute("aria-expanded", "true");
+        announce(shown.length + (shown.length === 1 ? " suggestion" : " suggestions") +
+                 " available. Use up and down arrows to review them.");
+      }).catch(function () { /* suggestions are optional; the form still submits */ });
+    }
+
+    var suggestTimer = null;
+    headerInput.addEventListener("input", function () {
+      window.clearTimeout(suggestTimer);
+      var q = headerInput.value.trim();
+      if (q.length < 2) { closeSuggest(); return; }
+      suggestTimer = window.setTimeout(function () { renderSuggestions(q); }, 150);
+    });
+    headerInput.addEventListener("keydown", function (e) {
+      if (suggestList.hidden) return;
+      if (e.key === "ArrowDown") { e.preventDefault(); setActive(activeIndex + 1); }
+      else if (e.key === "ArrowUp") { e.preventDefault(); setActive(activeIndex - 1); }
+      else if (e.key === "Enter" && activeIndex >= 0) {
+        e.preventDefault();
+        window.location.href = suggestList.children[activeIndex].dataset.href;
+      } else if (e.key === "Escape") {
+        // Close the list but keep the typed text (the browser's default
+        // for Escape in a search input is to clear it) — a second Escape,
+        // with the list already closed, still clears as normal.
+        e.preventDefault();
+        closeSuggest();
+      }
+    });
+    headerInput.addEventListener("blur", function () {
+      window.setTimeout(closeSuggest, 100);
+    });
+  }
+
+  // ---------- Search-term highlighting on arrival ----------
+  // A link followed from search results or suggestions carries the query
+  // as ?h=…; this wraps its occurrences in the page body in <mark> so the
+  // reader can see why they landed here. Client-side presentation only —
+  // the generated HTML on disk never changes — and the parameter is
+  // removed from the address bar afterwards so a copied link stays clean.
+  var highlightQuery = new URLSearchParams(window.location.search).get("h");
+  var contentRoot = document.querySelector(".content");
+  if (highlightQuery && contentRoot) {
+    var highlightToks = searchTokens(highlightQuery).filter(function (t) { return t.length >= 2; });
+    var MARK_CAP = 200;
+    var marked = 0;
+    var walker = document.createTreeWalker(contentRoot, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (node) {
+        var parent = node.parentNode;
+        if (!parent || /^(SCRIPT|STYLE|MARK)$/.test(parent.tagName)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    var textNodes = [];
+    while (walker.nextNode()) textNodes.push(walker.currentNode);
+    textNodes.forEach(function (node) {
+      if (marked >= MARK_CAP) return;
+      var text = node.nodeValue;
+      var lower = text.toLowerCase();
+      var pieces = [];
+      var cursor = 0;
+      while (cursor < text.length && marked < MARK_CAP) {
+        var next = -1, tok = null;
+        for (var i = 0; i < highlightToks.length; i++) {
+          var at = lower.indexOf(highlightToks[i], cursor);
+          if (at !== -1 && (next === -1 || at < next)) { next = at; tok = highlightToks[i]; }
+        }
+        if (next === -1) break;
+        pieces.push(document.createTextNode(text.slice(cursor, next)));
+        var mark = document.createElement("mark");
+        mark.className = "search-highlight";
+        mark.textContent = text.slice(next, next + tok.length);
+        pieces.push(mark);
+        cursor = next + tok.length;
+        marked++;
+      }
+      if (!pieces.length) return;
+      pieces.push(document.createTextNode(text.slice(cursor)));
+      var frag = document.createDocumentFragment();
+      pieces.forEach(function (p) { frag.appendChild(p); });
+      node.parentNode.replaceChild(frag, node);
+    });
+    var cleanUrl = new URL(window.location.href);
+    cleanUrl.searchParams.delete("h");
+    window.history.replaceState(null, "", cleanUrl);
   }
 
   // ---------- Glossary term focus-on-navigate ----------

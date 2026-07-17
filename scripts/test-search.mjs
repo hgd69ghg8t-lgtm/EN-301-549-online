@@ -80,6 +80,47 @@ console.log("no-JS fallback visible:", nojsVisible);
 if (!nojsVisible) fails.push("no-JS fallback not visible");
 await context.close();
 
+// 7. Header suggestions: combobox appears, exact clause ranked first,
+//    arrow+Enter navigates with the ?h= highlight handshake
+context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+page = await context.newPage();
+await page.goto(`http://127.0.0.1:${port}/clause-4-functional-performance.html`);
+await page.locator(".site-search input").click();
+await page.keyboard.type("reflow");
+await page.waitForSelector(".search-suggest li", { timeout: 5000 });
+const suggest = await page.evaluate(() => ({
+  expanded: document.querySelector(".site-search input").getAttribute("aria-expanded"),
+  role: document.querySelector(".site-search input").getAttribute("role"),
+  first: document.querySelector(".search-suggest li .search-suggest__title").textContent,
+}));
+console.log("header suggestions:", JSON.stringify(suggest));
+if (suggest.expanded !== "true" || suggest.role !== "combobox") fails.push("suggestions combobox attributes wrong");
+if (!suggest.first.includes("Reflow")) fails.push("'reflow' didn't suggest a Reflow heading first");
+await page.keyboard.press("ArrowDown");
+await page.keyboard.press("Enter");
+await page.waitForURL(/clause-9-web\.html/);
+await page.waitForFunction(() => document.querySelectorAll("mark.search-highlight").length > 0, null, { timeout: 5000 });
+const highlight = await page.evaluate(() => ({
+  marks: document.querySelectorAll("mark.search-highlight").length,
+  hParamGone: !new URLSearchParams(window.location.search).has("h"),
+}));
+console.log("arrival highlight:", JSON.stringify(highlight));
+if (!highlight.hParamGone) fails.push("?h= param not cleaned from the URL after highlighting");
+
+// 8. Escape closes suggestions but keeps the typed query
+await page.goto(`http://127.0.0.1:${port}/clause-9-web.html`);
+await page.locator(".site-search input").click();
+await page.keyboard.type("keyboard");
+await page.waitForSelector(".search-suggest li", { timeout: 5000 });
+await page.keyboard.press("Escape");
+const afterEsc = await page.evaluate(() => ({
+  hidden: document.getElementById("search-suggestions").hidden,
+  value: document.querySelector(".site-search input").value,
+}));
+console.log("after Escape:", JSON.stringify(afterEsc));
+if (!afterEsc.hidden || afterEsc.value !== "keyboard") fails.push("Escape should close suggestions and keep the query");
+await context.close();
+
 await browser.close();
 server.close();
 if (fails.length) { console.error("FAILURES:", fails); process.exit(1); }
