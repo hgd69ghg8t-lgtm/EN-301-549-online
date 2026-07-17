@@ -1049,7 +1049,7 @@ def inject_heading_links(raw, headings):
     stop whose accessible name IS the heading text, rather than a separate
     "#" control after it. Activating it navigates to the heading's anchor
     (address bar now holds the deep link, with no JavaScript needed);
-    site.js adds copy-to-clipboard on top. Uses the same byte offsets
+    core.js adds copy-to-clipboard on top. Uses the same byte offsets
     heading_parser.py already computed, so this never touches heading
     text or attributes — only wraps the existing text in an anchor."""
     edits = []
@@ -1708,8 +1708,8 @@ def render_dt_starttag(attrs, term_id):
     if not has_id:
         parts.append(f'id="{term_id}"')
     if not has_tabindex:
-        # Focusable-but-not-tabbable: lets site.js move keyboard focus to a
-        # definition when its fragment link is followed (see site.js), while
+        # Focusable-but-not-tabbable: lets core.js move keyboard focus to a
+        # definition when its fragment link is followed (see core.js), while
         # never adding the term itself as an extra stop in normal Tab order.
         parts.append('tabindex="-1"')
     return "<" + " ".join(parts) + ">"

@@ -69,7 +69,7 @@ and explain exactly what you corrected and why, with a page/clause reference, in
 
 ## Changing theme colours
 
-Both colour palettes live in `docs/assets/css/style.css`: the light theme in `:root`, the dark theme in **two blocks that must stay identical** (one inside the `prefers-color-scheme: dark` media query, one under `[data-theme="dark"]` — CSS offers no way to share them). `scripts/check-contrast.py` parses the palettes straight from that file, fails the build if the two dark blocks drift apart, and checks its list of colour pairings against WCAG 2.2 AA. If you add a colour that participates in theming, add its pairing to that script too. The favicon (`docs/assets/img/favicon.svg`) carries its own embedded light/dark styles — keep them aligned with the site palettes.
+Both colour palettes live in `scripts/source/style.css` (the readable source the build minifies into the shipped stylesheet): the light theme in `:root`, the dark theme in **two blocks that must stay identical** (one inside the `prefers-color-scheme: dark` media query, one under `[data-theme="dark"]` — CSS offers no way to share them). `scripts/check-contrast.py` parses the palettes straight from that file, fails the build if the two dark blocks drift apart, and checks its list of colour pairings against WCAG 2.2 AA. If you add a colour that participates in theming, add its pairing to that script too. The favicon (`docs/assets/img/favicon.svg`) carries its own embedded light/dark styles — keep them aligned with the site palettes.
 
 ## Running the full build and test suite
 
@@ -107,7 +107,7 @@ Nothing to maintain: references in the text ("clause 5.1.3", "Annex ZA", "[i.25]
 
 ## Site search
 
-Nothing to maintain: `docs/search-index.json` is regenerated from the content on every build (`build_search_index()` in `scripts/build.py`), and `npm run test:search` verifies the search end-to-end in CI. If a new website-authored page is added, it becomes searchable automatically via its sitemap entry.
+Nothing to maintain: both content-hashed indexes — the full `docs/search-index.<hash>.json` (used only by the search page, ranked in a Web Worker) and the small `docs/search-suggestions.<hash>.json` (header autocomplete) — are regenerated from the content on every build (`build_search_indexes()` in `scripts/build.py`), and `npm run test:search` plus `npm run test:modules` verify the search, its fallbacks and its failure messages end-to-end in CI. If a new website-authored page is added, it becomes searchable automatically via its sitemap entry.
 
 ## Reviewing broken links
 
