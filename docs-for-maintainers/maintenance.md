@@ -67,6 +67,10 @@ python3 scripts/update_etsi_hashes.py
 
 and explain exactly what you corrected and why, with a page/clause reference, in your commit message. If the build fails this check and you *didn't* intend to change any wording, that's a signal to investigate (a bad merge, an accidental edit) and revert — not to just re-run the script to make the failure go away.
 
+## Changing theme colours
+
+Both colour palettes live in `docs/assets/css/style.css`: the light theme in `:root`, the dark theme in **two blocks that must stay identical** (one inside the `prefers-color-scheme: dark` media query, one under `[data-theme="dark"]` — CSS offers no way to share them). `scripts/check-contrast.py` parses the palettes straight from that file, fails the build if the two dark blocks drift apart, and checks its list of colour pairings against WCAG 2.2 AA. If you add a colour that participates in theming, add its pairing to that script too. The favicon (`docs/assets/img/favicon.svg`) carries its own embedded light/dark styles — keep them aligned with the site palettes.
+
 ## Running the full build and test suite
 
 ```
@@ -77,6 +81,7 @@ npm test                                        # build + html-validate
 npm run test:a11y                               # axe-core sweep against every page
 npm run test:layout                             # responsive layout assertions, 320-1920px
 npm run test:search                             # site-search end-to-end checks
+npm run test:theme                              # theme behaviour: persistence, pre-paint, print, forced colours
 git diff --exit-code -- docs/                   # confirm docs/ matches a clean rebuild
 ```
 

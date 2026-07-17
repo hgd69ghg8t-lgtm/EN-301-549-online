@@ -1,8 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <rect x="0" y="0" width="24" height="24" rx="5" fill="#ffffff"/>
-  <path d="M13.5 2.8H6.8a1.8 1.8 0 0 0-1.8 1.8v14.8a1.8 1.8 0 0 0 1.8 1.8h10.4a1.8 1.8 0 0 0 1.8-1.8V8.5z" stroke="#14245A" stroke-width="1.9"/>
-  <path d="M13.5 2.8v5.7H19" stroke="#14245A" stroke-width="1.9"/>
-  <line x1="8.2" y1="12.4" x2="14.8" y2="12.4" stroke="#2F80ED" stroke-width="1.9"/>
-  <line x1="8.2" y1="15.2" x2="14.8" y2="15.2" stroke="#2F80ED" stroke-width="1.9"/>
-  <line x1="8.2" y1="18" x2="12.2" y2="18" stroke="#2F80ED" stroke-width="1.9"/>
+  <style>
+    .background { fill: #ffffff; }
+    .document { stroke: #14245a; }
+    .lines { stroke: #2472dd; }
+    @media (prefers-color-scheme: dark) {
+      .background { fill: #16191d; }
+      .document { stroke: #dbe6ff; }
+      .lines { stroke: #6ea8fe; }
+    }
+  </style>
+  <rect class="background" x="0" y="0" width="24" height="24" rx="5"/>
+  <path class="document" d="M13.5 2.8H6.8a1.8 1.8 0 0 0-1.8 1.8v14.8a1.8 1.8 0 0 0 1.8 1.8h10.4a1.8 1.8 0 0 0 1.8-1.8V8.5z" stroke-width="1.9"/>
+  <path class="document" d="M13.5 2.8v5.7H19" stroke-width="1.9"/>
+  <line class="lines" x1="8.2" y1="12.4" x2="14.8" y2="12.4" stroke-width="1.9"/>
+  <line class="lines" x1="8.2" y1="15.2" x2="14.8" y2="15.2" stroke-width="1.9"/>
+  <line class="lines" x1="8.2" y1="18" x2="12.2" y2="18" stroke-width="1.9"/>
 </svg>

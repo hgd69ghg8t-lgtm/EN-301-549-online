@@ -84,10 +84,48 @@ async function main() {
     await context.close();
   }
 
+  // Explicit theme overrides: the stored preference beats the OS setting,
+  // so the token set under test differs from plain emulation. Full
+  // four-way sweeps of every page would double CI again for the same
+  // tokens, so overrides run against representative pages: homepage,
+  // About (companion to none, but statement + front matter), a long
+  // clause, an ordinary-tables clause, Annex B's wide matrix, a
+  // companion-guidance page, and search.
+  const representative = ["index", "about", "clause-9-web", "clause-8-hardware",
+    "annex-b-functional-performance-relationship", "clause-5-generic-requirements", "search"];
+  for (const [colorScheme, storedTheme] of [["light", "dark"], ["dark", "light"]]) {
+    const context = await browser.newContext({ colorScheme });
+    await context.addInitScript((theme) => {
+      localStorage.setItem("accessibleDocs.readerPrefs.v1",
+        JSON.stringify({ width: "wide", spacing: false, theme }));
+    }, storedTheme);
+    const page = await context.newPage();
+    for (const slug of representative) {
+      await page.goto(`http://127.0.0.1:${port}/${slug}.html`, { waitUntil: "networkidle", timeout: 30000 });
+      await page.evaluate(axeSource);
+      const results = await page.evaluate(async () => {
+        // eslint-disable-next-line no-undef
+        return axe.run(document, { runOnly: { type: "tag", values: ["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"] } });
+      });
+      const label = `${slug} (OS ${colorScheme}, explicit ${storedTheme})`;
+      if (results.violations.length) {
+        totalViolations += results.violations.length;
+        failures.push({ slug, colorScheme, storedTheme, violations: results.violations });
+        console.log(`FAIL ${label} — ${results.violations.length} violation type(s)`);
+        for (const v of results.violations) {
+          console.log(`  [${v.impact}] ${v.id}: ${v.help} (${v.nodes.length} node(s))`);
+        }
+      } else {
+        console.log(`ok   ${label}`);
+      }
+    }
+    await context.close();
+  }
+
   await browser.close();
   server.close();
 
-  console.log(`\n${sitemap.length} pages checked in both themes, ${totalViolations} violation type(s) across ${failures.length} page/theme combination(s).`);
+  console.log(`\n${sitemap.length} pages checked in both automatic themes plus ${representative.length} representative pages under both explicit overrides — ${totalViolations} violation type(s) across ${failures.length} combination(s).`);
   if (totalViolations > 0) {
     process.exit(1);
   }

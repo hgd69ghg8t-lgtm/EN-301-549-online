@@ -1,20 +1,18 @@
 # Build, validate and accessibility-test the site on every push and PR.
 #
-# Toolchain, and why it's just these three things:
-#   - Python 3 stdlib (scripts/build.py) — the build itself IS the primary
-#     validator: it fails non-zero on missing/extra content fragments,
-#     wrong H1 counts, numbered-heading id mismatches, duplicate ids,
-#     skipped heading levels, malformed HTML, and broken internal links.
-#     This is project-specific validation (e.g. "does this id match this
-#     clause number") that no generic tool understands, so it's hand-written
-#     rather than configured out of a generic linter.
-#   - html-validate (Node) — generic HTML5/ARIA spec conformance on the
-#     generated output, genuinely different coverage from the custom
-#     Python checks above (e.g. invalid ARIA attribute usage).
-#   - Playwright + axe-core (Node) — the one thing static analysis can't
-#     do: an automated accessibility sweep in a real rendered browser.
-# Deliberately not adding a fourth link-checker (lychee/linkinator): the
-# custom Python build already validates every internal link and anchor.
+# What runs, in order: Python unit tests (the build's own validators),
+# the light/dark theme contrast checker (palettes parsed from the CSS),
+# the build (itself the primary content validator: missing/extra
+# fragments, wrong H1 counts, id mismatches, duplicate ids, skipped
+# heading levels, malformed HTML, broken internal links), a
+# generated-output reproducibility diff, html-validate (HTML5/ARIA spec
+# conformance), and the Playwright browser suites: axe-core in both
+# automatic themes plus explicit theme overrides, responsive layout,
+# site search, and theme behaviour (persistence, pre-paint,
+# theme-color sync, print palette, forced colours).
+# Deliberately not adding a separate link-checker (lychee/linkinator):
+# the custom Python build already validates every internal link and
+# anchor.
 name: CI
 
 permissions:
@@ -44,6 +42,9 @@ jobs:
       - name: Unit tests for the build's own validators
         run: python3 -m unittest scripts/test_build.py
 
+      - name: Verify light and dark theme contrast (palettes parsed from the CSS)
+        run: python3 scripts/check-contrast.py
+
       - name: Build the site (fails on missing/invalid content, duplicate IDs, wrong H1 count, broken links, heading-hierarchy/id problems)
         run: npm run build
 
@@ -65,3 +66,6 @@ jobs:
 
       - name: Site search end-to-end checks
         run: npm run test:search
+
+      - name: Theme behaviour checks (persistence, pre-paint, theme-color sync, print palette, forced colours)
+        run: npm run test:theme

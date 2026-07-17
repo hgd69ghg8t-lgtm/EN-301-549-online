@@ -44,7 +44,7 @@
   --colour-link: #005ea2;
   --colour-link-hover: #003d6e;
 
-  --colour-focus-dark: #1a1a1a;
+  --colour-focus-default: #1a1a1a;
   --colour-focus-yellow: #ffdd00;
 
   --colour-site-header-bg: #1a1a1a;
@@ -55,10 +55,15 @@
   /* Fixed-colour surfaces that keep white text in BOTH themes — never
      point these at a token that flips (that's how labels have vanished
      before). nav-hover/nav-current also serve the toc bar, back-to-top
-     and search buttons. */
+     and search buttons. table-header-bg is the one below that DOES
+     flip (dark grey in the dark theme) — its text stays white either
+     way because both values are dark surfaces. */
   --colour-table-header-bg: #1a1a1a;
   --colour-nav-hover-bg: #003d6e;
   --colour-nav-current-bg: #005ea2;
+  /* Ink for anything sitting on the fixed yellow (skip link, search
+     marks) — must stay dark in both themes. */
+  --colour-on-yellow: #1a1a1a;
 
   /* AccessibleDocs brand marks (logo document outline + wordmark).
      Navy on white is 14.9:1; the blue accent is 4.64:1 on white — it
@@ -112,7 +117,9 @@
    chose Light in Reading options), and explicitly when they chose Dark.
    KEEP THE TWO BLOCKS BELOW IDENTICAL; CSS offers no way to share one
    declaration list between a media query and a selector.
-   Every pair here is contrast-verified by scripts/check-contrast.py.
+   scripts/check-contrast.py reads both palettes straight from this
+   file, fails if the two dark blocks drift apart, and checks the
+   colour pairings listed in that script.
    Deliberately unchanged in the dark theme: the blue title band and its
    buttons, the yellow focus colour, and the fixed white-text surfaces
    listed above — they already sit on dark grounds. */
@@ -127,7 +134,7 @@
     --colour-border-strong: #6a727b;
     --colour-link: #8fbdf5;
     --colour-link-hover: #b8d6fa;
-    --colour-focus-dark: #ffdd00;
+    --colour-focus-default: #ffdd00;
     --colour-site-header-bg: #0e1013;
     --colour-site-header-border: #343a41;
     --colour-accent-bar: #1d70b8;
@@ -150,7 +157,7 @@
   --colour-border-strong: #6a727b;
   --colour-link: #8fbdf5;
   --colour-link-hover: #b8d6fa;
-  --colour-focus-dark: #ffdd00;
+  --colour-focus-default: #ffdd00;
   --colour-site-header-bg: #0e1013;
   --colour-site-header-border: #343a41;
   --colour-accent-bar: #1d70b8;
@@ -185,7 +192,7 @@ button { font: inherit; }
   top: 0;
   transform: translateY(-100%);
   background: var(--colour-focus-yellow);
-  color: #1a1a1a;
+  color: var(--colour-on-yellow);
   padding: 0.75rem 1.25rem;
   font-weight: 700;
   font-family: var(--font-heading);
@@ -197,16 +204,18 @@ button { font: inherit; }
 }
 
 /* ---------- Focus visibility (WCAG 2.2 AA 2.4.11/2.4.13) ----------
-   Context-aware: dark outline on light backgrounds, yellow outline on
-   dark backgrounds — both verified >=3:1 against every background they
-   appear on (see README). */
+   Context-aware: --colour-focus-default is the ring for theme-following
+   surfaces (dark ink in the light theme, yellow in the dark theme);
+   --colour-focus-yellow is for the fixed dark surfaces (title band,
+   footer, current-page row) in both themes. Checked against their
+   grounds by scripts/check-contrast.py. */
 a:focus-visible,
 button:focus-visible,
 input:focus-visible,
 select:focus-visible,
 summary:focus-visible,
 [tabindex]:focus-visible {
-  outline: 3px solid var(--colour-focus-dark);
+  outline: 3px solid var(--colour-focus-default);
   outline-offset: 2px;
 }
 .doc-header :focus-visible,
@@ -223,10 +232,10 @@ summary:focus-visible,
 .back-to-top:focus-visible {
   outline: 3px solid var(--colour-focus-yellow);
   outline-offset: 0;
-  box-shadow: 0 0 0 6px var(--colour-focus-dark);
+  box-shadow: 0 0 0 6px var(--colour-focus-default);
 }
 .skip-link:focus-visible {
-  outline: 3px solid var(--colour-text);
+  outline: 3px solid var(--colour-on-yellow);
   outline-offset: 0;
 }
 
@@ -319,7 +328,7 @@ a:hover { color: var(--colour-link-hover); }
 .search-suggest__title { display: block; font-weight: 600; color: var(--colour-link); text-decoration: underline; }
 .search-suggest__page { display: block; font-size: 0.8125rem; color: var(--colour-muted); }
 /* Words matched by a followed search result, wrapped client-side. */
-mark.search-highlight { background: var(--colour-focus-yellow); color: #1a1a1a; }
+mark.search-highlight { background: var(--colour-focus-yellow); color: var(--colour-on-yellow); }
 /* On narrow screens the search collapses to a magnifier icon button so
    the brand, icon and Contents toggle share one row; tapping the icon
    opens the form as a full-width row below (see site.js). Both the icon
@@ -377,7 +386,7 @@ mark.search-highlight { background: var(--colour-focus-yellow); color: #1a1a1a; 
   border: 2px solid var(--colour-border-strong);
   border-right: 0;
 }
-.site-search input:focus-visible { outline: 3px solid var(--colour-focus-dark); outline-offset: -3px; }
+.site-search input:focus-visible { outline: 3px solid var(--colour-focus-default); outline-offset: -3px; }
 .site-search button {
   font-family: var(--font-heading);
   font-weight: 700;
@@ -520,7 +529,7 @@ mark.search-highlight { background: var(--colour-focus-yellow); color: #1a1a1a; 
 }
 /* The menu panel is white, so the band-wide yellow focus outline would
    be invisible here — restore the dark outline for everything inside. */
-.page-tools__panel :focus-visible { outline: 3px solid var(--colour-focus-dark); }
+.page-tools__panel :focus-visible { outline: 3px solid var(--colour-focus-default); }
 .page-tools__item,
 .page-tools .reader-tools > summary {
   display: flex;
@@ -1090,7 +1099,7 @@ main { min-width: 0; }
   letter-spacing: 0.04em;
 }
 .search-result__snippet { margin: 0.3rem 0 0; font-size: 0.95rem; color: var(--colour-muted); }
-.search-result__snippet mark { background: var(--colour-focus-yellow); color: #1a1a1a; }
+.search-result__snippet mark { background: var(--colour-focus-yellow); color: var(--colour-on-yellow); }
 
 /* ---------- A-Z index (clause 3 glossary/abbreviation lists) ---------- */
 .az-index {
@@ -1318,6 +1327,30 @@ main { min-width: 0; }
 
 /* ---------- Print ---------- */
 @media print {
+  /* Print is always ink on paper: force the light palette whatever the
+     screen theme (browsers often skip printing backgrounds, so pale
+     dark-theme text would otherwise land on white paper). The selector
+     list repeats the dark-theme selectors so this block outranks them
+     when the OS is dark at print time. */
+  :root,
+  :root:not([data-theme="light"]),
+  :root[data-theme="dark"],
+  :root[data-theme="light"] {
+    color-scheme: light;
+    --colour-text: #000000;
+    --colour-background: #ffffff;
+    --colour-heading: #000000;
+    --colour-muted: #333333;
+    --colour-link: #000000;
+    --colour-link-hover: #000000;
+    --colour-panel-bg: #ffffff;
+    --colour-note-bg: #ffffff;
+    --colour-border: #777777;
+    --colour-border-strong: #000000;
+    --colour-note-border: #000000;
+    --colour-table-header-bg: #ffffff;
+  }
+  body { color: #000000; background: #ffffff; font-size: 12pt; }
   .site-header, .site-footer, .doc-toolbar, .reader-tools, .reader-library, .toc-toggle, .site-nav, .page-pager, .skip-link, .back-to-top, .accent-bar { display: none; }
   /* Heading links print as plain heading text. */
   .heading-link { color: inherit; text-decoration: none; }
@@ -1326,5 +1359,21 @@ main { min-width: 0; }
   .page-shell { display: block; padding: 0; }
   main { border-left: 0; padding: 0; }
   a { color: #000; text-decoration: underline; }
-  body { font-size: 12pt; }
+  /* Table headers must survive backgrounds being skipped: black on
+     white with a real border. */
+  .content thead th { background: #ffffff; color: #000000; border: 1px solid #000000; }
+  .content thead th a, .content thead th a:hover { color: #000000; }
+  .content h2:target, .content h3:target, .content h4:target { background: none; box-shadow: none; }
+  mark.search-highlight, .search-result__snippet mark { background: none; color: #000000; font-weight: 700; }
+  .companion-guidance,
+  :root:not([data-theme="light"]) .companion-guidance,
+  :root[data-theme="dark"] .companion-guidance {
+    --guidance-slate: #000000;
+    --guidance-mid-grey: #333333;
+    --guidance-light-grey: #777777;
+    --guidance-off-white: #ffffff;
+    --guidance-link: #000000;
+    --guidance-link-active: #000000;
+    --guidance-bg: #ffffff;
+  }
 }

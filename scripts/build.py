@@ -1241,13 +1241,34 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title} | {doc_label} Online</title>
 <meta name="description" content="{description}">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#14245a">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#16191d">
+<meta id="theme-colour-light" name="theme-color" media="(prefers-color-scheme: light)" content="#14245a">
+<meta id="theme-colour-dark" name="theme-color" media="(prefers-color-scheme: dark)" content="#16191d">
 <link rel="canonical" href="{canonical_url}">
 <script>/* Pre-paint theme apply: reads the saved Reading-options theme so a
-Dark/Light choice takes effect before first paint (no flash). Everything
-else about theming is CSS; without JavaScript the OS preference applies. */
-try{{var p=JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));if(p&&(p.theme==="dark"||p.theme==="light"))document.documentElement.setAttribute("data-theme",p.theme);}}catch(e){{}}</script>
+Dark/Light choice takes effect before first paint (no flash), and keeps
+the browser-chrome theme-color in step with the RESOLVED theme — on an
+explicit choice both meta elements get the same value, so whichever
+media query the OS matches, the chrome colour agrees with the page.
+site.js reuses __syncThemeColour when the choice changes mid-session.
+Everything else about theming is CSS; without JavaScript the OS
+preference applies. */
+(function () {{
+  var LIGHT = "#14245a", DARK = "#16191d";
+  window.__syncThemeColour = function (theme) {{
+    var l = document.getElementById("theme-colour-light");
+    var d = document.getElementById("theme-colour-dark");
+    if (!l || !d) return;
+    l.content = theme === "dark" ? DARK : LIGHT;
+    d.content = theme === "light" ? LIGHT : DARK;
+  }};
+  var theme = null;
+  try {{
+    var p = JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));
+    if (p && (p.theme === "dark" || p.theme === "light")) theme = p.theme;
+  }} catch (e) {{}}
+  if (theme) document.documentElement.setAttribute("data-theme", theme);
+  window.__syncThemeColour(theme || "auto");
+}})();</script>
 <meta property="og:site_name" content="{doc_label} Online">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{title} | {doc_label} Online">

@@ -5,13 +5,34 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>9 Web | ETSI EN 301 549 V4.1.0 Online</title>
 <meta name="description" content="9 Web — ETSI EN 301 549 V4.1.0 accessible HTML edition (final draft, under approval).">
-<meta name="theme-color" media="(prefers-color-scheme: light)" content="#14245a">
-<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#16191d">
+<meta id="theme-colour-light" name="theme-color" media="(prefers-color-scheme: light)" content="#14245a">
+<meta id="theme-colour-dark" name="theme-color" media="(prefers-color-scheme: dark)" content="#16191d">
 <link rel="canonical" href="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/clause-9-web.html">
 <script>/* Pre-paint theme apply: reads the saved Reading-options theme so a
-Dark/Light choice takes effect before first paint (no flash). Everything
-else about theming is CSS; without JavaScript the OS preference applies. */
-try{var p=JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));if(p&&(p.theme==="dark"||p.theme==="light"))document.documentElement.setAttribute("data-theme",p.theme);}catch(e){}</script>
+Dark/Light choice takes effect before first paint (no flash), and keeps
+the browser-chrome theme-color in step with the RESOLVED theme — on an
+explicit choice both meta elements get the same value, so whichever
+media query the OS matches, the chrome colour agrees with the page.
+site.js reuses __syncThemeColour when the choice changes mid-session.
+Everything else about theming is CSS; without JavaScript the OS
+preference applies. */
+(function () {
+  var LIGHT = "#14245a", DARK = "#16191d";
+  window.__syncThemeColour = function (theme) {
+    var l = document.getElementById("theme-colour-light");
+    var d = document.getElementById("theme-colour-dark");
+    if (!l || !d) return;
+    l.content = theme === "dark" ? DARK : LIGHT;
+    d.content = theme === "light" ? LIGHT : DARK;
+  };
+  var theme = null;
+  try {
+    var p = JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));
+    if (p && (p.theme === "dark" || p.theme === "light")) theme = p.theme;
+  } catch (e) {}
+  if (theme) document.documentElement.setAttribute("data-theme", theme);
+  window.__syncThemeColour(theme || "auto");
+})();</script>
 <meta property="og:site_name" content="ETSI EN 301 549 V4.1.0 Online">
 <meta property="og:type" content="website">
 <meta property="og:title" content="9 Web | ETSI EN 301 549 V4.1.0 Online">
@@ -19,7 +40,7 @@ try{var p=JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));if(p
 <meta property="og:url" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/clause-9-web.html">
 <meta property="og:image" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/assets/img/apple-touch-icon.png">
 <meta name="twitter:card" content="summary">
-<link rel="stylesheet" href="assets/css/style.css?v=e172ac68">
+<link rel="stylesheet" href="assets/css/style.css?v=540cc19d">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
@@ -656,6 +677,6 @@ the web page shall not block the user agent's mode(s) of operation that present 
     <nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
   </div>
 </footer>
-<script src="assets/js/site.js?v=1e298ca1"></script>
+<script src="assets/js/site.js?v=7b43fc8f"></script>
 </body>
 </html>

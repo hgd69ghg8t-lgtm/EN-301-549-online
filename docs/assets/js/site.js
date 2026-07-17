@@ -71,11 +71,18 @@
     });
   }
   function initReaderFeatures() {
-    var prefs = storageRead(PREFS_KEY, { width: "wide", spacing: false, theme: "auto" });
-    if (!prefs || !["wide", "comfortable"].includes(prefs.width)) {
-      prefs = { width: "wide", spacing: false, theme: "auto" };
-    }
-    if (!["auto", "light", "dark"].includes(prefs.theme)) prefs.theme = "auto";
+    // Each preference is validated independently, so one malformed (or
+    // simply older) value never discards the others — prefs saved before
+    // dark mode existed have no theme property and must keep their width
+    // and spacing choices.
+    var defaults = { width: "wide", spacing: false, theme: "auto" };
+    var stored = storageRead(PREFS_KEY, {});
+    if (typeof stored !== "object" || stored === null) stored = {};
+    var prefs = {
+      width: ["wide", "comfortable"].includes(stored.width) ? stored.width : defaults.width,
+      spacing: typeof stored.spacing === "boolean" ? stored.spacing : defaults.spacing,
+      theme: ["auto", "light", "dark"].includes(stored.theme) ? stored.theme : defaults.theme
+    };
     function applyPrefs() {
       document.documentElement.dataset.readingWidth = prefs.width;
       if (prefs.spacing) document.documentElement.dataset.textSpacing = "enhanced";
@@ -85,6 +92,9 @@
       // explicit choice applies before first paint on the next page.
       if (prefs.theme === "auto") delete document.documentElement.dataset.theme;
       else document.documentElement.dataset.theme = prefs.theme;
+      // Keep the browser-chrome colour in step with the resolved theme
+      // (defined by the pre-paint script in the page head).
+      if (window.__syncThemeColour) window.__syncThemeColour(prefs.theme);
       document.querySelectorAll('input[name="reading-width"]').forEach(function (input) {
         input.checked = input.value === prefs.width;
       });
