@@ -31,12 +31,15 @@
 }
 
 :root {
+  color-scheme: light;
+
   --colour-text: #1a1a1a;
   --colour-background: #ffffff;
   --colour-heading: #1a1a1a;
   --colour-muted: #505a5f;
   --colour-border: #e0e0e0;
-  --colour-border-strong: #b1b4b6;
+  /* 3.79:1 on white — input/control boundaries need >= 3:1 (WCAG 1.4.11) */
+  --colour-border-strong: #7d848a;
 
   --colour-link: #005ea2;
   --colour-link-hover: #003d6e;
@@ -47,12 +50,22 @@
   --colour-site-header-bg: #1a1a1a;
   --colour-site-header-border: #3a3a3a;
   --colour-accent-bar: #005ea2;
+  --colour-header-bg: #ffffff;
+
+  /* Fixed-colour surfaces that keep white text in BOTH themes — never
+     point these at a token that flips (that's how labels have vanished
+     before). nav-hover/nav-current also serve the toc bar, back-to-top
+     and search buttons. */
+  --colour-table-header-bg: #1a1a1a;
+  --colour-nav-hover-bg: #003d6e;
+  --colour-nav-current-bg: #005ea2;
 
   /* AccessibleDocs brand marks (logo document outline + wordmark).
-     Navy on white is 14.9:1; the blue is decorative accent within the
-     wordmark and also >4.5:1 on white. */
+     Navy on white is 14.9:1; the blue accent is 4.64:1 on white — it
+     colours the "Docs" half of the wordmark, which drops below
+     large-text size on small screens, so it needs the full 4.5:1. */
   --colour-brand-navy: #14245a;
-  --colour-brand-blue: #2f80ed;
+  --colour-brand-blue: #2472dd;
 
   --colour-doc-header-bg: #003d6e;
   --colour-doc-header-border: #1d6ea0;
@@ -93,6 +106,63 @@
   --prose-measure: none;
 }
 
+/* ---------- Dark theme ----------
+   Token-level only: components never test the theme themselves. Applied
+   two ways — automatically from the OS preference (unless the reader
+   chose Light in Reading options), and explicitly when they chose Dark.
+   KEEP THE TWO BLOCKS BELOW IDENTICAL; CSS offers no way to share one
+   declaration list between a media query and a selector.
+   Every pair here is contrast-verified by scripts/check-contrast.py.
+   Deliberately unchanged in the dark theme: the blue title band and its
+   buttons, the yellow focus colour, and the fixed white-text surfaces
+   listed above — they already sit on dark grounds. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --colour-text: #e8e9eb;
+    --colour-background: #16191d;
+    --colour-heading: #f2f3f4;
+    --colour-muted: #a9b1b8;
+    --colour-border: #343a41;
+    --colour-border-strong: #6a727b;
+    --colour-link: #8fbdf5;
+    --colour-link-hover: #b8d6fa;
+    --colour-focus-dark: #ffdd00;
+    --colour-site-header-bg: #0e1013;
+    --colour-site-header-border: #343a41;
+    --colour-accent-bar: #1d70b8;
+    --colour-header-bg: #1b1f24;
+    --colour-brand-navy: #dbe6ff;
+    --colour-brand-blue: #6ea8fe;
+    --colour-panel-bg: #22262c;
+    --colour-note-bg: #1c2a3a;
+    --colour-note-border: #5b9bd5;
+    --colour-table-header-bg: #272b30;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --colour-text: #e8e9eb;
+  --colour-background: #16191d;
+  --colour-heading: #f2f3f4;
+  --colour-muted: #a9b1b8;
+  --colour-border: #343a41;
+  --colour-border-strong: #6a727b;
+  --colour-link: #8fbdf5;
+  --colour-link-hover: #b8d6fa;
+  --colour-focus-dark: #ffdd00;
+  --colour-site-header-bg: #0e1013;
+  --colour-site-header-border: #343a41;
+  --colour-accent-bar: #1d70b8;
+  --colour-header-bg: #1b1f24;
+  --colour-brand-navy: #dbe6ff;
+  --colour-brand-blue: #6ea8fe;
+  --colour-panel-bg: #22262c;
+  --colour-note-bg: #1c2a3a;
+  --colour-note-border: #5b9bd5;
+  --colour-table-header-bg: #272b30;
+}
+
 /* ---------- Reset ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
@@ -115,7 +185,7 @@ button { font: inherit; }
   top: 0;
   transform: translateY(-100%);
   background: var(--colour-focus-yellow);
-  color: var(--colour-text);
+  color: #1a1a1a;
   padding: 0.75rem 1.25rem;
   font-weight: 700;
   font-family: var(--font-heading);
@@ -181,7 +251,7 @@ a:hover { color: var(--colour-link-hover); }
    the link) on the left, quick links and search on the right, generous
    whitespace, blue accent bar below. */
 .site-header {
-  background: #ffffff;
+  background: var(--colour-header-bg);
   color: var(--colour-text);
   border-bottom: 1px solid var(--colour-border);
 }
@@ -202,6 +272,8 @@ a:hover { color: var(--colour-link-hover); }
   text-decoration: none;
 }
 .site-logo { width: 2.5rem; height: 2.5rem; flex: 0 0 auto; }
+.site-logo__doc { stroke: var(--colour-brand-navy); }
+.site-logo__line { stroke: var(--colour-brand-blue); }
 .site-wordmark {
   font-family: var(--font-heading);
   font-weight: 800;
@@ -247,7 +319,7 @@ a:hover { color: var(--colour-link-hover); }
 .search-suggest__title { display: block; font-weight: 600; color: var(--colour-link); text-decoration: underline; }
 .search-suggest__page { display: block; font-size: 0.8125rem; color: var(--colour-muted); }
 /* Words matched by a followed search result, wrapped client-side. */
-mark.search-highlight { background: var(--colour-focus-yellow); color: var(--colour-text); }
+mark.search-highlight { background: var(--colour-focus-yellow); color: #1a1a1a; }
 /* On narrow screens the search collapses to a magnifier icon button so
    the brand, icon and Contents toggle share one row; tapping the icon
    opens the form as a full-width row below (see site.js). Both the icon
@@ -262,7 +334,7 @@ mark.search-highlight { background: var(--colour-focus-yellow); color: var(--col
   height: 2.6rem;
   flex: 0 0 auto;
   margin-left: auto;
-  background: #ffffff;
+  background: var(--colour-header-bg);
   border: 2px solid var(--colour-border-strong);
   color: var(--colour-text);
   cursor: pointer;
@@ -270,13 +342,13 @@ mark.search-highlight { background: var(--colour-focus-yellow); color: var(--col
 .search-toggle svg { width: 1.3rem; height: 1.3rem; }
 .search-toggle:hover { border-color: var(--colour-link); color: var(--colour-link); }
 .search-toggle[aria-expanded="true"] {
-  background: var(--colour-link);
-  border-color: var(--colour-link);
+  background: var(--colour-nav-current-bg);
+  border-color: var(--colour-nav-current-bg);
   color: #ffffff;
 }
 .search-toggle[aria-expanded="true"]:hover {
-  background: var(--colour-link-hover);
-  border-color: var(--colour-link-hover);
+  background: var(--colour-nav-hover-bg);
+  border-color: var(--colour-nav-hover-bg);
 }
 @media (max-width: 61.99em) {
   .site-search { flex: 1 1 8rem; }
@@ -316,7 +388,7 @@ mark.search-highlight { background: var(--colour-focus-yellow); color: var(--col
   padding: 0 0.9rem;
   cursor: pointer;
 }
-.site-search button:hover { background: var(--colour-link-hover); }
+.site-search button:hover { background: var(--colour-nav-hover-bg); }
 
 /* Header quick links to the site's own pages (About, Accessibility
    statement). Shown from the sidebar breakpoint up; on narrow screens the
@@ -531,7 +603,7 @@ html[data-text-spacing="enhanced"] .content p {
   font-size: 0.9375rem;
   /* Blue in every state (tap leaves :hover stuck on touch screens, so
      the rest and hover colours must read as the same design). */
-  background: var(--colour-link-hover);
+  background: var(--colour-nav-hover-bg);
   color: #ffffff;
   border: 0;
   padding: var(--space-3);
@@ -630,11 +702,11 @@ html[data-text-spacing="enhanced"] .content p {
 .site-nav > p { margin: 0; }
 .site-nav > p a { padding-left: var(--space-3); font-weight: 700; font-family: var(--font-heading); }
 .site-nav a:hover {
-  background: var(--colour-link-hover);
+  background: var(--colour-nav-hover-bg);
   color: #ffffff;
 }
 .site-nav a[aria-current="page"] {
-  background: var(--colour-link);
+  background: var(--colour-nav-current-bg);
   color: #ffffff;
   font-weight: 700;
 }
@@ -650,7 +722,7 @@ html[data-text-spacing="enhanced"] .content p {
 }
 .site-nav__subsections--nested a { padding-left: 3rem; }
 .site-nav__subsections a:hover {
-  background: var(--colour-link-hover);
+  background: var(--colour-nav-hover-bg);
   color: #ffffff;
 }
 .site-nav__subsections a[aria-current="location"] {
@@ -660,7 +732,7 @@ html[data-text-spacing="enhanced"] .content p {
   border-left-color: var(--colour-link);
 }
 .site-nav a[aria-current]:hover {
-  background: var(--colour-link-hover);
+  background: var(--colour-nav-hover-bg);
   color: #ffffff;
 }
 
@@ -823,12 +895,37 @@ main { min-width: 0; }
   --guidance-link: #005dbb;
   --guidance-link-active: #000c48;
   --guidance-focus: #b53cde;
+  --guidance-bg: #ffffff;
   margin: 0 0 var(--space-6);
   border: 1px solid var(--guidance-light-grey);
   border-left: 0.35rem solid var(--guidance-link);
-  background: #fff;
+  background: var(--guidance-bg);
   color: var(--guidance-slate);
   max-width: var(--prose-measure);
+}
+/* Dark values for the guidance's own palette — same two-block pattern
+   (and same keep-identical rule) as the site tokens above. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .companion-guidance {
+    --guidance-slate: #e4e6e8;
+    --guidance-mid-grey: #a9b1b8;
+    --guidance-light-grey: #3d444c;
+    --guidance-off-white: #22262c;
+    --guidance-link: #8fbdf5;
+    --guidance-link-active: #cfe2fb;
+    --guidance-focus: #d78ef2;
+    --guidance-bg: #1b1f24;
+  }
+}
+:root[data-theme="dark"] .companion-guidance {
+  --guidance-slate: #e4e6e8;
+  --guidance-mid-grey: #a9b1b8;
+  --guidance-light-grey: #3d444c;
+  --guidance-off-white: #22262c;
+  --guidance-link: #8fbdf5;
+  --guidance-link-active: #cfe2fb;
+  --guidance-focus: #d78ef2;
+  --guidance-bg: #1b1f24;
 }
 .companion-guidance summary {
   position: relative;
@@ -975,7 +1072,7 @@ main { min-width: 0; }
   padding: 0 1.4rem;
   cursor: pointer;
 }
-.search-form__row button:hover { background: var(--colour-link-hover); }
+.search-form__row button:hover { background: var(--colour-nav-hover-bg); }
 /* The no-JS explanation is hidden the moment site.js runs (it adds the
    "js" class to <html>) — without JS it stays visible and honest. */
 .js .search-nojs { display: none; }
@@ -993,7 +1090,7 @@ main { min-width: 0; }
   letter-spacing: 0.04em;
 }
 .search-result__snippet { margin: 0.3rem 0 0; font-size: 0.95rem; color: var(--colour-muted); }
-.search-result__snippet mark { background: var(--colour-focus-yellow); color: var(--colour-text); }
+.search-result__snippet mark { background: var(--colour-focus-yellow); color: #1a1a1a; }
 
 /* ---------- A-Z index (clause 3 glossary/abbreviation lists) ---------- */
 .az-index {
@@ -1074,7 +1171,7 @@ main { min-width: 0; }
   word-break: normal;
   hyphens: auto;
 }
-.content thead th { background: var(--colour-text); color: #ffffff; font-family: var(--font-heading); font-weight: 700; }
+.content thead th { background: var(--colour-table-header-bg); color: #ffffff; font-family: var(--font-heading); font-weight: 700; }
 /* Links inside dark header cells (e.g. auto-linked clause references in
    Table 8.4's column headings) need a light link colour — the normal blue
    fails contrast on the near-black header background. */
@@ -1120,7 +1217,7 @@ main { min-width: 0; }
   display: none;
   align-items: center;
   gap: 0.5rem;
-  background: var(--colour-link);
+  background: var(--colour-nav-current-bg);
   color: #ffffff;
   border: 0;
   padding: 0.65rem 1rem;
@@ -1134,7 +1231,7 @@ main { min-width: 0; }
   box-shadow: 0 0 0 2px #ffffff, 0 2px 8px rgba(0,0,0,0.25);
 }
 .back-to-top:hover {
-  background: var(--colour-link-hover);
+  background: var(--colour-nav-hover-bg);
   /* Must restate white: the global a:hover colour (the same dark blue
      as this hover background) outranks .back-to-top's own colour and
      made the label invisible. */

@@ -1135,6 +1135,12 @@ def build_doc_header(page):
             <label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
             <label><input type="radio" name="reading-width" value="wide"> Wide</label>
           </fieldset>
+          <fieldset>
+            <legend>Colour theme</legend>
+            <label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
+            <label><input type="radio" name="colour-theme" value="light"> Light</label>
+            <label><input type="radio" name="colour-theme" value="dark"> Dark</label>
+          </fieldset>
           <label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
           <button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
           <p class="reader-tools__privacy">Bookmarks and preferences are saved only in this browser.</p>
@@ -1183,8 +1189,20 @@ def build_site_title(asset_prefix):
     screen-reader users still hear what the link is and where it goes.
     The page's own <h1> is separate: every page's (including the
     homepage's) comes from build_doc_header()."""
+    # The logo is inlined (not an <img>) so its strokes follow the theme
+    # tokens — a fixed navy image file would disappear on the dark header.
+    logo = (
+        '<svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" '
+        'stroke-linejoin="round" aria-hidden="true" focusable="false">'
+        '<path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/>'
+        '<path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/>'
+        '<line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/>'
+        '<line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/>'
+        '<line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/>'
+        '</svg>'
+    )
     return (f'<a class="site-header__brand" href="{asset_prefix}index.html">'
-            f'<img class="site-logo" src="{asset_prefix}assets/img/logo.svg" alt="" width="40" height="40">'
+            f'{logo}'
             '<span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span>'
             f'<span class="visually-hidden"> — {DOC_LABEL} Online, home</span></a>')
 
@@ -1223,8 +1241,13 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title} | {doc_label} Online</title>
 <meta name="description" content="{description}">
-<meta name="theme-color" content="#14245a">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#14245a">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#16191d">
 <link rel="canonical" href="{canonical_url}">
+<script>/* Pre-paint theme apply: reads the saved Reading-options theme so a
+Dark/Light choice takes effect before first paint (no flash). Everything
+else about theming is CSS; without JavaScript the OS preference applies. */
+try{{var p=JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));if(p&&(p.theme==="dark"||p.theme==="light"))document.documentElement.setAttribute("data-theme",p.theme);}}catch(e){{}}</script>
 <meta property="og:site_name" content="{doc_label} Online">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{title} | {doc_label} Online">

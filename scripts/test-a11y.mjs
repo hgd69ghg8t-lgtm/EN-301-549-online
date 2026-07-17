@@ -52,35 +52,42 @@ async function main() {
     ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_PATH }
     : {};
   const browser = await chromium.launch(launchOptions);
-  const page = await browser.newPage();
 
   let totalViolations = 0;
   const failures = [];
 
-  for (const entry of sitemap) {
-    const url = `http://127.0.0.1:${port}/${entry.slug}.html`;
-    await page.goto(url, { waitUntil: "networkidle", timeout: 30000 });
-    await page.evaluate(axeSource);
-    const results = await page.evaluate(async () => {
-      // eslint-disable-next-line no-undef
-      return axe.run(document, { runOnly: { type: "tag", values: ["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"] } });
-    });
-    if (results.violations.length) {
-      totalViolations += results.violations.length;
-      failures.push({ slug: entry.slug, violations: results.violations });
-      console.log(`FAIL ${entry.slug}.html — ${results.violations.length} violation type(s)`);
-      for (const v of results.violations) {
-        console.log(`  [${v.impact}] ${v.id}: ${v.help} (${v.nodes.length} node(s))`);
+  // Every page is swept twice: once per colour theme. The dark palette is
+  // applied the same way the OS would (prefers-color-scheme emulation),
+  // so colour-contrast rules check both sets of tokens.
+  for (const colorScheme of ["light", "dark"]) {
+    const context = await browser.newContext({ colorScheme });
+    const page = await context.newPage();
+    for (const entry of sitemap) {
+      const url = `http://127.0.0.1:${port}/${entry.slug}.html`;
+      await page.goto(url, { waitUntil: "networkidle", timeout: 30000 });
+      await page.evaluate(axeSource);
+      const results = await page.evaluate(async () => {
+        // eslint-disable-next-line no-undef
+        return axe.run(document, { runOnly: { type: "tag", values: ["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"] } });
+      });
+      if (results.violations.length) {
+        totalViolations += results.violations.length;
+        failures.push({ slug: entry.slug, colorScheme, violations: results.violations });
+        console.log(`FAIL ${entry.slug}.html (${colorScheme}) — ${results.violations.length} violation type(s)`);
+        for (const v of results.violations) {
+          console.log(`  [${v.impact}] ${v.id}: ${v.help} (${v.nodes.length} node(s))`);
+        }
+      } else {
+        console.log(`ok   ${entry.slug}.html (${colorScheme})`);
       }
-    } else {
-      console.log(`ok   ${entry.slug}.html`);
     }
+    await context.close();
   }
 
   await browser.close();
   server.close();
 
-  console.log(`\n${sitemap.length} pages checked, ${totalViolations} violation type(s) across ${failures.length} page(s).`);
+  console.log(`\n${sitemap.length} pages checked in both themes, ${totalViolations} violation type(s) across ${failures.length} page/theme combination(s).`);
   if (totalViolations > 0) {
     process.exit(1);
   }

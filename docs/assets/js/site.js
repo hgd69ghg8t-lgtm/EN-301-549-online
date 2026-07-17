@@ -71,16 +71,25 @@
     });
   }
   function initReaderFeatures() {
-    var prefs = storageRead(PREFS_KEY, { width: "wide", spacing: false });
+    var prefs = storageRead(PREFS_KEY, { width: "wide", spacing: false, theme: "auto" });
     if (!prefs || !["wide", "comfortable"].includes(prefs.width)) {
-      prefs = { width: "wide", spacing: false };
+      prefs = { width: "wide", spacing: false, theme: "auto" };
     }
+    if (!["auto", "light", "dark"].includes(prefs.theme)) prefs.theme = "auto";
     function applyPrefs() {
       document.documentElement.dataset.readingWidth = prefs.width;
       if (prefs.spacing) document.documentElement.dataset.textSpacing = "enhanced";
       else delete document.documentElement.dataset.textSpacing;
+      // "auto" removes the attribute so the prefers-color-scheme media
+      // query decides; the head's pre-paint script mirrors this so an
+      // explicit choice applies before first paint on the next page.
+      if (prefs.theme === "auto") delete document.documentElement.dataset.theme;
+      else document.documentElement.dataset.theme = prefs.theme;
       document.querySelectorAll('input[name="reading-width"]').forEach(function (input) {
         input.checked = input.value === prefs.width;
+      });
+      document.querySelectorAll('input[name="colour-theme"]').forEach(function (input) {
+        input.checked = input.value === prefs.theme;
       });
       var spacing = document.querySelector("[data-reading-spacing]");
       if (spacing) spacing.checked = Boolean(prefs.spacing);
@@ -94,6 +103,14 @@
         storageWrite(PREFS_KEY, prefs);
       });
     });
+    document.querySelectorAll('input[name="colour-theme"]').forEach(function (input) {
+      input.addEventListener("change", function () {
+        if (!input.checked) return;
+        prefs.theme = input.value;
+        applyPrefs();
+        storageWrite(PREFS_KEY, prefs);
+      });
+    });
     var spacing = document.querySelector("[data-reading-spacing]");
     if (spacing) spacing.addEventListener("change", function () {
       prefs.spacing = spacing.checked;
@@ -102,7 +119,7 @@
     });
     var reset = document.querySelector("[data-reader-reset]");
     if (reset) reset.addEventListener("click", function () {
-      prefs = { width: "wide", spacing: false };
+      prefs = { width: "wide", spacing: false, theme: "auto" };
       applyPrefs();
       storageWrite(PREFS_KEY, prefs);
       announce("Reading options reset.");

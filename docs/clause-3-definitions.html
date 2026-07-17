@@ -5,8 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>3 Definition of terms, symbols and abbreviations | ETSI EN 301 549 V4.1.0 Online</title>
 <meta name="description" content="3 Definition of terms, symbols and abbreviations — ETSI EN 301 549 V4.1.0 accessible HTML edition (final draft, under approval).">
-<meta name="theme-color" content="#14245a">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#14245a">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#16191d">
 <link rel="canonical" href="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/clause-3-definitions.html">
+<script>/* Pre-paint theme apply: reads the saved Reading-options theme so a
+Dark/Light choice takes effect before first paint (no flash). Everything
+else about theming is CSS; without JavaScript the OS preference applies. */
+try{var p=JSON.parse(localStorage.getItem("accessibleDocs.readerPrefs.v1"));if(p&&(p.theme==="dark"||p.theme==="light"))document.documentElement.setAttribute("data-theme",p.theme);}catch(e){}</script>
 <meta property="og:site_name" content="ETSI EN 301 549 V4.1.0 Online">
 <meta property="og:type" content="website">
 <meta property="og:title" content="3 Definition of terms, symbols and abbreviations | ETSI EN 301 549 V4.1.0 Online">
@@ -14,7 +19,7 @@
 <meta property="og:url" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/clause-3-definitions.html">
 <meta property="og:image" content="https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/assets/img/apple-touch-icon.png">
 <meta name="twitter:card" content="summary">
-<link rel="stylesheet" href="assets/css/style.css?v=38a7978a">
+<link rel="stylesheet" href="assets/css/style.css?v=e172ac68">
 <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
@@ -24,7 +29,7 @@
 
 <header class="site-header">
   <div class="site-header__inner">
-    <a class="site-header__brand" href="index.html"><img class="site-logo" src="assets/img/logo.svg" alt="" width="40" height="40"><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
+    <a class="site-header__brand" href="index.html"><svg class="site-logo" viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path class="site-logo__doc" d="M13.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8.5z" stroke-width="2"/><path class="site-logo__doc" d="M13.5 2v6.5H20" stroke-width="2"/><line class="site-logo__line" x1="8" y1="12.5" x2="15" y2="12.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="15.5" x2="15" y2="15.5" stroke-width="2"/><line class="site-logo__line" x1="8" y1="18.5" x2="12.5" y2="18.5" stroke-width="2"/></svg><span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span><span class="visually-hidden"> — ETSI EN 301 549 V4.1.0 Online, home</span></a>
     <nav class="site-header__nav" aria-label="About this website"><a href="about.html">About</a></nav>
     <button type="button" class="search-toggle" aria-expanded="false" aria-controls="site-search-form" aria-label="Search">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><line x1="15.5" y1="15.5" x2="21" y2="21"/></svg>
@@ -63,6 +68,12 @@
             <legend>Text width</legend>
             <label><input type="radio" name="reading-width" value="comfortable"> Comfortable</label>
             <label><input type="radio" name="reading-width" value="wide"> Wide</label>
+          </fieldset>
+          <fieldset>
+            <legend>Colour theme</legend>
+            <label><input type="radio" name="colour-theme" value="auto"> Match device setting</label>
+            <label><input type="radio" name="colour-theme" value="light"> Light</label>
+            <label><input type="radio" name="colour-theme" value="dark"> Dark</label>
           </fieldset>
           <label><input type="checkbox" data-reading-spacing> Extra text spacing</label>
           <button type="button" class="reader-tools__reset" data-reader-reset>Reset reading options</button>
@@ -740,6 +751,6 @@
     <nav class="site-footer__nav" aria-label="Footer"><ul><li><a href="index.html">Home</a></li><li><a href="search.html">Search</a></li><li><a href="about.html">About</a></li></ul></nav>
   </div>
 </footer>
-<script src="assets/js/site.js?v=6e9fd184"></script>
+<script src="assets/js/site.js?v=1e298ca1"></script>
 </body>
 </html>
