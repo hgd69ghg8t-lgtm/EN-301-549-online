@@ -39,34 +39,44 @@ The MIT and Creative Commons licences do **not** apply to:
 - the ETSI source PDF (`docs/source/`)
 - ETSI copyright and legal notices
 - ETSI trademarks, names or logos
-- other material owned by ETSI or a third party
+- other material owned by ETSI or another third party
 
-ETSI material is reproduced with permission and remains subject to ETSI's
-copyright and the conditions of that permission.
+**Permission to reproduce and publish this material has not yet been
+obtained from ETSI.**
 
-Permission to reproduce ETSI material must not be inferred from the open
-licences covering the surrounding website. ETSI material must retain ETSI's
-own attribution and notices — do not attribute it to this project.
+The repository and website must not be treated as cleared for public
+publication or redistribution of ETSI material until written permission and
+its conditions have been received and recorded.
+
+No right to reproduce, publish, redistribute or adapt ETSI material may be
+inferred from the open licences covering the surrounding website. ETSI
+material must retain ETSI's own attribution and notices — do not attribute
+it to this project.
+
+This repository currently contains, and if published would publicly serve,
+ETSI material in several forms: the reproduced HTML standard, the ETSI
+source PDF, ETSI excerpts in the search index, generated pages containing
+ETSI text, and downloadable or cloneable copies of all of these through
+GitHub itself. **None of these uses should be treated as authorised until
+written permission is obtained.**
 
 ## ETSI permission record
 
-ETSI has granted permission for the standard to be reproduced on this
-website.
+Status: **Permission not yet obtained**
 
-The following details must be completed from the permission correspondence
-— they are not stored in this repository yet, and these placeholders must
-not be replaced with assumptions:
+- Permission reference: `[NOT AVAILABLE]`
+- Granted by: `[NOT AVAILABLE]`
+- Date granted: `[NOT AVAILABLE]`
+- Material covered: `[NOT YET CONFIRMED]`
+- Website publication permitted: `[NOT YET CONFIRMED]`
+- Source PDF hosting permitted: `[NOT YET CONFIRMED]`
+- Public repository distribution permitted: `[NOT YET CONFIRMED]`
+- Conditions or limitations: `[NOT YET CONFIRMED]`
+- Record location: `[NOT AVAILABLE]`
 
-- Permission reference: `[TO BE RECORDED]`
-- Granted by: `[TO BE RECORDED]`
-- Date granted: `[TO BE RECORDED]`
-- Material covered: `[TO BE RECORDED]`
-- Conditions or limitations: `[TO BE RECORDED]`
-- Record location (where the correspondence is kept): `[TO BE RECORDED]`
-
-Until these are recorded, do not describe the permission as unconditional —
-the grant is established, but its formal reference, scope and conditions
-still need to be documented here.
+This record is a governance document, not reader-facing website content.
+Complete it only from actual written correspondence with ETSI — these
+placeholders must not be replaced with assumptions.
 
 ## Branding
 
