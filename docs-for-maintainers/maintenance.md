@@ -3,10 +3,23 @@
 Routine maintenance tasks for this site, in one place. Each section says what to change, where, and how to verify it. After any of these, always finish with:
 
 ```
-python3 scripts/build.py && git diff --exit-code -- docs/
+python3 scripts/build.py && git status --porcelain -- docs/
 ```
 
-If that reports a diff, `docs/` was out of date — commit the rebuilt output together with your source change. See the README's ["Which files are source of truth"](../README.md#which-files-are-source-of-truth-and-how-to-rebuild) section for the full list of what's hand-edited versus generated.
+If that prints anything, `docs/` was out of date — commit the rebuilt output together with your source change. See the README's ["Which files are source of truth"](../README.md#which-files-are-source-of-truth-and-how-to-rebuild) section for the full list of what's hand-edited versus generated.
+
+## Changing the site's domain or identity
+
+The production base URL, site name, document label, repository URL and
+deployment target live in `data/site-config.json` — the single source for
+every absolute URL the build emits (canonical links, Open Graph tags,
+`sitemap.xml`, `robots.txt`, the 404 page's links) and for the visible
+repository links (`{{REPOSITORY_URL}}` token in `content/about.html`).
+The build validates the file strictly (HTTPS, trailing slash on
+`baseUrl`, no query/fragment, allowed `deploymentTarget` values only).
+To change the domain: edit that file, rebuild, check the regenerated
+canonical/sitemap URLs, and run `npm test`. Cloudflare Pages is prepared
+but not active — see [`cloudflare-pages.md`](cloudflare-pages.md).
 
 ## Updating the ETSI publication status
 
@@ -22,16 +35,16 @@ If the version number itself has changed (e.g. a new V4.2.0 supersedes V4.1.0), 
 
 `sourcePdfUrl` in `data/source-metadata.json` is the link readers use to reach the official ETSI page for this standard. If ETSI restructures their site or the deliverable moves, update this field to the new URL — verify the new URL actually loads the correct deliverable before committing it.
 
-If you replace the committed PDF file itself (`docs/source/en_301549v040100va.pdf`) with a different edition:
+If you replace the committed PDF file itself (`source/en_301549v040100va.pdf` — the build copies it to `docs/source/`) with a different edition:
 
 1. Update `SOURCE_PDF_NAME` and `SOURCE_PDF_PATH` in `scripts/build.py` if the filename changes.
-2. Recompute the checksum: `sha256sum docs/source/<the new file>` and update `sha256` in `data/source-metadata.json`.
+2. Recompute the checksum: `sha256sum source/<the new file>` and update `sha256` in `data/source-metadata.json`.
 3. Update `dateDownloaded` and `sourcePdfPublicationDate` to match the new file.
 4. Re-check `statusLastChecked` at the same time (see above) — a new download is itself a status check.
 
 ## Updating or removing the PDF file size
 
-Nothing to do by hand: the download link's file size (`{{SOURCE_PDF_SIZE}}`) is computed directly from whatever file is actually committed at `docs/source/`, every build — never downloaded from ETSI, never hand-entered, and never able to silently go stale. If the file is missing, or looks implausibly small (under 1&nbsp;KB — almost certainly a truncated or corrupted commit), the build either omits the size (falling back to plain "Download the official ETSI standard (PDF)" wording) or fails outright — see `source_pdf_size()` in `scripts/build.py`.
+Nothing to do by hand: the download link's file size (`{{SOURCE_PDF_SIZE}}`) is computed directly from whatever file is actually committed at `source/`, every build — never downloaded from ETSI, never hand-entered, and never able to silently go stale. If the file is missing, or looks implausibly small (under 1&nbsp;KB — almost certainly a truncated or corrupted commit), the build either omits the size (falling back to plain "Download the official ETSI standard (PDF)" wording) or fails outright — see `source_pdf_size()` in `scripts/build.py`.
 
 ## Updating clause summaries
 
@@ -69,23 +82,18 @@ and explain exactly what you corrected and why, with a page/clause reference, in
 
 ## Changing theme colours
 
-Both colour palettes live in `docs/assets/css/style.css`: the light theme in `:root`, the dark theme in **two blocks that must stay identical** (one inside the `prefers-color-scheme: dark` media query, one under `[data-theme="dark"]` — CSS offers no way to share them). `scripts/check-contrast.py` parses the palettes straight from that file, fails the build if the two dark blocks drift apart, and checks its list of colour pairings against WCAG 2.2 AA. If you add a colour that participates in theming, add its pairing to that script too. The favicon (`docs/assets/img/favicon.svg`) carries its own embedded light/dark styles — keep them aligned with the site palettes.
+Both colour palettes live in `assets/css/style.css`: the light theme in `:root`, the dark theme in **two blocks that must stay identical** (one inside the `prefers-color-scheme: dark` media query, one under `[data-theme="dark"]` — CSS offers no way to share them). `scripts/check-contrast.py` parses the palettes straight from that file, fails the build if the two dark blocks drift apart, and checks its list of colour pairings against WCAG 2.2 AA. If you add a colour that participates in theming, add its pairing to that script too. The favicon (`assets/img/favicon.svg`) carries its own embedded light/dark styles — keep them aligned with the site palettes.
 
 ## Running the full build and test suite
 
 ```
 npm install                                     # once
 npx playwright install --with-deps chromium     # once, for the browser-based tests
-python3 scripts/build.py                        # build (also the primary validator)
-npm test                                        # build + html-validate
-npm run test:a11y                               # axe-core sweep against every page
-npm run test:layout                             # responsive layout assertions, 320-1920px
-npm run test:search                             # site-search end-to-end checks
-npm run test:theme                              # theme behaviour: persistence, pre-paint, print, forced colours
-git diff --exit-code -- docs/                   # confirm docs/ matches a clean rebuild
+npm test                                        # the complete supported suite: unit tests, contrast, build, html-validate, then all four Playwright browser suites
+git status --porcelain -- docs/                 # confirm docs/ matches a clean rebuild (must print nothing)
 ```
 
-All of these should be run, and pass, before merging a change that touches `content/`, `data/`, `scripts/`, `docs/assets/`, or `scripts/sitemap.json`.
+`npm test` is the whole thing (`test:static` + `test:browser`); `npm run test:static` alone is the fast, no-browser subset for quick iteration. All of it should be run, and pass, before merging a change that touches `content/`, `assets/`, `source/`, `deployment/`, `data/`, `scripts/`, or `scripts/sitemap.json`.
 
 ## Reviewing the accessibility statement
 

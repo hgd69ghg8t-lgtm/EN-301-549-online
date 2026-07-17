@@ -18,7 +18,29 @@ content/            37 body-only HTML fragments — the actual transcribed
                      verbatim from the ETSI draft. See "Content-authoring
                      conventions" below for the rule about never editing
                      the latter.
+assets/             Hand-authored static assets: assets/css/style.css,
+                     assets/js/site.js, the favicons/logo under
+                     assets/img/, and the self-hosted webfonts under
+                     assets/fonts/. The build copies this whole tree into
+                     docs/assets/, so the public asset URLs are unchanged.
+source/             The original ETSI source PDF (the source copy). The
+                     build copies it into docs/source/, so the PDF stays
+                     published at its existing URL. Never edit its bytes.
+deployment/
+  cloudflare/        Cloudflare Pages configuration source (_headers,
+                     _redirects), copied by the build to docs/_headers
+                     and docs/_redirects. Prepared for a possible later
+                     Cloudflare Pages deployment; GitHub Pages ignores
+                     these files. Cloudflare deployment is NOT active —
+                     see docs-for-maintainers/cloudflare-pages.md.
 data/
+  site-config.json   The site's identity and deployment configuration:
+                     site name, document label, the production base URL
+                     (canonical/Open Graph/sitemap URLs all come from
+                     here), the repository URL, and the deployment
+                     target. Strictly validated at build time; changing
+                     the production domain means editing this one file,
+                     rebuilding, and re-running the tests.
   source-metadata.json  Machine-readable source/version metadata (title,
                      version, status, source PDF URL, publication date,
                      download date, checksum). Rendered onto the About
@@ -48,13 +70,11 @@ scripts/
                      contents sidebar is generated directly from this file
                      — there is no separate, second ordering list anywhere
                      else in the codebase.
-docs/                Generated output, served by GitHub Pages. Never
-                     hand-edited — re-run the build instead. Also holds the
-                     static, hand-authored docs/assets/css/style.css and
-                     docs/assets/js/site.js, and the self-hosted webfonts.
-source/              The original ETSI source PDF (symlinked to
-                     docs/source/, the copy GitHub Pages actually serves,
-                     so the file is committed once, not twice).
+docs/                Generated output, served by GitHub Pages. ENTIRELY
+                     generated — every file in it is either rendered by
+                     the build or copied from assets/, source/ or
+                     deployment/. Never hand-edit anything under docs/;
+                     re-run the build instead.
 design/              Figma Make export used as the visual reference for the
                      site's design system. Not read by the build.
 docs-for-maintainers/  Manual (non-automatable) testing documentation,
@@ -66,17 +86,17 @@ docs-for-maintainers/  Manual (non-automatable) testing documentation,
 
 ## Which files are source of truth, and how to rebuild
 
-**Hand-edit:** everything under `content/`, `data/source-metadata.json`, `data/clause-summaries.json`, `data/content-ownership.json`, `scripts/sitemap.json`, `docs/assets/css/style.css`, `docs/assets/js/site.js`, `docs/assets/fonts/`, `docs/assets/img/` (the AccessibleDocs logo and favicons), `README.md`, and everything under `docs-for-maintainers/`. `data/etsi-content-hashes.json` is the one exception: it's committed, but it's only ever written by `scripts/update_etsi_hashes.py` (see "Reproduced ETSI wording integrity" below), never by hand.
+**Hand-edit:** everything under `content/`, `assets/` (CSS, JavaScript, fonts, the AccessibleDocs logo and favicons), `deployment/cloudflare/`, `data/site-config.json`, `data/source-metadata.json`, `data/clause-summaries.json`, `data/content-ownership.json`, `scripts/sitemap.json`, `README.md`, and everything under `docs-for-maintainers/`. The PDF under `source/` is committed source too, but its bytes must never change. `data/etsi-content-hashes.json` is the one exception: it's committed, but it's only ever written by `scripts/update_etsi_hashes.py` (see "Reproduced ETSI wording integrity" below), never by hand.
 
-**Generated — never hand-edit:** every other file directly under `docs/` (`docs/*.html`, `docs/search-index.json`, `docs/sitemap.xml`, `docs/robots.txt` — including `docs/accessibility-statement.html`, kept as a generated redirect to the About page so old links still work). They are committed to the repository (GitHub Pages serves straight from `docs/` with no build step of its own), but they are output, not input. If you edit a generated `docs/*.html` file directly, the next `python3 scripts/build.py` run will silently overwrite your change — and separately, `git diff --exit-code -- docs/` after a rebuild (see below) will show your manual edit as a difference the moment anyone rebuilds, so it can't quietly become the "real" version of the page. `scripts/build.py` never reads any *generated* file: the only things it reads under `docs/` are the hand-authored assets (`docs/assets/css/style.css` and `docs/assets/js/site.js`, hashed for the cache-busting `?v=` asset URLs) and the committed source PDF's size — so nothing that happens to already-committed `docs/*.html` can feed back into the next build.
+**Generated — never hand-edit:** *everything* under `docs/`. Rendered pages (`docs/*.html`, including `docs/404.html` and the `docs/accessibility-statement.html` redirect stub), generated extras (`docs/search-index.json`, `docs/sitemap.xml`, `docs/robots.txt`, `docs/.nojekyll`), and the copies the build makes of the hand-authored sources (`docs/assets/` from `assets/`, `docs/source/` from `source/`, `docs/_headers` and `docs/_redirects` from `deployment/cloudflare/`). They are committed to the repository (GitHub Pages serves straight from `docs/` with no build step of its own), but they are output, not input. If you edit any file under `docs/` directly, the next `python3 scripts/build.py` run will silently overwrite your change — and separately, `git status --porcelain -- docs/` after a rebuild (exactly what CI checks) will show your manual edit as a difference the moment anyone rebuilds, so it can't quietly become the "real" version. `scripts/build.py` reads nothing under `docs/` at all: the assets it hashes for the cache-busting `?v=` URLs and the PDF whose size it computes are the source copies under `assets/` and `source/`.
 
-The build has no dependencies beyond the Python 3 standard library:
+The build has no dependencies beyond the Python 3 standard library (see `.python-version` for the interpreter line CI pins):
 
 ```
 python3 scripts/build.py
 ```
 
-This reads `data/source-metadata.json`, `scripts/sitemap.json` and `content/*.html`, validates them (see [Validation](#validation-the-build-fails-on-invalid-content) below), and regenerates every file under `docs/`. **Re-run it after editing anything in `content/`, `data/source-metadata.json`, or `scripts/sitemap.json`, and commit the resulting `docs/` changes together with your source edit.**
+This reads `data/site-config.json`, `data/source-metadata.json`, `scripts/sitemap.json`, `content/*.html`, `assets/`, `source/` and `deployment/cloudflare/`, validates them (see [Validation](#validation-the-build-fails-on-invalid-content) below), and regenerates `docs/` **atomically**: the whole site is generated into a temporary staging directory, the complete staged output is validated, and only then is `docs/` swapped for the staging tree (two same-filesystem renames). A failed build leaves the existing `docs/` untouched and removes the staging directory; a successful build removes stale generated files automatically, because nothing from the previous `docs/` survives the swap. **Re-run the build after editing any source above, and commit the resulting `docs/` changes — including deletions — together with your source edit.**
 
 To verify a change is valid without writing `docs/`:
 
@@ -88,10 +108,10 @@ To verify the committed `docs/` output actually matches a clean rebuild from sou
 
 ```
 python3 scripts/build.py
-git diff --exit-code -- docs/
+git status --porcelain -- docs/    # must print nothing
 ```
 
-If that `git diff` reports changes, `docs/` was out of date with `content/`/`scripts/sitemap.json`/`data/source-metadata.json` — rebuild and commit the difference. The build does not inject a live timestamp or any other run-to-run-varying value into generated pages, specifically so this comparison is meaningful: a clean rebuild from unchanged source always produces byte-identical output. [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs exactly this check on every push — it only ever fails the build if a difference is found, and never itself commits, amends, or overwrites `docs/` (no rebuild/commit loop).
+If that reports changes, `docs/` was out of date with its sources — rebuild and commit the difference (`git diff --exit-code -- docs/` alone would miss newly generated files that were never committed, which is why CI uses `git status`). The build does not inject a live timestamp or any other run-to-run-varying value into generated pages, specifically so this comparison is meaningful: a clean rebuild from unchanged source always produces byte-identical output. Because `docs/` is replaced atomically, the check also catches stale files that should have been deleted, missing copied assets or deployment files, changed PDF bytes, and changed generated 404 output. [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs exactly this check on every push — it only ever fails the build if a difference is found, and never itself commits, amends, or overwrites `docs/` (no rebuild/commit loop).
 
 ### Reproduced ETSI wording integrity
 
@@ -127,7 +147,7 @@ brew install poppler            # macOS
 - A page with 2 or more h2/h3 headings automatically gets an "On this page" jump list at build time, generated from those headings — nothing to add by hand. Its depth is deliberately capped at h2/h3 (the same two levels the left-hand sidebar shows) — h4 requirement-level headings are excluded even on the longest pages, since listing every one of them (up to ~100+ on the biggest clauses) would make the list unusable rather than helpful. Website-only headings ("About this clause", "On this page" itself, etc.) are never included — `build_on_this_page()` only ever sees the fragment's own parsed ETSI headings, and this is re-checked on the final rendered output (see `on-this-page-utility-heading` in the validator).
 - Every clause and annex page has a short "About this clause"/"About this annex" orientation box, kept in `data/clause-summaries.json` keyed by slug. Keep each to 1–2 short paragraphs, and describe what the clause covers without interpreting conformance requirements, adding obligations, or narrowing scope. The build automatically appends the fixed "reproduced from the ETSI draft, not simplified or changed" sentence; don't duplicate it in the JSON. To state that a part is normative or informative, set the optional `"nature": "normative"` / `"informative"` field — the build appends the standard "It is normative/informative, which means …" sentence from one place, so its wording can't drift between entries. You can also link the words "normative" or "informative" to their definition on the About page by writing `{{normative}}` / `{{informative}}` in free text.
 - Cross-references in the reproduced text — "see clause 5.1.3", "clauses 9, 10 and 11", "Annex ZA", bibliography citations like "[i.25]" — are turned into links automatically at build time (`link_cross_references()` in `scripts/build.py`). This is markup only: no wording changes (the wording-integrity check would fail if it did), text already inside a link, heading, or table caption is never touched, and anything the build can't resolve to a certain target is left as plain text — e.g. "Annex I", which belongs to an EU Directive, not this document. Clause 2's bibliography entries get stable `ref-…` ids so citations can deep-link to them.
-- The site search is entirely static: the build writes `docs/search-index.json` (one entry per heading section, glossary term, and page intro — deterministic, so reproducible builds still hold), and `docs/assets/js/site.js` filters it in the browser on `search.html`. No search service, no third-party library. Nothing to maintain by hand — the index regenerates from content on every build.
+- The site search is entirely static: the build writes `docs/search-index.json` (one entry per heading section, glossary term, and page intro — deterministic, so reproducible builds still hold), and `assets/js/site.js` filters it in the browser on `search.html`. No search service, no third-party library. Nothing to maintain by hand — the index regenerates from content on every build.
 - On narrow viewports the header search collapses to a magnifier icon button that opens the form full-width below the header row (focus moves into the input; Escape closes). This collapse is gated on the `.js` class: without JavaScript the plain GET form stays permanently visible, so searching never requires script.
 - With JavaScript, the header search also offers instant suggestions (an ARIA combobox listbox of the top matches — arrow keys to review, Enter to follow, Escape to dismiss without losing the typed text), and a followed result carries the query as a `?h=` parameter so the destination page highlights the matched words client-side (`<mark>` wrapping only — the generated HTML on disk never changes, and the parameter is removed from the address bar after use). Without JavaScript the form still submits to `search.html` as a plain GET.
 - A handful of `{{TOKEN}}` placeholders are available in content fragments for values `scripts/build.py` can compute reliably (so they can never go stale): `{{STATUS_LAST_CHECKED}}`, `{{SOURCE_MONTH_YEAR}}`, `{{SOURCE_PDF_SIZE}}`. See `substitute_tokens()` in `scripts/build.py` for the full list. The build fails if an unreplaced `{{...}}` token would be published.
@@ -141,6 +161,11 @@ brew install poppler            # macOS
 
 - a sitemap entry with no matching `content/*.html` fragment, or a content fragment with no matching sitemap entry;
 - a missing, invalid, or incomplete `data/source-metadata.json`;
+- any structured JSON input (`data/*.json`, `scripts/sitemap.json`) that is malformed, contains a duplicate key, or has the wrong top-level type — for *optional* files (e.g. `data/content-ownership.json`) only a genuinely missing file is acceptable; an existing malformed file is always an error, never silently replaced with a fallback (see `scripts/json_data.py`);
+- an invalid `data/site-config.json`: missing or unknown fields, a non-HTTPS or trailing-slash-less `baseUrl`, a query/fragment on the base URL, a malformed `repositoryUrl`, or an unrecognised `deploymentTarget`;
+- a missing or malformed `deployment/cloudflare/_headers`/`_redirects`, an active redirect rule with a non-rooted source, invalid target, or unsupported status, a duplicate redirect source, or a detectable redirect loop;
+- a generated `docs/404.html` with the wrong number of `<h1>` elements, a missing `noindex`, a canonical URL, an automatic redirect, a missing Home/Search/first-clause link, or any relative link (the 404 page is served at arbitrary missing paths, so every link on it must be absolute);
+- a staged copy of the source PDF or a deployment file that is not byte-identical to its committed source;
 - more or fewer than exactly one non-empty `<h1>` on any generated page;
 - a numbered heading whose id doesn't match its clause number;
 - a heading (h2/h3) with no id at all;
@@ -169,22 +194,28 @@ The site has light and dark themes:
 - **Persistence and early application:** the choice is stored with the other reader preferences in `localStorage` and applied by a synchronous inline script deliberately placed before the stylesheet in the page head — which prevents (or at worst minimises) a wrong-theme flash, and also keeps the browser-chrome `theme-color` in step with the *resolved* theme. Unit tests assert the script's ordering and synchronous application statically; actual flash behaviour is still worth an occasional manual look in real browsers. Each preference is validated independently on load, so malformed or pre-dark-mode stored data never discards the others.
 - **Without JavaScript** the OS preference still applies (the themes are pure CSS); only the explicit override needs script.
 - **Print** always forces a black-on-white palette regardless of the screen theme, including table headers, callouts and companion guidance.
-- **Token-level only:** the dark palette redefines the custom properties in `docs/assets/css/style.css` (in two deliberately identical blocks — one for the media query, one for the explicit attribute), and fixed white-text surfaces (the blue title band, navigation highlights, buttons) keep their colours in both themes.
+- **Token-level only:** the dark palette redefines the custom properties in `assets/css/style.css` (in two deliberately identical blocks — one for the media query, one for the explicit attribute), and fixed white-text surfaces (the blue title band, navigation highlights, buttons) keep their colours in both themes.
 - **Verification in CI:** `scripts/check-contrast.py` parses both palettes straight from the CSS (so it cannot drift), fails if the two dark blocks differ, and checks its explicit list of colour pairings against WCAG 2.2 AA thresholds (4.5:1 text, 3:1 UI components) — the pairings the design actually produces, not every conceivable combination. The axe sweep (`npm run test:a11y`) checks every page in both automatic themes plus representative pages under both explicit overrides, and `npm run test:theme` covers persistence, pre-paint application, theme-color sync, print output and forced-colours mode. Real screen-reader and high-contrast-mode sessions remain manual checks (see `docs-for-maintainers/accessibility-testing.md`). This site is **designed and tested with the aim of meeting WCAG 2.2 Level AA** — that is a target, not an independently audited conformance certificate. See the [accessibility statement section of the About page](docs/about.html) (or `content/about.html` before building) for exactly what has been automated-tested, what still needs manual evaluation, and how to report a problem. Manual, non-automatable testing procedure and the test log live in [`docs-for-maintainers/accessibility-testing.md`](docs-for-maintainers/accessibility-testing.md).
 
 ## Testing
 
 ```
 npm install
+npx playwright install --with-deps chromium   # once, for the browser suites
 npm run build          # python3 scripts/build.py
-npm test               # unit tests + theme contrast + build + structural/content validation + html-validate (no network, no browser)
-npm run test:a11y      # axe-core against every page in both themes, plus explicit-override runs (requires a Chromium install)
-npm run test:layout    # responsive layout assertions at 320-1920px (requires a Chromium install)
-npm run test:search    # site-search end-to-end checks (requires a Chromium install)
-npm run test:theme     # theme behaviour: persistence, pre-paint ordering, theme-color sync, print palette, forced colours (requires a Chromium install)
+npm test               # THE complete supported suite (= test:ci = test:static + test:browser)
+npm run test:static    # unit tests + theme contrast + build + html-validate (no network, no browser)
+npm run test:unit      # python3 -m unittest scripts/test_build.py
+npm run test:contrast  # python3 scripts/check-contrast.py
+npm run test:html      # html-validate "docs/*.html"
+npm run test:browser   # all four Playwright suites below (requires the Chromium install)
+npm run test:a11y      # axe-core against every page in both themes, plus explicit-override runs
+npm run test:layout    # responsive layout assertions at 320-1920px
+npm run test:search    # site-search end-to-end checks
+npm run test:theme     # theme behaviour: persistence, pre-paint ordering, theme-color sync, print palette, forced colours
 ```
 
-`npm test` is the non-browser validation — pure Python + Node, and what should run on every commit. The four Playwright suites (`test:a11y`, `test:layout`, `test:search`, `test:theme`) additionally need a Chromium binary; run `npx playwright install --with-deps chromium` once before the first local run. CI runs all of them. Manual browser, screen-reader and Windows high-contrast checks are still required before claiming conformance — see `docs-for-maintainers/accessibility-testing.md`. The layout test checks, on representative pages at seven viewport widths (320-1920px): no page-level horizontal overflow, no sidebar/content overlap, the content column actually growing on wider screens, table wrappers only scrolling when the table's measured minimum width genuinely exceeds the space, and the mobile contents disclosure still working. See [`.github/workflows/ci.yml`](.github/workflows/ci.yml) for exactly what runs in CI and why these tools specifically — see the comment at the top of that file.
+`npm test` runs the complete supported suite — the same thing CI runs (`test:static` then `test:browser`). The browser suites need a Chromium binary; run `npx playwright install --with-deps chromium` once before the first local run. If you only want the fast, no-browser validation while iterating, use `npm run test:static`. Manual browser, screen-reader and Windows high-contrast checks are still required before claiming conformance — see `docs-for-maintainers/accessibility-testing.md`. The layout test checks, on representative pages at seven viewport widths (320-1920px): no page-level horizontal overflow, no sidebar/content overlap, the content column actually growing on wider screens, table wrappers only scrolling when the table's measured minimum width genuinely exceeds the space, and the mobile contents disclosure still working. See [`.github/workflows/ci.yml`](.github/workflows/ci.yml) for exactly what runs in CI and why these tools specifically — see the comment at the top of that file.
 
 ## Maintenance
 
@@ -193,6 +224,10 @@ Routine maintenance tasks — updating the ETSI publication status, the status-c
 ## Hosting
 
 This site is published for free via GitHub Pages, serving from the `docs/` folder. Once this branch is merged to the default branch, enable it under **Settings → Pages → Source: Deploy from a branch → (default branch) /docs**.
+
+The production base URL — used for canonical URLs, Open Graph tags, `sitemap.xml` and `robots.txt` — comes from `data/site-config.json`, and nowhere else. Changing the domain means updating that file, rebuilding, committing the regenerated `docs/`, and re-running the tests.
+
+The repository is also **prepared** for a later Cloudflare Pages deployment (`deployment/cloudflare/_headers` and `_redirects` are published as `docs/_headers` and `docs/_redirects`, which GitHub Pages ignores), but **Cloudflare deployment is not active** and the canonical production domain remains GitHub Pages until a real custom domain is deliberately selected and configured. See [`docs-for-maintainers/cloudflare-pages.md`](docs-for-maintainers/cloudflare-pages.md).
 
 ## Licensing, copyright and publication readiness
 
@@ -218,7 +253,7 @@ The source document's own front matter — reproduced verbatim on the [About pag
 
 ### Font licences
 
-The self-hosted webfonts under `docs/assets/fonts/` (Overpass and Source Sans 3, both distributed by Google Fonts) are released under the [SIL Open Font License 1.1](https://openfontlicense.org/), which permits embedding and redistribution, including in a project with different licensing terms for its other components. No separate action is required for these two fonts, but re-verify the licence of any font added later.
+The self-hosted webfonts under `assets/fonts/` — Overpass and Source Sans 3, both distributed by Google Fonts, published as copies under `docs/assets/fonts/` — are released under the [SIL Open Font License 1.1](https://openfontlicense.org/), which permits embedding and redistribution, including in a project with different licensing terms for its other components. No separate action is required for these two fonts, but re-verify the licence of any font added later.
 
 ### Publication-readiness checklist
 
@@ -229,8 +264,8 @@ Do not treat this site as ready for public release until every item below is eit
 - [ ] Permission to host and distribute the ETSI source PDF has been specifically confirmed.
 - [ ] Permission for ETSI material to remain in a publicly cloneable and forkable repository has been specifically confirmed.
 - [x] A licence has been chosen and recorded for this site's own code/design (MIT for software, CC BY 4.0 for original design/documentation — see `LICENSE`, `LICENSE-CONTENT.md`, `LICENSES.md`), and each statement of it is explicit that it does not extend to the reproduced ETSI text or to the trademarks named in it. *(The `LICENSE` file's `[COPYRIGHT HOLDER]` placeholder still needs the legal copyright holder's name.)*
-- [ ] `npm test` and all four Playwright suites (`test:a11y`, `test:layout`, `test:search`, `test:theme`) pass on the commit being published.
-- [ ] `python3 scripts/build.py && git diff --exit-code -- docs/` is clean (committed `docs/` matches a fresh rebuild).
+- [ ] `npm test` (the complete suite: static checks plus all four Playwright browser suites) passes on the commit being published.
+- [ ] `python3 scripts/build.py` then `git status --porcelain -- docs/` prints nothing (committed `docs/` matches a fresh rebuild, with no stale or missing files).
 - [x] The accessibility statement has a real reporting route (currently a GitHub issues link — replace with a dedicated contact address if/when one exists).
 - [ ] The accessibility statement's "Review history" section has at least one real, completed review recorded.
 - [ ] A genuine manual accessibility test pass has been completed against `docs-for-maintainers/accessibility-testing.md`, and its log updated.

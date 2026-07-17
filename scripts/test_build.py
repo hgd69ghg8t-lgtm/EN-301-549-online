@@ -1,11 +1,14 @@
+import contextlib
 import hashlib
 import io
+import json
 import re
 import tempfile
 import unittest
+import urllib.parse
 from pathlib import Path
 
-from scripts import build, heading_parser, normalize_content
+from scripts import build, heading_parser, json_data, normalize_content
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -61,7 +64,7 @@ class FaviconThemeTests(unittest.TestCase):
     (a previous commit claimed it did while the file carried only fixed
     light colours — this pins the real behaviour)."""
 
-    FAVICON = Path(__file__).resolve().parent.parent / "docs" / "assets" / "img" / "favicon.svg"
+    FAVICON = Path(__file__).resolve().parent.parent / "assets" / "img" / "favicon.svg"
 
     def setUp(self):
         self.svg = self.FAVICON.read_text(encoding="utf-8")
@@ -91,7 +94,7 @@ class ThemeChromeConstantTests(unittest.TestCase):
     compares two independent artefacts, so a change to any single place
     fails here rather than drifting silently."""
 
-    CSS = (ROOT / "docs" / "assets" / "css" / "style.css").read_text(encoding="utf-8")
+    CSS = (ROOT / "assets" / "css" / "style.css").read_text(encoding="utf-8")
     PAGE = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
 
     def test_constants_match_the_css_tokens_they_mirror(self):
@@ -119,7 +122,7 @@ class ThemeChromeConstantTests(unittest.TestCase):
         # read the page's CSS), so its embedded palette is validated here
         # against the site's: light tile = light page background, dark tile
         # = dark page background (which is also the dark chrome colour).
-        svg = (ROOT / "docs" / "assets" / "img" / "favicon.svg").read_text(encoding="utf-8")
+        svg = (ROOT / "assets" / "img" / "favicon.svg").read_text(encoding="utf-8")
         dark_at = svg.index("@media (prefers-color-scheme: dark)")
         light_fill = re.search(r"\.background\s*\{\s*fill:\s*(#[0-9a-fA-F]{6})", svg[:dark_at]).group(1)
         dark_fill = re.search(r"\.background\s*\{\s*fill:\s*(#[0-9a-fA-F]{6})", svg[dark_at:]).group(1)
@@ -485,6 +488,397 @@ class AttributeEscapingTests(unittest.TestCase):
             [("data-label", "café ✓"), ("hidden", None)], "def-cafe")
         self.assertEqual(tag, '<dt data-label="café ✓" hidden '
                               'id="def-cafe" tabindex="-1">')
+
+
+class JsonDataLoaderTests(unittest.TestCase):
+    """json_data.load_json_data(): the shared strict loader every
+    structured JSON input goes through. A malformed existing file is
+    always an error — never silently replaced with a fallback."""
+
+    def load(self, text, *, required=True, expect_type=dict, missing=False):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "file.json"
+            if not missing:
+                path.write_text(text, encoding="utf-8")
+            return json_data.load_json_data(path, "data/file.json",
+                                            required=required, expect_type=expect_type)
+
+    def rules(self, *args, **kwargs):
+        data, errs = self.load(*args, **kwargs)
+        return [rule for _, rule, _, _ in errs]
+
+    def test_valid_file_loads(self):
+        data, errs = self.load('{"a": 1}')
+        self.assertEqual((data, errs), ({"a": 1}, []))
+
+    def test_required_missing_file_is_an_error(self):
+        self.assertEqual(self.rules("", missing=True), ["json-file-missing"])
+
+    def test_optional_missing_file_is_acceptable(self):
+        self.assertEqual(self.load("", missing=True, required=False), (None, []))
+
+    def test_malformed_optional_file_is_still_an_error(self):
+        self.assertEqual(self.rules('{"a": }', required=False), ["json-syntax-error"])
+
+    def test_syntax_error_reports_line_and_column(self):
+        _, errs = self.load('{\n  "a": 1,\n  "b": ,\n}')
+        self.assertEqual(errs[0][1], "json-syntax-error")
+        self.assertIn("line 3", errs[0][2])
+        self.assertIn("column", errs[0][2])
+
+    def test_duplicate_key_is_an_error_naming_the_key(self):
+        _, errs = self.load('{"slug": 1, "slug": 2}')
+        self.assertEqual(errs[0][1], "json-duplicate-key")
+        self.assertIn('"slug"', errs[0][2])
+
+    def test_nested_duplicate_key_is_an_error(self):
+        self.assertEqual(self.rules('{"outer": {"k": 1, "k": 2}}'),
+                         ["json-duplicate-key"])
+
+    def test_wrong_top_level_type_is_an_error(self):
+        _, errs = self.load('[1, 2]', expect_type=dict)
+        self.assertEqual(errs[0][1], "json-wrong-top-level-type")
+        self.assertIn("object", errs[0][2])
+        _, errs = self.load('{"a": 1}', expect_type=list)
+        self.assertIn("array", errs[0][2])
+
+    def test_error_ordering_is_deterministic(self):
+        first = self.load('{"a": }')
+        second = self.load('{"a": }')
+        self.assertEqual(first, second)
+
+    def test_malformed_file_never_returns_a_fallback_value(self):
+        for text in ('nonsense', '{"a": }', '[1]'):
+            data, errs = self.load(text, required=False)
+            self.assertIsNone(data)
+            self.assertTrue(errs)
+
+
+class SiteConfigTests(unittest.TestCase):
+    """data/site-config.json: the single source of the production base
+    URL and project identity, strictly validated."""
+
+    VALID = {
+        "siteName": "AccessibleDocs",
+        "documentLabel": "ETSI EN 301 549 V4.1.0",
+        "baseUrl": "https://example.github.io/project/",
+        "repositoryUrl": "https://github.com/example/project",
+        "deploymentTarget": "github-pages",
+    }
+
+    def rules(self, **overrides):
+        config = {**self.VALID, **overrides}
+        for field, value in list(overrides.items()):
+            if value is None:
+                del config[field]
+        return [rule for _, rule, _, _ in build.validate_site_config(config)]
+
+    def test_valid_configuration(self):
+        self.assertEqual(self.rules(), [])
+        self.assertEqual(self.rules(deploymentTarget="cloudflare-pages"), [])
+
+    def test_missing_required_field(self):
+        self.assertEqual(self.rules(repositoryUrl=None), ["site-config-missing-field"])
+
+    def test_unknown_field_is_rejected(self):
+        self.assertEqual(self.rules(customDomain="example.org"),
+                         ["site-config-unknown-field"])
+
+    def test_non_string_value_is_rejected(self):
+        self.assertEqual(self.rules(siteName=42), ["site-config-wrong-type"])
+
+    def test_http_base_url_is_rejected(self):
+        self.assertEqual(self.rules(baseUrl="http://example.github.io/project/"),
+                         ["site-config-url-not-https"])
+
+    def test_base_url_without_hostname_is_rejected(self):
+        self.assertEqual(self.rules(baseUrl="https:///project/"),
+                         ["site-config-url-invalid-host"])
+
+    def test_base_url_missing_trailing_slash_is_rejected(self):
+        self.assertEqual(self.rules(baseUrl="https://example.github.io/project"),
+                         ["site-config-base-url-no-trailing-slash"])
+
+    def test_base_url_query_and_fragment_are_rejected(self):
+        self.assertEqual(self.rules(baseUrl="https://example.github.io/project/?x=1"),
+                         ["site-config-url-has-query-or-fragment"])
+        self.assertEqual(self.rules(baseUrl="https://example.github.io/project/#top"),
+                         ["site-config-url-has-query-or-fragment"])
+
+    def test_malformed_repository_url_is_rejected(self):
+        self.assertEqual(self.rules(repositoryUrl="git@github.com:example/project.git"),
+                         ["site-config-url-not-https"])
+
+    def test_unknown_deployment_target_is_rejected(self):
+        self.assertEqual(self.rules(deploymentTarget="my-own-server"),
+                         ["site-config-unknown-deployment-target"])
+
+    def test_duplicate_keys_are_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "site-config.json"
+            path.write_text('{"siteName": "A", "siteName": "B"}', encoding="utf-8")
+            config, errs = build.load_site_config(path, "data/site-config.json")
+        self.assertIsNone(config)
+        self.assertEqual([rule for _, rule, _, _ in errs], ["json-duplicate-key"])
+
+    def test_committed_configuration_is_the_single_source(self):
+        # The build's derived constants must come from the committed file,
+        # and loading is deterministic.
+        with open(ROOT / "data" / "site-config.json", encoding="utf-8") as f:
+            committed = json.load(f)
+        self.assertEqual(build.SITE_BASE_URL, committed["baseUrl"])
+        self.assertEqual(build.DOC_LABEL, committed["documentLabel"])
+        self.assertEqual(build.REPOSITORY_URL, committed["repositoryUrl"])
+        first = build.load_site_config()
+        second = build.load_site_config()
+        self.assertEqual(first, second)
+        self.assertEqual(first[0], committed)
+
+
+class RedirectsValidationTests(unittest.TestCase):
+    """validate_redirects(): every active rule in the Cloudflare
+    _redirects file is validated; comments and blank lines are legal."""
+
+    def rules(self, text):
+        errors = build.Errors()
+        build.validate_redirects(text, "deployment/cloudflare/_redirects", errors)
+        return [rule for _, rule, _, _ in errors.items]
+
+    def test_comments_blank_lines_and_valid_rules_pass(self):
+        text = ("# comment\n"
+                "\n"
+                "/old-page.html  /about.html  301\n"
+                "/other  https://example.org/target  302\n"
+                "/default-status  /about.html\n")
+        self.assertEqual(self.rules(text), [])
+
+    def test_malformed_rule_fails(self):
+        self.assertEqual(self.rules("/only-a-source\n"), ["redirect-malformed"])
+        self.assertEqual(self.rules("/a /b 301 extra-field\n"), ["redirect-malformed"])
+
+    def test_source_must_begin_with_slash(self):
+        self.assertEqual(self.rules("old.html /new.html 301\n"),
+                         ["redirect-source-not-rooted"])
+
+    def test_unsupported_status_fails(self):
+        self.assertEqual(self.rules("/a /b 200\n"), ["redirect-status-unsupported"])
+
+    def test_invalid_target_fails(self):
+        self.assertEqual(self.rules("/a http://insecure.example/ 301\n"),
+                         ["redirect-target-invalid"])
+        self.assertEqual(self.rules("/a relative.html 301\n"),
+                         ["redirect-target-invalid"])
+
+    def test_duplicate_source_fails(self):
+        self.assertEqual(self.rules("/a /b 301\n/a /c 301\n"),
+                         ["redirect-duplicate-source"])
+
+    def test_self_redirect_loop_fails(self):
+        self.assertEqual(self.rules("/a /a 301\n"), ["redirect-loop"])
+
+    def test_chain_redirect_loop_fails(self):
+        self.assertEqual(self.rules("/a /b 301\n/b /a 301\n"), ["redirect-loop"])
+
+    def test_committed_redirects_file_is_valid(self):
+        text = (ROOT / "deployment" / "cloudflare" / "_redirects").read_text(encoding="utf-8")
+        self.assertEqual(self.rules(text), [])
+
+
+class AtomicBuildTests(unittest.TestCase):
+    """The staged, atomic publish: docs/ is replaced only after the whole
+    staged tree validates; failures leave docs/ untouched and remove the
+    staging directory; stale files never survive a successful build."""
+
+    PDF_BYTES = b"%PDF-1.4 fake but stable bytes"
+
+    @contextlib.contextmanager
+    def fake_site(self):
+        """A minimal source tree + patched build-module globals, so
+        publish_output() can run end to end against temp directories."""
+        saved = {name: getattr(build, name) for name in
+                 ("ASSETS_DIR", "SOURCE_DIR", "DEPLOYMENT_DIR", "SOURCE_PDF_PATH", "SITEMAP")}
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            assets = root / "assets"
+            for rel in ("css/style.css", "js/site.js", "img/favicon.svg",
+                        "img/favicon-32.png", "img/apple-touch-icon.png"):
+                path = assets / rel
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("asset: " + rel, encoding="utf-8")
+            source = root / "source"
+            source.mkdir()
+            (source / build.SOURCE_PDF_NAME).write_bytes(self.PDF_BYTES)
+            deployment = root / "deployment"
+            deployment.mkdir()
+            (deployment / "_headers").write_text("/*\n  X-Frame-Options: DENY\n", encoding="utf-8")
+            (deployment / "_redirects").write_text("# no active rules\n", encoding="utf-8")
+            docs = root / "docs"
+            build.ASSETS_DIR = assets
+            build.SOURCE_DIR = source
+            build.DEPLOYMENT_DIR = deployment
+            build.SOURCE_PDF_PATH = source / build.SOURCE_PDF_NAME
+            build.SITEMAP = [
+                {"slug": "index", "title": "Home", "shortTitle": "Home", "pdfPages": None, "group": ""},
+                {"slug": "about", "title": "About", "shortTitle": "About", "pdfPages": None, "group": ""},
+                {"slug": "search", "title": "Search", "shortTitle": "Search", "pdfPages": None, "group": ""},
+                {"slug": "clause-1-scope", "title": "1 Scope", "shortTitle": "1 Scope",
+                 "pdfPages": None, "group": "Clauses"},
+            ]
+            try:
+                yield root, docs
+            finally:
+                for name, value in saved.items():
+                    setattr(build, name, value)
+
+    def rendered_pages(self):
+        return {page["slug"]: f'<html><body><h1>{page["title"]}</h1></body></html>'
+                for page in build.SITEMAP}
+
+    def publish(self, docs, rendered=None, check_only=False):
+        rendered = self.rendered_pages() if rendered is None else rendered
+        collected = {slug: build.collect_resources(h) for slug, h in rendered.items()}
+        errors = build.Errors()
+        return build.publish_output(rendered, collected, [], errors,
+                                    check_only=check_only, docs_dir=docs)
+
+    def staging_dirs(self, root):
+        return [p for p in root.iterdir() if p.name.startswith(".docs-staging-")]
+
+    def test_successful_staging_and_replacement(self):
+        with self.fake_site() as (root, docs):
+            self.assertTrue(self.publish(docs))
+            self.assertTrue((docs / "index.html").is_file())
+            self.assertTrue((docs / "404.html").is_file())
+            self.assertTrue((docs / ".nojekyll").is_file())
+            self.assertEqual(self.staging_dirs(root), [])
+
+    def test_source_assets_and_deployment_files_are_copied(self):
+        with self.fake_site() as (root, docs):
+            self.publish(docs)
+            self.assertEqual((docs / "assets" / "css" / "style.css").read_text(encoding="utf-8"),
+                             "asset: css/style.css")
+            self.assertEqual((docs / "_headers").read_bytes(),
+                             (build.DEPLOYMENT_DIR / "_headers").read_bytes())
+            self.assertEqual((docs / "_redirects").read_bytes(),
+                             (build.DEPLOYMENT_DIR / "_redirects").read_bytes())
+
+    def test_pdf_bytes_and_checksum_are_preserved(self):
+        with self.fake_site() as (root, docs):
+            self.publish(docs)
+            published = (docs / "source" / build.SOURCE_PDF_NAME).read_bytes()
+            self.assertEqual(published, self.PDF_BYTES)
+            self.assertEqual(hashlib.sha256(published).hexdigest(),
+                             hashlib.sha256(self.PDF_BYTES).hexdigest())
+
+    def test_stale_files_disappear_after_a_clean_build(self):
+        with self.fake_site() as (root, docs):
+            (docs / "assets" / "img").mkdir(parents=True)
+            (docs / "obsolete-page.html").write_text("old", encoding="utf-8")
+            (docs / "assets" / "img" / "obsolete.png").write_text("old", encoding="utf-8")
+            self.publish(docs)
+            self.assertFalse((docs / "obsolete-page.html").exists())
+            self.assertFalse((docs / "assets" / "img" / "obsolete.png").exists())
+
+    def test_every_published_file_originates_from_a_source_or_build_step(self):
+        with self.fake_site() as (root, docs):
+            self.publish(docs)
+            actual = {p.relative_to(docs).as_posix() for p in docs.rglob("*") if p.is_file()}
+            expected = (
+                {f'{page["slug"]}.html' for page in build.SITEMAP}
+                | set(build.GENERATED_EXTRA_FILES) | {".nojekyll"}
+                | set(build.DEPLOYMENT_FILES)
+                | {f"assets/{rel}" for rel in ("css/style.css", "js/site.js", "img/favicon.svg",
+                                               "img/favicon-32.png", "img/apple-touch-icon.png")}
+                | {f"source/{build.SOURCE_PDF_NAME}"}
+            )
+            self.assertEqual(actual, expected)
+
+    def test_failed_build_preserves_docs_and_removes_staging(self):
+        with self.fake_site() as (root, docs):
+            self.publish(docs)  # a valid published site to protect
+            before = {p.relative_to(docs).as_posix(): p.read_bytes()
+                      for p in docs.rglob("*") if p.is_file()}
+            # sabotage: a malformed redirect rule fails staged validation
+            (build.DEPLOYMENT_DIR / "_redirects").write_text("/broken\n", encoding="utf-8")
+            with contextlib.redirect_stderr(io.StringIO()) as err:
+                with self.assertRaises(SystemExit):
+                    self.publish(docs)
+            self.assertIn("redirect-malformed", err.getvalue())
+            after = {p.relative_to(docs).as_posix(): p.read_bytes()
+                     for p in docs.rglob("*") if p.is_file()}
+            self.assertEqual(before, after)          # docs/ untouched
+            self.assertEqual(self.staging_dirs(root), [])  # no temp left behind
+
+    def test_missing_asset_in_staging_fails_the_build(self):
+        with self.fake_site() as (root, docs):
+            rendered = self.rendered_pages()
+            rendered["index"] = ('<html><body><h1>Home</h1>'
+                                 '<img src="assets/img/missing.png" alt=""></body></html>')
+            with contextlib.redirect_stderr(io.StringIO()) as err:
+                with self.assertRaises(SystemExit):
+                    self.publish(docs, rendered=rendered)
+            self.assertIn("missing-local-resource", err.getvalue())
+            self.assertFalse(docs.exists())  # never created from a failed build
+            self.assertEqual(self.staging_dirs(root), [])
+
+    def test_unchanged_source_rebuilds_byte_identically(self):
+        with self.fake_site() as (root, docs):
+            self.publish(docs)
+            first = {p.relative_to(docs).as_posix(): p.read_bytes()
+                     for p in docs.rglob("*") if p.is_file()}
+            self.publish(docs)
+            second = {p.relative_to(docs).as_posix(): p.read_bytes()
+                      for p in docs.rglob("*") if p.is_file()}
+            self.assertEqual(first, second)
+
+    def test_check_only_validates_without_touching_docs(self):
+        with self.fake_site() as (root, docs):
+            self.assertFalse(self.publish(docs, check_only=True))
+            self.assertFalse(docs.exists())
+            self.assertEqual(self.staging_dirs(root), [])
+
+
+class NotFoundPageTests(unittest.TestCase):
+    """The generated docs/404.html: shared design, exactly one <h1>,
+    noindex, absolute Home/Search/first-clause links, no automatic
+    redirect, and excluded from the sitemap."""
+
+    PAGE = (ROOT / "docs" / "404.html").read_text(encoding="utf-8")
+    SITEMAP_XML = (ROOT / "docs" / "sitemap.xml").read_text(encoding="utf-8")
+
+    def test_exactly_one_h1(self):
+        h1s = re.findall(r"<h1[^>]*>(.*?)</h1>", self.PAGE, re.S)
+        self.assertEqual(len(h1s), 1)
+        self.assertIn("Page not found", h1s[0])
+
+    def test_says_the_page_could_not_be_found(self):
+        self.assertIn("could not be found", self.PAGE)
+
+    def test_has_noindex_and_no_canonical(self):
+        self.assertIn('<meta name="robots" content="noindex">', self.PAGE)
+        self.assertNotIn('rel="canonical"', self.PAGE)
+
+    def test_never_redirects_automatically(self):
+        self.assertNotIn("http-equiv", self.PAGE.lower().replace("charset", ""))
+
+    def test_home_search_and_first_clause_links_are_absolute(self):
+        for target in ("index.html", "search.html", "clause-1-scope.html"):
+            self.assertIn(f'href="{build.SITE_BASE_URL}{target}"', self.PAGE)
+
+    def test_no_relative_links_survive(self):
+        # served at arbitrary missing paths, so every URL must be absolute
+        # or fragment-only.
+        for r in build.collect_resources(self.PAGE).resources:
+            split = urllib.parse.urlsplit(r.url)
+            self.assertTrue(split.scheme or not split.path,
+                            f"relative URL on the 404 page: {r.url}")
+
+    def test_excluded_from_sitemap(self):
+        self.assertNotIn("404.html", self.SITEMAP_XML)
+
+    def test_uses_shared_site_design(self):
+        self.assertIn('class="site-header"', self.PAGE)
+        self.assertIn("assets/css/style.css", self.PAGE)
 
 
 if __name__ == "__main__":

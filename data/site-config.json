@@ -1,0 +1,7 @@
+{
+  "siteName": "AccessibleDocs",
+  "documentLabel": "ETSI EN 301 549 V4.1.0",
+  "baseUrl": "https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/",
+  "repositoryUrl": "https://github.com/hgd69ghg8t-lgtm/EN-301-549-online",
+  "deploymentTarget": "github-pages"
+}

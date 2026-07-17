@@ -1,0 +1,15 @@
+# Cloudflare Pages redirects (https://developers.cloudflare.com/pages/configuration/redirects/).
+# Source of truth: deployment/cloudflare/_redirects — the build copies
+# this file verbatim to docs/_redirects and validates every active rule
+# (see parse_redirects() in scripts/build.py). GitHub Pages ignores it.
+#
+# There are currently NO active redirect rules: this site has never
+# renamed a published URL, so there are no legacy addresses to redirect
+# (the one historical move — accessibility-statement.html onto the About
+# page — is already handled by a generated meta-refresh stub that works
+# on any static host). Do not invent old URLs.
+#
+# Rule format, when one is genuinely needed:
+#   /old-path  /new-path  301
+# e.g. (example only — not an active rule):
+#   /accessibility.html  /about.html  301
