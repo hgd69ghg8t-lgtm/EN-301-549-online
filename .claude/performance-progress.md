@@ -8,7 +8,7 @@ Task files: `.claude/performance-tasks/00…70`
 
 | Task | Title | State | Commit | Tests run | Notes |
 |------|-------|-------|--------|-----------|-------|
-| 00 | Baseline + measurement tooling | not started | — | — | — |
+| 00 | Baseline + measurement tooling | **complete** | (this commit) | full suite green: unittest, contrast, build+diff, html-validate, a11y, layout, search, theme | baseline in `baseline.json` + task file |
 | 10 | Fonts and theme paint | not started | — | — | — |
 | 20 | Asset pipeline + hashed filenames | not started | — | — | — |
 | 30 | JavaScript loading/execution | not started | — | — | — |
@@ -23,20 +23,31 @@ drafting it), task files created, all committed to the branch above.
 
 ## Baseline measurements
 
-_To be filled by task 00 (R-001/R-002) before any production change._
+Recorded by task 00 on commit `846f69a`; full snapshot in
+`.claude/performance-tasks/baseline.json`, tables in
+`.claude/performance-tasks/00-baseline.md`. Headlines (gzip = wire size):
+
+- CSS 50.5 KB raw / 13.3 KB gzip · JS 31.9 KB raw / 9.2 KB gzip
+- Fonts 66.5 KB on the wire (2 × WOFF2, pre-compressed)
+- Search index 719.8 KB raw / **129.5 KB gzip** = first-keystroke cost of
+  the header search on every page (the project's biggest target)
+- Worst first visit 110.6 KB (`clause-11-non-web-software.html`);
+  median 96.7 KB; total site raw 2568.7 KB (PDF excluded)
 
 ## Outstanding failures
 
-None known. `node_modules` is not installed in a fresh container — run
-`npm ci && npx playwright install chromium` before the Playwright suites
-(Chromium is pre-installed in Claude remote containers at
-`/opt/pw-browsers`; do NOT run `playwright install` there — see the
-container notes).
+None known. Fresh-container setup learned during task 00: run `npm ci`,
+then run the Playwright suites with
+`PLAYWRIGHT_CHROMIUM_PATH=/opt/pw-browsers/chromium` — the container's
+pre-installed Chromium build (1194) predates the one the pinned Playwright
+wants (1228), and the suites already support this env var precisely for
+that. Do NOT run `npx playwright install` in the container. CI is
+unaffected (it installs its own Chromium).
 
 ## Next task
 
-`00-baseline.md` — awaiting the maintainer's instruction to begin
-implementation.
+`10-fonts-theme.md` — awaiting the maintainer's instruction (task 00 was
+authorised and completed on its own; do not start 10 unprompted).
 
 ## Context-handoff notes (keep current)
 

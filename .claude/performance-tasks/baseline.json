@@ -1,0 +1,220 @@
+{
+  "derived": {
+    "first_visit_median_bytes": 99036,
+    "first_visit_worst_bytes": 113296,
+    "first_visit_worst_page": "clause-11-non-web-software.html",
+    "fonts_raw": 68120,
+    "search_first_keystroke_gzip": 132617,
+    "shared_css_gzip": 13595,
+    "shared_js_gzip": 9408,
+    "total_site_raw_excluding_pdf": 2630331
+  },
+  "files": {
+    "css": {
+      "assets/css/style.css": {
+        "gzip": 13595,
+        "raw": 51743
+      }
+    },
+    "fonts": {
+      "assets/fonts/overpass-var.woff2": {
+        "gzip": 39413,
+        "raw": 39380
+      },
+      "assets/fonts/sourcesans3-var.woff2": {
+        "gzip": 28768,
+        "raw": 28740
+      }
+    },
+    "images": {
+      "assets/img/apple-touch-icon.png": {
+        "gzip": 4128,
+        "raw": 4121
+      },
+      "assets/img/favicon-32.png": {
+        "gzip": 927,
+        "raw": 904
+      },
+      "assets/img/favicon.svg": {
+        "gzip": 402,
+        "raw": 931
+      },
+      "assets/img/logo.svg": {
+        "gzip": 267,
+        "raw": 570
+      }
+    },
+    "js": {
+      "assets/js/site.js": {
+        "gzip": 9408,
+        "raw": 32706
+      }
+    },
+    "pages": {
+      "about.html": {
+        "gzip": 12583,
+        "raw": 43396
+      },
+      "accessibility-statement.html": {
+        "gzip": 346,
+        "raw": 561
+      },
+      "annex-a-conformance-evaluation.html": {
+        "gzip": 13802,
+        "raw": 86100
+      },
+      "annex-b-functional-performance-relationship.html": {
+        "gzip": 10279,
+        "raw": 77589
+      },
+      "annex-c-1-introduction.html": {
+        "gzip": 4322,
+        "raw": 14468
+      },
+      "annex-c-10-non-web-documents.html": {
+        "gzip": 8168,
+        "raw": 61054
+      },
+      "annex-c-11-software.html": {
+        "gzip": 11367,
+        "raw": 89726
+      },
+      "annex-c-12-information-products-services.html": {
+        "gzip": 4884,
+        "raw": 19311
+      },
+      "annex-c-13-relay-emergency.html": {
+        "gzip": 6658,
+        "raw": 33201
+      },
+      "annex-c-14-conformance.html": {
+        "gzip": 4459,
+        "raw": 15117
+      },
+      "annex-c-4-functional-performance.html": {
+        "gzip": 5350,
+        "raw": 24753
+      },
+      "annex-c-5-generic-requirements.html": {
+        "gzip": 9788,
+        "raw": 55091
+      },
+      "annex-c-6-real-time-communication.html": {
+        "gzip": 15146,
+        "raw": 92329
+      },
+      "annex-c-7-video-capabilities.html": {
+        "gzip": 5772,
+        "raw": 26507
+      },
+      "annex-c-8-hardware.html": {
+        "gzip": 7780,
+        "raw": 43427
+      },
+      "annex-c-9-web.html": {
+        "gzip": 8045,
+        "raw": 69608
+      },
+      "annex-d-cognitive-accessibility.html": {
+        "gzip": 4569,
+        "raw": 14871
+      },
+      "annex-e-guidance.html": {
+        "gzip": 8475,
+        "raw": 31269
+      },
+      "annex-f-change-history.html": {
+        "gzip": 4686,
+        "raw": 15938
+      },
+      "annex-za-directive-2016-2102.html": {
+        "gzip": 16823,
+        "raw": 130234
+      },
+      "annex-zb-directive-2019-882.html": {
+        "gzip": 11598,
+        "raw": 60513
+      },
+      "annex-zc-other-directives.html": {
+        "gzip": 5140,
+        "raw": 18145
+      },
+      "clause-1-scope.html": {
+        "gzip": 5085,
+        "raw": 16388
+      },
+      "clause-10-non-web-documents.html": {
+        "gzip": 17502,
+        "raw": 85786
+      },
+      "clause-11-non-web-software.html": {
+        "gzip": 22173,
+        "raw": 118923
+      },
+      "clause-12-information-products-services.html": {
+        "gzip": 5231,
+        "raw": 18992
+      },
+      "clause-13-relay-emergency.html": {
+        "gzip": 7100,
+        "raw": 27623
+      },
+      "clause-14-conformance.html": {
+        "gzip": 6149,
+        "raw": 19820
+      },
+      "clause-2-references.html": {
+        "gzip": 8748,
+        "raw": 32348
+      },
+      "clause-3-definitions.html": {
+        "gzip": 18029,
+        "raw": 69278
+      },
+      "clause-4-functional-performance.html": {
+        "gzip": 7474,
+        "raw": 30008
+      },
+      "clause-5-generic-requirements.html": {
+        "gzip": 13368,
+        "raw": 54696
+      },
+      "clause-6-real-time-communication.html": {
+        "gzip": 16122,
+        "raw": 75058
+      },
+      "clause-7-video-capabilities.html": {
+        "gzip": 7191,
+        "raw": 26055
+      },
+      "clause-8-hardware.html": {
+        "gzip": 11113,
+        "raw": 51308
+      },
+      "clause-9-web.html": {
+        "gzip": 11398,
+        "raw": 54278
+      },
+      "index.html": {
+        "gzip": 4905,
+        "raw": 17333
+      },
+      "search.html": {
+        "gzip": 4105,
+        "raw": 13070
+      }
+    },
+    "pdf": {
+      "source/en_301549v040100va.pdf": {
+        "gzip": 4098631,
+        "raw": 4384217
+      }
+    },
+    "search": {
+      "search-index.json": {
+        "gzip": 132617,
+        "raw": 737064
+      }
+    }
+  }
+}
