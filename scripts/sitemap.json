@@ -1,7 +1,6 @@
 [
   { "slug": "index", "title": "EN 301 549 accessibility standard \u2014 HTML edition", "shortTitle": "Home", "pdfPages": null, "group": "" },
-  { "slug": "about", "title": "About this HTML edition", "shortTitle": "About this HTML edition", "pdfPages": "9-11", "group": "About and legal information" },
-  { "slug": "accessibility-statement", "title": "Accessibility statement", "shortTitle": "Accessibility statement", "pdfPages": null, "group": "About and legal information" },
+  { "slug": "about", "title": "About", "shortTitle": "About", "pdfPages": "9-11", "group": "" },
 
   { "slug": "clause-1-scope", "title": "1 Scope", "shortTitle": "1 Scope", "pdfPages": "12", "group": "Clauses" },
   { "slug": "clause-2-references", "title": "2 References", "shortTitle": "2 References", "pdfPages": "12-16", "group": "Clauses" },

@@ -48,7 +48,7 @@ The build validates all of this automatically (unknown slug, duplicate key, empt
 
 ## Adding or changing site-authored wording
 
-Website-authored text (introductions, summaries, navigation labels, the About page's own sentences, the accessibility statement, the search page, notices) lives in `content/index.html`, `content/about.html`, `content/accessibility-statement.html`, `content/search.html`, and `data/clause-summaries.json` — edit freely, following the [content-authoring conventions](../README.md#content-authoring-conventions) in the README (sentence case, plain language, no italics for publication references, human-readable dates via `{{TOKEN}}`s rather than hand-typed ones).
+Website-authored text (introductions, summaries, navigation labels, the About page's own sentences, the accessibility statement, the search page, notices) lives in `content/index.html`, `content/about.html` (which includes the accessibility statement section), `content/search.html`, and `data/clause-summaries.json` — edit freely, following the [content-authoring conventions](../README.md#content-authoring-conventions) in the README (sentence case, plain language, no italics for publication references, human-readable dates via `{{TOKEN}}`s rather than hand-typed ones).
 
 Never mix new site-authored wording into a clause/annex `content/*.html` file's reproduced ETSI text — those files are protected by the wording-integrity check (see below), and adding your own sentences there would either fail that check or (worse) blur the line between what ETSI wrote and what this website added.
 
@@ -84,7 +84,7 @@ All of these should be run, and pass, before merging a change that touches `cont
 
 ## Reviewing the accessibility statement
 
-`content/accessibility-statement.html`'s "Testing status" section must always accurately reflect what has and hasn't actually been done — see the automated-completed / manual-not-yet-completed / still-planned / known-issues / formal-audit-status split in that file. When you complete a real manual test session, update:
+The accessibility statement section of `content/about.html` has a "Testing status" part that must always accurately reflect what has and hasn't actually been done — see the automated-completed / manual-not-yet-completed / still-planned / known-issues / formal-audit-status split in that file. When you complete a real manual test session, update:
 
 - the relevant part of "Testing status" (move it out of "not yet completed" only once it genuinely is),
 - the "Review history" table,

@@ -51,7 +51,7 @@ SITE_BASE_URL = "https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/"
 # are outside the ETSI wording-integrity baseline, are the pages
 # data/content-ownership.json may describe, and (index/search aside) are
 # the header/footer quick-link destinations.
-NON_STANDARD_SLUGS = {"index", "about", "accessibility-statement", "search"}
+NON_STANDARD_SLUGS = {"index", "about", "search"}
 
 # A page's own headings are listed in an "On this page" jump list once
 # there are at least this many h2/h3 headings — short pages don't need one.
@@ -1058,7 +1058,14 @@ def build_site_nav(current_slug, current_headings):
 
     parts = ['<nav id="site-nav-panel" class="site-nav" aria-label="Site contents">',
              '<div class="site-nav__header">Contents</div>']
-    parts.append('<p><a href="index.html">Home</a></p>')
+    # Ungrouped pages (Home, About) are top-level entries above the
+    # grouped trees; the search page stays out of the contents list — it
+    # is reachable from the header and footer on every page.
+    for page in SITEMAP:
+        if page["group"] or page["slug"] == "search":
+            continue
+        current = ' aria-current="page"' if page["slug"] == current_slug else ""
+        parts.append(f'<p><a href="{page["slug"]}.html"{current}>{html.escape(page["shortTitle"])}</a></p>')
     for g in order:
         pages = groups[g]
         contains_current = any(p["slug"] == current_slug for p in pages)
@@ -1187,8 +1194,7 @@ def build_site_title(asset_prefix):
 # convention as any ordinary website. Labels match the Contents sidebar
 # exactly so the same page is never called two different things.
 QUICK_LINKS = [
-    ("about", "About this HTML edition"),
-    ("accessibility-statement", "Accessibility statement"),
+    ("about", "About"),
 ]
 
 
@@ -1813,12 +1819,13 @@ def validate_rendered_page(slug, html_out, all_slugs, errors):
                        "is the heading text it wraps, so it must not be empty.",
                        "Check inject_heading_links() wrapped the heading's actual text.")
 
-    if slug == "accessibility-statement":
+    if slug == "about":
         if "github.com" not in html_out and "mailto:" not in html_out:
             errors.add(label, "accessibility-statement-no-reporting-route",
-                       "The accessibility statement has no reporting link (expected a GitHub issues "
-                       "link or a mailto: link).",
-                       "Add a real reporting route — see content/accessibility-statement.html.")
+                       "The About page's accessibility statement section has no reporting link "
+                       "(expected a GitHub issues link or a mailto: link).",
+                       "Add a real reporting route — see the accessibility statement section "
+                       "in content/about.html.")
 
     on_this_page_match = re.search(r'<nav class="on-this-page".*?</nav>', html_out, re.DOTALL)
     if on_this_page_match:
@@ -1961,6 +1968,23 @@ def main():
         encoding="utf-8")
     (DOCS_DIR / "robots.txt").write_text(
         f"User-agent: *\nAllow: /\nSitemap: {SITE_BASE_URL}sitemap.xml\n",
+        encoding="utf-8")
+
+    # The accessibility statement moved onto the About page; its old URL
+    # stays alive as a tiny redirect so existing links and bookmarks keep
+    # working (deep links to its sections keep the same fragment ids on
+    # about.html). noindex: search engines should list the About page.
+    (DOCS_DIR / "accessibility-statement.html").write_text(
+        '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
+        '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
+        '<meta http-equiv="refresh" content="0; url=about.html#accessibility-statement">\n'
+        '<meta name="robots" content="noindex">\n'
+        f'<link rel="canonical" href="{html.escape(SITE_BASE_URL)}about.html">\n'
+        f"<title>Accessibility statement | {DOC_LABEL} Online</title>\n"
+        "</head>\n<body>\n"
+        '<p>The accessibility statement is now part of the '
+        '<a href="about.html#accessibility-statement">About page</a>.</p>\n'
+        "</body>\n</html>\n",
         encoding="utf-8")
 
     print(f"Built {len(rendered)} pages and a {len(index_entries)}-entry search index into {DOCS_DIR}")

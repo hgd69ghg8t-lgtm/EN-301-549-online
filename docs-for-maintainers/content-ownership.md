@@ -4,7 +4,7 @@ This site has no assigned content owner recorded yet. That's an honest gap, not 
 
 ## The schema
 
-`data/content-ownership.json` has one entry per website-authored page (`index`, `about`, `accessibility-statement` — the same set as `NON_STANDARD_SLUGS` in `scripts/build.py`). Each entry has six optional fields:
+`data/content-ownership.json` has one entry per website-authored page (`index`, `about`, `search` — the same set as `NON_STANDARD_SLUGS` in `scripts/build.py`; the accessibility statement is a section of the About page). Each entry has six optional fields:
 
 | Field | Meaning |
 | --- | --- |

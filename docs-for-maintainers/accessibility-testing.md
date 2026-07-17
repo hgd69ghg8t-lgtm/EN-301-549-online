@@ -69,4 +69,4 @@ Add a new row for every test session. Do not overwrite previous entries — the 
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | _(none yet)_ | | | | | | | |
 
-The accessibility statement (`content/accessibility-statement.html`) links back to this file. Keep the statement's "review history" table and this log in sync — the statement is the public summary, this file is the working record.
+The accessibility statement (a section of `content/about.html`) links back to this file. Keep the statement's "review history" table and this log in sync — the statement is the public summary, this file is the working record.

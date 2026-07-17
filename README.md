@@ -7,11 +7,11 @@ An HTML edition of 'ETSI EN 301 549 V4.1.0: Accessibility requirements for ICT p
 ## Project structure
 
 ```
-content/            38 body-only HTML fragments — the actual transcribed
+content/            37 body-only HTML fragments — the actual transcribed
                      standard text (headings, paragraphs, lists, tables,
-                     callouts), plus this site's own homepage/about/
-                     accessibility-statement/search pages. This is what you
-                     hand-edit.
+                     callouts), plus this site's own homepage/about/search
+                     pages (the About page includes the accessibility
+                     statement). This is what you hand-edit.
                      Every fragment is clearly split into two kinds of text:
                      website-authored (introductions, "About this clause"
                      boxes, notices, navigation) and text reproduced
@@ -68,7 +68,7 @@ docs-for-maintainers/  Manual (non-automatable) testing documentation,
 
 **Hand-edit:** everything under `content/`, `data/source-metadata.json`, `data/clause-summaries.json`, `data/content-ownership.json`, `scripts/sitemap.json`, `docs/assets/css/style.css`, `docs/assets/js/site.js`, `docs/assets/fonts/`, `docs/assets/img/` (the AccessibleDocs logo and favicons), `README.md`, and everything under `docs-for-maintainers/`. `data/etsi-content-hashes.json` is the one exception: it's committed, but it's only ever written by `scripts/update_etsi_hashes.py` (see "Reproduced ETSI wording integrity" below), never by hand.
 
-**Generated — never hand-edit:** every other file directly under `docs/` (`docs/*.html`, `docs/search-index.json`, `docs/sitemap.xml`, `docs/robots.txt`). They are committed to the repository (GitHub Pages serves straight from `docs/` with no build step of its own), but they are output, not input. If you edit a generated `docs/*.html` file directly, the next `python3 scripts/build.py` run will silently overwrite your change — and separately, `git diff --exit-code -- docs/` after a rebuild (see below) will show your manual edit as a difference the moment anyone rebuilds, so it can't quietly become the "real" version of the page. `scripts/build.py` never reads any *generated* file: the only things it reads under `docs/` are the hand-authored assets (`docs/assets/css/style.css` and `docs/assets/js/site.js`, hashed for the cache-busting `?v=` asset URLs) and the committed source PDF's size — so nothing that happens to already-committed `docs/*.html` can feed back into the next build.
+**Generated — never hand-edit:** every other file directly under `docs/` (`docs/*.html`, `docs/search-index.json`, `docs/sitemap.xml`, `docs/robots.txt` — including `docs/accessibility-statement.html`, kept as a generated redirect to the About page so old links still work). They are committed to the repository (GitHub Pages serves straight from `docs/` with no build step of its own), but they are output, not input. If you edit a generated `docs/*.html` file directly, the next `python3 scripts/build.py` run will silently overwrite your change — and separately, `git diff --exit-code -- docs/` after a rebuild (see below) will show your manual edit as a difference the moment anyone rebuilds, so it can't quietly become the "real" version of the page. `scripts/build.py` never reads any *generated* file: the only things it reads under `docs/` are the hand-authored assets (`docs/assets/css/style.css` and `docs/assets/js/site.js`, hashed for the cache-busting `?v=` asset URLs) and the committed source PDF's size — so nothing that happens to already-committed `docs/*.html` can feed back into the next build.
 
 The build has no dependencies beyond the Python 3 standard library:
 
@@ -95,7 +95,7 @@ If that `git diff` reports changes, `docs/` was out of date with `content/`/`scr
 
 ### Reproduced ETSI wording integrity
 
-`data/etsi-content-hashes.json` records a hash of the reproduced text in every clause/annex `content/*.html` file (every sitemap page except the website-authored `index`/`about`/`accessibility-statement`). The build recomputes and compares these hashes on every run, so an accidental (or unnoticed, e.g. from a bad merge) change to reproduced ETSI wording fails the build and names the exact file affected.
+`data/etsi-content-hashes.json` records a hash of the reproduced text in every clause/annex `content/*.html` file (every sitemap page except the website-authored `index`/`about`/`search`). The build recomputes and compares these hashes on every run, so an accidental (or unnoticed, e.g. from a bad merge) change to reproduced ETSI wording fails the build and names the exact file affected.
 
 The hash is computed over the file's text content only, with all markup stripped and whitespace collapsed first — so changing a heading's level, id, or class, reindenting a file, or any other purely structural edit never trips this check; only a change to the actual reproduced words does.
 
@@ -163,7 +163,7 @@ brew install poppler            # macOS
 
 ## Accessibility
 
-Colour pairs are verified against WCAG 2.2 AA contrast thresholds (4.5:1 text, 3:1 UI components) — see `docs/assets/css/style.css` header comment for the source tokens. This site is **designed and tested with the aim of meeting WCAG 2.2 Level AA** — that is a target, not an independently audited conformance certificate. See the [accessibility statement](docs/accessibility-statement.html) (or `content/accessibility-statement.html` before building) for exactly what has been automated-tested, what still needs manual evaluation, and how to report a problem. Manual, non-automatable testing procedure and the test log live in [`docs-for-maintainers/accessibility-testing.md`](docs-for-maintainers/accessibility-testing.md).
+Colour pairs are verified against WCAG 2.2 AA contrast thresholds (4.5:1 text, 3:1 UI components) — see `docs/assets/css/style.css` header comment for the source tokens. This site is **designed and tested with the aim of meeting WCAG 2.2 Level AA** — that is a target, not an independently audited conformance certificate. See the [accessibility statement section of the About page](docs/about.html) (or `content/about.html` before building) for exactly what has been automated-tested, what still needs manual evaluation, and how to report a problem. Manual, non-automatable testing procedure and the test log live in [`docs-for-maintainers/accessibility-testing.md`](docs-for-maintainers/accessibility-testing.md).
 
 ## Testing
 
