@@ -26,7 +26,7 @@ When a maintainer actually reviews one of these pages, update its entry in `data
 - [ ] Re-read the page as a first-time visitor would, checking wording is still accurate and nothing has gone stale.
 - [ ] For the homepage and About page: confirm the ETSI publication/approval status described still matches `data/source-metadata.json` and the linked ETSI deliverable page.
 - [ ] For the accessibility statement: confirm the "Testing status" section still accurately reflects what has and hasn't actually been tested (see `docs-for-maintainers/accessibility-testing.md`'s test log) — do not let it silently drift into implying more testing has happened than has.
-- [ ] Check every link on the page still resolves (the build's own `broken-anchor-link`/`broken-internal-link` checks cover same-site links; external links, e.g. to the ETSI website or GitHub, need a manual check).
+- [ ] Check every link on the page still resolves (the build's own `missing-local-resource`/`missing-fragment-target` checks cover same-site links; external links, e.g. to the ETSI website or GitHub, need a manual check).
 - [ ] Set `lastReviewDate` to today's date (`YYYY-MM-DD`).
 - [ ] Set `nextReviewDate` or `reviewFrequency` to when this page should next be reviewed.
 - [ ] If you are that page's actual, current owner, set `owner` and `ownerRole` — otherwise leave them `null`.

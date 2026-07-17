@@ -7,9 +7,20 @@ are decoded automatically by HTMLParser with convert_charrefs=True), or
 extra whitespace inside the heading. No third-party dependency is added:
 html.parser ships with every CPython install.
 """
+import html
 from html.parser import HTMLParser
 
 HEADING_TAGS = {"h1", "h2", "h3", "h4", "h5", "h6"}
+
+
+def escape_attr(value):
+    """Escape a parsed attribute value for re-serialisation into a quoted
+    HTML attribute. HTMLParser (convert_charrefs=True) hands attribute
+    values back with entities already decoded, so writing them out verbatim
+    would corrupt any value containing &, <, >, or quotes. Escaping exactly
+    once at write time round-trips correctly and can never double-escape,
+    because the input is always the decoded value."""
+    return html.escape(value, quote=True)
 
 # A numbered clause reference at the start of heading text, e.g. "9.1.1.1",
 # "C.8.2.1.1", "ZA.1", "A.2.0". Optional 1-3 letter prefix (annex letter),

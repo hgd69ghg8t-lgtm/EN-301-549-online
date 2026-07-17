@@ -24,10 +24,14 @@ import sys
 import calendar
 import datetime
 import hashlib
+import posixpath
+import urllib.parse
+from collections import namedtuple
+from html.parser import HTMLParser
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from heading_parser import parse_headings, canonical_id, parse_terms  # noqa: E402
+from heading_parser import parse_headings, canonical_id, parse_terms, escape_attr  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 SITEMAP_PATH = ROOT / "scripts" / "sitemap.json"
@@ -94,7 +98,6 @@ REQUIRED_METADATA_FIELDS = (
 )
 
 TAG_RE = re.compile(r'<[^>]+>')
-HREF_RE = re.compile(r'href="([^"]*)"')
 PLACEHOLDER_RE = re.compile(r'\[insert[^\]]*\]', re.IGNORECASE)
 VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input",
              "link", "meta", "param", "source", "track", "wbr"}
@@ -889,7 +892,7 @@ def validate_fragment_headings(slug, raw, headings, errors):
                    "title, update the title in scripts/sitemap.json instead.")
 
     seen_ids = {}
-    last_level = 1  # virtual parent: the template's own <h1> (or fragment h1 for index)
+    last_level = 1  # virtual parent: the template's own <h1> (every page, homepage included)
     for h in headings:
         if h.level == 1:
             continue
@@ -954,7 +957,7 @@ def inject_heading_links(raw, headings):
         if not h.number:
             continue
         anchor_id = h.id or canonical_id(h.number)
-        open_tag = f'<a class="heading-link" href="#{anchor_id}" data-copy-link>'
+        open_tag = f'<a class="heading-link" href="#{escape_attr(anchor_id)}" data-copy-link>'
         edits.append((h.end, h.end, "</a>"))
         edits.append((h.tag_end, h.tag_end, open_tag))
     edits.sort(key=lambda e: e[0], reverse=True)
@@ -1037,14 +1040,14 @@ def build_subsection_tree(headings):
             if open_sub:
                 html_parts.append('</ul>')
                 open_sub = False
-            html_parts.append(f'<li><a href="#{h.id}" data-subsection>{html.escape(h.text)}</a>')
+            html_parts.append(f'<li><a href="#{escape_attr(h.id)}" data-subsection>{html.escape(h.text)}</a>')
             if not (nxt and nxt.level == 3):
                 html_parts.append('</li>')
         else:
             if not open_sub:
                 html_parts.append('<ul class="site-nav__subsections site-nav__subsections--nested">')
                 open_sub = True
-            html_parts.append(f'<li><a href="#{h.id}" data-subsection>{html.escape(h.text)}</a></li>')
+            html_parts.append(f'<li><a href="#{escape_attr(h.id)}" data-subsection>{html.escape(h.text)}</a></li>')
             if not (nxt and nxt.level == 3):
                 html_parts.append('</ul></li>')
                 open_sub = False
@@ -1407,14 +1410,14 @@ def build_on_this_page(headings):
             if open_sub:
                 parts.append('</ul>')
                 open_sub = False
-            parts.append(f'<li><a href="#{h.id}">{html.escape(h.text)}</a>')
+            parts.append(f'<li><a href="#{escape_attr(h.id)}">{html.escape(h.text)}</a>')
             if not (nxt and nxt.level == 3):
                 parts.append('</li>')
         else:
             if not open_sub:
                 parts.append('<ul>')
                 open_sub = True
-            parts.append(f'<li><a href="#{h.id}">{html.escape(h.text)}</a></li>')
+            parts.append(f'<li><a href="#{escape_attr(h.id)}">{html.escape(h.text)}</a></li>')
             if not (nxt and nxt.level == 3):
                 parts.append('</ul></li>')
                 open_sub = False
@@ -1586,7 +1589,7 @@ def render_dt_starttag(attrs, term_id):
     has_id = has_tabindex = False
     for k, v in attrs:
         if k == "id":
-            parts.append(f'id="{term_id}"')
+            parts.append(f'id="{escape_attr(term_id)}"')
             has_id = True
         elif k == "tabindex":
             parts.append('tabindex="-1"')
@@ -1594,9 +1597,9 @@ def render_dt_starttag(attrs, term_id):
         elif v is None:
             parts.append(k)
         else:
-            parts.append(f'{k}="{v}"')
+            parts.append(f'{k}="{escape_attr(v)}"')
     if not has_id:
-        parts.append(f'id="{term_id}"')
+        parts.append(f'id="{escape_attr(term_id)}"')
     if not has_tabindex:
         # Focusable-but-not-tabbable: lets site.js move keyboard focus to a
         # definition when its fragment link is followed (see site.js), while
@@ -1667,7 +1670,7 @@ def build_az_index(assigned_terms, index_id, aria_label):
             first_seen[letter] = term_id
     letters = sorted(first_seen.keys())
     links = "".join(
-        f'<li><a href="#{first_seen[letter]}">{letter}'
+        f'<li><a href="#{escape_attr(first_seen[letter])}">{letter}'
         f'<span class="visually-hidden"> (jump to terms starting with {letter})</span></a></li>'
         for letter in letters
     )
@@ -1804,10 +1807,205 @@ def render_page(index, page, metadata, summaries, guidance, errors, xrefs=None):
 
 
 # ---------------------------------------------------------------------
+# Local-resource collection + validation (HTMLParser-based; replaces the
+# old href="..." regex, which missed src/srcset and single-quoted or
+# unquoted attributes entirely)
+# ---------------------------------------------------------------------
+
+# One local-resource reference found in a rendered page. `value` is the
+# attribute's full original value; `url` is the single URL component being
+# validated (they differ only for srcset, where one attribute holds many
+# comma-separated "URL descriptor" candidates).
+Resource = namedtuple("Resource", ("tag", "attr", "value", "url", "line"))
+CollectedPage = namedtuple("CollectedPage", ("resources", "ids"))
+
+_URL_ATTRS = {"href", "src"}
+# External/asset schemes this site may legitimately reference; their
+# targets are outside the generated output, so they are not validated
+# here. (A scheduled external-link checker is a separate concern.)
+_IGNORED_SCHEMES = {"http", "https", "mailto", "tel", "data"}
+
+
+def parse_srcset(value):
+    """The URL components of a srcset attribute, in order. Each
+    comma-separated candidate is "URL [descriptor]" (e.g. "img/a.png 2x",
+    "img/b.png 400w"); descriptors are left untouched — only each URL is
+    extracted for validation."""
+    urls = []
+    for candidate in value.split(","):
+        parts = candidate.split()
+        if parts:
+            urls.append(parts[0])
+    return urls
+
+
+class _ResourceCollector(HTMLParser):
+    """Records every id and every href/src/srcset reference in a rendered
+    page, with source line numbers. HTMLParser handles double-quoted,
+    single-quoted and unquoted attributes alike, and decodes entities, so
+    this sees the URL a browser would actually request."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.resources = []
+        self.ids = []
+
+    def handle_starttag(self, tag, attrs):
+        line = self.getpos()[0]
+        for name, value in attrs:
+            if value is None:
+                continue
+            if name == "id":
+                self.ids.append((value, line))
+            elif name in _URL_ATTRS:
+                self.resources.append(Resource(tag, name, value, value.strip(), line))
+            elif name == "srcset":
+                for url in parse_srcset(value):
+                    self.resources.append(Resource(tag, name, value, url, line))
+
+
+def collect_resources(html_text):
+    collector = _ResourceCollector()
+    collector.feed(html_text)
+    collector.close()
+    return CollectedPage(collector.resources, collector.ids)
+
+
+# Files main() generates alongside the rendered pages — link targets that
+# exist in every build even though they aren't in the rendered-pages map.
+GENERATED_EXTRA_FILES = ("sitemap.xml", "robots.txt", "search-index.json",
+                         "accessibility-statement.html")
+
+
+def published_files(rendered, docs_dir):
+    """Every docs/-relative path this build publishes: the rendered pages,
+    the extra generated files, and the static assets committed under
+    docs/. Top-level *.html files on disk are deliberately excluded — the
+    rendered set is the authority there, so a stale committed page can
+    never satisfy a link to a page the build no longer produces."""
+    files = {f"{slug}.html" for slug in rendered} | set(GENERATED_EXTRA_FILES)
+    if docs_dir.exists():
+        for p in docs_dir.rglob("*"):
+            if not p.is_file():
+                continue
+            rel = p.relative_to(docs_dir).as_posix()
+            if "/" not in rel and rel.endswith(".html"):
+                continue
+            files.add(rel)
+    return files
+
+
+def resolve_local_url(page_path, url):
+    """Resolve a local (schemeless, hostless) URL against the page it
+    appears on. Web-path semantics only (urllib.parse + posixpath) —
+    never OS filesystem path rules. Returns (target, fragment, problem):
+    target is the docs/-relative path ("" for a same-page reference) with
+    any query string already separated off and percent-encoding decoded;
+    fragment is the percent-decoded fragment; problem is None or a short
+    reason this URL can never be valid on this site."""
+    split = urllib.parse.urlsplit(url)
+    fragment = urllib.parse.unquote(split.fragment)
+    path = split.path
+    if not path:
+        return "", fragment, None  # fragment-only or query-only: same page
+    if path.startswith("/"):
+        return None, fragment, (
+            "is root-absolute, but this site is published under a sub-path "
+            "(a GitHub Pages project site), where root-absolute URLs break")
+    base_dir = posixpath.dirname(page_path)
+    resolved = posixpath.normpath(posixpath.join(base_dir, urllib.parse.unquote(path)))
+    if resolved == ".." or resolved.startswith("../"):
+        return None, fragment, "resolves outside the published docs/ tree"
+    if path.endswith("/") or resolved == ".":
+        # Directory-style link: the only index document this site serves
+        # for a directory URL is its index.html.
+        resolved = "index.html" if resolved == "." else posixpath.join(resolved, "index.html")
+    return resolved, fragment, None
+
+
+def validate_site_resources(rendered, collected, errors, docs_dir=DOCS_DIR):
+    """Whole-site internal-resource validation over the fully rendered
+    pages: every href/src/srcset URL must resolve — query string ignored,
+    fragment and path percent-decoded, relative paths resolved against the
+    referencing page — to a file this build publishes, without escaping
+    the docs/ tree; and a fragment on an HTML target must be an id that
+    really exists on that page (same-page and cross-page alike).
+    External schemes are ignored; javascript: URLs are rejected outright.
+    Errors are reported in deterministic order: pages sorted by slug,
+    references in document order."""
+    published = published_files(rendered, docs_dir)
+    ids_by_page = {f"{slug}.html": {i for i, _ in page.ids}
+                   for slug, page in collected.items()}
+
+    def ids_for(target):
+        # Rendered pages are authoritative; the only other HTML targets
+        # are generated stubs (e.g. the accessibility-statement redirect),
+        # read from disk on demand.
+        if target not in ids_by_page:
+            disk = docs_dir / target
+            ids_by_page[target] = (
+                {i for i, _ in collect_resources(disk.read_text(encoding="utf-8")).ids}
+                if disk.is_file() else set())
+        return ids_by_page[target]
+
+    for slug in sorted(rendered):
+        page_path = f"{slug}.html"
+        label = f"docs/{page_path}"
+        for r in collected[slug].resources:
+            url = r.url
+            if not url:
+                continue  # empty URL: nothing to validate
+            split = urllib.parse.urlsplit(url)
+            scheme = split.scheme.lower()
+            if scheme == "javascript":
+                errors.add(label, "javascript-url",
+                           f'line {r.line}: <{r.tag}> {r.attr}="{r.value}" is a javascript: '
+                           "URL; this site never emits script URLs (progressive enhancement "
+                           "uses real links plus site.js).",
+                           "Replace it with a real link target, or a <button> enhanced by site.js.")
+                continue
+            if scheme in _IGNORED_SCHEMES:
+                continue
+            if scheme:
+                errors.add(label, "unsupported-url-scheme",
+                           f'line {r.line}: <{r.tag}> {r.attr}="{r.value}" uses the '
+                           f'unrecognised scheme "{scheme}:".',
+                           "Use a relative local path, or an http(s)/mailto/tel URL.")
+                continue
+            if split.netloc:
+                continue  # scheme-relative external URL (//host/...): not local
+            target, fragment, problem = resolve_local_url(page_path, url)
+            if problem:
+                errors.add(label, "invalid-local-url",
+                           f'line {r.line}: <{r.tag}> {r.attr}="{r.value}" {problem}.',
+                           "Rewrite it as a relative path that stays inside the published site.")
+                continue
+            if target:
+                if target not in published:
+                    errors.add(label, "missing-local-resource",
+                               f'line {r.line}: <{r.tag}> {r.attr}="{r.value}" resolves to '
+                               f'"{target}", which this build does not publish.',
+                               "Fix the path, or add the missing file under docs/.")
+                    continue
+                target_page = target
+            else:
+                target_page = page_path  # same-page reference
+            if fragment and target_page.endswith(".html"):
+                if fragment not in ids_for(target_page):
+                    where = ("this page" if target_page == page_path
+                             else target_page)
+                    errors.add(label, "missing-fragment-target",
+                               f'line {r.line}: <{r.tag}> {r.attr}="{r.value}" points at '
+                               f'id "{fragment}", which does not exist on {where}.',
+                               f'Add id="{fragment}" to the intended element on {target_page}, '
+                               "or fix the fragment.")
+
+
+# ---------------------------------------------------------------------
 # Whole-site, post-render validation
 # ---------------------------------------------------------------------
 
-def validate_rendered_page(slug, html_out, all_slugs, errors):
+def validate_rendered_page(slug, html_out, page_ids, errors):
     label = f"docs/{slug}.html"
 
     h1_matches = re.findall(r'<h1[^>]*>(.*?)</h1>', html_out, re.IGNORECASE | re.DOTALL)
@@ -1819,32 +2017,18 @@ def validate_rendered_page(slug, html_out, all_slugs, errors):
         errors.add(label, "h1-empty", "The page's <h1> has no visible text.",
                    "Give the page a real title in scripts/sitemap.json.")
 
-    ids = re.findall(r'\sid="([^"]+)"', html_out)
+    # page_ids comes from the same HTMLParser pass that collects the
+    # page's resource references (collect_resources); links themselves are
+    # validated site-wide by validate_site_resources().
     seen = set()
-    for i in ids:
+    for i, line in page_ids:
         if i in seen:
             errors.add(label, "duplicate-id-rendered",
-                       f'id="{i}" appears more than once in the fully rendered page.',
+                       f'id="{i}" (line {line}) appears more than once in the fully rendered page.',
                        "Search the template and content fragment for a second element with this id.")
         seen.add(i)
 
     check_tag_balance(label, html_out, errors)
-
-    for href in HREF_RE.findall(html_out):
-        if href.startswith("#"):
-            frag = href[1:]
-            if frag and frag != "top" and frag not in seen:
-                errors.add(label, "broken-anchor-link",
-                           f'href="{href}" points to an id that does not exist on this page.',
-                           f'Add id="{frag}" to the intended target, or fix the href.')
-        elif href.startswith(("http://", "https://", "mailto:")):
-            continue
-        elif href.endswith(".html"):
-            target_slug = href.rsplit("/", 1)[-1][:-5]
-            if target_slug not in all_slugs:
-                errors.add(label, "broken-internal-link",
-                           f'href="{href}" does not match any page slug produced from scripts/sitemap.json.',
-                           "Fix the href, or add the missing page to sitemap.json.")
 
     placeholder = PLACEHOLDER_RE.search(html_out)
     if placeholder:
@@ -1972,22 +2156,14 @@ def main():
     if errors:
         errors.report_and_exit()
 
-    all_slugs = set(rendered.keys())
-    for slug, html_out in rendered.items():
-        validate_rendered_page(slug, html_out, all_slugs, errors)
-
-    # Cross-page anchors: href="other-page.html#id" must point at an id
-    # that really exists on that page. (Per-page validation already covers
-    # same-page "#id" links; this covers everything the cross-reference
-    # linker and hand-authored content produce across pages.)
-    ids_by_slug = {s: set(re.findall(r'\sid="([^"]+)"', h)) for s, h in rendered.items()}
-    for slug, html_out in rendered.items():
-        for href in HREF_RE.findall(html_out):
-            m = re.match(r'^([a-z0-9-]+)\.html#(.+)$', href)
-            if m and m.group(1) in ids_by_slug and m.group(2) not in ids_by_slug[m.group(1)]:
-                errors.add(f"docs/{slug}.html", "broken-cross-page-anchor",
-                           f'href="{href}" points at an id that does not exist on {m.group(1)}.html.',
-                           "Fix the href, or add the missing id to the target page.")
+    # One HTMLParser pass per page collects both its ids (for the
+    # duplicate-id check) and its href/src/srcset references (for the
+    # site-wide internal-resource validation: existence, docs/-tree
+    # containment, and same-page and cross-page fragment targets).
+    collected = {slug: collect_resources(html_out) for slug, html_out in rendered.items()}
+    for slug in sorted(rendered):
+        validate_rendered_page(slug, rendered[slug], collected[slug].ids, errors)
+    validate_site_resources(rendered, collected, errors)
 
     if errors:
         errors.report_and_exit()

@@ -111,7 +111,7 @@ Nothing to maintain: `docs/search-index.json` is regenerated from the content on
 
 ## Reviewing broken links
 
-Same-site links and same-page fragment links are checked on every build (`broken-internal-link`, `broken-anchor-link` in `scripts/build.py`) — nothing to do manually for those. External links (the ETSI deliverable page, GitHub links, W3C references in the reproduced front matter) aren't checked automatically and can go stale independently of this repository; periodically click through the external links on the homepage, About page, and accessibility statement and confirm they still resolve.
+Same-site links and same-page/cross-page fragment links are checked on every build (`missing-local-resource`, `missing-fragment-target` in `scripts/build.py`, which validates every internal `href`/`src`/`srcset` reference in the generated pages) — nothing to do manually for those. External links (the ETSI deliverable page, GitHub links, W3C references in the reproduced front matter) aren't checked automatically and can go stale independently of this repository; periodically click through the external links on the homepage, About page, and accessibility statement and confirm they still resolve.
 
 ## Checking the GitHub accessibility issue form
 

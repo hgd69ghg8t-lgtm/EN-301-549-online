@@ -10,9 +10,14 @@
 # automatic themes plus explicit theme overrides, responsive layout,
 # site search, and theme behaviour (persistence, pre-paint,
 # theme-color sync, print palette, forced colours).
-# Deliberately not adding a separate link-checker (lychee/linkinator):
-# the custom Python build already validates every internal link and
-# anchor.
+# Deliberately not adding a separate link-checker (lychee/linkinator)
+# for internal references: the build's own HTMLParser-based resource
+# validator already checks every internal href/src/srcset URL in the
+# generated pages — the target file must be published inside docs/, and
+# same-page and cross-page #fragments must point at real ids. External
+# (http/https/mailto/tel) links are NOT checked here at all; verifying
+# those would need a scheduled external-link checker, which this
+# workflow does not include.
 name: CI
 
 permissions:
