@@ -198,24 +198,19 @@ This site is published for free via GitHub Pages, serving from the `docs/` folde
 
 **This section states facts and open questions. It does not make a legal determination, and nothing below should be read as one.**
 
-### The core open question
-
-The source PDF's own front matter (reproduced in full on the [About page](content/about.html)) states: *"No part may be reproduced or utilized in any form or by any means, electronic or mechanical, including photocopying and microfilm except as authorized by written permission of ETSI."* This repository republishes the full text of that document. **Whether ETSI's actual terms permit this kind of republication — and under what conditions — has not been confirmed and is not something this repository can resolve on its own.** Confirm this directly with ETSI (or with whoever owns publication decisions for this project) before treating the site as ready for public release.
-
 ### ETSI reproduction permission
 
-Status: **not confirmed**. If and when permission, a licence, or another form of authorization is obtained, record it here:
+The source PDF's own front matter (reproduced in full on the [About page](content/about.html)) states that reproduction requires ETSI's written permission. **ETSI has granted permission for the standard to be reproduced on this website.** The permission's formal reference, scope and conditions are not yet documented in this repository — recording them is an outstanding action, not an open question about whether permission exists. Complete the permission record in [`LICENSES.md`](LICENSES.md) from the actual correspondence; do not fill it from memory or assumption, and do not describe the permission as unconditional unless the correspondence establishes that.
 
-- Permission/licence reference: `[not yet recorded]`
-- Granted by / contact: `[not yet recorded]`
-- Date granted: `[not yet recorded]`
-- Scope and any conditions: `[not yet recorded]`
+### Licence
 
-### Licence for this site's own code and design
+The original software used to build and operate this website is licensed under the [MIT License](LICENSE).
 
-The build script, templates, CSS and JavaScript in this repository (everything *other than* the reproduced ETSI standard text and the ETSI copyright/disclaimer notices) do not currently carry an explicit licence file. `[Add a LICENSE file and name it here once a licence is chosen — the reproduced standard text itself is governed by ETSI's own copyright notice regardless of what licence is chosen for the surrounding site code, and the two must not be conflated.]`
+Original website-authored documentation and design material are licensed under the [Creative Commons Attribution 4.0 International Licence](LICENSE-CONTENT.md) (CC BY 4.0).
 
-**The repository's software licence does not necessarily apply to reproduced ETSI text.** Whatever licence is eventually chosen and recorded above governs the build script, templates, CSS and JavaScript — it says nothing about whether the reproduced standard text may be copied, redistributed, or reused, which is governed entirely by ETSI's own copyright notice and the unresolved permission question above. Confirm permission and applicable terms before redistributing or promoting this edition.
+These licences do not apply to the reproduced ETSI standard, the ETSI source PDF, ETSI legal notices, trademarks, fonts or other third-party material. ETSI content is reproduced with permission and remains subject to ETSI's copyright and the conditions of that permission — the open licences on the surrounding website must never be read as a licence to redistribute the ETSI material itself.
+
+See [`LICENSES.md`](LICENSES.md) for the detailed scope, exclusions, the ETSI permission record, and attribution requirements.
 
 ### Trademarks
 
@@ -229,8 +224,9 @@ The self-hosted webfonts under `docs/assets/fonts/` (Overpass and Source Sans 3,
 
 Do not treat this site as ready for public release until every item below is either checked or explicitly waived by whoever is accountable for that decision.
 
-- [ ] **Reproduction rights confirmed** — see "The core open question" and "ETSI reproduction permission" above. *(Required — this is the one item on this list that is a precondition for every other item mattering.)*
-- [ ] A licence has been chosen and recorded for this site's own code/design (see above), and it is clear anywhere that licence is stated (a `LICENSE` file, this README) that it does not extend to the reproduced ETSI text or to the trademarks named in it.
+- [x] **Reproduction rights confirmed** — ETSI has granted permission for the standard to be reproduced on this website (see "ETSI reproduction permission" above).
+- [ ] The ETSI permission record in [`LICENSES.md`](LICENSES.md) has been completed from the actual correspondence (reference, grantor, date, material covered, conditions, record location).
+- [x] A licence has been chosen and recorded for this site's own code/design (MIT for software, CC BY 4.0 for original design/documentation — see `LICENSE`, `LICENSE-CONTENT.md`, `LICENSES.md`), and each statement of it is explicit that it does not extend to the reproduced ETSI text or to the trademarks named in it. *(The `LICENSE` file's `[COPYRIGHT HOLDER]` placeholder still needs the legal copyright holder's name.)*
 - [ ] `npm test` and all four Playwright suites (`test:a11y`, `test:layout`, `test:search`, `test:theme`) pass on the commit being published.
 - [ ] `python3 scripts/build.py && git diff --exit-code -- docs/` is clean (committed `docs/` matches a fresh rebuild).
 - [x] The accessibility statement has a real reporting route (currently a GitHub issues link — replace with a dedicated contact address if/when one exists).

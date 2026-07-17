@@ -133,6 +133,6 @@ Clause 3's glossary and abbreviation term ids (`def-...`) and A-Z index are gene
 
 See the README's ["Licensing, copyright and publication readiness"](../README.md#licensing-copyright-and-publication-readiness) section for the full picture. In short, periodically confirm:
 
-- Whether the ETSI reproduction-permission question has been resolved (still "not confirmed" as of this writing) — update the "ETSI reproduction permission" record in the README the moment it is.
-- Whether a licence has been chosen yet for this site's own code/design, and that wherever it's stated, it's clear it doesn't extend to the reproduced ETSI text or the trademarks named in it.
+- Whether the ETSI permission record in `LICENSES.md` has been completed from the actual correspondence (permission is granted; its reference, scope and conditions still need recording — never fill these from memory).
+- That the licence statements (`LICENSE` — MIT for software; `LICENSE-CONTENT.md` — CC BY 4.0 for original design/documentation; `LICENSES.md` — scope and exclusions) stay accurate, remain clear that they don't extend to the reproduced ETSI text or the trademarks named in it, and that `LICENSE`'s `[COPYRIGHT HOLDER]` placeholder gets the legal holder's name.
 - That the publication-readiness checklist in the README still reflects reality — don't let a checked box go stale if circumstances change.
