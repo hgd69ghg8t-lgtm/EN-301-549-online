@@ -4,31 +4,12 @@
 // no-results message, and the no-JavaScript fallback. Requires a Chromium
 // install (same as test-a11y.mjs). Usage: node scripts/test-search.mjs
 import { chromium } from "playwright";
-import { createServer } from "node:http";
-import { readFile } from "node:fs";
-import path from "node:path";
+import { startDocsServer, trackAllPages, chromiumLaunchOptions } from "./test-helpers.mjs";
 
-const DOCS_DIR = path.resolve("docs");
-const MIME = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".json": "application/json", ".woff2": "font/woff2" };
-
-function startServer() {
-  return new Promise((resolve) => {
-    const server = createServer((req, res) => {
-      const urlPath = decodeURIComponent(req.url.split("?")[0]);
-      const filePath = path.join(DOCS_DIR, urlPath === "/" ? "/index.html" : urlPath);
-      readFile(filePath, (err, data) => {
-        if (err) { res.writeHead(404); res.end("Not found"); return; }
-        res.writeHead(200, { "Content-Type": MIME[path.extname(filePath)] || "application/octet-stream" });
-        res.end(data);
-      });
-    });
-    server.listen(0, "127.0.0.1", () => resolve(server));
-  });
-}
-
-const server = await startServer();
+const server = await startDocsServer();
 const port = server.address().port;
-const browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_CHROMIUM_PATH });
+const browser = await chromium.launch(chromiumLaunchOptions());
+const runtimeProblems = trackAllPages(browser);
 const fails = [];
 
 // 1. Header form navigates to search page with query, results render
@@ -123,5 +104,10 @@ await context.close();
 
 await browser.close();
 server.close();
+if (runtimeProblems.length) {
+  console.error(`\n${runtimeProblems.length} unexpected runtime problem(s):`);
+  for (const p of runtimeProblems) console.error(`  ${p}`);
+  fails.push(`${runtimeProblems.length} unexpected runtime problem(s)`);
+}
 if (fails.length) { console.error("FAILURES:", fails); process.exit(1); }
 console.log("ALL SEARCH CHECKS PASS");

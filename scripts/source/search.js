@@ -270,6 +270,16 @@
       });
     }
 
+    // Start the worker (and its index download) as soon as the search
+    // page's script runs: the reader came here to search, so the index
+    // is wanted, and the worker keeps every byte of it — download, parse
+    // and ranking — off the main thread while they type. Ordinary pages
+    // never reach this branch (no #search-input), so this never preloads
+    // the index during normal reading.
+    if (!workerFailed && ds.searchWorker && window.Worker) {
+      worker = startWorker();
+    }
+
     var initialQ = new URLSearchParams(window.location.search).get("q") || "";
     searchInput.value = initialQ;
     if (initialQ) runQuery(initialQ);

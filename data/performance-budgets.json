@@ -29,21 +29,34 @@
       "search.html": { "requests": 7, "transferBytes": 902000, "domContentLoadedMs": 854, "loadMs": 1527, "fcpMs": 860, "lcpMs": 860, "cls": 0.0454, "scriptMs": 20, "longTasks": [78], "domNodes": 218, "searchResponseMs": 2808 }
     }
   },
+  "budgetNotes": [
+    "Budgets set 2026-07-17 from the post-optimisation measurements, with",
+    "headroom so CI fails on real regressions, not jitter: byte budgets sit",
+    "~10-15% above actual (CSS 28.5 KB, core JS 8.7 KB, total JS 20.2 KB,",
+    "largest HTML 126 KB, suggestions 161 KB, full index 662 KB); timing",
+    "budgets sit far above the observed values (script <= 31 ms, search",
+    "type-to-results 2420 ms on the throttled profile) because CPU-throttled",
+    "timings vary run to run. fontBytes is exactly 0 by design: the site",
+    "must not ship webfonts. maxInitialRequests covers the heaviest page",
+    "(search.html: html + css + core.js + search.js + worker + index +",
+    "favicon); ordinary pages use 4-5. forbidFullIndexOnOrdinaryPages",
+    "fails the build if any non-search page downloads JSON during load."
+  ],
   "budgets": {
-    "totalCssBytes": 51712,
-    "coreJsBytes": 32666,
-    "totalJsBytes": 32666,
-    "fontBytes": 68198,
-    "largestHtmlBytes": 130252,
-    "suggestionsIndexBytes": 737090,
-    "fullSearchIndexBytes": 737090,
+    "totalCssBytes": 32768,
+    "coreJsBytes": 10240,
+    "totalJsBytes": 24576,
+    "fontBytes": 0,
+    "largestHtmlBytes": 138240,
+    "suggestionsIndexBytes": 184320,
+    "fullSearchIndexBytes": 716800,
     "maxInitialRequests": 7,
-    "maxInitialTransferBytes": 925000,
+    "maxInitialTransferBytes": 780000,
     "maxDomNodes": 4700,
-    "maxCls": 0.05,
-    "maxScriptDurationMs": 250,
-    "maxLongTasks": 4,
-    "maxSearchResponseMs": 4000,
-    "forbidFullIndexOnOrdinaryPages": false
+    "maxCls": 0.02,
+    "maxScriptDurationMs": 150,
+    "maxLongTasks": 6,
+    "maxSearchResponseMs": 3500,
+    "forbidFullIndexOnOrdinaryPages": true
   }
 }

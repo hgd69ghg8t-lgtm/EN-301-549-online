@@ -6,55 +6,26 @@
 // Usage: node scripts/test-a11y.mjs
 
 import { chromium } from "playwright";
-import { createServer } from "node:http";
-import { readFile, readFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
+import { startDocsServer, trackRuntimeErrors, chromiumLaunchOptions } from "./test-helpers.mjs";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const DOCS_DIR = path.join(ROOT, "docs");
 const sitemap = JSON.parse(readFileSync(path.join(ROOT, "scripts", "sitemap.json"), "utf8"));
 const axeSource = readFileSync(
   fileURLToPath(import.meta.resolve("axe-core/axe.min.js")),
   "utf8"
 );
 
-const MIME = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".woff2": "font/woff2", ".pdf": "application/pdf" };
-
-function startServer() {
-  return new Promise((resolve) => {
-    const server = createServer((req, res) => {
-      const urlPath = decodeURIComponent(req.url.split("?")[0]);
-      const filePath = path.join(DOCS_DIR, urlPath === "/" ? "/index.html" : urlPath);
-      readFile(filePath, (err, data) => {
-        if (err) {
-          res.writeHead(404);
-          res.end("Not found");
-          return;
-        }
-        const ext = path.extname(filePath);
-        res.writeHead(200, { "Content-Type": MIME[ext] || "application/octet-stream" });
-        res.end(data);
-      });
-    });
-    server.listen(0, "127.0.0.1", () => resolve(server));
-  });
-}
-
 async function main() {
-  const server = await startServer();
+  const server = await startDocsServer();
   const port = server.address().port;
-  // PLAYWRIGHT_CHROMIUM_PATH lets a local/CI environment point at an
-  // already-installed Chromium binary instead of the one Playwright's own
-  // browser manager would download. Unset by default — normal usage is
-  // `npx playwright install --with-deps chromium` and a plain launch().
-  const launchOptions = process.env.PLAYWRIGHT_CHROMIUM_PATH
-    ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_PATH }
-    : {};
-  const browser = await chromium.launch(launchOptions);
+  const browser = await chromium.launch(chromiumLaunchOptions());
 
   let totalViolations = 0;
   const failures = [];
+  const runtimeProblems = [];
 
   // Every page is swept twice: once per colour theme. The dark palette is
   // applied the same way the OS would (prefers-color-scheme emulation),
@@ -62,6 +33,7 @@ async function main() {
   for (const colorScheme of ["light", "dark"]) {
     const context = await browser.newContext({ colorScheme });
     const page = await context.newPage();
+    const problems = trackRuntimeErrors(page);
     for (const entry of sitemap) {
       const url = `http://127.0.0.1:${port}/${entry.slug}.html`;
       await page.goto(url, { waitUntil: "networkidle", timeout: 30000 });
@@ -81,6 +53,7 @@ async function main() {
         console.log(`ok   ${entry.slug}.html (${colorScheme})`);
       }
     }
+    runtimeProblems.push(...problems);
     await context.close();
   }
 
@@ -100,6 +73,7 @@ async function main() {
         JSON.stringify({ width: "wide", spacing: false, theme }));
     }, storedTheme);
     const page = await context.newPage();
+    const problems = trackRuntimeErrors(page);
     for (const slug of representative) {
       await page.goto(`http://127.0.0.1:${port}/${slug}.html`, { waitUntil: "networkidle", timeout: 30000 });
       await page.evaluate(axeSource);
@@ -119,6 +93,7 @@ async function main() {
         console.log(`ok   ${label}`);
       }
     }
+    runtimeProblems.push(...problems);
     await context.close();
   }
 
@@ -126,7 +101,11 @@ async function main() {
   server.close();
 
   console.log(`\n${sitemap.length} pages checked in both automatic themes plus ${representative.length} representative pages under both explicit overrides — ${totalViolations} violation type(s) across ${failures.length} combination(s).`);
-  if (totalViolations > 0) {
+  if (runtimeProblems.length) {
+    console.error(`\n${runtimeProblems.length} unexpected runtime problem(s):`);
+    for (const p of runtimeProblems) console.error(`  ${p}`);
+  }
+  if (totalViolations > 0 || runtimeProblems.length > 0) {
     process.exit(1);
   }
 }

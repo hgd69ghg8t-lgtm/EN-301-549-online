@@ -5,12 +5,8 @@
 // the forced-light print palette. Requires a Chromium install (same as
 // test-a11y.mjs). Usage: node scripts/test-theme.mjs
 import { chromium } from "playwright";
-import { createServer } from "node:http";
-import { readFile } from "node:fs";
-import path from "node:path";
+import { startDocsServer, trackAllPages, chromiumLaunchOptions } from "./test-helpers.mjs";
 
-const DOCS_DIR = path.resolve("docs");
-const MIME = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png", ".woff2": "font/woff2" };
 const LIGHT_BG = "rgb(255, 255, 255)";
 const DARK_BG = "rgb(22, 25, 29)";
 // The expected browser-chrome colours are read from the generated page's
@@ -19,25 +15,11 @@ const DARK_BG = "rgb(22, 25, 29)";
 // a re-hardcoded pair could.
 let LIGHT_CHROME, DARK_CHROME;
 
-function startServer() {
-  return new Promise((resolve) => {
-    const server = createServer((req, res) => {
-      const urlPath = decodeURIComponent(req.url.split("?")[0]);
-      const filePath = path.join(DOCS_DIR, urlPath === "/" ? "/index.html" : urlPath);
-      readFile(filePath, (err, data) => {
-        if (err) { res.writeHead(404); res.end("Not found"); return; }
-        res.writeHead(200, { "Content-Type": MIME[path.extname(filePath)] || "application/octet-stream" });
-        res.end(data);
-      });
-    });
-    server.listen(0, "127.0.0.1", () => resolve(server));
-  });
-}
-
-const server = await startServer();
+const server = await startDocsServer();
 const port = server.address().port;
 const base = `http://127.0.0.1:${port}`;
-const browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_CHROMIUM_PATH });
+const browser = await chromium.launch(chromiumLaunchOptions());
+const runtimeProblems = trackAllPages(browser);
 const fails = [];
 const check = (ok, msg) => { console.log((ok ? "ok   " : "FAIL ") + msg); if (!ok) fails.push(msg); };
 
@@ -286,5 +268,10 @@ for (const [scheme, wantBg] of [["light", LIGHT_BG], ["dark", DARK_BG]]) {
 
 await browser.close();
 server.close();
+if (runtimeProblems.length) {
+  console.error(`\n${runtimeProblems.length} unexpected runtime problem(s):`);
+  for (const p of runtimeProblems) console.error(`  ${p}`);
+  fails.push(`${runtimeProblems.length} unexpected runtime problem(s)`);
+}
 if (fails.length) { console.error(`\n${fails.length} THEME CHECK(S) FAILED`); process.exit(1); }
 console.log("\nALL THEME CHECKS PASS");

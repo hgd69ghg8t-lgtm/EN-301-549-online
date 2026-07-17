@@ -8,8 +8,13 @@
 # generated-output reproducibility diff, html-validate (HTML5/ARIA spec
 # conformance), and the Playwright browser suites: axe-core in both
 # automatic themes plus explicit theme overrides, responsive layout,
-# site search, and theme behaviour (persistence, pre-paint,
-# theme-color sync, print palette, forced colours).
+# site search, theme behaviour (persistence, pre-paint, theme-color
+# sync, print palette, forced colours), optional-module failure paths,
+# and the performance budgets (all measured against the local generated
+# site — never the public internet, so no network-weather flakes).
+# Every browser suite also fails on any unexpected page error, console
+# error, unhandled rejection or failed same-origin request — see
+# scripts/test-helpers.mjs.
 # Deliberately not adding a separate link-checker (lychee/linkinator):
 # the custom Python build already validates every internal link and
 # anchor.
@@ -69,3 +74,9 @@ jobs:
 
       - name: Theme behaviour checks (persistence, pre-paint, theme-color sync, print palette, forced colours)
         run: npm run test:theme
+
+      - name: Optional-module failure checks (every lazy bundle and search resource deliberately broken in turn)
+        run: npm run test:modules
+
+      - name: Performance budgets (local generated site, throttled mobile profile — see data/performance-budgets.json)
+        run: npm run test:performance
