@@ -1,7 +1,7 @@
 # Cloudflare Pages redirects (https://developers.cloudflare.com/pages/configuration/redirects/).
 # Source of truth: deployment/cloudflare/_redirects — the build copies
 # this file verbatim to docs/_redirects and validates every active rule
-# (see parse_redirects() in scripts/build.py). GitHub Pages ignores it.
+# (see validate_redirects() in scripts/build.py). GitHub Pages ignores it.
 #
 # There are currently NO active redirect rules: this site has never
 # renamed a published URL, so there are no legacy addresses to redirect

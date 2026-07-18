@@ -17,19 +17,14 @@
 //
 // Usage: node scripts/test-layout.mjs
 
-import { chromium } from "playwright";
-import { createServer } from "node:http";
-import { readFile } from "node:fs";
 import { readFileSync } from "node:fs";
-import { fileURLToPath } from "node:url";
 import path from "node:path";
+import {
+  ROOT, startServer, launchBrowser, trackRuntimeIssues, reportRuntimeIssues,
+} from "./browser-test-lib.mjs";
 
-const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const DOCS_DIR = path.join(ROOT, "docs");
 const sitemap = JSON.parse(readFileSync(path.join(ROOT, "scripts", "sitemap.json"), "utf8"));
 const ALL_PAGES = sitemap.map((entry) => `${entry.slug}.html`);
-
-const MIME = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".woff2": "font/woff2", ".pdf": "application/pdf" };
 
 // Representative content shapes, per the layout-review brief:
 // ordinary prose; the clause 5 page (note-with-table, the original bug);
@@ -49,35 +44,19 @@ const PAGES = [
 
 const WIDTHS = [320, 375, 768, 1024, 1280, 1440, 1920];
 
-function startServer() {
-  return new Promise((resolve) => {
-    const server = createServer((req, res) => {
-      const urlPath = decodeURIComponent(req.url.split("?")[0]);
-      const filePath = path.join(DOCS_DIR, urlPath === "/" ? "/index.html" : urlPath);
-      readFile(filePath, (err, data) => {
-        if (err) { res.writeHead(404); res.end("Not found"); return; }
-        res.writeHead(200, { "Content-Type": MIME[path.extname(filePath)] || "application/octet-stream" });
-        res.end(data);
-      });
-    });
-    server.listen(0, "127.0.0.1", () => resolve(server));
-  });
-}
-
 async function main() {
   const server = await startServer();
   const port = server.address().port;
-  const launchOptions = process.env.PLAYWRIGHT_CHROMIUM_PATH
-    ? { executablePath: process.env.PLAYWRIGHT_CHROMIUM_PATH }
-    : {};
-  const browser = await chromium.launch(launchOptions);
+  const browser = await launchBrowser();
 
   const failures = [];
+  const issues = [];
   const contentWidths = {}; // slug -> { width: contentClientWidth }
 
   for (const width of WIDTHS) {
     const context = await browser.newContext({ viewport: { width, height: 900 }, reducedMotion: "reduce" });
     const page = await context.newPage();
+    trackRuntimeIssues(page, issues, { label: `${width}px` });
 
     // Every page gets the most constrained 320px pass. Wider viewports use
     // representative content shapes to keep CI time proportionate.
@@ -166,6 +145,7 @@ async function main() {
   ]) {
     const context = await browser.newContext({ viewport: { width, height: 900 } });
     const page = await context.newPage();
+    trackRuntimeIssues(page, issues, { label: "zoom" });
     for (const slug of ALL_PAGES) {
       await page.goto(`http://127.0.0.1:${port}/${slug}`);
       const overflow = await page.evaluate(
@@ -183,6 +163,7 @@ async function main() {
       forcedColors: "active",
     });
     const page = await context.newPage();
+    trackRuntimeIssues(page, issues, { label: "forced-colours" });
     for (const slug of ALL_PAGES) {
       await page.goto(`http://127.0.0.1:${port}/${slug}`);
       const result = await page.evaluate(() => ({
@@ -207,6 +188,7 @@ async function main() {
   {
     const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
     const page = await context.newPage();
+    trackRuntimeIssues(page, issues, { label: "hover-download" });
     await page.goto(`http://127.0.0.1:${port}/clause-1-scope.html`);
     await page.locator(".page-tools > summary").click();
     const download = page.getByRole("link", { name: "Download the official ETSI standard as a PDF" });
@@ -228,6 +210,7 @@ async function main() {
   {
     const context = await browser.newContext({ viewport: { width: 1280, height: 900 } });
     const page = await context.newPage();
+    trackRuntimeIssues(page, issues, { label: "hover-contents" });
     await page.goto(`http://127.0.0.1:${port}/clause-1-scope.html`);
     const contentsLink = page.locator(".site-nav a").first();
     await contentsLink.hover();
@@ -246,6 +229,7 @@ async function main() {
   {
     const context = await browser.newContext({ viewport: { width: 320, height: 900 } });
     const page = await context.newPage();
+    trackRuntimeIssues(page, issues, { label: "table-attrs" });
     await page.goto(`http://127.0.0.1:${port}/clause-9-web.html`);
     const preserved = await page.evaluate(async () => {
       const wrap = document.querySelector(".table-wrap");
@@ -278,6 +262,7 @@ async function main() {
       forcedColors: "active",
     });
     const page = await context.newPage();
+    trackRuntimeIssues(page, issues, { label: "companion-guidance" });
     await page.goto(`http://127.0.0.1:${port}/clause-1-scope.html`);
     const details = page.locator(".companion-guidance details");
     const summary = details.locator("summary");
@@ -335,6 +320,7 @@ async function main() {
     process.exit(1);
   }
   console.log(`Layout OK: ${PAGES.length} pages × ${WIDTHS.length} widths — no page overflow, no sidebar overlap, no avoidable table scrollbars, content column grows with the viewport.`);
+  reportRuntimeIssues(issues);
 }
 
 main().catch((err) => { console.error(err); process.exit(1); });

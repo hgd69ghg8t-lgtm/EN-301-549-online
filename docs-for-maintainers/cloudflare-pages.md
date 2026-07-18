@@ -1,11 +1,53 @@
-# Cloudflare Pages deployment (prepared, NOT active)
+# Cloudflare Pages deployment (prepared, NOT confirmed active)
 
-This repository is *prepared* for a Cloudflare Pages deployment, but no
-Cloudflare deployment exists today and none is claimed. **The committed
-canonical production domain remains GitHub Pages**
+This repository is *prepared* for a Cloudflare Pages deployment. A
+Cloudflare project or Git integration has attempted a deployment, but
+the repository is not currently confirmed as successfully deployed on
+Cloudflare Pages. Check the Cloudflare dashboard and build logs before
+treating it as active (see "Observed deployment failure" below).
+**The committed canonical production domain remains GitHub Pages**
 (`baseUrl` in `data/site-config.json`) **until a real custom domain is
 deliberately selected and configured** — do not change the canonical
 domain speculatively, and do not invent one.
+
+## Observed deployment failure (18 July 2026)
+
+A Cloudflare Git integration reported a **failed** deployment against
+pull request #12:
+
+- The GitHub check run was named **"Workers Builds: accessibledocs"**
+  and its bot comment was headed "Deploying with Cloudflare Workers" —
+  i.e. the integration presented itself as a Cloudflare **Workers**
+  build, not a Cloudflare **Pages** project.
+- The failure was reported for commit `8f25d253` and the check
+  completed within the same second it started.
+- The check's details link points at the Cloudflare dashboard build log
+  (`dash.cloudflare.com → workers/services/view/accessibledocs →
+  production → builds`). That log is **not** accessible from the
+  repository, so the exact cause is unknown here and is deliberately
+  not guessed at.
+
+### Troubleshooting checklist
+
+Whoever has Cloudflare dashboard access should check, in order:
+
+1. **Project type:** confirm the project is **Cloudflare Pages**, not a
+   Workers build. The failed check identifies itself as a Workers
+   build; this repository is a fully static site prepared for Pages
+   (`_headers`, `_redirects`, a static output directory) and defines no
+   Worker.
+2. **Framework preset:** None.
+3. **Root directory:** blank (the repository root).
+4. **Build command:** `python3 scripts/build.py`
+5. **Build output directory:** `docs`
+6. **Production branch:** the repository's current default branch
+   (`repositoryRef` in `data/site-config.json` records it).
+7. Read the actual build log in the Cloudflare dashboard — the exact
+   failure can only be determined there.
+
+Do not recreate projects, change account settings, alter DNS, attach a
+custom domain, or make the site publicly available while the ETSI
+permission recorded on the About page is still outstanding.
 
 What "prepared" means concretely:
 

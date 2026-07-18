@@ -4,13 +4,10 @@
 // metadata sync, native control color-scheme, forced-colours mode, and
 // the forced-light print palette. Requires a Chromium install (same as
 // test-a11y.mjs). Usage: node scripts/test-theme.mjs
-import { chromium } from "playwright";
-import { createServer } from "node:http";
-import { readFile } from "node:fs";
-import path from "node:path";
+import {
+  startServer, launchBrowser, trackRuntimeIssues, reportRuntimeIssues,
+} from "./browser-test-lib.mjs";
 
-const DOCS_DIR = path.resolve("docs");
-const MIME = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".json": "application/json", ".svg": "image/svg+xml", ".png": "image/png", ".woff2": "font/woff2" };
 const LIGHT_BG = "rgb(255, 255, 255)";
 const DARK_BG = "rgb(22, 25, 29)";
 // The expected browser-chrome colours are read from the generated page's
@@ -19,26 +16,12 @@ const DARK_BG = "rgb(22, 25, 29)";
 // a re-hardcoded pair could.
 let LIGHT_CHROME, DARK_CHROME;
 
-function startServer() {
-  return new Promise((resolve) => {
-    const server = createServer((req, res) => {
-      const urlPath = decodeURIComponent(req.url.split("?")[0]);
-      const filePath = path.join(DOCS_DIR, urlPath === "/" ? "/index.html" : urlPath);
-      readFile(filePath, (err, data) => {
-        if (err) { res.writeHead(404); res.end("Not found"); return; }
-        res.writeHead(200, { "Content-Type": MIME[path.extname(filePath)] || "application/octet-stream" });
-        res.end(data);
-      });
-    });
-    server.listen(0, "127.0.0.1", () => resolve(server));
-  });
-}
-
 const server = await startServer();
 const port = server.address().port;
 const base = `http://127.0.0.1:${port}`;
-const browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_CHROMIUM_PATH });
+const browser = await launchBrowser();
 const fails = [];
+const issues = [];
 const check = (ok, msg) => { console.log((ok ? "ok   " : "FAIL ") + msg); if (!ok) fails.push(msg); };
 
 async function state(page) {
@@ -60,6 +43,7 @@ async function openThemeControls(page) {
 {
   const ctx = await browser.newContext({ colorScheme: "light" });
   const page = await ctx.newPage();
+  trackRuntimeIssues(page, issues, { label: "chrome-read" });
   await page.goto(`${base}/index.html`);
   ({ LIGHT_CHROME, DARK_CHROME } = await page.evaluate(() => ({
     LIGHT_CHROME: document.getElementById("theme-colour-light").content,
@@ -74,6 +58,7 @@ async function openThemeControls(page) {
 for (const [scheme, wantBg] of [["light", LIGHT_BG], ["dark", DARK_BG]]) {
   const ctx = await browser.newContext({ colorScheme: scheme });
   const page = await ctx.newPage();
+  trackRuntimeIssues(page, issues, { label: "auto" });
   await page.goto(`${base}/clause-9-web.html`);
   const s = await state(page);
   check(s.theme === null && s.bg === wantBg, `auto follows OS ${scheme} (bg ${s.bg}, no data-theme)`);
@@ -91,6 +76,7 @@ for (const [scheme, wantBg] of [["light", LIGHT_BG], ["dark", DARK_BG]]) {
 {
   const ctx = await browser.newContext({ colorScheme: "light" });
   const page = await ctx.newPage();
+  trackRuntimeIssues(page, issues, { label: "explicit" });
   await page.goto(`${base}/clause-9-web.html`);
   await openThemeControls(page);
   const autoChecked = await page.evaluate(() => document.querySelector("input[name='colour-theme'][value='auto']").checked);
@@ -129,6 +115,7 @@ for (const [scheme, wantBg] of [["light", LIGHT_BG], ["dark", DARK_BG]]) {
 {
   const ctx = await browser.newContext({ colorScheme: "dark" });
   const page = await ctx.newPage();
+  trackRuntimeIssues(page, issues, { label: "explicit-light" });
   await page.goto(`${base}/clause-9-web.html`);
   await openThemeControls(page);
   await page.check("input[name='colour-theme'][value='light']");
@@ -152,6 +139,7 @@ for (const [scheme, wantBg] of [["light", LIGHT_BG], ["dark", DARK_BG]]) {
     const ctx = await browser.newContext({ colorScheme: "light" });
     await ctx.addInitScript((value) => localStorage.setItem("accessibleDocs.readerPrefs.v1", value), raw);
     const page = await ctx.newPage();
+    trackRuntimeIssues(page, issues, { label: "stored-prefs" });
     const errors = [];
     page.on("pageerror", (e) => errors.push(String(e)));
     await page.goto(`${base}/clause-9-web.html`);
@@ -181,6 +169,7 @@ for (const [scheme, wantBg] of [["light", LIGHT_BG], ["dark", DARK_BG]]) {
 {
   const ctx = await browser.newContext({ colorScheme: "dark" });
   const page = await ctx.newPage();
+  trackRuntimeIssues(page, issues, { label: "print" });
   const BLACK = "rgb(0, 0, 0)";
   await page.goto(`${base}/clause-8-hardware.html`);
   await page.emulateMedia({ media: "print", colorScheme: "dark" });
@@ -225,6 +214,7 @@ for (const [scheme, wantBg] of [["light", LIGHT_BG], ["dark", DARK_BG]]) {
 {
   const ctx = await browser.newContext({ forcedColors: "active", colorScheme: "dark", viewport: { width: 375, height: 812 } });
   const page = await ctx.newPage();
+  trackRuntimeIssues(page, issues, { label: "forced-mobile" });
   await page.goto(`${base}/clause-9-web.html`);
   const bar = page.locator(".toc-toggle");
   check(await bar.isVisible(), "forced colours mobile: Contents toggle is displayed");
@@ -255,6 +245,7 @@ for (const [scheme, wantBg] of [["light", LIGHT_BG], ["dark", DARK_BG]]) {
 {
   const ctx = await browser.newContext({ forcedColors: "active", colorScheme: "dark", viewport: { width: 1280, height: 800 } });
   const page = await ctx.newPage();
+  trackRuntimeIssues(page, issues, { label: "forced-desktop" });
   await page.goto(`${base}/clause-5-generic-requirements.html`);
   check(await page.locator(".site-nav").isVisible(), "forced colours desktop: sidebar is visible");
   const toggleHidden = await page.evaluate(() => getComputedStyle(document.querySelector(".toc-toggle")).display === "none");
@@ -287,4 +278,5 @@ for (const [scheme, wantBg] of [["light", LIGHT_BG], ["dark", DARK_BG]]) {
 await browser.close();
 server.close();
 if (fails.length) { console.error(`\n${fails.length} THEME CHECK(S) FAILED`); process.exit(1); }
+reportRuntimeIssues(issues);
 console.log("\nALL THEME CHECKS PASS");

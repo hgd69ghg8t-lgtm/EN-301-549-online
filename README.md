@@ -31,16 +31,23 @@ deployment/
                      _redirects), copied by the build to docs/_headers
                      and docs/_redirects. Prepared for a possible later
                      Cloudflare Pages deployment; GitHub Pages ignores
-                     these files. Cloudflare deployment is NOT active —
-                     see docs-for-maintainers/cloudflare-pages.md.
+                     these files. A Cloudflare Git integration has
+                     attempted (and failed) a deployment; the site is
+                     not confirmed as deployed on Cloudflare — see
+                     docs-for-maintainers/cloudflare-pages.md.
 data/
   site-config.json   The site's identity and deployment configuration:
-                     site name, document label, the production base URL
-                     (canonical/Open Graph/sitemap URLs all come from
-                     here), the repository URL, and the deployment
-                     target. Strictly validated at build time; changing
-                     the production domain means editing this one file,
-                     rebuilding, and re-running the tests.
+                     site name (the header wordmark and og:site_name
+                     are generated from it), document label, the
+                     production base URL (canonical/Open Graph/sitemap
+                     URLs all come from here), the repository URL, the
+                     repository ref (the default branch name used to
+                     build repository-document links such as the manual
+                     testing log), and the deployment target. Strictly
+                     validated at build time; changing the production
+                     domain — or renaming the default branch — means
+                     editing this one file, rebuilding, and re-running
+                     the tests.
   source-metadata.json  Machine-readable source/version metadata (title,
                      version, status, source PDF URL, publication date,
                      download date, checksum). Rendered onto the About
@@ -162,7 +169,7 @@ brew install poppler            # macOS
 - a sitemap entry with no matching `content/*.html` fragment, or a content fragment with no matching sitemap entry;
 - a missing, invalid, or incomplete `data/source-metadata.json`;
 - any structured JSON input (`data/*.json`, `scripts/sitemap.json`) that is malformed, contains a duplicate key, or has the wrong top-level type — for *optional* files (e.g. `data/content-ownership.json`) only a genuinely missing file is acceptable; an existing malformed file is always an error, never silently replaced with a fallback (see `scripts/json_data.py`);
-- an invalid `data/site-config.json`: missing or unknown fields, a non-HTTPS or trailing-slash-less `baseUrl`, a query/fragment on the base URL, a malformed `repositoryUrl`, or an unrecognised `deploymentTarget`;
+- an invalid `data/site-config.json`: missing or unknown fields, a non-HTTPS or trailing-slash-less `baseUrl`, a query/fragment on the base URL, a malformed `repositoryUrl`, an unsafe `repositoryRef` (anything beyond letters, digits, dots, underscores, hyphens and internal slashes), or an unrecognised `deploymentTarget`;
 - a missing or malformed `deployment/cloudflare/_headers`/`_redirects`, an active redirect rule with a non-rooted source, invalid target, or unsupported status, a duplicate redirect source, or a detectable redirect loop;
 - a generated `docs/404.html` with the wrong number of `<h1>` elements, a missing `noindex`, a canonical URL, an automatic redirect, a missing Home/Search/first-clause link, or any relative link (the 404 page is served at arbitrary missing paths, so every link on it must be absolute);
 - a staged copy of the source PDF or a deployment file that is not byte-identical to its committed source;
