@@ -36,7 +36,7 @@ See [`LICENSE-CONTENT.md`](LICENSE-CONTENT.md).
 The MIT and Creative Commons licences do **not** apply to:
 
 - reproduced text from ETSI EN 301 549
-- the ETSI source PDF (`docs/source/`)
+- the ETSI source PDF (`source/`, published as a copy at `docs/source/`)
 - ETSI copyright and legal notices
 - ETSI trademarks, names or logos
 - other material owned by ETSI or another third party
@@ -92,7 +92,7 @@ by the applicable open licence.
 
 ## Fonts
 
-The self-hosted Overpass and Source Sans 3 fonts (`docs/assets/fonts/`)
+The self-hosted Overpass and Source Sans 3 fonts (`assets/fonts/`, published as a copy at `docs/assets/fonts/`)
 retain their existing SIL Open Font Licence 1.1 terms
 (https://openfontlicense.org/).
 

@@ -8,6 +8,15 @@ header, breadcrumb, a single left-hand contents sidebar (site-wide page
 list, with the current page's own subsections nested inline under it),
 prev/next pager, and footer.
 
+docs/ is entirely generated: the build assembles the whole site —
+rendered pages, generated extras, copies of the static assets/, the
+source/ PDF and the deployment/cloudflare files — in a temporary staging
+directory on the same filesystem, validates the complete staged output,
+and only then atomically swaps it in as docs/. A failed build leaves the
+existing docs/ untouched and removes the staging directory, so docs/ can
+never be left half-written, and a clean build removes stale files
+automatically because nothing from the previous docs/ survives the swap.
+
 The build validates its own output and exits with a non-zero status (and
 no partial docs/ write) if it finds missing/extra content fragments,
 duplicate IDs, a wrong number of <h1> elements, numbered headings whose
@@ -18,34 +27,41 @@ the README's "Validation" section for the full list. Run with
 validate a change before committing it.
 """
 import json
+import os
 import re
 import html
+import shutil
 import sys
 import calendar
 import datetime
 import hashlib
+import posixpath
+import tempfile
+import urllib.parse
+from collections import namedtuple
+from html.parser import HTMLParser
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from heading_parser import parse_headings, canonical_id, parse_terms  # noqa: E402
+from heading_parser import parse_headings, canonical_id, parse_terms, escape_attr  # noqa: E402
+from json_data import load_json_data  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 SITEMAP_PATH = ROOT / "scripts" / "sitemap.json"
 METADATA_PATH = ROOT / "data" / "source-metadata.json"
 CLAUSE_SUMMARIES_PATH = ROOT / "data" / "clause-summaries.json"
 COMPANION_GUIDANCE_PATH = ROOT / "data" / "companion-guidance.json"
+SITE_CONFIG_PATH = ROOT / "data" / "site-config.json"
 CONTENT_DIR = ROOT / "content"
 DOCS_DIR = ROOT / "docs"
-SOURCE_PDF_PATH = ROOT / "docs" / "source" / "en_301549v040100va.pdf"
+# Hand-authored source assets live OUTSIDE docs/ — docs/ is entirely
+# generated (the build copies these trees into it).
+ASSETS_DIR = ROOT / "assets"
+SOURCE_DIR = ROOT / "source"
+DEPLOYMENT_DIR = ROOT / "deployment" / "cloudflare"
+SOURCE_PDF_PATH = SOURCE_DIR / "en_301549v040100va.pdf"
 
 SOURCE_PDF_NAME = "en_301549v040100va.pdf"
-DOC_LABEL = "ETSI EN 301 549 V4.1.0"
-
-# The published GitHub Pages address, used only for absolute URLs that
-# must be absolute (rel=canonical, Open Graph tags, sitemap.xml). Keep the
-# trailing slash. If the site ever moves (custom domain, different repo),
-# this is the one place to update.
-SITE_BASE_URL = "https://hgd69ghg8t-lgtm.github.io/EN-301-549-online/"
 
 # Browser-chrome theme colours (the theme-color metas and the pre-paint
 # script's sync values). Single source: the template takes these as
@@ -94,7 +110,6 @@ REQUIRED_METADATA_FIELDS = (
 )
 
 TAG_RE = re.compile(r'<[^>]+>')
-HREF_RE = re.compile(r'href="([^"]*)"')
 PLACEHOLDER_RE = re.compile(r'\[insert[^\]]*\]', re.IGNORECASE)
 VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input",
              "link", "meta", "param", "source", "track", "wbr"}
@@ -118,8 +133,8 @@ def human_date(iso):
     return iso
 
 
-CSS_PATH = DOCS_DIR / "assets" / "css" / "style.css"
-JS_PATH = DOCS_DIR / "assets" / "js" / "site.js"
+CSS_PATH = ASSETS_DIR / "css" / "style.css"
+JS_PATH = ASSETS_DIR / "js" / "site.js"
 
 
 def asset_version(path):
@@ -130,9 +145,9 @@ def asset_version(path):
     change to the file changes every page's asset URL in the same build,
     so all pages pick up the new styles together. Content-derived, so a
     rebuild from unchanged source still produces byte-identical output
-    (the reproducibility guarantee in the README holds). Note these two
-    files are hand-authored source that happens to live under docs/
-    (see README) — this does not read any *generated* output."""
+    (the reproducibility guarantee in the README holds). These two files
+    are hand-authored source under assets/ — this never reads any
+    *generated* output."""
     if not path.exists():
         return "0"
     return hashlib.sha256(path.read_bytes()).hexdigest()[:8]
@@ -140,7 +155,7 @@ def asset_version(path):
 
 def source_pdf_size(errors=None):
     """The download link's file size, computed from the PDF committed at
-    docs/source/ — never downloaded or guessed, so the build works fully
+    source/ — never downloaded or guessed, so the build works fully
     offline and the value can never silently go stale (it's recomputed
     every build from whatever file is actually there). If the file is
     missing, callers fall back to plain "(PDF)" wording with no size — see
@@ -172,6 +187,9 @@ def substitute_tokens(fragment, metadata, errors):
         "{{STATUS_LAST_CHECKED}}": human_date(metadata["statusLastChecked"]),
         "{{SOURCE_MONTH_YEAR}}": human_date(metadata["sourcePdfPublicationDate"]),
         "{{SOURCE_PDF_SIZE}}": f", {size}" if size else "",
+        # Single-sourced from data/site-config.json, so a repository move
+        # can never leave stale hand-typed GitHub links behind.
+        "{{REPOSITORY_URL}}": REPOSITORY_URL,
     }
     for token, value in replacements.items():
         fragment = fragment.replace(token, value)
@@ -200,6 +218,116 @@ class Errors:
             sys.stderr.write(f"    problem:  {message}\n")
             sys.stderr.write(f"    fix:      {fix}\n\n")
         sys.exit(1)
+
+
+# ---------------------------------------------------------------------
+# Site configuration (data/site-config.json)
+# ---------------------------------------------------------------------
+#
+# The site's identity and deployment configuration — the published base
+# URL, the repository URL, and the deployment target — live in one
+# committed, validated JSON file rather than as scattered constants. A
+# normal build always uses the committed file (no environment-variable
+# override), so production output stays reproducible.
+
+SITE_CONFIG_REL = "data/site-config.json"
+SITE_CONFIG_REQUIRED_FIELDS = (
+    "siteName", "documentLabel", "baseUrl", "repositoryUrl", "deploymentTarget",
+)
+ALLOWED_DEPLOYMENT_TARGETS = ("github-pages", "cloudflare-pages")
+
+
+def validate_site_config(config, rel=SITE_CONFIG_REL):
+    """Field-level validation of an already-parsed site configuration.
+    Returns a list of (file, rule, message, fix) error tuples, in a
+    deterministic order (unknown fields first, then each required field
+    in its documented order)."""
+    errs = []
+
+    for field in sorted(set(config) - set(SITE_CONFIG_REQUIRED_FIELDS)):
+        errs.append((rel, "site-config-unknown-field",
+                     f'Unrecognised field "{field}".',
+                     f"Use only the documented fields: {', '.join(SITE_CONFIG_REQUIRED_FIELDS)}."))
+
+    for field in SITE_CONFIG_REQUIRED_FIELDS:
+        if field not in config:
+            errs.append((rel, "site-config-missing-field",
+                         f'Required field "{field}" is missing.',
+                         f'Add "{field}" — see the site configuration section of the README.'))
+            continue
+        value = config[field]
+        if not isinstance(value, str) or not value.strip():
+            errs.append((rel, "site-config-wrong-type",
+                         f'"{field}" must be a non-empty string (got {value!r}).',
+                         f'Set "{field}" to a non-empty string value.'))
+
+    def url_errors(field, url, *, require_trailing_slash):
+        if not isinstance(url, str) or not url.strip():
+            return  # already reported as site-config-wrong-type
+        split = urllib.parse.urlsplit(url)
+        if split.scheme != "https":
+            errs.append((rel, "site-config-url-not-https",
+                         f'"{field}" must be an HTTPS URL; got "{url}".',
+                         f'Use an https:// URL for "{field}".'))
+            return
+        if not split.hostname or "." not in split.hostname:
+            errs.append((rel, "site-config-url-invalid-host",
+                         f'"{field}" has no valid hostname: "{url}".',
+                         f'Give "{field}" a real https://host/... address.'))
+            return
+        if split.query or split.fragment:
+            errs.append((rel, "site-config-url-has-query-or-fragment",
+                         f'"{field}" must not carry a query string or #fragment: "{url}".',
+                         "Remove everything from the '?' or '#' onwards."))
+            return
+        if require_trailing_slash and not split.path.endswith("/"):
+            errs.append((rel, "site-config-base-url-no-trailing-slash",
+                         f'"baseUrl" must end in "/" (page URLs are appended to it): "{url}".',
+                         'Add the trailing "/" to "baseUrl".'))
+
+    url_errors("baseUrl", config.get("baseUrl"), require_trailing_slash=True)
+    url_errors("repositoryUrl", config.get("repositoryUrl"), require_trailing_slash=False)
+
+    target = config.get("deploymentTarget")
+    if isinstance(target, str) and target.strip() and target not in ALLOWED_DEPLOYMENT_TARGETS:
+        errs.append((rel, "site-config-unknown-deployment-target",
+                     f'"deploymentTarget" is "{target}"; allowed values are: '
+                     f"{', '.join(ALLOWED_DEPLOYMENT_TARGETS)}.",
+                     "Pick one of the allowed deployment targets — behaviour must never "
+                     "depend on an unvalidated arbitrary string."))
+    return errs
+
+
+def load_site_config(path=SITE_CONFIG_PATH, rel=SITE_CONFIG_REL):
+    """Returns (config, errors): errors non-empty means config is None."""
+    config, errs = load_json_data(path, rel, required=True, expect_type=dict)
+    if errs:
+        return None, errs
+    errs = validate_site_config(config, rel)
+    return (None, errs) if errs else (config, [])
+
+
+def _require_data(loader):
+    """Module-import-time load of data the whole build depends on; exits
+    with the standard formatted error report if it is invalid."""
+    data, errs = loader()
+    if errs:
+        collector = Errors()
+        collector.items.extend(errs)
+        collector.report_and_exit()
+    return data
+
+
+SITE_CONFIG = _require_data(load_site_config)
+
+# Derived single-source values. SITE_BASE_URL (trailing slash guaranteed
+# by validation) is used for every absolute URL the build emits:
+# rel=canonical, Open Graph tags, the social image, sitemap.xml,
+# robots.txt and the 404 page's absolute links.
+SITE_BASE_URL = SITE_CONFIG["baseUrl"]
+DOC_LABEL = SITE_CONFIG["documentLabel"]
+REPOSITORY_URL = SITE_CONFIG["repositoryUrl"]
+SITE_NAME = SITE_CONFIG["siteName"]
 
 
 # ---------------------------------------------------------------------
@@ -263,28 +391,35 @@ def validate_source_pdf_checksum(data, errors, rel, pdf_path=SOURCE_PDF_PATH):
                        "only after independently recomputing it.")
 
 
+# Optional fields are explicit, so an unknown (e.g. misspelled) field can
+# never sit in the metadata silently unvalidated. Fields ending in "Note"
+# are free-text explanations rendered alongside their value; siteBuildDate
+# is nullable — null means "deliberately not recorded" (see the README),
+# which is different from a malformed placeholder.
+OPTIONAL_METADATA_FIELDS = (
+    "statusHeadline", "statusBody", "sourcePdfPublicationDateNote",
+    "dateDownloadedNote", "statusLastCheckedNote", "sha256Note",
+    "siteBuildDate", "siteBuildDateNote",
+)
+
+
 def load_metadata(errors):
-    rel = METADATA_PATH.relative_to(ROOT)
-    if not METADATA_PATH.exists():
-        errors.add(str(rel), "metadata-missing",
-                   "data/source-metadata.json does not exist.",
-                   "Create data/source-metadata.json with the required fields "
-                   "(see README's source metadata section).")
-        return None
-    raw = METADATA_PATH.read_text(encoding="utf-8")
-    try:
-        data = json.loads(raw)
-    except json.JSONDecodeError as exc:
-        errors.add(str(rel), "metadata-invalid-json",
-                   f"Not valid JSON: {exc}",
-                   f"Fix the syntax error at line {exc.lineno}, column {exc.colno}.")
+    rel_str = str(METADATA_PATH.relative_to(ROOT))
+    data, errs = load_json_data(METADATA_PATH, rel_str, required=True, expect_type=dict)
+    if errs:
+        errors.items.extend(errs)
         return None
     missing = [k for k in REQUIRED_METADATA_FIELDS if k not in data]
     if missing:
-        errors.add(str(rel), "metadata-missing-fields",
+        errors.add(rel_str, "metadata-missing-fields",
                    f"Missing required field(s): {', '.join(missing)}",
                    f"Add {', '.join(missing)} to data/source-metadata.json.")
-    rel_str = str(rel)
+    known = set(REQUIRED_METADATA_FIELDS) | set(OPTIONAL_METADATA_FIELDS)
+    unknown = sorted(set(data) - known)
+    if unknown:
+        errors.add(rel_str, "metadata-unknown-field",
+                   f"Unrecognised field(s): {', '.join(unknown)}.",
+                   f"Use only the documented fields: {', '.join(sorted(known))}.")
     validate_iso_date_field("statusLastChecked", data, errors, rel_str)
     validate_iso_date_field("dateDownloaded", data, errors, rel_str)
 
@@ -297,15 +432,6 @@ CLAUSE_SUMMARY_MAX_PARAGRAPH_CHARS = 400
 ALLOWED_SUMMARY_TOKENS = ("{{normative}}", "{{informative}}")
 
 
-def _no_duplicate_keys(pairs):
-    seen = {}
-    for key, value in pairs:
-        if key in seen:
-            raise ValueError(f'duplicate key "{key}"')
-        seen[key] = value
-    return seen
-
-
 def load_clause_summaries(errors):
     """Plain-language 'About this clause/annex' orientation blurbs, keyed by
     slug. Kept as structured data rather than hard-coded in build.py so a
@@ -316,15 +442,11 @@ def load_clause_summaries(errors):
     meant to stay easy to extend without re-auditing the whole file by eye
     every time."""
     rel = str(CLAUSE_SUMMARIES_PATH.relative_to(ROOT))
-    if not CLAUSE_SUMMARIES_PATH.exists():
+    data, errs = load_json_data(CLAUSE_SUMMARIES_PATH, rel, required=False, expect_type=dict)
+    if errs:
+        errors.items.extend(errs)
         return {}
-    raw = CLAUSE_SUMMARIES_PATH.read_text(encoding="utf-8")
-    try:
-        data = json.loads(raw, object_pairs_hook=_no_duplicate_keys)
-    except (json.JSONDecodeError, ValueError) as exc:
-        errors.add(rel, "clause-summaries-invalid-json",
-                   f"Not valid JSON: {exc}",
-                   "Fix the syntax error (or duplicate key) reported above.")
+    if data is None:
         return {}
 
     sitemap_slugs = {p["slug"] for p in SITEMAP}
@@ -416,20 +538,21 @@ CONTENT_OWNERSHIP_FIELDS = (
 _CONTENT_OWNERSHIP_DATE_FIELDS = ("lastReviewDate", "nextReviewDate", "statusCheckDate")
 
 
-def load_content_ownership():
+def load_content_ownership(errors):
     """Optional per-page governance metadata (who owns this page's content,
     when it was last/next reviewed) for the site's website-authored pages.
     This file is entirely optional and every field within it is optional:
     real values are only ever added by a maintainer who actually knows
     them. Nothing here is invented, and a missing file or missing field
-    never fails the build — see content_ownership_notices()."""
-    if not CONTENT_OWNERSHIP_PATH.exists():
+    never fails the build — but a file that exists and is malformed is a
+    build error, never silently ignored (see content_ownership_notices()
+    for the missing-metadata notice)."""
+    rel = str(CONTENT_OWNERSHIP_PATH.relative_to(ROOT))
+    data, errs = load_json_data(CONTENT_OWNERSHIP_PATH, rel, required=False, expect_type=dict)
+    if errs:
+        errors.items.extend(errs)
         return {}
-    try:
-        data = json.loads(CONTENT_OWNERSHIP_PATH.read_text(encoding="utf-8"))
-    except json.JSONDecodeError:
-        return {}
-    return data if isinstance(data, dict) else {}
+    return data if data is not None else {}
 
 
 def validate_content_ownership(ownership, errors):
@@ -548,25 +671,18 @@ def protected_etsi_slugs():
     return sorted({p["slug"] for p in SITEMAP} - NON_STANDARD_SLUGS)
 
 
-def load_etsi_hashes():
-    if not ETSI_HASHES_PATH.exists():
-        return None
-    try:
-        data = json.loads(ETSI_HASHES_PATH.read_text(encoding="utf-8"))
-    except json.JSONDecodeError:
-        return None
-    return data if isinstance(data, dict) else None
-
-
 def validate_etsi_content_integrity(errors):
     rel = str(ETSI_HASHES_PATH.relative_to(ROOT))
-    baseline = load_etsi_hashes()
-    if baseline is None:
+    if not ETSI_HASHES_PATH.exists():
         errors.add(rel, "etsi-hashes-missing",
-                   "data/etsi-content-hashes.json is missing or not valid JSON. Without it, an "
-                   "accidental edit to reproduced ETSI wording in content/*.html could go unnoticed.",
+                   "data/etsi-content-hashes.json is missing. Without it, an accidental edit "
+                   "to reproduced ETSI wording in content/*.html could go unnoticed.",
                    "Run `python3 scripts/update_etsi_hashes.py` once to generate it from the "
                    "current, known-good content, then commit the result.")
+        return
+    baseline, errs = load_json_data(ETSI_HASHES_PATH, rel, required=True, expect_type=dict)
+    if errs:
+        errors.items.extend(errs)
         return
 
     protected = protected_etsi_slugs()
@@ -804,11 +920,10 @@ def link_cross_references(fragment, current_slug, xrefs):
 # A static, build-time search index — no search service, no third-party
 # library. One JSON entry per heading section (h2-h4), per glossary term,
 # and per page intro: {"u": url, "p": page name, "t": title, "b": body
-# text}. docs/assets/js/site.js fetches it on the search page and filters
+# text}. assets/js/site.js fetches it on the search page and filters
 # it in the browser. Deterministic (same source always produces the same
 # bytes), so the repository's reproducible-build guarantee holds.
 
-SEARCH_INDEX_PATH = DOCS_DIR / "search-index.json"
 # Long sections (e.g. clause 3's whole "3.1 Terms" block, whose individual
 # definitions are indexed separately anyway) are capped so the index stays
 # a reasonable download; the cap is generous enough that genuine
@@ -889,7 +1004,7 @@ def validate_fragment_headings(slug, raw, headings, errors):
                    "title, update the title in scripts/sitemap.json instead.")
 
     seen_ids = {}
-    last_level = 1  # virtual parent: the template's own <h1> (or fragment h1 for index)
+    last_level = 1  # virtual parent: the template's own <h1> (every page, homepage included)
     for h in headings:
         if h.level == 1:
             continue
@@ -954,7 +1069,7 @@ def inject_heading_links(raw, headings):
         if not h.number:
             continue
         anchor_id = h.id or canonical_id(h.number)
-        open_tag = f'<a class="heading-link" href="#{anchor_id}" data-copy-link>'
+        open_tag = f'<a class="heading-link" href="#{escape_attr(anchor_id)}" data-copy-link>'
         edits.append((h.end, h.end, "</a>"))
         edits.append((h.tag_end, h.tag_end, open_tag))
     edits.sort(key=lambda e: e[0], reverse=True)
@@ -1037,14 +1152,14 @@ def build_subsection_tree(headings):
             if open_sub:
                 html_parts.append('</ul>')
                 open_sub = False
-            html_parts.append(f'<li><a href="#{h.id}" data-subsection>{html.escape(h.text)}</a>')
+            html_parts.append(f'<li><a href="#{escape_attr(h.id)}" data-subsection>{html.escape(h.text)}</a>')
             if not (nxt and nxt.level == 3):
                 html_parts.append('</li>')
         else:
             if not open_sub:
                 html_parts.append('<ul class="site-nav__subsections site-nav__subsections--nested">')
                 open_sub = True
-            html_parts.append(f'<li><a href="#{h.id}" data-subsection>{html.escape(h.text)}</a></li>')
+            html_parts.append(f'<li><a href="#{escape_attr(h.id)}" data-subsection>{html.escape(h.text)}</a></li>')
             if not (nxt and nxt.level == 3):
                 html_parts.append('</ul></li>')
                 open_sub = False
@@ -1249,9 +1364,9 @@ PAGE_TEMPLATE = """<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{title} | {doc_label} Online</title>
 <meta name="description" content="{description}">
-<meta id="theme-colour-light" name="theme-color" media="(prefers-color-scheme: light)" content="{theme_chrome_light}">
+{robots_meta}<meta id="theme-colour-light" name="theme-color" media="(prefers-color-scheme: light)" content="{theme_chrome_light}">
 <meta id="theme-colour-dark" name="theme-color" media="(prefers-color-scheme: dark)" content="{theme_chrome_dark}">
-<link rel="canonical" href="{canonical_url}">
+{canonical_link}
 <script>/* Theme apply, deliberately placed before the stylesheet link and
 kept synchronous (scripts/test_build.py asserts both statically): an
 explicit Dark/Light choice is set on <html> before the stylesheet can
@@ -1282,14 +1397,7 @@ preference applies. */
   if (theme) document.documentElement.setAttribute("data-theme", theme);
   window.__syncThemeColour(theme || "auto");
 }})();</script>
-<meta property="og:site_name" content="{doc_label} Online">
-<meta property="og:type" content="website">
-<meta property="og:title" content="{title} | {doc_label} Online">
-<meta property="og:description" content="{description}">
-<meta property="og:url" content="{canonical_url}">
-<meta property="og:image" content="{og_image_url}">
-<meta name="twitter:card" content="summary">
-<link rel="stylesheet" href="{asset_prefix}assets/css/style.css?v={css_version}">
+{social_meta}<link rel="stylesheet" href="{asset_prefix}assets/css/style.css?v={css_version}">
 <link rel="icon" href="{asset_prefix}assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="{asset_prefix}assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="{asset_prefix}assets/img/apple-touch-icon.png">
@@ -1340,6 +1448,23 @@ preference applies. */
 </body>
 </html>
 """
+
+
+def build_social_meta(title, description, canonical_url):
+    """The Open Graph / Twitter-card meta block for an indexable page.
+    All three arguments must already be HTML-escaped. The 404 page passes
+    an empty block instead — an error page has no canonical URL to
+    advertise, so social metadata pointing at one would be misleading."""
+    og_image_url = html.escape(f"{SITE_BASE_URL}assets/img/apple-touch-icon.png")
+    return (
+        f'<meta property="og:site_name" content="{DOC_LABEL} Online">\n'
+        '<meta property="og:type" content="website">\n'
+        f'<meta property="og:title" content="{title} | {DOC_LABEL} Online">\n'
+        f'<meta property="og:description" content="{description}">\n'
+        f'<meta property="og:url" content="{canonical_url}">\n'
+        f'<meta property="og:image" content="{og_image_url}">\n'
+        '<meta name="twitter:card" content="summary">\n'
+    )
 
 
 def render_metadata_summary(metadata):
@@ -1407,14 +1532,14 @@ def build_on_this_page(headings):
             if open_sub:
                 parts.append('</ul>')
                 open_sub = False
-            parts.append(f'<li><a href="#{h.id}">{html.escape(h.text)}</a>')
+            parts.append(f'<li><a href="#{escape_attr(h.id)}">{html.escape(h.text)}</a>')
             if not (nxt and nxt.level == 3):
                 parts.append('</li>')
         else:
             if not open_sub:
                 parts.append('<ul>')
                 open_sub = True
-            parts.append(f'<li><a href="#{h.id}">{html.escape(h.text)}</a></li>')
+            parts.append(f'<li><a href="#{escape_attr(h.id)}">{html.escape(h.text)}</a></li>')
             if not (nxt and nxt.level == 3):
                 parts.append('</ul></li>')
                 open_sub = False
@@ -1427,15 +1552,12 @@ INFORMATIVE_LINK = '<a href="about.html#normative-and-informative">informative</
 
 
 def load_companion_guidance(errors):
-    if not COMPANION_GUIDANCE_PATH.exists():
-        return {}
     rel = str(COMPANION_GUIDANCE_PATH.relative_to(ROOT))
-    try:
-        data = json.loads(COMPANION_GUIDANCE_PATH.read_text(encoding="utf-8"),
-                          object_pairs_hook=_no_duplicate_keys)
-    except (json.JSONDecodeError, ValueError) as exc:
-        errors.add(rel, "companion-guidance-invalid-json", str(exc),
-                   "Fix the JSON syntax or duplicate key.")
+    data, errs = load_json_data(COMPANION_GUIDANCE_PATH, rel, required=False, expect_type=dict)
+    if errs:
+        errors.items.extend(errs)
+        return {}
+    if data is None:
         return {}
     known = {page["slug"] for page in SITEMAP}
     for slug, entry in data.items():
@@ -1586,7 +1708,7 @@ def render_dt_starttag(attrs, term_id):
     has_id = has_tabindex = False
     for k, v in attrs:
         if k == "id":
-            parts.append(f'id="{term_id}"')
+            parts.append(f'id="{escape_attr(term_id)}"')
             has_id = True
         elif k == "tabindex":
             parts.append('tabindex="-1"')
@@ -1594,9 +1716,9 @@ def render_dt_starttag(attrs, term_id):
         elif v is None:
             parts.append(k)
         else:
-            parts.append(f'{k}="{v}"')
+            parts.append(f'{k}="{escape_attr(v)}"')
     if not has_id:
-        parts.append(f'id="{term_id}"')
+        parts.append(f'id="{escape_attr(term_id)}"')
     if not has_tabindex:
         # Focusable-but-not-tabbable: lets site.js move keyboard focus to a
         # definition when its fragment link is followed (see site.js), while
@@ -1667,7 +1789,7 @@ def build_az_index(assigned_terms, index_id, aria_label):
             first_seen[letter] = term_id
     letters = sorted(first_seen.keys())
     links = "".join(
-        f'<li><a href="#{first_seen[letter]}">{letter}'
+        f'<li><a href="#{escape_attr(first_seen[letter])}">{letter}'
         f'<span class="visually-hidden"> (jump to terms starting with {letter})</span></a></li>'
         for letter in letters
     )
@@ -1775,21 +1897,25 @@ def render_page(index, page, metadata, summaries, guidance, errors, xrefs=None):
         fragment_html = link_cross_references(fragment_html, slug, xrefs)
     content_html = clause_summary + companion + on_this_page + fragment_html
 
+    title_esc = html.escape(page["title"])
+    description = html.escape(
+        f'{page["title"]} — {DOC_LABEL} accessible HTML edition (final draft, under approval).')
+    canonical_url = html.escape(SITE_BASE_URL if slug == "index" else f"{SITE_BASE_URL}{slug}.html")
     html_out = PAGE_TEMPLATE.format(
-        title=html.escape(page["title"]),
+        title=title_esc,
         doc_label=DOC_LABEL,
-        description=html.escape(f'{page["title"]} — {DOC_LABEL} accessible HTML edition (final draft, under approval).'),
-        canonical_url=html.escape(SITE_BASE_URL if slug == "index" else f"{SITE_BASE_URL}{slug}.html"),
+        description=description,
+        robots_meta="",
+        canonical_link=f'<link rel="canonical" href="{canonical_url}">',
+        social_meta=build_social_meta(title_esc, description, canonical_url),
         theme_chrome_light=THEME_CHROME_LIGHT,
         theme_chrome_dark=THEME_CHROME_DARK,
-        og_image_url=html.escape(f"{SITE_BASE_URL}assets/img/apple-touch-icon.png"),
         asset_prefix="",
         site_title=build_site_title(""),
         doc_header=build_doc_header(page),
         site_nav=build_site_nav(slug, headings),
         content=content_html,
         pager="" if slug in ("index", "search") else build_pager(index),
-        source_pdf=SOURCE_PDF_NAME,
         css_version=asset_version(CSS_PATH),
         js_version=asset_version(JS_PATH),
         header_nav=build_header_nav(slug),
@@ -1804,10 +1930,208 @@ def render_page(index, page, metadata, summaries, guidance, errors, xrefs=None):
 
 
 # ---------------------------------------------------------------------
+# Local-resource collection + validation (HTMLParser-based; replaces the
+# old href="..." regex, which missed src/srcset and single-quoted or
+# unquoted attributes entirely)
+# ---------------------------------------------------------------------
+
+# One local-resource reference found in a rendered page. `value` is the
+# attribute's full original value; `url` is the single URL component being
+# validated (they differ only for srcset, where one attribute holds many
+# comma-separated "URL descriptor" candidates).
+Resource = namedtuple("Resource", ("tag", "attr", "value", "url", "line"))
+CollectedPage = namedtuple("CollectedPage", ("resources", "ids"))
+
+_URL_ATTRS = {"href", "src"}
+# External/asset schemes this site may legitimately reference; their
+# targets are outside the generated output, so they are not validated
+# here. (A scheduled external-link checker is a separate concern.)
+_IGNORED_SCHEMES = {"http", "https", "mailto", "tel", "data"}
+
+
+def parse_srcset(value):
+    """The URL components of a srcset attribute, in order. Each
+    comma-separated candidate is "URL [descriptor]" (e.g. "img/a.png 2x",
+    "img/b.png 400w"); descriptors are left untouched — only each URL is
+    extracted for validation."""
+    urls = []
+    for candidate in value.split(","):
+        parts = candidate.split()
+        if parts:
+            urls.append(parts[0])
+    return urls
+
+
+class _ResourceCollector(HTMLParser):
+    """Records every id and every href/src/srcset reference in a rendered
+    page, with source line numbers. HTMLParser handles double-quoted,
+    single-quoted and unquoted attributes alike, and decodes entities, so
+    this sees the URL a browser would actually request."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.resources = []
+        self.ids = []
+
+    def handle_starttag(self, tag, attrs):
+        line = self.getpos()[0]
+        for name, value in attrs:
+            if value is None:
+                continue
+            if name == "id":
+                self.ids.append((value, line))
+            elif name in _URL_ATTRS:
+                self.resources.append(Resource(tag, name, value, value.strip(), line))
+            elif name == "srcset":
+                for url in parse_srcset(value):
+                    self.resources.append(Resource(tag, name, value, url, line))
+
+
+def collect_resources(html_text):
+    collector = _ResourceCollector()
+    collector.feed(html_text)
+    collector.close()
+    return CollectedPage(collector.resources, collector.ids)
+
+
+# Files the build generates alongside the rendered pages — link targets
+# that exist in every build even though they aren't in the rendered-pages
+# map.
+GENERATED_EXTRA_FILES = ("sitemap.xml", "robots.txt", "search-index.json",
+                         "accessibility-statement.html", "404.html")
+
+
+def published_files(rendered, docs_dir):
+    """Every docs/-relative path this build publishes: the rendered pages,
+    the extra generated files, and the static assets/source/deployment
+    files copied into the staged output tree (docs_dir is the staging
+    directory during a build). Top-level *.html files on disk are
+    deliberately excluded — the rendered set is the authority there, so a
+    stale page can never satisfy a link to a page the build no longer
+    produces."""
+    files = {f"{slug}.html" for slug in rendered} | set(GENERATED_EXTRA_FILES)
+    if docs_dir.exists():
+        for p in docs_dir.rglob("*"):
+            if not p.is_file():
+                continue
+            rel = p.relative_to(docs_dir).as_posix()
+            if "/" not in rel and rel.endswith(".html"):
+                continue
+            files.add(rel)
+    return files
+
+
+def resolve_local_url(page_path, url):
+    """Resolve a local (schemeless, hostless) URL against the page it
+    appears on. Web-path semantics only (urllib.parse + posixpath) —
+    never OS filesystem path rules. Returns (target, fragment, problem):
+    target is the docs/-relative path ("" for a same-page reference) with
+    any query string already separated off and percent-encoding decoded;
+    fragment is the percent-decoded fragment; problem is None or a short
+    reason this URL can never be valid on this site."""
+    split = urllib.parse.urlsplit(url)
+    fragment = urllib.parse.unquote(split.fragment)
+    path = split.path
+    if not path:
+        return "", fragment, None  # fragment-only or query-only: same page
+    if path.startswith("/"):
+        return None, fragment, (
+            "is root-absolute, but this site is published under a sub-path "
+            "(a GitHub Pages project site), where root-absolute URLs break")
+    base_dir = posixpath.dirname(page_path)
+    resolved = posixpath.normpath(posixpath.join(base_dir, urllib.parse.unquote(path)))
+    if resolved == ".." or resolved.startswith("../"):
+        return None, fragment, "resolves outside the published docs/ tree"
+    if path.endswith("/") or resolved == ".":
+        # Directory-style link: the only index document this site serves
+        # for a directory URL is its index.html.
+        resolved = "index.html" if resolved == "." else posixpath.join(resolved, "index.html")
+    return resolved, fragment, None
+
+
+def validate_site_resources(rendered, collected, errors, docs_dir=DOCS_DIR):
+    """Whole-site internal-resource validation over the fully rendered
+    pages: every href/src/srcset URL must resolve — query string ignored,
+    fragment and path percent-decoded, relative paths resolved against the
+    referencing page — to a file this build publishes, without escaping
+    the docs/ tree; and a fragment on an HTML target must be an id that
+    really exists on that page (same-page and cross-page alike).
+    External schemes are ignored; javascript: URLs are rejected outright.
+    Errors are reported in deterministic order: pages sorted by slug,
+    references in document order."""
+    published = published_files(rendered, docs_dir)
+    ids_by_page = {f"{slug}.html": {i for i, _ in page.ids}
+                   for slug, page in collected.items()}
+
+    def ids_for(target):
+        # Rendered pages are authoritative; the only other HTML targets
+        # are generated stubs (e.g. the accessibility-statement redirect),
+        # read from disk on demand.
+        if target not in ids_by_page:
+            disk = docs_dir / target
+            ids_by_page[target] = (
+                {i for i, _ in collect_resources(disk.read_text(encoding="utf-8")).ids}
+                if disk.is_file() else set())
+        return ids_by_page[target]
+
+    for slug in sorted(rendered):
+        page_path = f"{slug}.html"
+        label = f"docs/{page_path}"
+        for r in collected[slug].resources:
+            url = r.url
+            if not url:
+                continue  # empty URL: nothing to validate
+            split = urllib.parse.urlsplit(url)
+            scheme = split.scheme.lower()
+            if scheme == "javascript":
+                errors.add(label, "javascript-url",
+                           f'line {r.line}: <{r.tag}> {r.attr}="{r.value}" is a javascript: '
+                           "URL; this site never emits script URLs (progressive enhancement "
+                           "uses real links plus site.js).",
+                           "Replace it with a real link target, or a <button> enhanced by site.js.")
+                continue
+            if scheme in _IGNORED_SCHEMES:
+                continue
+            if scheme:
+                errors.add(label, "unsupported-url-scheme",
+                           f'line {r.line}: <{r.tag}> {r.attr}="{r.value}" uses the '
+                           f'unrecognised scheme "{scheme}:".',
+                           "Use a relative local path, or an http(s)/mailto/tel URL.")
+                continue
+            if split.netloc:
+                continue  # scheme-relative external URL (//host/...): not local
+            target, fragment, problem = resolve_local_url(page_path, url)
+            if problem:
+                errors.add(label, "invalid-local-url",
+                           f'line {r.line}: <{r.tag}> {r.attr}="{r.value}" {problem}.',
+                           "Rewrite it as a relative path that stays inside the published site.")
+                continue
+            if target:
+                if target not in published:
+                    errors.add(label, "missing-local-resource",
+                               f'line {r.line}: <{r.tag}> {r.attr}="{r.value}" resolves to '
+                               f'"{target}", which this build does not publish.',
+                               "Fix the path, or add the missing file under docs/.")
+                    continue
+                target_page = target
+            else:
+                target_page = page_path  # same-page reference
+            if fragment and target_page.endswith(".html"):
+                if fragment not in ids_for(target_page):
+                    where = ("this page" if target_page == page_path
+                             else target_page)
+                    errors.add(label, "missing-fragment-target",
+                               f'line {r.line}: <{r.tag}> {r.attr}="{r.value}" points at '
+                               f'id "{fragment}", which does not exist on {where}.',
+                               f'Add id="{fragment}" to the intended element on {target_page}, '
+                               "or fix the fragment.")
+
+
+# ---------------------------------------------------------------------
 # Whole-site, post-render validation
 # ---------------------------------------------------------------------
 
-def validate_rendered_page(slug, html_out, all_slugs, errors):
+def validate_rendered_page(slug, html_out, page_ids, errors):
     label = f"docs/{slug}.html"
 
     h1_matches = re.findall(r'<h1[^>]*>(.*?)</h1>', html_out, re.IGNORECASE | re.DOTALL)
@@ -1819,32 +2143,18 @@ def validate_rendered_page(slug, html_out, all_slugs, errors):
         errors.add(label, "h1-empty", "The page's <h1> has no visible text.",
                    "Give the page a real title in scripts/sitemap.json.")
 
-    ids = re.findall(r'\sid="([^"]+)"', html_out)
+    # page_ids comes from the same HTMLParser pass that collects the
+    # page's resource references (collect_resources); links themselves are
+    # validated site-wide by validate_site_resources().
     seen = set()
-    for i in ids:
+    for i, line in page_ids:
         if i in seen:
             errors.add(label, "duplicate-id-rendered",
-                       f'id="{i}" appears more than once in the fully rendered page.',
+                       f'id="{i}" (line {line}) appears more than once in the fully rendered page.',
                        "Search the template and content fragment for a second element with this id.")
         seen.add(i)
 
     check_tag_balance(label, html_out, errors)
-
-    for href in HREF_RE.findall(html_out):
-        if href.startswith("#"):
-            frag = href[1:]
-            if frag and frag != "top" and frag not in seen:
-                errors.add(label, "broken-anchor-link",
-                           f'href="{href}" points to an id that does not exist on this page.',
-                           f'Add id="{frag}" to the intended target, or fix the href.')
-        elif href.startswith(("http://", "https://", "mailto:")):
-            continue
-        elif href.endswith(".html"):
-            target_slug = href.rsplit("/", 1)[-1][:-5]
-            if target_slug not in all_slugs:
-                errors.add(label, "broken-internal-link",
-                           f'href="{href}" does not match any page slug produced from scripts/sitemap.json.',
-                           "Fix the href, or add the missing page to sitemap.json.")
 
     placeholder = PLACEHOLDER_RE.search(html_out)
     if placeholder:
@@ -1938,10 +2248,410 @@ def validate_rendered_page(slug, html_out, all_slugs, errors):
 
 
 # ---------------------------------------------------------------------
+# 404 page (docs/404.html)
+# ---------------------------------------------------------------------
+#
+# A custom, accessible not-found page in the shared site design. It is
+# generated-output only: never added to the sitemap, the contents
+# navigation, or search — and it carries noindex and no canonical URL,
+# because an error page has no address of its own to advertise.
+
+NOT_FOUND_PAGE = {"slug": "404", "title": "Page not found",
+                  "shortTitle": "Page not found", "pdfPages": None, "group": ""}
+
+# Relative URL in an href/src/action attribute: no scheme, not
+# scheme-relative (//host/...), not fragment-only.
+_LOCAL_LINK_RE = re.compile(r'\b(href|src|action)="(?!(?:[a-z][a-z0-9+.\-]*:|//|#))([^"]+)"')
+
+
+def absolutise_local_links(html_text, base_url):
+    """Rewrite every relative link/asset/form URL to an absolute one under
+    base_url. Only the 404 page needs this: static hosts serve 404.html
+    for ANY missing path, including nested ones, where relative links
+    would resolve against the missing path and break."""
+    return _LOCAL_LINK_RE.sub(lambda m: f'{m.group(1)}="{base_url}{m.group(2)}"', html_text)
+
+
+def build_not_found_fragment():
+    """Body of the 404 page: says plainly that the page could not be found
+    (without blaming the reader), never redirects automatically, and works
+    without JavaScript — the links are ordinary anchors. Written with
+    relative links here; render_not_found_page() makes every link on the
+    page absolute."""
+    return (
+        '<p>The page you were looking for could not be found.</p>\n'
+        '<p>The address may differ slightly from the published address, or the '
+        'page may have moved since the link was made.</p>\n'
+        '<h2 id="where-to-go-instead">Where to go instead</h2>\n'
+        '<ul>\n'
+        '<li><a href="index.html">Go to the Home page</a></li>\n'
+        '<li><a href="search.html">Search this standard</a></li>\n'
+        '<li><a href="clause-1-scope.html">Start at Clause 1: Scope</a></li>\n'
+        '</ul>\n'
+        '<p>The Contents sidebar on this page also lists every clause and annex '
+        'of the standard.</p>\n'
+    )
+
+
+def render_not_found_page():
+    page = NOT_FOUND_PAGE
+    fragment = build_not_found_fragment()
+    headings = parse_headings(fragment)
+    title_esc = html.escape(page["title"])
+    description = html.escape(
+        f"The page you were looking for could not be found — {DOC_LABEL} accessible HTML edition.")
+    html_out = PAGE_TEMPLATE.format(
+        title=title_esc,
+        doc_label=DOC_LABEL,
+        description=description,
+        robots_meta='<meta name="robots" content="noindex">\n',
+        canonical_link="",  # an error page has no canonical URL
+        social_meta="",     # nor social-preview metadata pointing at one
+        theme_chrome_light=THEME_CHROME_LIGHT,
+        theme_chrome_dark=THEME_CHROME_DARK,
+        asset_prefix=SITE_BASE_URL,
+        site_title=build_site_title(SITE_BASE_URL),
+        doc_header=build_doc_header(page),
+        site_nav=build_site_nav(page["slug"], headings),
+        content=fragment,
+        pager="",
+        css_version=asset_version(CSS_PATH),
+        js_version=asset_version(JS_PATH),
+        header_nav=build_header_nav(page["slug"]),
+        footer_nav=build_footer_nav(page["slug"]),
+        page_slug=html.escape(page["slug"]),
+        page_title=title_esc,
+        page_group="",
+    )
+    html_out = absolutise_local_links(html_out, SITE_BASE_URL)
+    return "\n".join(line.rstrip() for line in html_out.split("\n"))
+
+
+def validate_not_found_page(html_out, published, errors):
+    """The generated 404 page's own checks: exactly one <h1>, noindex, no
+    canonical, no automatic redirect, the required Home/Search/first-clause
+    links, and every link absolute — with every same-site absolute link
+    resolving to a file this build publishes."""
+    label = "docs/404.html"
+
+    h1s = re.findall(r'<h1[^>]*>(.*?)</h1>', html_out, re.IGNORECASE | re.DOTALL)
+    if len(h1s) != 1:
+        errors.add(label, "404-h1-count",
+                   f"The 404 page has {len(h1s)} <h1> element(s); it must have exactly one.",
+                   "Check render_not_found_page() and build_not_found_fragment().")
+
+    if '<meta name="robots" content="noindex">' not in html_out:
+        errors.add(label, "404-missing-noindex",
+                   "The 404 page must carry <meta name=\"robots\" content=\"noindex\">.",
+                   "Check render_not_found_page()'s robots_meta.")
+
+    if 'rel="canonical"' in html_out:
+        errors.add(label, "404-has-canonical",
+                   "The 404 page must not declare a canonical URL — an error page has no "
+                   "address of its own.",
+                   "Remove the canonical link from render_not_found_page().")
+
+    if re.search(r'http-equiv\s*=\s*"?refresh', html_out, re.IGNORECASE):
+        errors.add(label, "404-auto-redirect",
+                   "The 404 page must never redirect the reader automatically.",
+                   "Remove the meta refresh; offer plain links instead.")
+
+    for target, purpose in (("index.html", "Home"), ("search.html", "Search"),
+                            ("clause-1-scope.html", "the first clause")):
+        if f'href="{SITE_BASE_URL}{target}"' not in html_out:
+            errors.add(label, "404-missing-link",
+                       f"The 404 page has no link to {purpose} ({SITE_BASE_URL}{target}).",
+                       "Check build_not_found_fragment() and absolutise_local_links().")
+
+    for r in collect_resources(html_out).resources:
+        url = r.url
+        if not url:
+            continue
+        split = urllib.parse.urlsplit(url)
+        if split.scheme in ("http", "https"):
+            if url.startswith(SITE_BASE_URL):
+                target = urllib.parse.urlsplit(url[len(SITE_BASE_URL):]).path
+                target = urllib.parse.unquote(target)
+                if target and target not in published:
+                    errors.add(label, "404-broken-absolute-link",
+                               f'line {r.line}: <{r.tag}> {r.attr}="{r.value}" resolves to '
+                               f'"{target}", which this build does not publish.',
+                               "Fix the link target.")
+            continue
+        if split.scheme or split.netloc:
+            continue  # mailto:/tel:/data:/scheme-relative — out of scope here
+        if split.path:
+            errors.add(label, "404-relative-link",
+                       f'line {r.line}: <{r.tag}> {r.attr}="{r.value}" is relative, but the '
+                       "404 page is served for arbitrary missing paths, where relative links "
+                       "break.",
+                       "Make the link absolute via absolutise_local_links().")
+
+
+# ---------------------------------------------------------------------
+# Cloudflare Pages deployment files (deployment/cloudflare/)
+# ---------------------------------------------------------------------
+#
+# _headers and _redirects are hand-authored source files, copied verbatim
+# into the generated output. GitHub Pages ignores them; they only take
+# effect if the site is deployed on Cloudflare Pages (prepared, NOT
+# active — see docs-for-maintainers/cloudflare-pages.md).
+
+DEPLOYMENT_FILES = ("_headers", "_redirects")
+SUPPORTED_REDIRECT_STATUSES = ("301", "302", "303", "307", "308")
+
+
+def validate_redirects(text, rel, errors):
+    """Validate every active rule in a Cloudflare Pages _redirects file:
+    '<source> <target> [status]' per line; comments (#) and blank lines
+    are supported. Sources must start with /, targets must be local
+    /paths or HTTPS URLs, statuses must be supported, duplicate sources
+    are rejected, and redirect loops among local rules are rejected where
+    detectable. Errors are reported in file order, so they're
+    deterministic."""
+    rules = {}
+    order = []
+    for lineno, line in enumerate(text.splitlines(), 1):
+        stripped = line.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        parts = stripped.split()
+        if len(parts) not in (2, 3):
+            errors.add(rel, "redirect-malformed",
+                       f'line {lineno}: "{stripped}" is not "<source> <target> [status]".',
+                       "Write each active rule as a source path, a target, and an optional "
+                       "status code, separated by whitespace.")
+            continue
+        source, target = parts[0], parts[1]
+        status = parts[2] if len(parts) == 3 else "302"
+        ok = True
+        if not source.startswith("/"):
+            errors.add(rel, "redirect-source-not-rooted",
+                       f'line {lineno}: source "{source}" must begin with "/".',
+                       "Write the source as a root-relative path, e.g. /old-page.html.")
+            ok = False
+        if status not in SUPPORTED_REDIRECT_STATUSES:
+            errors.add(rel, "redirect-status-unsupported",
+                       f'line {lineno}: status "{status}" is not supported '
+                       f"({', '.join(SUPPORTED_REDIRECT_STATUSES)}).",
+                       "Use one of the supported redirect status codes.")
+            ok = False
+        target_split = urllib.parse.urlsplit(target)
+        if not (target.startswith("/")
+                or (target_split.scheme == "https" and target_split.hostname)):
+            errors.add(rel, "redirect-target-invalid",
+                       f'line {lineno}: target "{target}" must be a local /path or an '
+                       "https:// URL.",
+                       "Point the rule at a local path or a full HTTPS address.")
+            ok = False
+        if not ok:
+            continue
+        if source in rules:
+            errors.add(rel, "redirect-duplicate-source",
+                       f'line {lineno}: source "{source}" already has a rule — only the first '
+                       "would ever match, so the second is at best dead and at worst a mistake.",
+                       "Remove or merge the duplicate rule.")
+            continue
+        rules[source] = target
+        order.append(source)
+
+    in_reported_loop = set()
+    for source in order:
+        if source in in_reported_loop:
+            continue
+        seen = []
+        current = source
+        looped = False
+        while current in rules:
+            if current in seen:
+                looped = True
+                break
+            seen.append(current)
+            nxt = rules[current]
+            if not nxt.startswith("/"):
+                break
+            current = nxt
+        if looped:
+            cycle = seen[seen.index(current):]
+            in_reported_loop.update(cycle)
+            errors.add(rel, "redirect-loop",
+                       f"redirect loop: {' -> '.join(cycle + [current])}.",
+                       "Break the cycle — a redirect chain must terminate at a real page.")
+
+
+# ---------------------------------------------------------------------
+# Atomic staged output (docs/ is replaced, never written into)
+# ---------------------------------------------------------------------
+
+def generate_sitemap_xml():
+    """Deterministic sitemap.xml: URL list comes straight from the
+    sitemap, no timestamps — a <lastmod> would either be invented or
+    churn every build and break the byte-identical-rebuild guarantee.
+    The 404 page is deliberately absent: it is not a destination."""
+    sitemap_urls = "".join(
+        f"<url><loc>{html.escape(SITE_BASE_URL if p['slug'] == 'index' else SITE_BASE_URL + p['slug'] + '.html')}</loc></url>"
+        for p in SITEMAP
+    )
+    return ('<?xml version="1.0" encoding="UTF-8"?>\n'
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
+            f"{sitemap_urls}</urlset>\n")
+
+
+def generate_robots_txt():
+    return f"User-agent: *\nAllow: /\nSitemap: {SITE_BASE_URL}sitemap.xml\n"
+
+
+def generate_accessibility_statement_stub():
+    """The accessibility statement moved onto the About page; its old URL
+    stays alive as a tiny redirect so existing links and bookmarks keep
+    working (deep links to its sections keep the same fragment ids on
+    about.html). noindex: search engines should list the About page."""
+    return (
+        '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
+        '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
+        '<meta http-equiv="refresh" content="0; url=about.html#accessibility-statement">\n'
+        '<meta name="robots" content="noindex">\n'
+        f'<link rel="canonical" href="{html.escape(SITE_BASE_URL)}about.html">\n'
+        f"<title>Accessibility statement | {DOC_LABEL} Online</title>\n"
+        "</head>\n<body>\n"
+        '<p>The accessibility statement is now part of the '
+        '<a href="about.html#accessibility-statement">About page</a>.</p>\n'
+        "</body>\n</html>\n")
+
+
+def build_output_tree(staging, rendered, index_entries, errors):
+    """Write the complete publishable site into the staging directory:
+    rendered pages, generated extras (search index, sitemap.xml,
+    robots.txt, the accessibility-statement redirect stub, 404.html,
+    .nojekyll), a copy of the static assets/ and source/ trees, and the
+    Cloudflare deployment files. Nothing is written into docs/ itself."""
+    for slug, html_out in rendered.items():
+        (staging / f"{slug}.html").write_text(html_out, encoding="utf-8")
+
+    (staging / "search-index.json").write_text(
+        json.dumps(index_entries, ensure_ascii=False, separators=(",", ":")) + "\n",
+        encoding="utf-8")
+    (staging / "sitemap.xml").write_text(generate_sitemap_xml(), encoding="utf-8")
+    (staging / "robots.txt").write_text(generate_robots_txt(), encoding="utf-8")
+    (staging / "accessibility-statement.html").write_text(
+        generate_accessibility_statement_stub(), encoding="utf-8")
+    (staging / "404.html").write_text(render_not_found_page(), encoding="utf-8")
+    # GitHub Pages serves docs/ through Jekyll by default, which would
+    # drop files whose names start with "_" (the Cloudflare _headers and
+    # _redirects files); .nojekyll turns that off.
+    (staging / ".nojekyll").write_text("", encoding="utf-8")
+
+    for name, directory in (("assets", ASSETS_DIR), ("source", SOURCE_DIR)):
+        rel = str(directory.relative_to(ROOT)) if directory.is_relative_to(ROOT) else str(directory)
+        if not directory.is_dir():
+            errors.add(rel, "static-source-missing",
+                       f"The hand-authored {name}/ source directory does not exist, so the "
+                       "generated site would be missing its static files.",
+                       f"Restore the {rel}/ directory from version control.")
+            continue
+        shutil.copytree(directory, staging / name)
+
+    for name in DEPLOYMENT_FILES:
+        src = DEPLOYMENT_DIR / name
+        if not src.is_file():
+            errors.add(f"deployment/cloudflare/{name}", "deployment-file-missing",
+                       f"deployment/cloudflare/{name} does not exist; the generated site must "
+                       f"publish it as {name}.",
+                       "Restore the file from version control.")
+            continue
+        shutil.copyfile(src, staging / name)
+
+
+def validate_output_tree(staging, rendered, collected, errors):
+    """Complete generated-output validation, run against the staged tree
+    before it can replace docs/."""
+    validate_site_resources(rendered, collected, errors, docs_dir=staging)
+
+    published = published_files(rendered, staging)
+    not_found = staging / "404.html"
+    if not_found.is_file():
+        validate_not_found_page(not_found.read_text(encoding="utf-8"), published, errors)
+
+    # Deployment files must be exact copies of their sources.
+    for name in DEPLOYMENT_FILES:
+        src, staged = DEPLOYMENT_DIR / name, staging / name
+        if src.is_file() and staged.is_file() and src.read_bytes() != staged.read_bytes():
+            errors.add(f"deployment/cloudflare/{name}", "deployment-file-copy-mismatch",
+                       f"The staged copy of {name} does not match its source byte for byte.",
+                       "Check build_output_tree()'s copy step.")
+
+    redirects = DEPLOYMENT_DIR / "_redirects"
+    if redirects.is_file():
+        validate_redirects(redirects.read_text(encoding="utf-8"),
+                           "deployment/cloudflare/_redirects", errors)
+
+    # The published PDF copy must be byte-identical to the committed source.
+    staged_pdf = staging / "source" / SOURCE_PDF_NAME
+    if SOURCE_PDF_PATH.is_file():
+        if not staged_pdf.is_file() or staged_pdf.read_bytes() != SOURCE_PDF_PATH.read_bytes():
+            errors.add(f"docs/source/{SOURCE_PDF_NAME}", "source-pdf-copy-mismatch",
+                       "The staged copy of the source PDF does not match the committed source "
+                       "PDF byte for byte.",
+                       "Check build_output_tree()'s copy step — the PDF bytes must never change.")
+
+
+def replace_docs_dir(staging, docs_dir):
+    """Replace docs/ with the fully validated staging tree using two
+    same-filesystem renames (the staging directory is created inside the
+    repository for exactly this reason): the existing docs/ is renamed
+    aside, staging is renamed into place, and only then is the old tree
+    deleted. If the second rename fails, the old docs/ is restored. This
+    also removes stale generated files automatically — nothing from the
+    previous docs/ survives the swap."""
+    old = docs_dir.parent / f".docs-old-{os.getpid()}"
+    if old.exists():
+        shutil.rmtree(old)
+    had_docs = docs_dir.exists()
+    if had_docs:
+        os.rename(docs_dir, old)
+    try:
+        os.rename(staging, docs_dir)
+    except Exception:
+        if had_docs:
+            os.rename(old, docs_dir)
+        raise
+    if had_docs:
+        shutil.rmtree(old)
+
+
+def publish_output(rendered, collected, index_entries, errors, *,
+                   check_only=False, docs_dir=None):
+    """The atomic tail of the build. The complete site is generated into
+    a temporary staging directory next to docs/ (same filesystem, so the
+    final renames never degrade into copies), the staged output is
+    validated as a whole, and docs/ is replaced only when every
+    validation has passed. Any failure — including the SystemExit that
+    errors.report_and_exit() raises — leaves the existing docs/
+    untouched, and the finally block removes the staging directory, so no
+    partial output can ever remain. Returns True when docs/ was replaced,
+    False in check-only mode."""
+    docs_dir = DOCS_DIR if docs_dir is None else docs_dir
+    staging = Path(tempfile.mkdtemp(prefix=".docs-staging-", dir=docs_dir.parent))
+    try:
+        build_output_tree(staging, rendered, index_entries, errors)
+        validate_output_tree(staging, rendered, collected, errors)
+        if errors:
+            errors.report_and_exit()
+        if check_only:
+            return False
+        replace_docs_dir(staging, docs_dir)
+        return True
+    finally:
+        if staging.exists():
+            shutil.rmtree(staging)
+
+
+# ---------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------
 
-SITEMAP = json.loads(SITEMAP_PATH.read_text(encoding="utf-8"))
+SITEMAP = _require_data(lambda: load_json_data(
+    SITEMAP_PATH, "scripts/sitemap.json", required=True, expect_type=list))
 
 
 def main():
@@ -1951,7 +2661,7 @@ def main():
     metadata = load_metadata(errors)
     summaries = load_clause_summaries(errors)
     guidance = load_companion_guidance(errors)
-    ownership = load_content_ownership()
+    ownership = load_content_ownership(errors)
     validate_content_ownership(ownership, errors)
     validate_sitemap_vs_content(errors)
     validate_etsi_content_integrity(errors)
@@ -1972,78 +2682,29 @@ def main():
     if errors:
         errors.report_and_exit()
 
-    all_slugs = set(rendered.keys())
-    for slug, html_out in rendered.items():
-        validate_rendered_page(slug, html_out, all_slugs, errors)
-
-    # Cross-page anchors: href="other-page.html#id" must point at an id
-    # that really exists on that page. (Per-page validation already covers
-    # same-page "#id" links; this covers everything the cross-reference
-    # linker and hand-authored content produce across pages.)
-    ids_by_slug = {s: set(re.findall(r'\sid="([^"]+)"', h)) for s, h in rendered.items()}
-    for slug, html_out in rendered.items():
-        for href in HREF_RE.findall(html_out):
-            m = re.match(r'^([a-z0-9-]+)\.html#(.+)$', href)
-            if m and m.group(1) in ids_by_slug and m.group(2) not in ids_by_slug[m.group(1)]:
-                errors.add(f"docs/{slug}.html", "broken-cross-page-anchor",
-                           f'href="{href}" points at an id that does not exist on {m.group(1)}.html.',
-                           "Fix the href, or add the missing id to the target page.")
+    # One HTMLParser pass per page collects both its ids (for the
+    # duplicate-id check) and its href/src/srcset references (for the
+    # site-wide internal-resource validation: existence, tree
+    # containment, and same-page and cross-page fragment targets).
+    collected = {slug: collect_resources(html_out) for slug, html_out in rendered.items()}
+    for slug in sorted(rendered):
+        validate_rendered_page(slug, rendered[slug], collected[slug].ids, errors)
 
     if errors:
         errors.report_and_exit()
+
+    index_entries = build_search_index(metadata)
+    replaced = publish_output(rendered, collected, index_entries, errors,
+                              check_only=check_only)
 
     missing_governance = content_ownership_notices(ownership)
     if missing_governance:
         print(f"Note: no content ownership/review metadata recorded for: {', '.join(missing_governance)}. "
               "See docs-for-maintainers/content-ownership.md.")
 
-    if check_only:
-        print(f"Checked {len(rendered)} pages — no validation errors.")
+    if not replaced:
+        print(f"Checked {len(rendered)} pages — no validation errors (docs/ untouched).")
         return
-
-    DOCS_DIR.mkdir(exist_ok=True)
-    for slug, html_out in rendered.items():
-        (DOCS_DIR / f"{slug}.html").write_text(html_out, encoding="utf-8")
-
-    index_entries = build_search_index(metadata)
-    SEARCH_INDEX_PATH.write_text(
-        json.dumps(index_entries, ensure_ascii=False, separators=(",", ":")) + "\n",
-        encoding="utf-8")
-
-    # sitemap.xml and robots.txt for search engines and link previews.
-    # Deterministic (URL list comes straight from the sitemap, no
-    # timestamps — a <lastmod> would either be invented or churn every
-    # build and break the byte-identical-rebuild guarantee).
-    sitemap_urls = "".join(
-        f"<url><loc>{html.escape(SITE_BASE_URL if p['slug'] == 'index' else SITE_BASE_URL + p['slug'] + '.html')}</loc></url>"
-        for p in SITEMAP
-    )
-    (DOCS_DIR / "sitemap.xml").write_text(
-        '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
-        f"{sitemap_urls}</urlset>\n",
-        encoding="utf-8")
-    (DOCS_DIR / "robots.txt").write_text(
-        f"User-agent: *\nAllow: /\nSitemap: {SITE_BASE_URL}sitemap.xml\n",
-        encoding="utf-8")
-
-    # The accessibility statement moved onto the About page; its old URL
-    # stays alive as a tiny redirect so existing links and bookmarks keep
-    # working (deep links to its sections keep the same fragment ids on
-    # about.html). noindex: search engines should list the About page.
-    (DOCS_DIR / "accessibility-statement.html").write_text(
-        '<!DOCTYPE html>\n<html lang="en">\n<head>\n<meta charset="utf-8">\n'
-        '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
-        '<meta http-equiv="refresh" content="0; url=about.html#accessibility-statement">\n'
-        '<meta name="robots" content="noindex">\n'
-        f'<link rel="canonical" href="{html.escape(SITE_BASE_URL)}about.html">\n'
-        f"<title>Accessibility statement | {DOC_LABEL} Online</title>\n"
-        "</head>\n<body>\n"
-        '<p>The accessibility statement is now part of the '
-        '<a href="about.html#accessibility-statement">About page</a>.</p>\n'
-        "</body>\n</html>\n",
-        encoding="utf-8")
-
     print(f"Built {len(rendered)} pages and a {len(index_entries)}-entry search index into {DOCS_DIR}")
 
 

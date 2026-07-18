@@ -1,0 +1,24 @@
+# Cloudflare Pages response headers (https://developers.cloudflare.com/pages/configuration/headers/).
+# Source of truth: deployment/cloudflare/_headers — the build copies this
+# file verbatim to docs/_headers. GitHub Pages ignores it; it only takes
+# effect if the site is ever deployed on Cloudflare Pages (which is
+# prepared but NOT active — see docs-for-maintainers/cloudflare-pages.md).
+#
+# Deliberately conservative starting policy:
+# - No Content-Security-Policy yet: the pages carry an inline pre-paint
+#   theme script, and a CSP must be designed and tested against that
+#   script, the local assets, external ETSI links, print and every
+#   Playwright suite before it ships. 'unsafe-inline' merely to make a
+#   CSP pass would weaken it to the point of theatre, so no CSP at all
+#   until hashes/nonces are properly introduced and tested.
+# - No one-year "immutable" caching: asset filenames are not fingerprinted
+#   (style.css keeps its name across releases; only a ?v= query changes),
+#   and immutable caching of an unhashed filename can pin visitors to
+#   stale assets. Long-lived caching waits for fingerprinted filenames —
+#   see docs-for-maintainers/cloudflare-pages.md.
+
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), microphone=(), payment=(), usb=()

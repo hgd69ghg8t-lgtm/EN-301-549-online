@@ -24,7 +24,7 @@
 <p>This statement covers the accessibility of this website: the unofficial HTML edition of European Telecommunications Standards Institute (ETSI) EN&nbsp;301&nbsp;549. It does not cover the accessibility of any product or service being evaluated against the standard reproduced here.</p>
 
 <h3 id="report-a-problem">Report an accessibility problem</h3>
-<p><a href="https://github.com/hgd69ghg8t-lgtm/EN-301-549-online/issues/new?template=accessibility.yml">Report an accessibility problem using the GitHub accessibility form</a>. It asks for the page address, what happened, and what you were trying to do &mdash; everything else is optional.</p>
+<p><a href="{{REPOSITORY_URL}}/issues/new?template=accessibility.yml">Report an accessibility problem using the GitHub accessibility form</a>. It asks for the page address, what happened, and what you were trying to do &mdash; everything else is optional.</p>
 <p>Submitting a GitHub issue requires a free GitHub account. GitHub is not a dedicated public-sector accessibility contact channel, and this is currently the only way to report a problem with this website.</p>
 
 <h3 id="accessibility-target">Accessibility target and formal audit status</h3>
@@ -39,11 +39,11 @@
 
 <h4 id="manual-testing-completed">Manual testing: not yet completed</h4>
 <p>No manual screen-reader or keyboard-only testing session has been completed and recorded for this website. Treat any specific assistive-technology or keyboard-interaction compatibility as untested until a session is recorded in the manual testing log.</p>
-<p><a href="https://github.com/hgd69ghg8t-lgtm/EN-301-549-online/blob/claude/pdf-accessible-website-j88o8l/docs-for-maintainers/accessibility-testing.md">Read the manual testing log on GitHub</a></p>
+<p><a href="{{REPOSITORY_URL}}/blob/claude/pdf-accessible-website-j88o8l/docs-for-maintainers/accessibility-testing.md">Read the manual testing log on GitHub</a></p>
 
 <h4 id="testing-still-planned">Manual testing: still planned</h4>
 <p>The repeatable test procedure and the combinations below are what this project intends to test against. Do not treat any combination as verified until it is recorded as tested in the checklist's test log.</p>
-<p><a href="https://github.com/hgd69ghg8t-lgtm/EN-301-549-online/blob/claude/pdf-accessible-website-j88o8l/docs-for-maintainers/accessibility-testing.md">Read the full manual testing checklist on GitHub</a></p>
+<p><a href="{{REPOSITORY_URL}}/blob/claude/pdf-accessible-website-j88o8l/docs-for-maintainers/accessibility-testing.md">Read the full manual testing checklist on GitHub</a></p>
 <ul>
   <li>NVDA with Firefox or Chrome (Windows)</li>
   <li>VoiceOver with Safari (macOS)</li>
@@ -60,7 +60,7 @@
 
 <h3 id="review-history">Review history</h3>
 <p>No accessibility review has been completed yet. When one happens, it will be recorded here and in the manual testing log.</p>
-<p><a href="https://github.com/hgd69ghg8t-lgtm/EN-301-549-online/blob/claude/pdf-accessible-website-j88o8l/docs-for-maintainers/accessibility-testing.md">Read the manual testing log on GitHub</a></p>
+<p><a href="{{REPOSITORY_URL}}/blob/claude/pdf-accessible-website-j88o8l/docs-for-maintainers/accessibility-testing.md">Read the manual testing log on GitHub</a></p>
 
 <h3 id="technical-testing-details">Technical testing details</h3>
 <p>The following automated checks run in continuous integration (CI) on every change to this website:</p>
@@ -69,7 +69,7 @@
   <li>HTML validation, including invalid ARIA attribute usage.</li>
   <li>Structural checks specific to this site: heading hierarchy, a single non-empty <code>&lt;h1&gt;</code> per page, no duplicate IDs, no malformed or unclosed tags.</li>
   <li>Internal link and anchor-target checks (no broken same-site links, no dangling <code>#</code> fragments).</li>
-  <li>Colour-contrast ratios of the site's own design tokens (the colours defined in <code>docs/assets/css/style.css</code>).</li>
+  <li>Colour-contrast ratios of the site's own design tokens (the colours defined in <code>assets/css/style.css</code>).</li>
 </ul>
 <p>What still needs a person, not a tool:</p>
 <ul>
