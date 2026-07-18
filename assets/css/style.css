@@ -7,9 +7,9 @@
 */
 
 /*
-  Fonts are self-hosted (docs/assets/fonts/) rather than loaded from Google
-  Fonts at view time, so no visitor IP address is sent to a third-party font
-  CDN without consent. Both files are variable fonts covering the full
+  Fonts are self-hosted (source files in assets/fonts/, copied by the build
+  to docs/assets/fonts/) rather than loaded from Google Fonts at view time,
+  so no visitor IP address is sent to a third-party font CDN without consent. Both files are variable fonts covering the full
   weight range the site uses, extracted from Google's own latin-subset
   distribution.
 */

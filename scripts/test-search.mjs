@@ -3,37 +3,20 @@
 // clause-number ranking, glossary-term hits, result navigation, the
 // no-results message, and the no-JavaScript fallback. Requires a Chromium
 // install (same as test-a11y.mjs). Usage: node scripts/test-search.mjs
-import { chromium } from "playwright";
-import { createServer } from "node:http";
-import { readFile } from "node:fs";
-import path from "node:path";
-
-const DOCS_DIR = path.resolve("docs");
-const MIME = { ".html": "text/html", ".css": "text/css", ".js": "text/javascript", ".json": "application/json", ".woff2": "font/woff2" };
-
-function startServer() {
-  return new Promise((resolve) => {
-    const server = createServer((req, res) => {
-      const urlPath = decodeURIComponent(req.url.split("?")[0]);
-      const filePath = path.join(DOCS_DIR, urlPath === "/" ? "/index.html" : urlPath);
-      readFile(filePath, (err, data) => {
-        if (err) { res.writeHead(404); res.end("Not found"); return; }
-        res.writeHead(200, { "Content-Type": MIME[path.extname(filePath)] || "application/octet-stream" });
-        res.end(data);
-      });
-    });
-    server.listen(0, "127.0.0.1", () => resolve(server));
-  });
-}
+import {
+  startServer, launchBrowser, trackRuntimeIssues, reportRuntimeIssues,
+} from "./browser-test-lib.mjs";
 
 const server = await startServer();
 const port = server.address().port;
-const browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_CHROMIUM_PATH });
+const browser = await launchBrowser();
 const fails = [];
+const issues = [];
 
 // 1. Header form navigates to search page with query, results render
 let context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
 let page = await context.newPage();
+trackRuntimeIssues(page, issues, { label: "search-main" });
 await page.goto(`http://127.0.0.1:${port}/clause-5-generic-requirements.html`);
 await page.locator(".site-search input").fill("target size");
 await page.locator(".site-search button").click();
@@ -74,6 +57,7 @@ await context.close();
 // 6. No-JS: fallback text visible, results machinery quiet
 context = await browser.newContext({ javaScriptEnabled: false, viewport: { width: 1440, height: 900 } });
 page = await context.newPage();
+trackRuntimeIssues(page, issues, { label: "no-js" });
 await page.goto(`http://127.0.0.1:${port}/search.html`);
 const nojsVisible = await page.locator(".search-nojs").isVisible();
 console.log("no-JS fallback visible:", nojsVisible);
@@ -84,6 +68,7 @@ await context.close();
 //    arrow+Enter navigates with the ?h= highlight handshake
 context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
 page = await context.newPage();
+trackRuntimeIssues(page, issues, { label: "header-suggest" });
 await page.goto(`http://127.0.0.1:${port}/clause-4-functional-performance.html`);
 await page.locator(".site-search input").click();
 await page.keyboard.type("reflow");
@@ -124,4 +109,5 @@ await context.close();
 await browser.close();
 server.close();
 if (fails.length) { console.error("FAILURES:", fails); process.exit(1); }
+reportRuntimeIssues(issues);
 console.log("ALL SEARCH CHECKS PASS");

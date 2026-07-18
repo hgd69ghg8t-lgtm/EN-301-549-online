@@ -190,6 +190,11 @@ def substitute_tokens(fragment, metadata, errors):
         # Single-sourced from data/site-config.json, so a repository move
         # can never leave stale hand-typed GitHub links behind.
         "{{REPOSITORY_URL}}": REPOSITORY_URL,
+        # Repository-document links carry the configured branch
+        # (repositoryRef), so a default-branch rename never strands
+        # hand-typed branch names in reader-facing content.
+        "{{ACCESSIBILITY_TESTING_URL}}": repository_document_url(
+            "docs-for-maintainers/accessibility-testing.md"),
     }
     for token, value in replacements.items():
         fragment = fragment.replace(token, value)
@@ -232,9 +237,15 @@ class Errors:
 
 SITE_CONFIG_REL = "data/site-config.json"
 SITE_CONFIG_REQUIRED_FIELDS = (
-    "siteName", "documentLabel", "baseUrl", "repositoryUrl", "deploymentTarget",
+    "siteName", "documentLabel", "baseUrl", "repositoryUrl", "repositoryRef",
+    "deploymentTarget",
 )
 ALLOWED_DEPLOYMENT_TARGETS = ("github-pages", "cloudflare-pages")
+
+# A git ref (branch name) safe to splice into a repository blob/ URL:
+# letters, digits, dot, underscore, hyphen and internal slashes only —
+# no query strings, fragments, spaces, backslashes or percent-escapes.
+_REPOSITORY_REF_RE = re.compile(r"[A-Za-z0-9._-]+(?:/[A-Za-z0-9._-]+)*")
 
 
 def validate_site_config(config, rel=SITE_CONFIG_REL):
@@ -288,6 +299,18 @@ def validate_site_config(config, rel=SITE_CONFIG_REL):
     url_errors("baseUrl", config.get("baseUrl"), require_trailing_slash=True)
     url_errors("repositoryUrl", config.get("repositoryUrl"), require_trailing_slash=False)
 
+    ref = config.get("repositoryRef")
+    if isinstance(ref, str) and ref.strip():
+        if (not _REPOSITORY_REF_RE.fullmatch(ref) or ".." in ref
+                or any(part.startswith(".") for part in ref.split("/"))):
+            errs.append((rel, "site-config-repository-ref-invalid",
+                         f'"repositoryRef" is "{ref}", which is not a safe branch name: it must '
+                         "contain only letters, digits, dots, underscores, hyphens and internal "
+                         "slashes — no query strings, fragments, spaces, leading/trailing "
+                         "slashes, or dot-leading path segments.",
+                         'Set "repositoryRef" to the repository\'s default branch name exactly '
+                         "as it appears on GitHub."))
+
     target = config.get("deploymentTarget")
     if isinstance(target, str) and target.strip() and target not in ALLOWED_DEPLOYMENT_TARGETS:
         errs.append((rel, "site-config-unknown-deployment-target",
@@ -327,7 +350,17 @@ SITE_CONFIG = _require_data(load_site_config)
 SITE_BASE_URL = SITE_CONFIG["baseUrl"]
 DOC_LABEL = SITE_CONFIG["documentLabel"]
 REPOSITORY_URL = SITE_CONFIG["repositoryUrl"]
+REPOSITORY_REF = SITE_CONFIG["repositoryRef"]
 SITE_NAME = SITE_CONFIG["siteName"]
+
+
+def repository_document_url(repo_path):
+    """An absolute GitHub blob URL for a committed repository document,
+    built from the validated repositoryUrl and repositoryRef — so a
+    branch rename is a one-line configuration change and no branch name
+    is ever hand-typed into reader-facing content. repo_path is a fixed,
+    build-controlled repository-relative path, never reader input."""
+    return f"{REPOSITORY_URL}/blob/{REPOSITORY_REF}/{repo_path}"
 
 
 # ---------------------------------------------------------------------
@@ -1305,6 +1338,26 @@ def build_pager(index):
     return "\n".join(parts)
 
 
+# Two capitalised words run together, e.g. "AccessibleDocs" -> the
+# second word gets the accent colour. Anything else renders as plain
+# escaped text — no assumption that every future site name splits.
+_WORDMARK_ACCENT_RE = re.compile(r'([A-Z][a-z]+)([A-Z][a-z]+)')
+
+
+def build_wordmark(site_name):
+    """The visible header brand text, generated from the configured
+    siteName (data/site-config.json) rather than hardcoded. The current
+    two-tone visual treatment is preserved via one narrow, validated
+    rule: a CamelCase pair of words keeps the accent on the second word;
+    any other name is rendered as ordinary escaped text with no accent
+    markup. Configuration values are never trusted as HTML."""
+    m = _WORDMARK_ACCENT_RE.fullmatch(site_name)
+    if m:
+        return (f'<span class="site-wordmark">{html.escape(m.group(1))}'
+                f'<span class="site-wordmark__accent">{html.escape(m.group(2))}</span></span>')
+    return f'<span class="site-wordmark">{html.escape(site_name)}</span>'
+
+
 def build_site_title(asset_prefix):
     """The header brand is a logo-only link back to the homepage, on every
     page including the homepage itself — a lettermark tile with a
@@ -1326,8 +1379,8 @@ def build_site_title(asset_prefix):
     )
     return (f'<a class="site-header__brand" href="{asset_prefix}index.html">'
             f'{logo}'
-            '<span class="site-wordmark">Accessible<span class="site-wordmark__accent">Docs</span></span>'
-            f'<span class="visually-hidden"> — {DOC_LABEL} Online, home</span></a>')
+            f'{build_wordmark(SITE_NAME)}'
+            f'<span class="visually-hidden"> — {html.escape(DOC_LABEL)} Online, home</span></a>')
 
 
 # The header and footer quick links: the site's own (non-standard) pages,
@@ -1456,10 +1509,11 @@ def build_social_meta(title, description, canonical_url):
     an empty block instead — an error page has no canonical URL to
     advertise, so social metadata pointing at one would be misleading."""
     og_image_url = html.escape(f"{SITE_BASE_URL}assets/img/apple-touch-icon.png")
+    site_name = html.escape(f"{SITE_NAME} — {DOC_LABEL} Online")
     return (
-        f'<meta property="og:site_name" content="{DOC_LABEL} Online">\n'
+        f'<meta property="og:site_name" content="{site_name}">\n'
         '<meta property="og:type" content="website">\n'
-        f'<meta property="og:title" content="{title} | {DOC_LABEL} Online">\n'
+        f'<meta property="og:title" content="{title} | {html.escape(DOC_LABEL)} Online">\n'
         f'<meta property="og:description" content="{description}">\n'
         f'<meta property="og:url" content="{canonical_url}">\n'
         f'<meta property="og:image" content="{og_image_url}">\n'
@@ -1903,7 +1957,7 @@ def render_page(index, page, metadata, summaries, guidance, errors, xrefs=None):
     canonical_url = html.escape(SITE_BASE_URL if slug == "index" else f"{SITE_BASE_URL}{slug}.html")
     html_out = PAGE_TEMPLATE.format(
         title=title_esc,
-        doc_label=DOC_LABEL,
+        doc_label=html.escape(DOC_LABEL),
         description=description,
         robots_meta="",
         canonical_link=f'<link rel="canonical" href="{canonical_url}">',
@@ -1942,7 +1996,11 @@ def render_page(index, page, metadata, summaries, guidance, errors, xrefs=None):
 Resource = namedtuple("Resource", ("tag", "attr", "value", "url", "line"))
 CollectedPage = namedtuple("CollectedPage", ("resources", "ids"))
 
-_URL_ATTRS = {"href", "src"}
+# Exact attribute names only — data-action/data-href/data-src and other
+# attributes that merely end in one of these names are never URLs.
+# "action" is a URL attribute on <form> elements; this site emits it
+# nowhere else, and validating a stray one elsewhere is still correct.
+_URL_ATTRS = {"href", "src", "action"}
 # External/asset schemes this site may legitimately reference; their
 # targets are outside the generated output, so they are not validated
 # here. (A scheduled external-link checker is a separate concern.)
@@ -2049,6 +2107,29 @@ def resolve_local_url(page_path, url):
     return resolved, fragment, None
 
 
+def missing_resource_fix(target):
+    """The fix-it half of a missing-local-resource error. docs/ is
+    entirely generated and replaced on every build, so the guidance must
+    always point at the SOURCE that produces the missing file — telling a
+    maintainer to add a file under docs/ would have it silently deleted
+    by the next build."""
+    if target.startswith("assets/"):
+        where = ("add the missing file under assets/ (the hand-authored source for "
+                 "CSS, JavaScript, fonts and images) — the build copies assets/ into "
+                 "docs/assets/.")
+    elif target.startswith("source/"):
+        where = ("commit the missing file under source/ (the source PDF lives there) "
+                 "— the build copies source/ into docs/source/.")
+    elif target.lstrip("/") in DEPLOYMENT_FILES:
+        where = ("restore the missing file under deployment/cloudflare/ — the build "
+                 "copies _headers and _redirects from there.")
+    else:
+        where = ("check the build code in scripts/build.py — HTML pages, JSON, the "
+                 "sitemap and robots files are generated, so a missing one means a "
+                 "generator or scripts/sitemap.json problem.")
+    return where + " Never hand-edit docs/: it is generated output and is replaced wholesale on every build."
+
+
 def validate_site_resources(rendered, collected, errors, docs_dir=DOCS_DIR):
     """Whole-site internal-resource validation over the fully rendered
     pages: every href/src/srcset URL must resolve — query string ignored,
@@ -2111,7 +2192,7 @@ def validate_site_resources(rendered, collected, errors, docs_dir=DOCS_DIR):
                     errors.add(label, "missing-local-resource",
                                f'line {r.line}: <{r.tag}> {r.attr}="{r.value}" resolves to '
                                f'"{target}", which this build does not publish.',
-                               "Fix the path, or add the missing file under docs/.")
+                               f"Fix the path, or {missing_resource_fix(target)}")
                     continue
                 target_page = target
             else:
@@ -2259,17 +2340,95 @@ def validate_rendered_page(slug, html_out, page_ids, errors):
 NOT_FOUND_PAGE = {"slug": "404", "title": "Page not found",
                   "shortTitle": "Page not found", "pdfPages": None, "group": ""}
 
-# Relative URL in an href/src/action attribute: no scheme, not
-# scheme-relative (//host/...), not fragment-only.
-_LOCAL_LINK_RE = re.compile(r'\b(href|src|action)="(?!(?:[a-z][a-z0-9+.\-]*:|//|#))([^"]+)"')
+
+def _is_local_url(url):
+    """A URL the 404 page must absolutise: no scheme (so no https:,
+    mailto:, tel:, data:), not scheme-relative (//host/...), and with an
+    actual path component (so fragment-only and query-only URLs stay)."""
+    split = urllib.parse.urlsplit(url)
+    return not split.scheme and not split.netloc and bool(split.path)
+
+
+def _absolutisable(tag, name, value):
+    """True only for a genuine local URL attribute: href and src on any
+    element, and action on a <form>. Exact attribute-name matches only —
+    data-action, data-href, aria-* and every other attribute must never
+    be rewritten (a previous substring regex corrupted
+    data-action="print" into an absolute URL, silently breaking the 404
+    page's Print and Copy-link enhancements)."""
+    if value is None:
+        return False
+    if name == "action":
+        if tag != "form":
+            return False
+    elif name not in ("href", "src"):
+        return False
+    return _is_local_url(value)
+
+
+class _LocalLinkFinder(HTMLParser):
+    """Locates every start tag carrying at least one attribute that
+    _absolutisable() says must be rewritten, recording the tag's exact
+    byte span in the source text so absolutise_local_links() can replace
+    just those tags and leave every other byte of the page untouched."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=False)
+        self.edits = []  # (start, end, tag, attrs, self_closing)
+        self._offsets = None
+
+    def _pos(self):
+        line, col = self.getpos()
+        return self._offsets[line - 1] + col
+
+    def _record(self, tag, attrs, self_closing):
+        if not any(_absolutisable(tag, name, value) for name, value in attrs):
+            return
+        start = self._pos()
+        text = self.get_starttag_text()
+        self.edits.append((start, start + len(text), tag, attrs, self_closing))
+
+    def handle_starttag(self, tag, attrs):
+        self._record(tag, attrs, False)
+
+    def handle_startendtag(self, tag, attrs):
+        self._record(tag, attrs, True)
 
 
 def absolutise_local_links(html_text, base_url):
     """Rewrite every relative link/asset/form URL to an absolute one under
     base_url. Only the 404 page needs this: static hosts serve 404.html
     for ANY missing path, including nested ones, where relative links
-    would resolve against the missing path and break."""
-    return _LOCAL_LINK_RE.sub(lambda m: f'{m.group(1)}="{base_url}{m.group(2)}"', html_text)
+    would resolve against the missing path and break.
+
+    HTMLParser-based, not a regex over attribute-name substrings: only
+    real href/src (and <form> action) attributes are rewritten, and only
+    tags that actually contain one are reconstructed — every other tag,
+    attribute (data-*, aria-*, …) and text node passes through
+    byte-identical. Attribute values are entity-decoded by the parser and
+    re-escaped exactly once on reconstruction (same escape_attr()
+    convention as the other start-tag reconstructors), with attribute
+    order and boolean attributes preserved."""
+    offsets = [0]
+    for line in html_text.splitlines(keepends=True):
+        offsets.append(offsets[-1] + len(line))
+    finder = _LocalLinkFinder()
+    finder._offsets = offsets
+    finder.feed(html_text)
+    finder.close()
+    out = html_text
+    for start, end, tag, attrs, self_closing in reversed(finder.edits):
+        parts = [tag]
+        for name, value in attrs:
+            if value is None:
+                parts.append(name)
+                continue
+            if _absolutisable(tag, name, value):
+                value = base_url + value
+            parts.append(f'{name}="{escape_attr(value)}"')
+        replacement = "<" + " ".join(parts) + ("/>" if self_closing else ">")
+        out = out[:start] + replacement + out[end:]
+    return out
 
 
 def build_not_found_fragment():
@@ -2302,7 +2461,7 @@ def render_not_found_page():
         f"The page you were looking for could not be found — {DOC_LABEL} accessible HTML edition.")
     html_out = PAGE_TEMPLATE.format(
         title=title_esc,
-        doc_label=DOC_LABEL,
+        doc_label=html.escape(DOC_LABEL),
         description=description,
         robots_meta='<meta name="robots" content="noindex">\n',
         canonical_link="",  # an error page has no canonical URL
@@ -2363,6 +2522,18 @@ def validate_not_found_page(html_out, published, errors):
                        f"The 404 page has no link to {purpose} ({SITE_BASE_URL}{target}).",
                        "Check build_not_found_fragment() and absolutise_local_links().")
 
+    # Regression guard: absolutising must never touch data-* attributes.
+    # site.js binds to the exact values [data-action='print'] and
+    # [data-action='copy-link']; a rewritten value silently disables the
+    # Print and Copy-link enhancements on this page.
+    for expected in ('data-action="print"', 'data-action="copy-link"'):
+        if expected not in html_out:
+            errors.add(label, "404-data-action-rewritten",
+                       f"The 404 page's page tools no longer carry {expected} exactly — "
+                       "site.js binds to that exact value.",
+                       "Check absolutise_local_links() only rewrites real href/src/form-action "
+                       "attributes, never data-*.")
+
     for r in collect_resources(html_out).resources:
         url = r.url
         if not url:
@@ -2386,6 +2557,68 @@ def validate_not_found_page(html_out, published, errors):
                        "404 page is served for arbitrary missing paths, where relative links "
                        "break.",
                        "Make the link absolute via absolutise_local_links().")
+
+
+# ---------------------------------------------------------------------
+# CSS url(...) dependency validation
+# ---------------------------------------------------------------------
+#
+# The HTML resource validator can't see references made from inside
+# stylesheets (fonts, background images). This closes that gap
+# deterministically at build time; the browser suites additionally fail
+# on any failed same-origin request, as defence in depth.
+
+# One url(...) token: double-quoted, single-quoted, or unquoted.
+CSS_URL_RE = re.compile(r'''url\(\s*(?:"([^"]*)"|'([^']*)'|([^)"'\s]+))\s*\)''',
+                        re.IGNORECASE)
+
+
+def css_url_references(css_text):
+    """Every url(...) reference in a stylesheet as (url, line) pairs, in
+    document order. Quoted and unquoted forms are supported; descriptors
+    like format('woff2') are separate tokens and never matched."""
+    refs = []
+    for m in CSS_URL_RE.finditer(css_text):
+        url = next(g for g in m.groups() if g is not None)
+        line = css_text.count("\n", 0, m.start()) + 1
+        refs.append((url, line))
+    return refs
+
+
+def validate_css_resources(staging, published, errors):
+    """Every local url(...) reference in every published stylesheet must
+    resolve — query string ignored, ../ resolved against the CSS file's
+    own published location — to a file this build publishes, without
+    escaping the output tree. data: URLs and external http(s) URLs are
+    out of scope (same policy as the HTML validator)."""
+    for css_path in sorted(staging.rglob("*.css")):
+        rel = css_path.relative_to(staging).as_posix()
+        label = f"docs/{rel}"
+        for url, line in css_url_references(css_path.read_text(encoding="utf-8")):
+            if not url:
+                continue
+            split = urllib.parse.urlsplit(url)
+            scheme = split.scheme.lower()
+            if scheme in _IGNORED_SCHEMES:
+                continue
+            if scheme:
+                errors.add(label, "css-unsupported-url-scheme",
+                           f'line {line}: url({url}) uses the unrecognised scheme "{scheme}:".',
+                           "Use a relative local path, a data: URL, or an https:// URL.")
+                continue
+            if split.netloc:
+                continue  # scheme-relative external URL: not local
+            target, _fragment, problem = resolve_local_url(rel, url)
+            if problem:
+                errors.add(label, "css-invalid-local-url",
+                           f'line {line}: url({url}) {problem}.',
+                           "Rewrite it as a relative path that stays inside the published site.")
+                continue
+            if target and target not in published:
+                errors.add(label, "css-missing-resource",
+                           f'line {line}: url({url}) resolves to "{target}", which this '
+                           "build does not publish.",
+                           f"Fix the path, or {missing_resource_fix(target)}")
 
 
 # ---------------------------------------------------------------------
@@ -2512,7 +2745,7 @@ def generate_accessibility_statement_stub():
         '<meta http-equiv="refresh" content="0; url=about.html#accessibility-statement">\n'
         '<meta name="robots" content="noindex">\n'
         f'<link rel="canonical" href="{html.escape(SITE_BASE_URL)}about.html">\n'
-        f"<title>Accessibility statement | {DOC_LABEL} Online</title>\n"
+        f"<title>Accessibility statement | {html.escape(DOC_LABEL)} Online</title>\n"
         "</head>\n<body>\n"
         '<p>The accessibility statement is now part of the '
         '<a href="about.html#accessibility-statement">About page</a>.</p>\n'
@@ -2568,6 +2801,8 @@ def validate_output_tree(staging, rendered, collected, errors):
     validate_site_resources(rendered, collected, errors, docs_dir=staging)
 
     published = published_files(rendered, staging)
+    validate_css_resources(staging, published, errors)
+
     not_found = staging / "404.html"
     if not_found.is_file():
         validate_not_found_page(not_found.read_text(encoding="utf-8"), published, errors)
@@ -2595,17 +2830,48 @@ def validate_output_tree(staging, rendered, collected, errors):
                        "Check build_output_tree()'s copy step — the PDF bytes must never change.")
 
 
+def _remove_backup_dir(path):
+    """Best-effort removal of a .docs-old-* backup tree. Once the new
+    docs/ is installed, the publication has already succeeded — a backup
+    that can't be deleted (e.g. a transient permission or file-lock
+    problem) must not turn that success into a failure, so this warns
+    with the exact leftover path and cleanup instruction instead of
+    raising. Never called with the live docs/ path."""
+    try:
+        shutil.rmtree(path)
+        return True
+    except OSError as exc:
+        sys.stderr.write(
+            f"Warning: could not remove the pre-build backup {path} ({exc}).\n"
+            "The new docs/ was published successfully; the backup is only a "
+            f"leftover copy of the previous output. Delete it by hand (rm -rf {path}) "
+            "— the next build will also retry removing it.\n")
+        return False
+
+
 def replace_docs_dir(staging, docs_dir):
     """Replace docs/ with the fully validated staging tree using two
     same-filesystem renames (the staging directory is created inside the
     repository for exactly this reason): the existing docs/ is renamed
     aside, staging is renamed into place, and only then is the old tree
-    deleted. If the second rename fails, the old docs/ is restored. This
+    deleted. If the second rename fails, the old docs/ is restored.
+    Backup deletion is cleanup, not publication: once the new docs/ is
+    in place the build has succeeded, so a failure to delete the backup
+    (this run's or a stale one from an earlier run) is reported as a
+    warning naming the leftover path, never as a build failure. This
     also removes stale generated files automatically — nothing from the
     previous docs/ survives the swap."""
+    # Stale backups from earlier builds (different pids) are retried
+    # here so a once-failed cleanup can't accumulate forever.
+    for stale in sorted(docs_dir.parent.glob(".docs-old-*")):
+        if stale.is_dir():
+            _remove_backup_dir(stale)
     old = docs_dir.parent / f".docs-old-{os.getpid()}"
-    if old.exists():
-        shutil.rmtree(old)
+    if old.exists() and not _remove_backup_dir(old):
+        # The backup name this run needs is occupied and undeletable;
+        # renaming docs/ onto it would fail, so stop while docs/ is
+        # still fully intact.
+        raise OSError(f"cannot clear the backup path {old} needed to replace docs/")
     had_docs = docs_dir.exists()
     if had_docs:
         os.rename(docs_dir, old)
@@ -2616,7 +2882,7 @@ def replace_docs_dir(staging, docs_dir):
             os.rename(old, docs_dir)
         raise
     if had_docs:
-        shutil.rmtree(old)
+        _remove_backup_dir(old)
 
 
 def publish_output(rendered, collected, index_entries, errors, *,

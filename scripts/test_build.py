@@ -325,6 +325,108 @@ class ResourceCollectorTests(unittest.TestCase):
         self.assertEqual(self.urls('<a href="a.html?x=1&amp;y=2">a</a>'),
                          ["a.html?x=1&y=2"])
 
+    def test_form_action_is_collected_but_data_attributes_are_not(self):
+        html_text = ('<form action="search.html"></form>'
+                     '<button data-action="print">x</button>'
+                     '<div data-href="a.html" data-src="b.js">y</div>')
+        self.assertEqual(self.urls(html_text), ["search.html"])
+
+
+class AbsolutiseLocalLinksTests(unittest.TestCase):
+    """absolutise_local_links(): the 404 page's URL rewriter. It must
+    rewrite only genuine URL attributes (href, src, <form> action) and
+    never data-*, aria-* or any attribute merely ending in one of those
+    names — the old substring regex corrupted data-action="print" into
+    an absolute URL, breaking the Print/Copy enhancements on 404.html."""
+
+    BASE = "https://example.org/site/"
+
+    def go(self, html_text):
+        return build.absolutise_local_links(html_text, self.BASE)
+
+    def test_relative_href_becomes_absolute(self):
+        self.assertEqual(self.go('<a href="index.html">Home</a>'),
+                         f'<a href="{self.BASE}index.html">Home</a>')
+
+    def test_relative_src_becomes_absolute(self):
+        self.assertEqual(self.go('<script src="assets/js/site.js"></script>'),
+                         f'<script src="{self.BASE}assets/js/site.js"></script>')
+
+    def test_form_action_becomes_absolute(self):
+        self.assertEqual(self.go('<form action="search.html"><input></form>'),
+                         f'<form action="{self.BASE}search.html"><input></form>')
+
+    def test_data_action_values_stay_exactly_as_authored(self):
+        for value in ("print", "copy-link", "bookmark"):
+            html_text = f'<button type="button" data-action="{value}">x</button>'
+            self.assertEqual(self.go(html_text), html_text)
+
+    def test_data_href_data_src_and_aria_attributes_are_untouched(self):
+        html_text = ('<div data-href="a.html" data-src="b.js" '
+                     'aria-label="src of truth" data-extraction="x.html">y</div>')
+        self.assertEqual(self.go(html_text), html_text)
+
+    def test_action_outside_a_form_is_not_rewritten(self):
+        html_text = '<button action="do.html">x</button>'
+        self.assertEqual(self.go(html_text), html_text)
+
+    def test_absolute_and_special_scheme_urls_are_untouched(self):
+        html_text = ('<a href="https://example.org/x">a</a>'
+                     '<a href="http://example.org/x">b</a>'
+                     '<a href="mailto:x@example.org">c</a>'
+                     '<a href="tel:+6400000000">d</a>'
+                     '<img src="data:image/gif;base64,R0lGOD" alt="">'
+                     '<a href="//example.org/x">e</a>')
+        self.assertEqual(self.go(html_text), html_text)
+
+    def test_fragment_only_links_are_untouched(self):
+        html_text = '<a href="#main-content">Skip</a><a href="#top">Top</a>'
+        self.assertEqual(self.go(html_text), html_text)
+
+    def test_query_strings_and_fragments_are_preserved(self):
+        self.assertEqual(self.go('<a href="a.html?q=1&amp;r=2#frag">x</a>'),
+                         f'<a href="{self.BASE}a.html?q=1&amp;r=2#frag">x</a>')
+
+    def test_attribute_order_and_boolean_attributes_survive(self):
+        self.assertEqual(self.go('<input type="image" src="i.png" hidden required>'),
+                         f'<input type="image" src="{self.BASE}i.png" hidden required>')
+
+    def test_existing_escaped_values_are_escaped_exactly_once(self):
+        out = self.go('<a href="a.html" title="A &amp; B">x</a>')
+        self.assertIn('title="A &amp; B"', out)
+        self.assertNotIn("&amp;amp;", out)
+
+    def test_tags_without_local_urls_pass_through_byte_identical(self):
+        # Includes case-sensitive SVG attributes and self-closing tags,
+        # which only survive because untouched tags are never rebuilt.
+        html_text = ('<svg viewBox="0 0 24 24" fill="none">'
+                     '<path d="M6 9V3h12v6"/></svg>'
+                     '<button data-action="print">Print</button>')
+        self.assertEqual(self.go(html_text), html_text)
+
+    def test_malformed_html_does_not_crash_and_still_rewrites_what_parses(self):
+        out = self.go('<a href="x.html">unclosed <b><a href="#f">frag</a>')
+        self.assertIn(f'href="{self.BASE}x.html"', out)
+        self.assertIn('href="#f"', out)
+
+    def test_rendered_404_page_carries_exact_data_actions(self):
+        page = build.render_not_found_page()
+        self.assertIn('data-action="print"', page)
+        self.assertIn('data-action="copy-link"', page)
+        self.assertNotIn('data-action="https://', page)
+
+    def test_rendered_404_form_action_is_absolute(self):
+        page = build.render_not_found_page()
+        self.assertIn(f'action="{build.SITE_BASE_URL}search.html"', page)
+
+    def test_validator_rejects_a_rewritten_data_action(self):
+        errors = build.Errors()
+        page = build.render_not_found_page().replace(
+            'data-action="print"', f'data-action="{build.SITE_BASE_URL}print"')
+        build.validate_not_found_page(page, set(), errors)
+        self.assertIn("404-data-action-rewritten",
+                      [rule for _, rule, _, _ in errors.items])
+
 
 class ResourceValidationTests(unittest.TestCase):
     """validate_site_resources(): existence, docs/-tree containment, and
@@ -438,6 +540,220 @@ class ResourceValidationTests(unittest.TestCase):
         self.assertEqual(first, second)
         self.assertEqual([label for label, _, _, _ in first],
                          ["docs/alpha.html", "docs/zebra.html", "docs/zebra.html"])
+
+
+class CssUrlReferenceTests(unittest.TestCase):
+    """css_url_references(): every url(...) form a stylesheet can use."""
+
+    def refs(self, text):
+        return [u for u, _ in build.css_url_references(text)]
+
+    def test_quoted_unquoted_relative_query_and_fragment_forms(self):
+        css = ("@font-face { src: url('../fonts/a.woff2') format('woff2'); }\n"
+               '.x { background: url("../img/b.png?v=1"); }\n'
+               ".y { background: url(img/c.svg#frag); }\n"
+               ".z { cursor: url( spaced.cur ); }\n")
+        self.assertEqual(self.refs(css),
+                         ["../fonts/a.woff2", "../img/b.png?v=1",
+                          "img/c.svg#frag", "spaced.cur"])
+
+    def test_data_and_external_https_urls_are_recognised(self):
+        css = ('.a { background: url(data:image/gif;base64,R0lGOD); }\n'
+               '.b { background: url("https://example.org/x.png"); }\n')
+        self.assertEqual(self.refs(css),
+                         ["data:image/gif;base64,R0lGOD", "https://example.org/x.png"])
+
+    def test_line_numbers_are_reported(self):
+        css = ".a{}\n.b { background: url(x.png); }\n"
+        self.assertEqual(build.css_url_references(css), [("x.png", 2)])
+
+    def test_committed_stylesheet_references_both_self_hosted_fonts(self):
+        css = (ROOT / "assets" / "css" / "style.css").read_text(encoding="utf-8")
+        self.assertEqual(self.refs(css),
+                         ["../fonts/overpass-var.woff2", "../fonts/sourcesans3-var.woff2"])
+
+
+class CssResourceValidationTests(unittest.TestCase):
+    """validate_css_resources(): local url(...) dependencies must exist
+    in the published tree; ../ escapes and root-absolute paths are
+    rejected; data:/https URLs are out of scope."""
+
+    CSS = ("@font-face { src: url('../fonts/a.woff2') format('woff2'); }\n"
+           '.x { background: url("../img/b.png?v=1"); }\n'
+           ".ok { background: url(data:image/gif;base64,R0lGOD); }\n"
+           ".ext { background: url(https://example.org/x.png); }\n")
+
+    def validate(self, files):
+        errors = build.Errors()
+        with tempfile.TemporaryDirectory() as directory:
+            staging = Path(directory)
+            for rel, content in files.items():
+                path = staging / rel
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text(content, encoding="utf-8")
+            published = build.published_files({}, staging)
+            build.validate_css_resources(staging, published, errors)
+        return errors.items
+
+    def rules(self, files):
+        return [rule for _, rule, _, _ in self.validate(files)]
+
+    def test_valid_references_pass(self):
+        self.assertEqual(self.rules({
+            "assets/css/style.css": self.CSS,
+            "assets/fonts/a.woff2": "f",
+            "assets/img/b.png": "i",
+        }), [])
+
+    def test_missing_font_fails_and_guidance_points_at_assets_source(self):
+        items = self.validate({
+            "assets/css/style.css": self.CSS,
+            "assets/img/b.png": "i",
+        })
+        self.assertEqual([rule for _, rule, _, _ in items], ["css-missing-resource"])
+        _, _, message, fix = items[0]
+        self.assertIn("assets/fonts/a.woff2", message)
+        self.assertIn("assets/", fix)
+        self.assertIn("Never hand-edit docs/", fix)
+
+    def test_deleting_either_committed_font_fails(self):
+        css = (ROOT / "assets" / "css" / "style.css").read_text(encoding="utf-8")
+        for missing, present in (("overpass-var.woff2", "sourcesans3-var.woff2"),
+                                 ("sourcesans3-var.woff2", "overpass-var.woff2")):
+            items = self.validate({"assets/css/style.css": css,
+                                   f"assets/fonts/{present}": "f"})
+            self.assertTrue(
+                any(rule == "css-missing-resource" and missing in message
+                    for _, rule, message, _ in items),
+                f"deleting {missing} did not fail CSS validation")
+
+    def test_tree_escape_and_root_absolute_are_rejected(self):
+        self.assertEqual(
+            self.rules({"assets/css/style.css": ".x{background:url(../../../outside.png)}"}),
+            ["css-invalid-local-url"])
+        self.assertEqual(
+            self.rules({"assets/css/style.css": ".x{background:url(/rooted.png)}"}),
+            ["css-invalid-local-url"])
+
+    def test_unknown_scheme_is_rejected(self):
+        self.assertEqual(
+            self.rules({"assets/css/style.css": ".x{background:url(ftp://example.org/x)}"}),
+            ["css-unsupported-url-scheme"])
+
+
+class MissingResourceGuidanceTests(unittest.TestCase):
+    """missing_resource_fix(): the error guidance must point at the
+    hand-authored source (assets/, source/, deployment/cloudflare/) or
+    the build code — never at editing the generated docs/ tree."""
+
+    def test_each_target_kind_points_at_its_source(self):
+        self.assertIn("assets/", build.missing_resource_fix("assets/img/x.png"))
+        self.assertIn("source/", build.missing_resource_fix("source/x.pdf"))
+        self.assertIn("deployment/cloudflare/", build.missing_resource_fix("_headers"))
+        self.assertIn("scripts/build.py", build.missing_resource_fix("missing-page.html"))
+
+    def test_guidance_always_forbids_hand_editing_docs(self):
+        for target in ("assets/img/x.png", "source/x.pdf", "_redirects", "gone.html"):
+            fix = build.missing_resource_fix(target)
+            self.assertIn("Never hand-edit docs/", fix)
+            self.assertNotIn("add the missing file under docs/", fix)
+
+
+class SiteNameRenderingTests(unittest.TestCase):
+    """The visible wordmark and site metadata are generated from the
+    configured siteName, escaped for their contexts — never hardcoded
+    and never trusted as HTML."""
+
+    def test_camel_case_pair_keeps_the_accent_treatment(self):
+        self.assertEqual(
+            build.build_wordmark("AccessibleDocs"),
+            '<span class="site-wordmark">Accessible'
+            '<span class="site-wordmark__accent">Docs</span></span>')
+
+    def test_other_names_render_as_plain_escaped_text(self):
+        self.assertEqual(
+            build.build_wordmark('Docs & "Standards" <Online>\''),
+            '<span class="site-wordmark">Docs &amp; &quot;Standards&quot; '
+            '&lt;Online&gt;&#x27;</span>')
+
+    def test_unicode_names_pass_through_unmangled(self):
+        self.assertEqual(build.build_wordmark("Café Docs"),
+                         '<span class="site-wordmark">Café Docs</span>')
+
+    def test_no_accent_is_invented_for_unsplittable_names(self):
+        for name in ("AccessibleDocsOnline", "accessibledocs", "ACCESSIBLE",
+                     "Accessible Docs"):
+            self.assertNotIn("site-wordmark__accent", build.build_wordmark(name))
+
+    def test_generated_pages_derive_the_wordmark_from_configuration(self):
+        page = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
+        self.assertIn(build.build_wordmark(build.SITE_NAME), page)
+
+    def test_og_site_name_carries_the_configured_site_name(self):
+        page = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
+        self.assertIn(f'property="og:site_name" content="{build.SITE_NAME} — '
+                      f'{build.DOC_LABEL} Online"', page)
+
+    def test_configuration_values_are_escaped_in_every_context(self):
+        saved = build.SITE_NAME, build.DOC_LABEL
+        build.SITE_NAME = 'A&B "N" <T>'
+        build.DOC_LABEL = 'L\'abel & <Doc> "v" — ✓'
+        try:
+            title = build.build_site_title("")
+            meta = build.build_social_meta("T", "D", "https://example.org/")
+            stub = build.generate_accessibility_statement_stub()
+        finally:
+            build.SITE_NAME, build.DOC_LABEL = saved
+        for out in (title, meta, stub):
+            self.assertNotIn("<T>", out)
+            self.assertNotIn("<Doc>", out)
+            self.assertNotIn("&amp;amp;", out)  # no double escaping
+        self.assertIn("&amp;", title)
+        self.assertIn("✓", meta)
+        # og:site_name must not contain a raw quote from the values
+        og_site_name = re.search(r'og:site_name" content="([^"]*)"', meta).group(1)
+        self.assertIn("&quot;", og_site_name)
+
+
+class RepositoryDocumentUrlTests(unittest.TestCase):
+    """Repository-document links are generated from the validated
+    repositoryUrl + repositoryRef — no branch name is hand-typed in
+    reader-facing content, and a rename changes every link at once."""
+
+    METADATA = {"statusLastChecked": "2026-07-17",
+                "sourcePdfPublicationDate": "2025-12"}
+
+    def test_url_is_built_from_configuration(self):
+        self.assertEqual(
+            build.repository_document_url("docs-for-maintainers/accessibility-testing.md"),
+            f"{build.REPOSITORY_URL}/blob/{build.REPOSITORY_REF}/"
+            "docs-for-maintainers/accessibility-testing.md")
+
+    def test_about_fragment_has_no_hand_typed_branch_names(self):
+        fragment = (ROOT / "content" / "about.html").read_text(encoding="utf-8")
+        self.assertNotIn("/blob/", fragment)
+        self.assertIn("{{ACCESSIBILITY_TESTING_URL}}", fragment)
+
+    def test_branch_rename_changes_every_generated_link_consistently(self):
+        fragment = (ROOT / "content" / "about.html").read_text(encoding="utf-8")
+        expected_links = fragment.count("{{ACCESSIBILITY_TESTING_URL}}")
+        self.assertGreater(expected_links, 0)
+        saved = build.REPOSITORY_REF
+        build.REPOSITORY_REF = "renamed-main"
+        try:
+            out = build.substitute_tokens(fragment, self.METADATA, build.Errors())
+        finally:
+            build.REPOSITORY_REF = saved
+        renamed = (f"{build.REPOSITORY_URL}/blob/renamed-main/"
+                   "docs-for-maintainers/accessibility-testing.md")
+        self.assertEqual(out.count(renamed), expected_links)
+        self.assertNotIn("{{ACCESSIBILITY_TESTING_URL}}", out)
+        self.assertNotIn(f"/blob/{saved}/", out)
+
+    def test_committed_docs_carry_the_configured_ref(self):
+        page = (ROOT / "docs" / "about.html").read_text(encoding="utf-8")
+        self.assertIn(f"{build.REPOSITORY_URL}/blob/{build.REPOSITORY_REF}/"
+                      "docs-for-maintainers/accessibility-testing.md", page)
 
 
 class AttributeEscapingTests(unittest.TestCase):
@@ -563,6 +879,7 @@ class SiteConfigTests(unittest.TestCase):
         "documentLabel": "ETSI EN 301 549 V4.1.0",
         "baseUrl": "https://example.github.io/project/",
         "repositoryUrl": "https://github.com/example/project",
+        "repositoryRef": "main",
         "deploymentTarget": "github-pages",
     }
 
@@ -613,6 +930,22 @@ class SiteConfigTests(unittest.TestCase):
         self.assertEqual(self.rules(deploymentTarget="my-own-server"),
                          ["site-config-unknown-deployment-target"])
 
+    def test_repository_ref_valid_forms(self):
+        for ref in ("main", "claude/pdf-accessible-website-j88o8l",
+                    "release-1.2_x", "a/b/c"):
+            self.assertEqual(self.rules(repositoryRef=ref), [], ref)
+
+    def test_repository_ref_unsafe_values_are_rejected(self):
+        for bad in ("feature?x=1", "feature#frag", "a b", "a\\b", "/rooted",
+                    "trailing/", "a//b", "../escape", "dot/.hidden", "a..b",
+                    "%2e%2e", 'quote"mark'):
+            self.assertEqual(self.rules(repositoryRef=bad),
+                             ["site-config-repository-ref-invalid"], bad)
+
+    def test_missing_repository_ref_is_rejected(self):
+        self.assertEqual(self.rules(repositoryRef=None),
+                         ["site-config-missing-field"])
+
     def test_duplicate_keys_are_rejected(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "site-config.json"
@@ -629,6 +962,8 @@ class SiteConfigTests(unittest.TestCase):
         self.assertEqual(build.SITE_BASE_URL, committed["baseUrl"])
         self.assertEqual(build.DOC_LABEL, committed["documentLabel"])
         self.assertEqual(build.REPOSITORY_URL, committed["repositoryUrl"])
+        self.assertEqual(build.REPOSITORY_REF, committed["repositoryRef"])
+        self.assertEqual(build.SITE_NAME, committed["siteName"])
         first = build.load_site_config()
         second = build.load_site_config()
         self.assertEqual(first, second)
@@ -837,6 +1172,64 @@ class AtomicBuildTests(unittest.TestCase):
             self.assertFalse(docs.exists())
             self.assertEqual(self.staging_dirs(root), [])
 
+    @contextlib.contextmanager
+    def failing_backup_cleanup(self):
+        """Make shutil.rmtree fail for .docs-old-* backup trees only."""
+        real_rmtree = build.shutil.rmtree
+        def failing(path, *args, **kwargs):
+            if ".docs-old-" in str(path):
+                raise OSError("simulated cleanup failure")
+            return real_rmtree(path, *args, **kwargs)
+        build.shutil.rmtree = failing
+        try:
+            yield
+        finally:
+            build.shutil.rmtree = real_rmtree
+
+    def backup_dirs(self, root):
+        return [p for p in root.iterdir() if p.name.startswith(".docs-old-")]
+
+    def test_backup_cleanup_failure_is_a_warning_not_a_build_failure(self):
+        with self.fake_site() as (root, docs):
+            self.publish(docs)
+            with self.failing_backup_cleanup():
+                with contextlib.redirect_stderr(io.StringIO()) as err:
+                    self.assertTrue(self.publish(docs))
+            # the publication succeeded and docs/ is the NEW tree
+            self.assertTrue((docs / "index.html").is_file())
+            self.assertTrue((docs / "404.html").is_file())
+            # the undeletable backup is retained and named in the warning
+            leftovers = self.backup_dirs(root)
+            self.assertEqual(len(leftovers), 1)
+            self.assertIn("could not remove the pre-build backup", err.getvalue())
+            self.assertIn(leftovers[0].name, err.getvalue())
+            self.assertIn("rm -rf", err.getvalue())
+
+    def test_later_build_removes_a_stale_backup(self):
+        with self.fake_site() as (root, docs):
+            self.publish(docs)
+            with self.failing_backup_cleanup():
+                with contextlib.redirect_stderr(io.StringIO()):
+                    self.publish(docs)
+            self.assertEqual(len(self.backup_dirs(root)), 1)
+            # a stale backup from an "earlier run" (different pid) too
+            stale = root / ".docs-old-99999999"
+            stale.mkdir()
+            (stale / "junk.html").write_text("junk", encoding="utf-8")
+            self.publish(docs)
+            self.assertEqual(self.backup_dirs(root), [])
+            self.assertTrue((docs / "index.html").is_file())
+
+    def test_cleanup_failure_never_touches_the_new_docs(self):
+        with self.fake_site() as (root, docs):
+            self.publish(docs)
+            with self.failing_backup_cleanup():
+                with contextlib.redirect_stderr(io.StringIO()):
+                    self.publish(docs)
+            published = {p.relative_to(docs).as_posix() for p in docs.rglob("*") if p.is_file()}
+            self.assertIn("index.html", published)
+            self.assertIn("assets/css/style.css", published)
+
 
 class NotFoundPageTests(unittest.TestCase):
     """The generated docs/404.html: shared design, exactly one <h1>,
@@ -879,6 +1272,14 @@ class NotFoundPageTests(unittest.TestCase):
     def test_uses_shared_site_design(self):
         self.assertIn('class="site-header"', self.PAGE)
         self.assertIn("assets/css/style.css", self.PAGE)
+
+    def test_data_action_attributes_survive_absolutisation_exactly(self):
+        self.assertIn('data-action="print"', self.PAGE)
+        self.assertIn('data-action="copy-link"', self.PAGE)
+        self.assertNotIn('data-action="https://', self.PAGE)
+
+    def test_header_search_form_action_is_absolute(self):
+        self.assertIn(f'action="{build.SITE_BASE_URL}search.html"', self.PAGE)
 
 
 if __name__ == "__main__":

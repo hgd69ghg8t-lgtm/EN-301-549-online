@@ -10,13 +10,19 @@ If that prints anything, `docs/` was out of date — commit the rebuilt output t
 
 ## Changing the site's domain or identity
 
-The production base URL, site name, document label, repository URL and
-deployment target live in `data/site-config.json` — the single source for
-every absolute URL the build emits (canonical links, Open Graph tags,
-`sitemap.xml`, `robots.txt`, the 404 page's links) and for the visible
-repository links (`{{REPOSITORY_URL}}` token in `content/about.html`).
-The build validates the file strictly (HTTPS, trailing slash on
-`baseUrl`, no query/fragment, allowed `deploymentTarget` values only).
+The production base URL, site name, document label, repository URL,
+repository ref (default branch) and deployment target live in
+`data/site-config.json` — the single source for every absolute URL the
+build emits (canonical links, Open Graph tags, `sitemap.xml`,
+`robots.txt`, the 404 page's links), for the visible site name (the
+header wordmark and `og:site_name` are generated from `siteName`), for
+the visible repository links (`{{REPOSITORY_URL}}` token in
+`content/about.html`), and for repository-document links such as the
+manual testing log (`{{ACCESSIBILITY_TESTING_URL}}`, built from
+`repositoryUrl` + `repositoryRef` so a default-branch rename is a
+one-line change here). The build validates the file strictly (HTTPS,
+trailing slash on `baseUrl`, no query/fragment, a safe `repositoryRef`
+branch name, allowed `deploymentTarget` values only).
 To change the domain: edit that file, rebuild, check the regenerated
 canonical/sitemap URLs, and run `npm test`. Cloudflare Pages is prepared
 but not active — see [`cloudflare-pages.md`](cloudflare-pages.md).
