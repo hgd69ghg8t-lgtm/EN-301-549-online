@@ -1,3 +1,8 @@
 # EN 301 549 Online
 
-An HTML edition of 'ETSI EN 301 549 V4.1.0: Accessibility requirements for ICT products and services' — a **final draft under approval, not yet a published standard** — designed and tested with the aim of meeting WCAG 2.2 Level AA. Styled with tokens from the [NZ Government Design System](https://github.com/GOVTNZ/govtnz-design-system) and structured similarly to [legislation.govt.nz](https://www.legislation.govt.nz/act/public/1991/69/en/latest/) (one page per clause/annex, a single persistent left-hand contents sidebar covering both the site-wide page list and the current page's own subsections, prev/next navigation).
+An HTML edition of 'ETSI EN 301 549 V4.1.0: Accessibility requirements for ICT products and services' — designed and tested with the aim of meeting WCAG 2.2 Level AA. 
+
+Styled with tokens from the NZ Government Design System and structured similarly to legislation.govt.nz.
+
+[NZ Government Design System](https://github.com/GOVTNZ/govtnz-design-system)
+[legislation.govt.nz](https://www.legislation.govt.nz/act/public/1991/69/en/latest/)
