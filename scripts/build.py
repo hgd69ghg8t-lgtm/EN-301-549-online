@@ -45,6 +45,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from heading_parser import parse_headings, canonical_id, parse_terms, escape_attr  # noqa: E402
 from json_data import load_json_data  # noqa: E402
+from minify import minify_css, minify_js  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 SITEMAP_PATH = ROOT / "scripts" / "sitemap.json"
@@ -133,24 +134,84 @@ def human_date(iso):
     return iso
 
 
-CSS_PATH = ASSETS_DIR / "css" / "style.css"
-JS_PATH = ASSETS_DIR / "js" / "site.js"
+CSS_DIR = ASSETS_DIR / "css"
+JS_DIR = ASSETS_DIR / "js"
+CSS_PATH = CSS_DIR / "style.css"
+
+# JavaScript is authored as small, readable feature modules under
+# assets/js/ and composed by the build into a few published bundles. Only
+# the "main" bundle loads on every page; "tables" loads only where a page
+# has a scrollable table, and "search-page" only on search.html — so an
+# ordinary clause page never downloads the full search-results machinery
+# and a table-free page never downloads the table code. Order within a
+# bundle is significant: core.js defines window.__site and search-core.js
+# adds __site.search, both before the feature modules that use them.
+JS_BUNDLES = {
+    "main": [
+        "core.js", "search-core.js", "preferences.js", "navigation.js",
+        "page-tools.js", "search-suggestions.js", "highlighting.js",
+    ],
+    "tables": ["tables.js"],
+    "search-page": ["search-page.js"],
+}
+
+# The manifest maps a logical asset name ("style", "main", "tables",
+# "search-page") to its published, fingerprinted docs/-relative path. It
+# is computed once per build from the committed source under assets/ (so
+# it is fully deterministic and never reads generated output) and threaded
+# into every page render.
 
 
-def asset_version(path):
-    """Short content hash appended as ?v=... to the shared CSS/JS URLs.
-    GitHub Pages caches assets for ~10 minutes, so without this a style
-    change rolls out unevenly — pages loaded at different moments mix old
-    and new styling until every visitor's cache expires. With it, any
-    change to the file changes every page's asset URL in the same build,
-    so all pages pick up the new styles together. Content-derived, so a
-    rebuild from unchanged source still produces byte-identical output
-    (the reproducibility guarantee in the README holds). These two files
-    are hand-authored source under assets/ — this never reads any
-    *generated* output."""
-    if not path.exists():
-        return "0"
-    return hashlib.sha256(path.read_bytes()).hexdigest()[:8]
+def _fingerprinted_path(subdir, stem, ext, data):
+    """docs/-relative path for a published asset, with a short content
+    hash of its FINAL bytes in the filename (e.g. assets/js/main.1a2b3c4d.js).
+    The hash changes iff the bytes change, so a released asset URL is
+    stable across identical rebuilds and unique across changes — the
+    prerequisite for the long-lived immutable caching in the Cloudflare
+    _headers file. No `?v=` query is used: fingerprinted names cache
+    cleanly and never collide."""
+    digest = hashlib.sha256(data).hexdigest()[:8]
+    return f"assets/{subdir}/{stem}.{digest}.{ext}"
+
+
+def compute_assets(errors):
+    """Build the fingerprinted CSS/JS assets from source: minify the
+    stylesheet, concatenate + minify each JS bundle, and content-hash the
+    final bytes into the published filename. Returns (manifest, files)
+    where manifest maps logical name -> docs/-relative path and files maps
+    that path -> bytes to write into the staged output. Deterministic:
+    identical source always yields identical names and bytes."""
+    manifest, files = {}, {}
+
+    if not CSS_PATH.is_file():
+        errors.add("assets/css/style.css", "asset-source-missing",
+                   "The stylesheet source assets/css/style.css is missing.",
+                   "Restore assets/css/style.css from version control.")
+    else:
+        css_min = minify_css(CSS_PATH.read_text(encoding="utf-8")).encode("utf-8")
+        rel = _fingerprinted_path("css", "style", "css", css_min)
+        manifest["style"], files[rel] = rel, css_min
+
+    for name, modules in JS_BUNDLES.items():
+        parts, missing = [], False
+        for module in modules:
+            path = JS_DIR / module
+            if not path.is_file():
+                missing = True
+                errors.add(f"assets/js/{module}", "asset-source-missing",
+                           f"The JavaScript module assets/js/{module} (part of the "
+                           f'"{name}" bundle) is missing.',
+                           f"Restore assets/js/{module} from version control, or fix "
+                           "JS_BUNDLES in scripts/build.py.")
+                continue
+            parts.append(path.read_text(encoding="utf-8"))
+        if missing:
+            continue
+        bundle_min = minify_js("\n".join(parts)).encode("utf-8")
+        rel = _fingerprinted_path("js", name, "js", bundle_min)
+        manifest[name], files[rel] = rel, bundle_min
+
+    return manifest, files
 
 
 def source_pdf_size(errors=None):
@@ -953,15 +1014,22 @@ def link_cross_references(fragment, current_slug, xrefs):
 # A static, build-time search index — no search service, no third-party
 # library. One JSON entry per heading section (h2-h4), per glossary term,
 # and per page intro: {"u": url, "p": page name, "t": title, "b": body
-# text}. assets/js/site.js fetches it on the search page and filters
+# text}. The search-page module fetches it on the search page and filters
 # it in the browser. Deterministic (same source always produces the same
 # bytes), so the repository's reproducible-build guarantee holds.
 
 # Long sections (e.g. clause 3's whole "3.1 Terms" block, whose individual
-# definitions are indexed separately anyway) are capped so the index stays
-# a reasonable download; the cap is generous enough that genuine
-# requirement sections are never truncated.
-SEARCH_BODY_MAX_CHARS = 4000
+# definitions are indexed separately anyway) are capped so the full-text
+# index stays a reasonable download. 1500 characters keeps every ordinary
+# requirement section whole (the median indexed body is ~330 characters
+# and the 95th percentile is under this cap); only the handful of very
+# long combined blocks are trimmed, and their content is already reachable
+# through the per-heading and per-term entries. Measured: the top results
+# for representative queries (clause numbers, "web accessibility", "closed
+# functionality", "real-time text", "cognitive", "screen reader") are
+# unchanged versus an uncapped index — only deep-tail low-rank matches
+# drop — while the index is ~12% smaller.
+SEARCH_BODY_MAX_CHARS = 1500
 
 
 def _squash(text):
@@ -1094,7 +1162,7 @@ def inject_heading_links(raw, headings):
     stop whose accessible name IS the heading text, rather than a separate
     "#" control after it. Activating it navigates to the heading's anchor
     (address bar now holds the deep link, with no JavaScript needed);
-    site.js adds copy-to-clipboard on top. Uses the same byte offsets
+    page-tools.js adds copy-to-clipboard on top. Uses the same byte offsets
     heading_parser.py already computed, so this never touches heading
     text or attributes — only wraps the existing text in an anchor."""
     edits = []
@@ -1428,7 +1496,7 @@ a wrong-theme flash. Also keeps
 the browser-chrome theme-color in step with the RESOLVED theme — on an
 explicit choice both meta elements get the same value, so whichever
 media query the OS matches, the chrome colour agrees with the page.
-site.js reuses __syncThemeColour when the choice changes mid-session.
+preferences.js reuses __syncThemeColour when the choice changes mid-session.
 The hex values are injected from build.py (THEME_CHROME_*), the single
 source the unit tests check the CSS and generated output against.
 Everything else about theming is CSS; without JavaScript the OS
@@ -1450,11 +1518,11 @@ preference applies. */
   if (theme) document.documentElement.setAttribute("data-theme", theme);
   window.__syncThemeColour(theme || "auto");
 }})();</script>
-{social_meta}<link rel="stylesheet" href="{asset_prefix}assets/css/style.css?v={css_version}">
+{social_meta}<link rel="stylesheet" href="{asset_prefix}{style_href}">
 <link rel="icon" href="{asset_prefix}assets/img/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="{asset_prefix}assets/img/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="{asset_prefix}assets/img/apple-touch-icon.png">
-</head>
+{scripts}</head>
 <body data-page-slug="{page_slug}" data-page-title="{page_title}" data-page-group="{page_group}">
 <a class="skip-link" id="top" href="#main-content">Skip to main content</a>
 
@@ -1497,10 +1565,36 @@ preference applies. */
     {footer_nav}
   </div>
 </footer>
-<script src="{asset_prefix}assets/js/site.js?v={js_version}"></script>
 </body>
 </html>
 """
+
+
+def render_scripts(manifest, page_bundles, asset_prefix):
+    """The <script defer> tags for a page, in dependency order: the main
+    bundle first (it defines window.__site), then any conditional bundles
+    the page needs (tables, search-page). All deferred, so they execute
+    after the document parses, in order — same timing the single end-of-
+    body script had, but split so each page downloads only what it uses.
+    Placed in <head>; the synchronous pre-paint theme script above stays
+    inline and is the only blocking script."""
+    tags = [f'<script src="{asset_prefix}{manifest["main"]}" defer></script>']
+    for bundle in page_bundles:
+        tags.append(f'<script src="{asset_prefix}{manifest[bundle]}" defer></script>')
+    return "\n".join(tags)
+
+
+def page_script_bundles(slug, content_html):
+    """Which conditional JS bundles a page needs, from its structure: the
+    table-enhancement bundle only when the page actually has a scrollable
+    table, and the full search-results bundle only on search.html. The
+    main bundle (always loaded) is added by render_scripts()."""
+    bundles = []
+    if 'class="table-wrap"' in content_html:
+        bundles.append("tables")
+    if slug == "search":
+        bundles.append("search-page")
+    return bundles
 
 
 def build_social_meta(title, description, canonical_url):
@@ -1774,8 +1868,8 @@ def render_dt_starttag(attrs, term_id):
     if not has_id:
         parts.append(f'id="{escape_attr(term_id)}"')
     if not has_tabindex:
-        # Focusable-but-not-tabbable: lets site.js move keyboard focus to a
-        # definition when its fragment link is followed (see site.js), while
+        # Focusable-but-not-tabbable: lets highlighting.js move keyboard focus
+        # to a definition when its fragment link is followed, while
         # never adding the term itself as an extra stop in normal Tab order.
         parts.append('tabindex="-1"')
     return "<" + " ".join(parts) + ">"
@@ -1912,7 +2006,7 @@ def apply_glossary_terms(fragment, errors, label):
     return out
 
 
-def render_page(index, page, metadata, summaries, guidance, errors, xrefs=None):
+def render_page(index, page, metadata, summaries, guidance, errors, manifest, xrefs=None):
     slug = page["slug"]
     is_index = slug == "index"
     fragment_path = CONTENT_DIR / f"{slug}.html"
@@ -1970,8 +2064,8 @@ def render_page(index, page, metadata, summaries, guidance, errors, xrefs=None):
         site_nav=build_site_nav(slug, headings),
         content=content_html,
         pager="" if slug in ("index", "search") else build_pager(index),
-        css_version=asset_version(CSS_PATH),
-        js_version=asset_version(JS_PATH),
+        style_href=manifest["style"],
+        scripts=render_scripts(manifest, page_script_bundles(slug, content_html), ""),
         header_nav=build_header_nav(slug),
         footer_nav=build_footer_nav(slug),
         page_slug=html.escape(slug),
@@ -2056,6 +2150,7 @@ def collect_resources(html_text):
 # that exist in every build even though they aren't in the rendered-pages
 # map.
 GENERATED_EXTRA_FILES = ("sitemap.xml", "robots.txt", "search-index.json",
+                         "search-suggestions.json",
                          "accessibility-statement.html", "404.html")
 
 
@@ -2168,8 +2263,8 @@ def validate_site_resources(rendered, collected, errors, docs_dir=DOCS_DIR):
                 errors.add(label, "javascript-url",
                            f'line {r.line}: <{r.tag}> {r.attr}="{r.value}" is a javascript: '
                            "URL; this site never emits script URLs (progressive enhancement "
-                           "uses real links plus site.js).",
-                           "Replace it with a real link target, or a <button> enhanced by site.js.")
+                           "uses real links plus the site's JavaScript).",
+                           "Replace it with a real link target, or a <button> enhanced by the site's JavaScript.")
                 continue
             if scheme in _IGNORED_SCHEMES:
                 continue
@@ -2452,7 +2547,7 @@ def build_not_found_fragment():
     )
 
 
-def render_not_found_page():
+def render_not_found_page(manifest):
     page = NOT_FOUND_PAGE
     fragment = build_not_found_fragment()
     headings = parse_headings(fragment)
@@ -2474,8 +2569,11 @@ def render_not_found_page():
         site_nav=build_site_nav(page["slug"], headings),
         content=fragment,
         pager="",
-        css_version=asset_version(CSS_PATH),
-        js_version=asset_version(JS_PATH),
+        style_href=manifest["style"],
+        # The 404 page is served for arbitrary missing paths, so its asset
+        # URLs are absolute (asset_prefix=SITE_BASE_URL); it needs no
+        # tables/search bundle, only the main script.
+        scripts=render_scripts(manifest, [], SITE_BASE_URL),
         header_nav=build_header_nav(page["slug"]),
         footer_nav=build_footer_nav(page["slug"]),
         page_slug=html.escape(page["slug"]),
@@ -2523,14 +2621,14 @@ def validate_not_found_page(html_out, published, errors):
                        "Check build_not_found_fragment() and absolutise_local_links().")
 
     # Regression guard: absolutising must never touch data-* attributes.
-    # site.js binds to the exact values [data-action='print'] and
+    # page-tools.js binds to the exact values [data-action='print'] and
     # [data-action='copy-link']; a rewritten value silently disables the
     # Print and Copy-link enhancements on this page.
     for expected in ('data-action="print"', 'data-action="copy-link"'):
         if expected not in html_out:
             errors.add(label, "404-data-action-rewritten",
                        f"The 404 page's page tools no longer carry {expected} exactly — "
-                       "site.js binds to that exact value.",
+                       "page-tools.js binds to that exact value.",
                        "Check absolutise_local_links() only rewrites real href/src/form-action "
                        "attributes, never data-*.")
 
@@ -2752,37 +2850,63 @@ def generate_accessibility_statement_stub():
         "</body>\n</html>\n")
 
 
-def build_output_tree(staging, rendered, index_entries, errors):
+def build_output_tree(staging, rendered, index_entries, manifest, asset_files, errors):
     """Write the complete publishable site into the staging directory:
-    rendered pages, generated extras (search index, sitemap.xml,
-    robots.txt, the accessibility-statement redirect stub, 404.html,
-    .nojekyll), a copy of the static assets/ and source/ trees, and the
+    rendered pages, generated extras (the full and suggestion search
+    indexes, sitemap.xml, robots.txt, the accessibility-statement redirect
+    stub, 404.html, .nojekyll), the fingerprinted CSS/JS assets, a copy of
+    the non-CSS/JS static assets (images) and the source/ tree, and the
     Cloudflare deployment files. Nothing is written into docs/ itself."""
     for slug, html_out in rendered.items():
         (staging / f"{slug}.html").write_text(html_out, encoding="utf-8")
 
+    # Full-text index (search.html) and the small suggestions index
+    # (header box). The suggestion index drops every entry's body text —
+    # header suggestions rank on title/clause-number only — so typing in
+    # the header no longer pulls the whole full-text index.
     (staging / "search-index.json").write_text(
         json.dumps(index_entries, ensure_ascii=False, separators=(",", ":")) + "\n",
+        encoding="utf-8")
+    suggestions = [{"t": e["t"], "p": e["p"], "u": e["u"]} for e in index_entries]
+    (staging / "search-suggestions.json").write_text(
+        json.dumps(suggestions, ensure_ascii=False, separators=(",", ":")) + "\n",
         encoding="utf-8")
     (staging / "sitemap.xml").write_text(generate_sitemap_xml(), encoding="utf-8")
     (staging / "robots.txt").write_text(generate_robots_txt(), encoding="utf-8")
     (staging / "accessibility-statement.html").write_text(
         generate_accessibility_statement_stub(), encoding="utf-8")
-    (staging / "404.html").write_text(render_not_found_page(), encoding="utf-8")
+    (staging / "404.html").write_text(render_not_found_page(manifest), encoding="utf-8")
     # GitHub Pages serves docs/ through Jekyll by default, which would
     # drop files whose names start with "_" (the Cloudflare _headers and
     # _redirects files); .nojekyll turns that off.
     (staging / ".nojekyll").write_text("", encoding="utf-8")
 
-    for name, directory in (("assets", ASSETS_DIR), ("source", SOURCE_DIR)):
-        rel = str(directory.relative_to(ROOT)) if directory.is_relative_to(ROOT) else str(directory)
-        if not directory.is_dir():
-            errors.add(rel, "static-source-missing",
-                       f"The hand-authored {name}/ source directory does not exist, so the "
-                       "generated site would be missing its static files.",
-                       f"Restore the {rel}/ directory from version control.")
-            continue
-        shutil.copytree(directory, staging / name)
+    # The fingerprinted, minified CSS/JS (computed by compute_assets()).
+    for rel, data in asset_files.items():
+        path = staging / rel
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_bytes(data)
+
+    # Static asset files that are published verbatim (images) — assets/css
+    # and assets/js are generated above, so they are excluded here to
+    # avoid shipping the unminified, unhashed source alongside them.
+    if not ASSETS_DIR.is_dir():
+        errors.add("assets", "static-source-missing",
+                   "The hand-authored assets/ source directory does not exist, so the "
+                   "generated site would be missing its static files.",
+                   "Restore the assets/ directory from version control.")
+    else:
+        shutil.copytree(ASSETS_DIR, staging / "assets",
+                        ignore=shutil.ignore_patterns("css", "js"),
+                        dirs_exist_ok=True)
+
+    if not SOURCE_DIR.is_dir():
+        errors.add("source", "static-source-missing",
+                   "The hand-authored source/ source directory does not exist, so the "
+                   "generated site would be missing its static files.",
+                   "Restore the source/ directory from version control.")
+    else:
+        shutil.copytree(SOURCE_DIR, staging / "source")
 
     for name in DEPLOYMENT_FILES:
         src = DEPLOYMENT_DIR / name
@@ -2885,7 +3009,7 @@ def replace_docs_dir(staging, docs_dir):
         _remove_backup_dir(old)
 
 
-def publish_output(rendered, collected, index_entries, errors, *,
+def publish_output(rendered, collected, index_entries, manifest, asset_files, errors, *,
                    check_only=False, docs_dir=None):
     """The atomic tail of the build. The complete site is generated into
     a temporary staging directory next to docs/ (same filesystem, so the
@@ -2899,7 +3023,7 @@ def publish_output(rendered, collected, index_entries, errors, *,
     docs_dir = DOCS_DIR if docs_dir is None else docs_dir
     staging = Path(tempfile.mkdtemp(prefix=".docs-staging-", dir=docs_dir.parent))
     try:
-        build_output_tree(staging, rendered, index_entries, errors)
+        build_output_tree(staging, rendered, index_entries, manifest, asset_files, errors)
         validate_output_tree(staging, rendered, collected, errors)
         if errors:
             errors.report_and_exit()
@@ -2936,12 +3060,16 @@ def main():
         errors.report_and_exit()
 
     xrefs = build_xref_maps(errors)
+    # The fingerprinted CSS/JS asset manifest is deterministic and depends
+    # only on committed source under assets/; compute it up front so every
+    # page render references the correct hashed filenames.
+    manifest, asset_files = compute_assets(errors)
     if errors:
         errors.report_and_exit()
 
     rendered = {}
     for i, page in enumerate(SITEMAP):
-        html_out = render_page(i, page, metadata, summaries, guidance, errors, xrefs)
+        html_out = render_page(i, page, metadata, summaries, guidance, errors, manifest, xrefs)
         if html_out is not None:
             rendered[page["slug"]] = html_out
 
@@ -2960,8 +3088,8 @@ def main():
         errors.report_and_exit()
 
     index_entries = build_search_index(metadata)
-    replaced = publish_output(rendered, collected, index_entries, errors,
-                              check_only=check_only)
+    replaced = publish_output(rendered, collected, index_entries, manifest, asset_files,
+                              errors, check_only=check_only)
 
     missing_governance = content_ownership_notices(ownership)
     if missing_governance:

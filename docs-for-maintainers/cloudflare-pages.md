@@ -111,12 +111,27 @@ live and verified.
 
 ## `_headers`
 
-`deployment/cloudflare/_headers` currently sets a conservative security
-baseline (`X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`,
+`deployment/cloudflare/_headers` sets a conservative security baseline
+(`X-Frame-Options: DENY`, `X-Content-Type-Options: nosniff`,
 `Referrer-Policy: strict-origin-when-cross-origin`, and a
-`Permissions-Policy` disabling powerful features this site never uses).
+`Permissions-Policy` disabling powerful features this site never uses)
+plus cache rules.
 
-Two deliberate deferrals, documented here so they aren't "fixed" casually:
+**Caching.** The build content-fingerprints the CSS and JS filenames
+(`assets/css/style.<hash>.css`, `assets/js/main.<hash>.js`, …): a
+fingerprinted URL only ever serves one exact set of bytes, and a content
+change produces a new name referenced by a freshly generated page in the
+same build. Those files are therefore served `Cache-Control: public,
+max-age=31536000, immutable`. Everything unfingerprinted stays
+revalidating: HTML is `max-age=0, must-revalidate` (page URLs are stable,
+reader-facing), the two search indexes get a short `max-age=3600`, and
+images `max-age=86400`. **These rules only take effect on Cloudflare
+Pages** — GitHub Pages ignores `_headers` and applies its own ~10-minute
+cache to everything (correct there, since it never sees the immutable
+directive).
+
+One deliberate deferral remains, documented here so it isn't "fixed"
+casually:
 
 - **No Content-Security-Policy yet.** The pages carry an inline
   pre-paint theme script. A CSP must be designed with hashes or nonces
@@ -124,11 +139,6 @@ Two deliberate deferrals, documented here so they aren't "fixed" casually:
   links, print output, and every Playwright suite before it ships.
   Adding `'unsafe-inline'` merely to make a CSP pass would reduce it to
   theatre, so there is no CSP at all until it can be done properly.
-- **No one-year `immutable` caching.** Asset filenames are not
-  fingerprinted — `assets/css/style.css` keeps its name across releases
-  and only its `?v=` query changes. Immutable caching of an unhashed
-  filename can pin visitors to stale assets after a release. Long-lived
-  caching waits until fingerprinted (content-hashed) filenames exist.
 
 ## `_redirects`
 
@@ -153,12 +163,15 @@ allows.
 ## Verification after any deployment
 
 - Load the homepage, one long clause (e.g. clause 9), the About page and
-  the search page over the deployed host; check styling, fonts and the
-  theme toggle work (i.e. `_headers` broke nothing).
+  the search page over the deployed host; check styling and the theme
+  toggle work (i.e. `_headers` broke nothing). Text uses system fonts, so
+  there are no font files to load.
 - Request a nonsense URL and confirm the custom 404 page appears, with
   working Home/Search links.
-- Confirm `curl -sI https://<host>/` shows the security headers (on
-  Cloudflare only — GitHub Pages does not serve `_headers`).
+- Confirm `curl -sI https://<host>/` shows the security headers, and
+  `curl -sI https://<host>/assets/js/main.<hash>.js` shows the immutable
+  `Cache-Control` (on Cloudflare only — GitHub Pages does not serve
+  `_headers`).
 - Confirm `https://<host>/source/en_301549v040100va.pdf` downloads and
   its `sha256sum` matches `data/source-metadata.json`.
 - Check `rel="canonical"`, `og:url`, `sitemap.xml` and `robots.txt`

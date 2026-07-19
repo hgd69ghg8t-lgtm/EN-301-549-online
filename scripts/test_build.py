@@ -8,9 +8,16 @@ import unittest
 import urllib.parse
 from pathlib import Path
 
-from scripts import build, heading_parser, json_data, normalize_content
+from scripts import build, heading_parser, json_data, minify, normalize_content
 
 ROOT = Path(__file__).resolve().parent.parent
+
+
+def real_manifest():
+    """The build's fingerprinted-asset manifest for the committed source
+    (deterministic), for tests that render a page needing asset URLs."""
+    manifest, _files = build.compute_assets(build.Errors())
+    return manifest
 
 
 def css_token(css, block_regex, token):
@@ -22,6 +29,177 @@ def css_token(css, block_regex, token):
         return None
     decl = re.search(r"--colour-" + token + r"\s*:\s*(#[0-9a-fA-F]{6})\s*;", m.group(1))
     return decl.group(1).lower() if decl else None
+
+
+class MinifyTests(unittest.TestCase):
+    """scripts/minify.py: deterministic, semantics-preserving minifiers.
+    Strings, template literals, regex literals and url() are never
+    touched; comments (except /*!) are dropped; whitespace is only ever
+    collapsed to a single separator (newline-preserving for JS)."""
+
+    def test_js_drops_comments_but_keeps_bang_licence(self):
+        out = minify.minify_js("/*! keep me */\n// gone\nvar x = 1; /* gone */\n")
+        self.assertIn("/*! keep me */", out)
+        self.assertNotIn("// gone", out)
+        self.assertNotIn("/* gone */", out)
+        self.assertIn("var x = 1;", out)
+
+    def test_js_preserves_string_and_regex_contents(self):
+        src = 'var s = "a  b   c";\nvar r = /a  b/g;\nvar t = x / y;\n'
+        out = minify.minify_js(src)
+        self.assertIn('"a  b   c"', out)   # spaces inside string kept
+        self.assertIn("/a  b/g", out)      # spaces inside regex kept
+        self.assertIn("x / y", out.replace("\n", " "))  # division still valid
+
+    def test_js_is_deterministic_and_idempotent(self):
+        src = (JS_DIR := ROOT / "assets" / "js") and (JS_DIR / "core.js").read_text(encoding="utf-8")
+        once = minify.minify_js(src)
+        self.assertEqual(once, minify.minify_js(src))
+        # re-minifying already-minified output is stable
+        self.assertEqual(once, minify.minify_js(once))
+
+    def test_js_newlines_preserved_for_asi_safety(self):
+        # Two statements without semicolons must not be joined onto one
+        # line (that could change meaning via ASI).
+        out = minify.minify_js("var a = 1\nvar b = 2\n")
+        self.assertIn("\n", out.strip())
+
+    def test_css_collapses_whitespace_and_drops_comments(self):
+        out = minify.minify_css("/* c */\n.a {\n  color:  red;\n}\n")
+        self.assertNotIn("/* c */", out)
+        self.assertIn(".a{", out)
+        self.assertNotIn("  ", out)
+
+    def test_css_keeps_bang_licence_and_string_and_url_contents(self):
+        out = minify.minify_css('/*! keep */\n.a{content:"x  y";background:url(../a b.png)}\n')
+        self.assertIn("/*! keep */", out)
+        self.assertIn('"x  y"', out)
+        self.assertIn("url(../a b.png)", out)
+
+    def test_committed_modules_stay_valid_after_minification(self):
+        # Every JS bundle minifies to output whose braces/parens balance
+        # (a cheap structural smoke test; the browser suites run the real
+        # minified bundles end to end).
+        for modules in build.JS_BUNDLES.values():
+            src = "\n".join((ROOT / "assets" / "js" / m).read_text(encoding="utf-8")
+                            for m in modules)
+            out = minify.minify_js(src)
+            self.assertEqual(out.count("{"), out.count("}"))
+            self.assertEqual(out.count("("), out.count(")"))
+
+
+class AssetPipelineTests(unittest.TestCase):
+    """compute_assets(): minified, content-fingerprinted CSS/JS bundles
+    with a deterministic manifest; the split into conditional bundles."""
+
+    def manifest_files(self):
+        return build.compute_assets(build.Errors())
+
+    def test_manifest_has_style_and_all_js_bundles(self):
+        manifest, files = self.manifest_files()
+        self.assertEqual(set(manifest), {"style"} | set(build.JS_BUNDLES))
+        for name, rel in manifest.items():
+            self.assertIn(rel, files)
+
+    def test_fingerprinted_names_and_no_query_busters(self):
+        manifest, _ = self.manifest_files()
+        self.assertRegex(manifest["style"], r"^assets/css/style\.[0-9a-f]{8}\.css$")
+        self.assertRegex(manifest["main"], r"^assets/js/main\.[0-9a-f]{8}\.js$")
+        for rel in manifest.values():
+            self.assertNotIn("?", rel)  # fingerprint replaces ?v= busting
+
+    def test_hash_is_deterministic_for_unchanged_content(self):
+        first, _ = self.manifest_files()
+        second, _ = self.manifest_files()
+        self.assertEqual(first, second)
+
+    def test_hash_changes_when_content_changes(self):
+        errors = build.Errors()
+        data = b"body{color:red}\n"
+        rel1 = build._fingerprinted_path("css", "style", "css", data)
+        rel2 = build._fingerprinted_path("css", "style", "css", data + b"/*x*/")
+        self.assertNotEqual(rel1, rel2)
+        # identical bytes -> identical name
+        self.assertEqual(rel1, build._fingerprinted_path("css", "style", "css", data))
+
+    def test_missing_module_is_a_build_error(self):
+        saved = build.JS_BUNDLES
+        build.JS_BUNDLES = dict(saved, main=saved["main"] + ["does-not-exist.js"])
+        try:
+            _, _ = build.compute_assets(errors := build.Errors())
+        finally:
+            build.JS_BUNDLES = saved
+        self.assertIn("asset-source-missing", [rule for _, rule, _, _ in errors.items])
+
+    def test_committed_style_is_minified_in_docs(self):
+        manifest, _ = self.manifest_files()
+        published = (ROOT / "docs" / manifest["style"]).read_bytes()
+        source = (ROOT / "assets" / "css" / "style.css").read_bytes()
+        self.assertLess(len(published), len(source))  # minified
+        self.assertNotIn(b"\n\n", published)
+
+
+class ConditionalScriptTests(unittest.TestCase):
+    """page_script_bundles(): the table bundle only where a page has a
+    scrollable table, the full-search bundle only on search.html — so the
+    generated pages download only the JavaScript they use."""
+
+    def test_search_page_only_on_search(self):
+        self.assertEqual(build.page_script_bundles("search", "<div></div>"), ["search-page"])
+        self.assertEqual(build.page_script_bundles("clause-9-web", "<div></div>"), [])
+
+    def test_tables_only_when_a_table_wrap_is_present(self):
+        self.assertEqual(build.page_script_bundles("clause-9-web",
+                         '<div class="table-wrap"><table></table></div>'), ["tables"])
+        self.assertEqual(build.page_script_bundles("index", "<p>no tables here</p>"), [])
+
+    def test_generated_pages_load_only_needed_bundles(self):
+        docs = ROOT / "docs"
+        index = (docs / "index.html").read_text(encoding="utf-8")
+        clause9 = (docs / "clause-9-web.html").read_text(encoding="utf-8")
+        search = (docs / "search.html").read_text(encoding="utf-8")
+        # main loads everywhere; search-page never on a clause page; tables
+        # never on the table-free homepage.
+        self.assertRegex(index, r"assets/js/main\.[0-9a-f]{8}\.js")
+        self.assertNotIn("search-page.", index)
+        self.assertNotIn("tables.", index)
+        self.assertNotIn("search-page.", clause9)
+        self.assertRegex(clause9, r"assets/js/tables\.[0-9a-f]{8}\.js")
+        self.assertRegex(search, r"assets/js/search-page\.[0-9a-f]{8}\.js")
+
+    def test_all_scripts_are_deferred(self):
+        html_text = (ROOT / "docs" / "clause-9-web.html").read_text(encoding="utf-8")
+        scripts = re.findall(r"<script src=[^>]+>", html_text)
+        self.assertTrue(scripts)
+        for tag in scripts:
+            self.assertIn("defer", tag)
+
+
+class SearchIndexTests(unittest.TestCase):
+    """The two generated search indexes: a full-text index (search.html)
+    and a small, body-free suggestion index (header box)."""
+
+    FULL = json.loads((ROOT / "docs" / "search-index.json").read_text(encoding="utf-8"))
+    SUGGEST = json.loads((ROOT / "docs" / "search-suggestions.json").read_text(encoding="utf-8"))
+
+    def test_full_index_has_body_text(self):
+        self.assertTrue(all("b" in e for e in self.FULL))
+        self.assertTrue(any(e["b"] for e in self.FULL))
+
+    def test_suggestion_index_drops_body_and_is_smaller(self):
+        for e in self.SUGGEST:
+            self.assertEqual(set(e), {"t", "p", "u"})
+        suggest_bytes = (ROOT / "docs" / "search-suggestions.json").stat().st_size
+        full_bytes = (ROOT / "docs" / "search-index.json").stat().st_size
+        self.assertLess(suggest_bytes, full_bytes)
+
+    def test_same_entry_count_so_suggestions_cover_everything(self):
+        self.assertEqual(len(self.SUGGEST), len(self.FULL))
+
+    def test_required_fields_present(self):
+        for e in self.SUGGEST:
+            self.assertIsInstance(e["t"], str)
+            self.assertIsInstance(e["u"], str)
 
 
 class SourcePdfChecksumTests(unittest.TestCase):
@@ -410,18 +588,18 @@ class AbsolutiseLocalLinksTests(unittest.TestCase):
         self.assertIn('href="#f"', out)
 
     def test_rendered_404_page_carries_exact_data_actions(self):
-        page = build.render_not_found_page()
+        page = build.render_not_found_page(real_manifest())
         self.assertIn('data-action="print"', page)
         self.assertIn('data-action="copy-link"', page)
         self.assertNotIn('data-action="https://', page)
 
     def test_rendered_404_form_action_is_absolute(self):
-        page = build.render_not_found_page()
+        page = build.render_not_found_page(real_manifest())
         self.assertIn(f'action="{build.SITE_BASE_URL}search.html"', page)
 
     def test_validator_rejects_a_rewritten_data_action(self):
         errors = build.Errors()
-        page = build.render_not_found_page().replace(
+        page = build.render_not_found_page(real_manifest()).replace(
             'data-action="print"', f'data-action="{build.SITE_BASE_URL}print"')
         build.validate_not_found_page(page, set(), errors)
         self.assertIn("404-data-action-rewritten",
@@ -567,10 +745,17 @@ class CssUrlReferenceTests(unittest.TestCase):
         css = ".a{}\n.b { background: url(x.png); }\n"
         self.assertEqual(build.css_url_references(css), [("x.png", 2)])
 
-    def test_committed_stylesheet_references_both_self_hosted_fonts(self):
+    def test_committed_stylesheet_has_no_webfont_dependencies(self):
+        # The site uses system fonts only: the committed stylesheet must
+        # carry no @font-face and no local url() dependency (so no page
+        # ever makes a font request). data:/https url()s would be allowed,
+        # but the committed CSS currently has none at all.
         css = (ROOT / "assets" / "css" / "style.css").read_text(encoding="utf-8")
-        self.assertEqual(self.refs(css),
-                         ["../fonts/overpass-var.woff2", "../fonts/sourcesans3-var.woff2"])
+        self.assertNotIn("@font-face", css)
+        self.assertNotIn(".woff2", css)
+        local = [u for u in self.refs(css)
+                 if not urllib.parse.urlsplit(u).scheme and not u.startswith("//")]
+        self.assertEqual(local, [])
 
 
 class CssResourceValidationTests(unittest.TestCase):
@@ -616,16 +801,16 @@ class CssResourceValidationTests(unittest.TestCase):
         self.assertIn("assets/", fix)
         self.assertIn("Never hand-edit docs/", fix)
 
-    def test_deleting_either_committed_font_fails(self):
-        css = (ROOT / "assets" / "css" / "style.css").read_text(encoding="utf-8")
-        for missing, present in (("overpass-var.woff2", "sourcesans3-var.woff2"),
-                                 ("sourcesans3-var.woff2", "overpass-var.woff2")):
-            items = self.validate({"assets/css/style.css": css,
-                                   f"assets/fonts/{present}": "f"})
-            self.assertTrue(
-                any(rule == "css-missing-resource" and missing in message
-                    for _, rule, message, _ in items),
-                f"deleting {missing} did not fail CSS validation")
+    def test_deleting_a_referenced_local_asset_fails(self):
+        # Defence-in-depth for any future local CSS dependency (e.g. a
+        # background image): a url() whose target is not published fails
+        # the build. (The site currently self-hosts no fonts and no local
+        # CSS assets, so this uses a representative synthetic stylesheet.)
+        items = self.validate({
+            "assets/css/style.css": '.x { background: url("../img/hero.png"); }\n',
+        })
+        self.assertEqual([rule for _, rule, _, _ in items], ["css-missing-resource"])
+        self.assertIn("assets/img/hero.png", items[0][2])
 
     def test_tree_escape_and_root_absolute_are_rejected(self):
         self.assertEqual(
@@ -1025,21 +1210,31 @@ class AtomicBuildTests(unittest.TestCase):
     staging directory; stale files never survive a successful build."""
 
     PDF_BYTES = b"%PDF-1.4 fake but stable bytes"
+    # A minimal but valid IIFE module, one per JS bundle member.
+    JS_MODULE = '(function () {\n  "use strict";\n})();\n'
 
     @contextlib.contextmanager
     def fake_site(self):
         """A minimal source tree + patched build-module globals, so
-        publish_output() can run end to end against temp directories."""
+        publish_output() can run end to end against temp directories. The
+        stylesheet and JS bundle modules are real source the build
+        minifies and fingerprints; images are copied verbatim."""
         saved = {name: getattr(build, name) for name in
-                 ("ASSETS_DIR", "SOURCE_DIR", "DEPLOYMENT_DIR", "SOURCE_PDF_PATH", "SITEMAP")}
+                 ("ASSETS_DIR", "SOURCE_DIR", "DEPLOYMENT_DIR", "SOURCE_PDF_PATH",
+                  "SITEMAP", "CSS_DIR", "JS_DIR", "CSS_PATH")}
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             assets = root / "assets"
-            for rel in ("css/style.css", "js/site.js", "img/favicon.svg",
-                        "img/favicon-32.png", "img/apple-touch-icon.png"):
+            for rel in ("img/favicon.svg", "img/favicon-32.png", "img/apple-touch-icon.png"):
                 path = assets / rel
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text("asset: " + rel, encoding="utf-8")
+            (assets / "css").mkdir(parents=True, exist_ok=True)
+            (assets / "css" / "style.css").write_text("body { color: #1a1a1a; }\n", encoding="utf-8")
+            (assets / "js").mkdir(parents=True, exist_ok=True)
+            for modules in build.JS_BUNDLES.values():
+                for module in modules:
+                    (assets / "js" / module).write_text(self.JS_MODULE, encoding="utf-8")
             source = root / "source"
             source.mkdir()
             (source / build.SOURCE_PDF_NAME).write_bytes(self.PDF_BYTES)
@@ -1049,6 +1244,9 @@ class AtomicBuildTests(unittest.TestCase):
             (deployment / "_redirects").write_text("# no active rules\n", encoding="utf-8")
             docs = root / "docs"
             build.ASSETS_DIR = assets
+            build.CSS_DIR = assets / "css"
+            build.JS_DIR = assets / "js"
+            build.CSS_PATH = assets / "css" / "style.css"
             build.SOURCE_DIR = source
             build.DEPLOYMENT_DIR = deployment
             build.SOURCE_PDF_PATH = source / build.SOURCE_PDF_NAME
@@ -1073,7 +1271,8 @@ class AtomicBuildTests(unittest.TestCase):
         rendered = self.rendered_pages() if rendered is None else rendered
         collected = {slug: build.collect_resources(h) for slug, h in rendered.items()}
         errors = build.Errors()
-        return build.publish_output(rendered, collected, [], errors,
+        manifest, asset_files = build.compute_assets(errors)
+        return build.publish_output(rendered, collected, [], manifest, asset_files, errors,
                                     check_only=check_only, docs_dir=docs)
 
     def staging_dirs(self, root):
@@ -1087,11 +1286,18 @@ class AtomicBuildTests(unittest.TestCase):
             self.assertTrue((docs / ".nojekyll").is_file())
             self.assertEqual(self.staging_dirs(root), [])
 
-    def test_source_assets_and_deployment_files_are_copied(self):
+    def test_generated_assets_and_deployment_files_are_published(self):
         with self.fake_site() as (root, docs):
+            manifest, _ = build.compute_assets(build.Errors())
             self.publish(docs)
-            self.assertEqual((docs / "assets" / "css" / "style.css").read_text(encoding="utf-8"),
-                             "asset: css/style.css")
+            # CSS/JS are minified + fingerprinted (not copied verbatim);
+            # the source style.css and unhashed names never appear.
+            self.assertTrue((docs / manifest["style"]).is_file())
+            self.assertTrue((docs / manifest["main"]).is_file())
+            self.assertFalse((docs / "assets" / "css" / "style.css").exists())
+            # Images are copied verbatim.
+            self.assertEqual((docs / "assets" / "img" / "favicon.svg").read_text(encoding="utf-8"),
+                             "asset: img/favicon.svg")
             self.assertEqual((docs / "_headers").read_bytes(),
                              (build.DEPLOYMENT_DIR / "_headers").read_bytes())
             self.assertEqual((docs / "_redirects").read_bytes(),
@@ -1116,14 +1322,16 @@ class AtomicBuildTests(unittest.TestCase):
 
     def test_every_published_file_originates_from_a_source_or_build_step(self):
         with self.fake_site() as (root, docs):
+            _manifest, asset_files = build.compute_assets(build.Errors())
             self.publish(docs)
             actual = {p.relative_to(docs).as_posix() for p in docs.rglob("*") if p.is_file()}
             expected = (
                 {f'{page["slug"]}.html' for page in build.SITEMAP}
                 | set(build.GENERATED_EXTRA_FILES) | {".nojekyll"}
                 | set(build.DEPLOYMENT_FILES)
-                | {f"assets/{rel}" for rel in ("css/style.css", "js/site.js", "img/favicon.svg",
-                                               "img/favicon-32.png", "img/apple-touch-icon.png")}
+                | set(asset_files)  # the fingerprinted CSS/JS bundles
+                | {f"assets/img/{name}" for name in
+                   ("favicon.svg", "favicon-32.png", "apple-touch-icon.png")}
                 | {f"source/{build.SOURCE_PDF_NAME}"}
             )
             self.assertEqual(actual, expected)
@@ -1226,9 +1434,10 @@ class AtomicBuildTests(unittest.TestCase):
             with self.failing_backup_cleanup():
                 with contextlib.redirect_stderr(io.StringIO()):
                     self.publish(docs)
+            manifest, _ = build.compute_assets(build.Errors())
             published = {p.relative_to(docs).as_posix() for p in docs.rglob("*") if p.is_file()}
             self.assertIn("index.html", published)
-            self.assertIn("assets/css/style.css", published)
+            self.assertIn(manifest["style"], published)
 
 
 class NotFoundPageTests(unittest.TestCase):
@@ -1271,7 +1480,8 @@ class NotFoundPageTests(unittest.TestCase):
 
     def test_uses_shared_site_design(self):
         self.assertIn('class="site-header"', self.PAGE)
-        self.assertIn("assets/css/style.css", self.PAGE)
+        # fingerprinted stylesheet: assets/css/style.<hash>.css
+        self.assertRegex(self.PAGE, r'assets/css/style\.[0-9a-f]{8}\.css')
 
     def test_data_action_attributes_survive_absolutisation_exactly(self):
         self.assertIn('data-action="print"', self.PAGE)

@@ -92,12 +92,13 @@ by the applicable open licence.
 
 ## Fonts
 
-The self-hosted Overpass and Source Sans 3 fonts (`assets/fonts/`, published as a copy at `docs/assets/fonts/`)
-retain their existing SIL Open Font Licence 1.1 terms
-(https://openfontlicense.org/).
-
-The project's MIT and CC BY licences do not replace the licences supplied
-with those fonts.
+The site no longer distributes any webfont. Typography uses the reader's
+own system fonts via a CSS system-font stack (see `assets/css/style.css`),
+so no font files are stored in the repository or published under `docs/`,
+and no font-licence obligations apply. (Earlier versions self-hosted
+Overpass and Source Sans 3 under `assets/fonts/`; those files were removed
+when the site moved to system fonts.) Re-verify the licence of any font
+added later before self-hosting it.
 
 ## Third-party material
 

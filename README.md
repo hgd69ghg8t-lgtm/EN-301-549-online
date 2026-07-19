@@ -18,11 +18,13 @@ content/            37 body-only HTML fragments — the actual transcribed
                      verbatim from the ETSI draft. See "Content-authoring
                      conventions" below for the rule about never editing
                      the latter.
-assets/             Hand-authored static assets: assets/css/style.css,
-                     assets/js/site.js, the favicons/logo under
-                     assets/img/, and the self-hosted webfonts under
-                     assets/fonts/. The build copies this whole tree into
-                     docs/assets/, so the public asset URLs are unchanged.
+assets/             Hand-authored static assets: assets/css/style.css and
+                     the assets/js/ feature modules, plus the
+                     favicons/logo under assets/img/. The build minifies
+                     and content-hashes the CSS/JS into docs/assets/ under
+                     fingerprinted filenames; images are copied as-is.
+                     Typography uses system fonts, so no webfonts are
+                     stored or published.
 source/             The original ETSI source PDF (the source copy). The
                      build copies it into docs/source/, so the PDF stays
                      published at its existing URL. Never edit its bytes.
@@ -95,7 +97,7 @@ docs-for-maintainers/  Manual (non-automatable) testing documentation,
 
 **Hand-edit:** everything under `content/`, `assets/` (CSS, JavaScript, fonts, the AccessibleDocs logo and favicons), `deployment/cloudflare/`, `data/site-config.json`, `data/source-metadata.json`, `data/clause-summaries.json`, `data/content-ownership.json`, `scripts/sitemap.json`, `README.md`, and everything under `docs-for-maintainers/`. The PDF under `source/` is committed source too, but its bytes must never change. `data/etsi-content-hashes.json` is the one exception: it's committed, but it's only ever written by `scripts/update_etsi_hashes.py` (see "Reproduced ETSI wording integrity" below), never by hand.
 
-**Generated — never hand-edit:** *everything* under `docs/`. Rendered pages (`docs/*.html`, including `docs/404.html` and the `docs/accessibility-statement.html` redirect stub), generated extras (`docs/search-index.json`, `docs/sitemap.xml`, `docs/robots.txt`, `docs/.nojekyll`), and the copies the build makes of the hand-authored sources (`docs/assets/` from `assets/`, `docs/source/` from `source/`, `docs/_headers` and `docs/_redirects` from `deployment/cloudflare/`). They are committed to the repository (GitHub Pages serves straight from `docs/` with no build step of its own), but they are output, not input. If you edit any file under `docs/` directly, the next `python3 scripts/build.py` run will silently overwrite your change — and separately, `git status --porcelain -- docs/` after a rebuild (exactly what CI checks) will show your manual edit as a difference the moment anyone rebuilds, so it can't quietly become the "real" version. `scripts/build.py` reads nothing under `docs/` at all: the assets it hashes for the cache-busting `?v=` URLs and the PDF whose size it computes are the source copies under `assets/` and `source/`.
+**Generated — never hand-edit:** *everything* under `docs/`. Rendered pages (`docs/*.html`, including `docs/404.html` and the `docs/accessibility-statement.html` redirect stub), generated extras (`docs/search-index.json`, `docs/search-suggestions.json`, `docs/sitemap.xml`, `docs/robots.txt`, `docs/.nojekyll`), the minified, content-fingerprinted CSS/JS the build produces from `assets/` (`docs/assets/css/style.<hash>.css`, `docs/assets/js/main.<hash>.js`, …), and the verbatim copies it makes of the other hand-authored sources (`docs/assets/img/` from `assets/img/`, `docs/source/` from `source/`, `docs/_headers` and `docs/_redirects` from `deployment/cloudflare/`). They are committed to the repository (GitHub Pages serves straight from `docs/` with no build step of its own), but they are output, not input. If you edit any file under `docs/` directly, the next `python3 scripts/build.py` run will silently overwrite your change — and separately, `git status --porcelain -- docs/` after a rebuild (exactly what CI checks) will show your manual edit as a difference the moment anyone rebuilds, so it can't quietly become the "real" version. `scripts/build.py` reads nothing under `docs/` at all: the CSS/JS it minifies and content-hashes and the PDF whose size it computes are the source copies under `assets/` and `source/`.
 
 The build has no dependencies beyond the Python 3 standard library (see `.python-version` for the interpreter line CI pins):
 
@@ -154,7 +156,7 @@ brew install poppler            # macOS
 - A page with 2 or more h2/h3 headings automatically gets an "On this page" jump list at build time, generated from those headings — nothing to add by hand. Its depth is deliberately capped at h2/h3 (the same two levels the left-hand sidebar shows) — h4 requirement-level headings are excluded even on the longest pages, since listing every one of them (up to ~100+ on the biggest clauses) would make the list unusable rather than helpful. Website-only headings ("About this clause", "On this page" itself, etc.) are never included — `build_on_this_page()` only ever sees the fragment's own parsed ETSI headings, and this is re-checked on the final rendered output (see `on-this-page-utility-heading` in the validator).
 - Every clause and annex page has a short "About this clause"/"About this annex" orientation box, kept in `data/clause-summaries.json` keyed by slug. Keep each to 1–2 short paragraphs, and describe what the clause covers without interpreting conformance requirements, adding obligations, or narrowing scope. The build automatically appends the fixed "reproduced from the ETSI draft, not simplified or changed" sentence; don't duplicate it in the JSON. To state that a part is normative or informative, set the optional `"nature": "normative"` / `"informative"` field — the build appends the standard "It is normative/informative, which means …" sentence from one place, so its wording can't drift between entries. You can also link the words "normative" or "informative" to their definition on the About page by writing `{{normative}}` / `{{informative}}` in free text.
 - Cross-references in the reproduced text — "see clause 5.1.3", "clauses 9, 10 and 11", "Annex ZA", bibliography citations like "[i.25]" — are turned into links automatically at build time (`link_cross_references()` in `scripts/build.py`). This is markup only: no wording changes (the wording-integrity check would fail if it did), text already inside a link, heading, or table caption is never touched, and anything the build can't resolve to a certain target is left as plain text — e.g. "Annex I", which belongs to an EU Directive, not this document. Clause 2's bibliography entries get stable `ref-…` ids so citations can deep-link to them.
-- The site search is entirely static: the build writes `docs/search-index.json` (one entry per heading section, glossary term, and page intro — deterministic, so reproducible builds still hold), and `assets/js/site.js` filters it in the browser on `search.html`. No search service, no third-party library. Nothing to maintain by hand — the index regenerates from content on every build.
+- The site search is entirely static: the build writes a full-text index (`docs/search-index.json`, one entry per heading section, glossary term and page intro, with body text) that the `search-page` bundle filters on `search.html`, plus a small body-free `docs/search-suggestions.json` (titles/clause numbers/URLs) that the header search box uses for its live suggestions. Both are deterministic, so reproducible builds still hold. No search service, no third-party library. Nothing to maintain by hand — both indexes regenerate from content on every build.
 - On narrow viewports the header search collapses to a magnifier icon button that opens the form full-width below the header row (focus moves into the input; Escape closes). This collapse is gated on the `.js` class: without JavaScript the plain GET form stays permanently visible, so searching never requires script.
 - With JavaScript, the header search also offers instant suggestions (an ARIA combobox listbox of the top matches — arrow keys to review, Enter to follow, Escape to dismiss without losing the typed text), and a followed result carries the query as a `?h=` parameter so the destination page highlights the matched words client-side (`<mark>` wrapping only — the generated HTML on disk never changes, and the parameter is removed from the address bar after use). Without JavaScript the form still submits to `search.html` as a plain GET.
 - A handful of `{{TOKEN}}` placeholders are available in content fragments for values `scripts/build.py` can compute reliably (so they can never go stale): `{{STATUS_LAST_CHECKED}}`, `{{SOURCE_MONTH_YEAR}}`, `{{SOURCE_PDF_SIZE}}`. See `substitute_tokens()` in `scripts/build.py` for the full list. The build fails if an unreplaced `{{...}}` token would be published.
@@ -215,14 +217,16 @@ npm run test:static    # unit tests + theme contrast + build + html-validate (no
 npm run test:unit      # python3 -m unittest scripts/test_build.py
 npm run test:contrast  # python3 scripts/check-contrast.py
 npm run test:html      # html-validate "docs/*.html"
-npm run test:browser   # all four Playwright suites below (requires the Chromium install)
-npm run test:a11y      # axe-core against every page in both themes, plus explicit-override runs
+npm run test:browser   # the Playwright suites below (requires the Chromium install)
+npm run test:a11y      # axe-core against every page in both themes, plus explicit-override runs and the 404 page
 npm run test:layout    # responsive layout assertions at 320-1920px
 npm run test:search    # site-search end-to-end checks
 npm run test:theme     # theme behaviour: persistence, pre-paint ordering, theme-color sync, print palette, forced colours
+npm run test:404       # the generated 404 page (direct visit + real missing URLs)
+npm run test:performance  # deterministic resource-count/size budgets (see docs-for-maintainers/performance.md)
 ```
 
-`npm test` runs the complete supported suite — the same thing CI runs (`test:static` then `test:browser`). The browser suites need a Chromium binary; run `npx playwright install --with-deps chromium` once before the first local run. If you only want the fast, no-browser validation while iterating, use `npm run test:static`. Manual browser, screen-reader and Windows high-contrast checks are still required before claiming conformance — see `docs-for-maintainers/accessibility-testing.md`. The layout test checks, on representative pages at seven viewport widths (320-1920px): no page-level horizontal overflow, no sidebar/content overlap, the content column actually growing on wider screens, table wrappers only scrolling when the table's measured minimum width genuinely exceeds the space, and the mobile contents disclosure still working. See [`.github/workflows/ci.yml`](.github/workflows/ci.yml) for exactly what runs in CI and why these tools specifically — see the comment at the top of that file.
+`npm test` runs the complete supported suite — the same thing CI runs (`test:static` then `test:browser`). The browser suites need a Chromium binary; run `npx playwright install --with-deps chromium` once before the first local run. If you only want the fast, no-browser validation while iterating, use `npm run test:static`. Manual browser, screen-reader and Windows high-contrast checks are still required before claiming conformance — see `docs-for-maintainers/accessibility-testing.md`. `npm run test:performance` enforces deterministic front-end budgets (resource counts and byte sizes, never wall-clock) and is documented in [`docs-for-maintainers/performance.md`](docs-for-maintainers/performance.md). The layout test checks, on representative pages at seven viewport widths (320-1920px): no page-level horizontal overflow, no sidebar/content overlap, the content column actually growing on wider screens, table wrappers only scrolling when the table's measured minimum width genuinely exceeds the space, and the mobile contents disclosure still working. See [`.github/workflows/ci.yml`](.github/workflows/ci.yml) for exactly what runs in CI and why these tools specifically — see the comment at the top of that file.
 
 ## Maintenance
 
@@ -260,7 +264,7 @@ The source document's own front matter — reproduced verbatim on the [About pag
 
 ### Font licences
 
-The self-hosted webfonts under `assets/fonts/` — Overpass and Source Sans 3, both distributed by Google Fonts, published as copies under `docs/assets/fonts/` — are released under the [SIL Open Font License 1.1](https://openfontlicense.org/), which permits embedding and redistribution, including in a project with different licensing terms for its other components. No separate action is required for these two fonts, but re-verify the licence of any font added later.
+The site uses the reader's own system fonts (a CSS system-font stack) and distributes no webfont, so there are no font-licence obligations. If a self-hosted font is ever reintroduced, re-verify its licence and record it here and in `LICENSES.md`.
 
 ### Publication-readiness checklist
 
@@ -271,7 +275,7 @@ Do not treat this site as ready for public release until every item below is eit
 - [ ] Permission to host and distribute the ETSI source PDF has been specifically confirmed.
 - [ ] Permission for ETSI material to remain in a publicly cloneable and forkable repository has been specifically confirmed.
 - [x] A licence has been chosen and recorded for this site's own code/design (MIT for software, CC BY 4.0 for original design/documentation — see `LICENSE`, `LICENSE-CONTENT.md`, `LICENSES.md`), and each statement of it is explicit that it does not extend to the reproduced ETSI text or to the trademarks named in it. *(The `LICENSE` file's `[COPYRIGHT HOLDER]` placeholder still needs the legal copyright holder's name.)*
-- [ ] `npm test` (the complete suite: static checks plus all four Playwright browser suites) passes on the commit being published.
+- [ ] `npm test` (the complete suite: static checks plus the Playwright browser suites — a11y, layout, search, theme, 404, performance) passes on the commit being published.
 - [ ] `python3 scripts/build.py` then `git status --porcelain -- docs/` prints nothing (committed `docs/` matches a fresh rebuild, with no stale or missing files).
 - [x] The accessibility statement has a real reporting route (currently a GitHub issues link — replace with a dedicated contact address if/when one exists).
 - [ ] The accessibility statement's "Review history" section has at least one real, completed review recorded.

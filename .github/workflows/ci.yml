@@ -9,10 +9,15 @@
 #                  site configuration, deployment files, the 404 page),
 #                  and html-validate (HTML5/ARIA spec conformance).
 #   test:browser — the Playwright Chromium suites: axe-core in both
-#                  automatic themes plus explicit theme overrides,
-#                  responsive layout, site search, and theme behaviour
-#                  (persistence, pre-paint, theme-color sync, print
-#                  palette, forced colours).
+#                  automatic themes plus explicit theme overrides (incl.
+#                  the 404 page), responsive layout, site search, theme
+#                  behaviour (persistence, pre-paint, theme-color sync,
+#                  print palette, forced colours), the custom 404 page,
+#                  and deterministic performance budgets (resource counts
+#                  and sizes — never wall-clock — see
+#                  docs-for-maintainers/performance.md). Every suite also
+#                  fails on unexpected runtime errors or failed
+#                  same-origin requests.
 # Between the two, CI verifies the committed docs/ matches a clean
 # rebuild. Because the build now replaces docs/ atomically (nothing from
 # the previous output survives), `git status --porcelain` catches every
@@ -40,7 +45,7 @@ concurrency:
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
-    # Generous for the four Playwright suites; a hung browser test must
+    # Generous for the Playwright suites; a hung browser test must
     # not run indefinitely.
     timeout-minutes: 30
     steps:
