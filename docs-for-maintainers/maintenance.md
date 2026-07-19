@@ -95,11 +95,44 @@ Both colour palettes live in `assets/css/style.css`: the light theme in `:root`,
 ```
 npm install                                     # once
 npx playwright install --with-deps chromium     # once, for the browser-based tests
-npm test                                        # the complete supported suite: unit tests, contrast, build, html-validate, then all four Playwright browser suites
+npm test                                        # the complete supported suite: unit tests, contrast, build, html-validate, then the Playwright browser suites (a11y, layout, search, theme, 404, performance)
 git status --porcelain -- docs/                 # confirm docs/ matches a clean rebuild (must print nothing)
 ```
 
 `npm test` is the whole thing (`test:static` + `test:browser`); `npm run test:static` alone is the fast, no-browser subset for quick iteration. All of it should be run, and pass, before merging a change that touches `content/`, `assets/`, `source/`, `deployment/`, `data/`, `scripts/`, or `scripts/sitemap.json`.
+
+## Front-end assets, modules and caching
+
+CSS and JavaScript source live under `assets/` as readable, fully
+commented files; the build minifies and content-fingerprints them into
+`docs/assets/` (e.g. `assets/js/main.<hash>.js`). Never hand-edit
+`docs/`. Details:
+
+- **System fonts.** Typography uses a CSS system-font stack (`--font-*`
+  in `assets/css/style.css`); no webfont is downloaded or stored, so
+  every page loads zero font bytes.
+- **JavaScript modules.** `assets/js/` holds small feature modules
+  (`core`, `search-core`, `preferences`, `navigation`, `page-tools`,
+  `search-suggestions`, `highlighting`, `tables`, `search-page`). The
+  build (`JS_BUNDLES` in `scripts/build.py`) composes them into published
+  bundles: `main` (everything needed on every page) loads everywhere;
+  `tables` loads only on pages with a scrollable table; `search-page`
+  loads only on `search.html`. All are `<script defer>`. To add a
+  feature, add a module and slot it into the right bundle.
+- **Minification.** `scripts/minify.py` — conservative, deterministic,
+  standard-library only (no Node step in the build). It preserves
+  strings, regex literals and `/*! */` licence comments and only collapses
+  whitespace; the browser suites exercise the minified output end to end.
+- **Fingerprinting.** The published filename carries a hash of the final
+  bytes (`compute_assets()`), so no `?v=` query is needed, stale hashed
+  files vanish on the atomic rebuild, and Cloudflare can cache the assets
+  as immutable (see `cloudflare-pages.md`). Source files under `assets/`
+  stay unhashed.
+- **Performance budgets.** `npm run test:performance`
+  (`scripts/test-performance.mjs`) enforces deterministic request-count
+  and byte-size budgets; adjust them only with evidence recorded in
+  [`performance.md`](performance.md). Measure locally with
+  `node scripts/measure-performance.mjs`.
 
 ## Reviewing the accessibility statement
 
@@ -121,7 +154,7 @@ Nothing to maintain: references in the text ("clause 5.1.3", "Annex ZA", "[i.25]
 
 ## Site search
 
-Nothing to maintain: `docs/search-index.json` is regenerated from the content on every build (`build_search_index()` in `scripts/build.py`), and `npm run test:search` verifies the search end-to-end in CI. If a new website-authored page is added, it becomes searchable automatically via its sitemap entry.
+Nothing to maintain: both search indexes are regenerated from the content on every build (`build_search_index()` in `scripts/build.py`), and `npm run test:search` verifies the search end-to-end in CI. There are two: `docs/search-index.json` is the full-text index loaded only on `search.html`, and `docs/search-suggestions.json` is a small, body-free titles/URLs index loaded by the header search box. If a new website-authored page is added, it becomes searchable automatically via its sitemap entry.
 
 ## Reviewing broken links
 

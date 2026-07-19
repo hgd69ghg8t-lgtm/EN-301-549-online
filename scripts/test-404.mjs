@@ -82,7 +82,6 @@ for (const visit of VISITS) {
     printAction: document.querySelector(".page-tools [data-action='print']") !== null,
     copyAction: document.querySelector(".page-tools [data-action='copy-link']") !== null,
     rewrittenDataAction: document.querySelector("[data-action^='https://']") !== null,
-    fontLoaded: document.fonts ? undefined : null,
   }));
   check(state.h1s.length === 1 && state.h1s[0] === "Page not found",
     `${visit.path}: exactly one visible <h1> "Page not found" (got ${JSON.stringify(state.h1s)})`);
@@ -96,12 +95,12 @@ for (const visit of VISITS) {
   check(state.copyAction, `${visit.path}: Copy button keeps data-action="copy-link" exactly`);
   check(!state.rewrittenDataAction, `${visit.path}: no data-action value was rewritten to a URL`);
 
-  // Self-hosted fonts were requested and loaded (their URLs come from
-  // the absolute-CSS chain, so this also proves the routed asset path).
-  await page.evaluate(() => document.fonts.ready);
-  const fontsLoaded = await page.evaluate(() =>
-    document.fonts.check("1em Overpass") && document.fonts.check("1em 'Source Sans 3'"));
-  check(fontsLoaded, `${visit.path}: both self-hosted fonts loaded`);
+  // System fonts only: no webfont is downloaded, and the body resolves
+  // to a real system sans-serif stack (so text is legible immediately
+  // with no font-swap reflow).
+  const bodyFont = await page.evaluate(() => getComputedStyle(document.body).fontFamily);
+  check(/system|Segoe UI|Roboto|Helvetica|Arial|sans-serif/i.test(bodyFont),
+    `${visit.path}: body uses a system-font stack (got ${bodyFont})`);
 
   // The URL must not change on its own (no scripted redirect either).
   await page.waitForTimeout(500);
@@ -126,7 +125,7 @@ for (const visit of VISITS) {
   await page.goto(`${base}/404.html`, { waitUntil: "networkidle" });
 
   // Print: stub window.print (headless print dialogs are not real) and
-  // confirm the click reaches the handler site.js bound to
+  // confirm the click reaches the handler page-tools.js bound to
   // [data-action='print'].
   await page.evaluate(() => {
     window.__printCalls = 0;

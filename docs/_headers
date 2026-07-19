@@ -11,11 +11,33 @@
 #   Playwright suite before it ships. 'unsafe-inline' merely to make a
 #   CSP pass would weaken it to the point of theatre, so no CSP at all
 #   until hashes/nonces are properly introduced and tested.
-# - No one-year "immutable" caching: asset filenames are not fingerprinted
-#   (style.css keeps its name across releases; only a ?v= query changes),
-#   and immutable caching of an unhashed filename can pin visitors to
-#   stale assets. Long-lived caching waits for fingerprinted filenames —
-#   see docs-for-maintainers/cloudflare-pages.md.
+#
+# Caching: the build now content-fingerprints the CSS and JS filenames
+# (e.g. assets/js/main.<hash>.js). A fingerprinted URL only ever serves
+# one exact set of bytes — when the file changes, its name changes and
+# every referencing page is regenerated in the same build — so those
+# files are safe to cache for a year as immutable. HTML is NOT
+# fingerprinted (page URLs are stable, reader-facing links), so it must
+# stay revalidating; likewise the search indexes and images keep short,
+# revalidating caches so a content change is picked up promptly. GitHub
+# Pages ignores this file entirely and applies its own ~10-minute cache;
+# these rules only take effect on Cloudflare Pages.
+
+# Fingerprinted, immutable assets (name changes when content changes).
+/assets/css/*
+  Cache-Control: public, max-age=31536000, immutable
+/assets/js/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Unfingerprinted resources: cache briefly but always revalidate.
+/*.html
+  Cache-Control: public, max-age=0, must-revalidate
+/search-index.json
+  Cache-Control: public, max-age=3600
+/search-suggestions.json
+  Cache-Control: public, max-age=3600
+/assets/img/*
+  Cache-Control: public, max-age=86400
 
 /*
   X-Frame-Options: DENY
