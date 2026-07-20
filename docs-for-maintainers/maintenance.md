@@ -6,7 +6,7 @@ Routine maintenance tasks for this site, in one place. Each section says what to
 python3 scripts/build.py && git status --porcelain -- docs/
 ```
 
-If that prints anything, `docs/` was out of date — commit the rebuilt output together with your source change. See the README's ["Which files are source of truth"](../README.md#which-files-are-source-of-truth-and-how-to-rebuild) section for the full list of what's hand-edited versus generated.
+If that prints anything, `docs/` was out of date — commit the rebuilt output together with your source change. See [`building.md`](building.md#which-files-are-source-of-truth-and-how-to-rebuild) for the full list of what's hand-edited versus generated.
 
 ## Changing the site's domain or identity
 
@@ -67,7 +67,7 @@ The build validates all of this automatically (unknown slug, duplicate key, empt
 
 ## Adding or changing site-authored wording
 
-Website-authored text (introductions, summaries, navigation labels, the About page's own sentences, the accessibility statement, the search page, notices) lives in `content/index.html`, `content/about.html` (which includes the accessibility statement section), `content/search.html`, and `data/clause-summaries.json` — edit freely, following the [content-authoring conventions](../README.md#content-authoring-conventions) in the README (sentence case, plain language, no italics for publication references, human-readable dates via `{{TOKEN}}`s rather than hand-typed ones).
+Website-authored text (introductions, summaries, navigation labels, the About page's own sentences, the accessibility statement, the search page, notices) lives in `content/index.html`, `content/about.html` (which includes the accessibility statement section), `content/search.html`, and `data/clause-summaries.json` — edit freely, following the [content-authoring conventions](content-authoring.md) (sentence case, plain language, no italics for publication references, human-readable dates via `{{TOKEN}}`s rather than hand-typed ones).
 
 Never mix new site-authored wording into a clause/annex `content/*.html` file's reproduced ETSI text — those files are protected by the wording-integrity check (see below), and adding your own sentences there would either fail that check or (worse) blur the line between what ETSI wrote and what this website added.
 
@@ -178,7 +178,7 @@ Clause 3's glossary and abbreviation term ids (`def-...`) and A-Z index are gene
 
 ## Checking licensing and reproduction status
 
-See the README's ["Licensing, copyright and publication readiness"](../README.md#licensing-copyright-and-publication-readiness) section for the full picture. In short, periodically confirm:
+See [`LICENSES.md`](../LICENSES.md) — the ETSI permission record and the publication-readiness checklist — for the full picture. In short, periodically confirm:
 
 - Whether written permission from ETSI to reproduce and publish the standard has been obtained yet (it has **not**, as of this writing) — the moment it is, complete the ETSI permission record in `LICENSES.md` from the actual correspondence only, never from memory. Until then the project must not be treated as cleared for public publication or redistribution of the ETSI material.
 - That the licence statements (`LICENSE` — MIT for software; `LICENSE-CONTENT.md` — CC BY 4.0 for original design/documentation; `LICENSES.md` — scope and exclusions) stay accurate, remain clear that they don't extend to the reproduced ETSI text or the trademarks named in it, and that `LICENSE`'s `[COPYRIGHT HOLDER]` placeholder gets the legal holder's name.

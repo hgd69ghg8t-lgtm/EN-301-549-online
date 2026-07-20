@@ -22,7 +22,8 @@ no partial docs/ write) if it finds missing/extra content fragments,
 duplicate IDs, a wrong number of <h1> elements, numbered headings whose
 id doesn't match their clause number, skipped heading levels, broken
 internal links, or invalid metadata. See the validate_* functions and
-the README's "Validation" section for the full list. Run with
+docs-for-maintainers/content-authoring.md's "Validation" section for the
+full list. Run with
 --check-only to run every validation without writing docs/, e.g. to
 validate a change before committing it.
 """
@@ -325,7 +326,7 @@ def validate_site_config(config, rel=SITE_CONFIG_REL):
         if field not in config:
             errs.append((rel, "site-config-missing-field",
                          f'Required field "{field}" is missing.',
-                         f'Add "{field}" — see the site configuration section of the README.'))
+                         f'Add "{field}" — see the site configuration notes in docs-for-maintainers/building.md.'))
             continue
         value = config[field]
         if not isinstance(value, str) or not value.strip():
@@ -488,7 +489,8 @@ def validate_source_pdf_checksum(data, errors, rel, pdf_path=SOURCE_PDF_PATH):
 # Optional fields are explicit, so an unknown (e.g. misspelled) field can
 # never sit in the metadata silently unvalidated. Fields ending in "Note"
 # are free-text explanations rendered alongside their value; siteBuildDate
-# is nullable — null means "deliberately not recorded" (see the README),
+# is nullable — null means "deliberately not recorded" (see
+# docs-for-maintainers/building.md),
 # which is different from a malformed placeholder.
 OPTIONAL_METADATA_FIELDS = (
     "statusHeadline", "statusBody", "sourcePdfPublicationDateNote",
@@ -530,7 +532,7 @@ def load_clause_summaries(errors):
     """Plain-language 'About this clause/annex' orientation blurbs, keyed by
     slug. Kept as structured data rather than hard-coded in build.py so a
     non-developer can add or edit one without touching Python. Every clause
-    and annex page has one (the README's content-authoring conventions
+    and annex page has one (the content-authoring conventions
     promise exactly that); website-authored pages (home, about, …) have
     none. Validated here rather than hand-reviewed only, since this data is
     meant to stay easy to extend without re-auditing the whole file by eye
@@ -1802,7 +1804,7 @@ def build_clause_summary(slug, summaries, errors):
     block every clause and annex page carries, from data/clause-summaries.json.
     Every summary ends with the same fixed sentence stating the content
     below is reproduced unchanged — see the critical constraint in
-    README's content-authoring conventions."""
+    content-authoring conventions in docs-for-maintainers/."""
     entry = summaries.get(slug)
     if not entry:
         return ""
@@ -2035,7 +2037,7 @@ def render_page(index, page, metadata, summaries, guidance, errors, manifest, xr
             fragment = fragment.replace(technical_marker, render_metadata_technical(metadata))
 
     # Every clause/annex page gets its "About this clause/annex" box (the
-    # README promises exactly that); companion guidance, where present,
+    # content-authoring conventions promise exactly that); companion guidance, where present,
     # renders after it as the clearly-labelled extra aside.
     clause_summary = build_clause_summary(slug, summaries, errors)
     companion = build_companion_guidance(slug, guidance)

@@ -59,8 +59,8 @@ def load_json_data(path, rel, *, required=True, expect_type=dict):
             return None, []
         return None, [(rel, "json-file-missing",
                        f"Required data file {rel} does not exist.",
-                       f"Create {rel} (see the README for its format), or restore it "
-                       "from version control.")]
+                       f"Create {rel} (see docs-for-maintainers/building.md for its format), "
+                       "or restore it from version control.")]
     raw = path.read_text(encoding="utf-8")
     try:
         data = json.loads(raw, object_pairs_hook=_reject_duplicate_keys)

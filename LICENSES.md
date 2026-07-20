@@ -105,3 +105,22 @@ added later before self-hosting it.
 Any other third-party material retains its own copyright and licence terms.
 Where third-party material is added, it must be clearly identified and must
 not be presented as covered by the project's licences.
+
+## Publication-readiness checklist
+
+**This section states facts and open questions. It does not make a legal
+determination, and nothing below should be read as one.** Do not treat
+this site as ready for public release until every item below is either
+checked or explicitly waived by whoever is accountable for that decision.
+
+- [ ] **Written permission from ETSI to reproduce and publish the standard has been obtained.** *(Required — this remains a publication blocker; every other item on this list only matters once this one is genuinely true.)*
+- [ ] The permission reference, grantor, date, scope, permitted publication channels and applicable conditions have been recorded in the ETSI permission record above, from the actual correspondence.
+- [ ] Permission to host and distribute the ETSI source PDF has been specifically confirmed.
+- [ ] Permission for ETSI material to remain in a publicly cloneable and forkable repository has been specifically confirmed.
+- [x] A licence has been chosen and recorded for this site's own code/design (MIT for software, CC BY 4.0 for original design/documentation — see `LICENSE`, `LICENSE-CONTENT.md`, and the sections above), and each statement of it is explicit that it does not extend to the reproduced ETSI text or to the trademarks named in it. *(The `LICENSE` file's `[COPYRIGHT HOLDER]` placeholder still needs the legal copyright holder's name.)*
+- [ ] `npm test` (the complete suite: static checks plus the Playwright browser suites — a11y, layout, search, theme, 404, performance) passes on the commit being published.
+- [ ] `python3 scripts/build.py` then `git status --porcelain -- docs/` prints nothing (committed `docs/` matches a fresh rebuild, with no stale or missing files).
+- [x] The accessibility statement has a real reporting route (currently a GitHub issues link — replace with a dedicated contact address if/when one exists).
+- [ ] The accessibility statement's "Review history" section has at least one real, completed review recorded.
+- [ ] A genuine manual accessibility test pass has been completed against `docs-for-maintainers/accessibility-testing.md`, and its log updated.
+- [ ] `data/source-metadata.json`'s checksum has been re-verified against the currently committed source PDF.
